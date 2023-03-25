@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Settings Panel Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Settings Panel
+  m_TableCollectionNameGuidString: f3b1cde76b478bb40bfa4600e11f2d74
+  m_Entries:
+  - m_Id: 1436030656512
+    m_Key: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1945009446912
+    m_Key: Notifications
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2047191080960
+    m_Key: Sounds
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2092548284416
+    m_Key: Music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2110172749824
+    m_Key: Assistant Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2523290722304
+    m_Key: Assistant Voice
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2623958212608
+    m_Key: Vibration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2650696900608
+    m_Key: Max Number
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2680866529280
+    m_Key: Skill Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2766862344192
+    m_Key: Change Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2813742080000
+    m_Key: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2859111866368
+    m_Key: Reset Progress
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2902824902656
+    m_Key: Remove Ads
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14777109241856
+    m_Key: Reset Window Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14974841315328
+    m_Key: Reset Window Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23082955235328
+    m_Key: Max Number Window Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23169890574336
+    m_Key: Max Number Window Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24622063476736
+    m_Key: Language Window Title
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 8392724129645330432
+  references:
+    version: 2
+    RefIds:
+    - rid: 8392724129645330432
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1678084951620

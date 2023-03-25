@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Settings Panel_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: f3b1cde76b478bb40bfa4600e11f2d74, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 1436030656512
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2523290722304
+    m_Localized: Assistant Voice
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2110172749824
+    m_Localized: Assistant Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1945009446912
+    m_Localized: Push Notifications
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2623958212608
+    m_Localized: Vibration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2047191080960
+    m_Localized: Sounds
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2092548284416
+    m_Localized: Music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2650696900608
+    m_Localized: Max Number
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2766862344192
+    m_Localized: Change Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2680866529280
+    m_Localized: Skill Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2813742080000
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2859111866368
+    m_Localized: Reset Progress
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2902824902656
+    m_Localized: Remove Ads
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14777109241856
+    m_Localized: 'Are you sure
+
+      you want to reset
+
+      all progress?'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14974841315328
+    m_Localized: Reset Progress?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23082955235328
+    m_Localized: Game Mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23169890574336
+    m_Localized: 'Choose a comfortable game mode by dragging the slider.
+
+      You
+      can always change the game mode on the settings panel.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24622063476736
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

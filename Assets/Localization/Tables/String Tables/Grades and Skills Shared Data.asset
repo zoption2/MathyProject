@@ -1,0 +1,128 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Grades and Skills Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Grades and Skills
+  m_TableCollectionNameGuidString: ae932bab90c5a2f46b26a54b3795c9e7
+  m_Entries:
+  - m_Id: 14576836608
+    m_Key: Skills_Panel_Grade1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 150480674816
+    m_Key: Skills_Panel_Grade2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 923738365952
+    m_Key: Skills_Panel_Grade3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 928469540864
+    m_Key: Skills_Panel_Grade4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 933234270208
+    m_Key: Skills_Panel_Grade5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1012087185408
+    m_Key: Skills_Panel_Grade6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1019704041472
+    m_Key: Skills_Panel_Grade7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1025676730368
+    m_Key: Skills_Panel_Grade8
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1027891322880
+    m_Key: Skills_Panel_Grade9
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1029774565376
+    m_Key: Skills_Panel_Grade10
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1032421171200
+    m_Key: Skills_Panel_Grade11
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1034065338368
+    m_Key: Skills_Panel_Grade12
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2397650345984
+    m_Key: Skills_Panel_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2399256764416
+    m_Key: Skills_Panel_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22160392904704
+    m_Key: Skills_Panel_Coming_Soon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6446253895901184
+    m_Key: Count Skill
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6446401434738688
+    m_Key: Addition Skill
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6446447874072576
+    m_Key: Subtraction Skill
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6446552035418112
+    m_Key: Comparison Skill
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6446575783567360
+    m_Key: Complex Skill
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6446600148279296
+    m_Key: Shapes Skill
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6447239691558912
+    m_Key: Sorting Skill
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6448944462225408
+    m_Key: Skills Panel Up To
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6535653556281344
+    m_Key: Skills Panel Select All
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6535711471230976
+    m_Key: Skills Panel Deselect All
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 5200722258442846210
+  references:
+    version: 2
+    RefIds:
+    - rid: 5200722258442846210
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1676554342563

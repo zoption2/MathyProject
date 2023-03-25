@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "477602041451",
+    "firebase_url": "https://mathy-android.firebaseio.com",
+    "project_id": "mathy-android",
+    "storage_bucket": "mathy-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:477602041451:android:bd352bea05caaa60d8eb2e",
+        "android_client_info": {
+          "package_name": "com.fivesysdev.mathy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "477602041451-jfilhqk903k1ucf4r1so5pm1flscv5jl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvffOBLtvMQwObdwcvbSWn6WQCFrbghYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "477602041451-jfilhqk903k1ucf4r1so5pm1flscv5jl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Practice Panel
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 47
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    - serializedVersion: 3
+      m_BuildTarget: iPhone
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 50
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 2931521d521e6384eb500a425bee8381, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: bbd047d036ef8e84da70a07e53fe1fbf, type: 3}
+  - {fileID: 21300000, guid: ec879b5151609a94abc3eb6d5d83afb1, type: 3}
+  - {fileID: 21300000, guid: 74e307b1eae737447b9b5dd7a535148c, type: 3}
+  - {fileID: 21300000, guid: 440d5af18b8d7464eb943d59c03e5ca2, type: 3}
+  - {fileID: 21300000, guid: 1cf3f5239e1c18642bb1e9b9b5189213, type: 3}
+  - {fileID: 21300000, guid: 51ad27b3aa32a044dbadaf3d7b81e2ff, type: 3}
+  - {fileID: 21300000, guid: b77049b33a66a6d408d97942123512d5, type: 3}
+  - {fileID: 21300000, guid: a73f67543eedd6c4c8151f01ef78a574, type: 3}
+  - {fileID: 21300000, guid: eb391a95886814b439bd704c1086c34c, type: 3}
+  - {fileID: 21300000, guid: 269c5d062b81b4142989f414acd202d3, type: 3}
+  - {fileID: 21300000, guid: 4525ad5755c533144aaf01928f76fe5f, type: 3}
+  - {fileID: 21300000, guid: 0ca5b0d76deb95b48bbc233ff9ac2425, type: 3}
+  - {fileID: 21300000, guid: 08524d1a7a154564eabd2afeefc7ae8d, type: 3}
+  - {fileID: 21300000, guid: 5ada593a0d895e741857f9a3d0c97a44, type: 3}
+  - {fileID: 21300000, guid: ace3ed7a57154cc4782b4d3598789ac1, type: 3}
+  - {fileID: 21300000, guid: 57b06caaf303c634b8237d1da0bd96b6, type: 3}
+  - {fileID: 21300000, guid: 856b281be289bf34aa95ecf2e9fe0d28, type: 3}
+  - {fileID: 21300000, guid: 449fbdac1a097f6489d379dff3cdcdd6, type: 3}
+  - {fileID: 21300000, guid: 68b3392d0e39e264280f190f70a2bc6d, type: 3}
+  - {fileID: 21300000, guid: 5f45e5ed7dcd50545a69bd9bf49796f6, type: 3}
+  - {fileID: 21300000, guid: f1acf23ecb6253441b3e8d8b0570a36e, type: 3}
+  - {fileID: 21300000, guid: 9461bc0f6b58a6244873ebfffa80616d, type: 3}
+  - {fileID: 21300000, guid: 675e192fe2dc51349a9f5fd738c943bb, type: 3}
+  - {fileID: 21300000, guid: 3977594f690a52445957493760c00b93, type: 3}
+  - {fileID: 21300000, guid: c56a2edf7e3a749428a86a4329d838ac, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Comparison Expressions practice icon
+  - Missing Signs practice icon
+  - Add-Sub practice icon
+  - Missing Element practice icon
+  - Missing Number practice icon
+  - Sum of Numbers practice icon
+  - Practice page arrow
+  - Comparison Elements practice icon
+  - Missing Expressions practice icon
+  - Practice page corner
+  - practice label violet
+  - Practice panel book base
+  - Missing Sign practice icon
+  - practice label green
+  - Practice panel book front
+  - practice label pink
+  - True or False practice icon
+  - Pairs Numbers practice icon
+  - Comparison practice icon
+  - Comparison One Element practice icon
+  - practice label yellow
+  - practice title button
+  - Image Opening practice icon
+  - practice label red
+  - practice label blue
+  m_RenderDataMap: {}
+  m_Tag: Practice Panel
+  m_IsVariant: 0

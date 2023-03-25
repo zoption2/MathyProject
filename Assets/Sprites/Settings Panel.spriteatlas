@@ -1,0 +1,142 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Settings Panel
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 47
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    - serializedVersion: 3
+      m_BuildTarget: iPhone
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 50
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: df9cec1a98ead4a4592b3854f9b3d30f, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 8c94357012efab3419ab78fd03875478, type: 3}
+  - {fileID: 21300000, guid: 72c134018880b84459ef90cb15ce7077, type: 3}
+  - {fileID: 21300000, guid: f5ec2d02bea25fa4dae75fd62a702b27, type: 3}
+  - {fileID: 21300000, guid: b39b57920dad07c449e6f3c0bc9ad791, type: 3}
+  - {fileID: 21300000, guid: ef60c8e23037b8049a0f9fd908281c3c, type: 3}
+  - {fileID: 21300000, guid: 83911b0338cfebe4ebf88a11f9dac036, type: 3}
+  - {fileID: 21300000, guid: 195851d429a89dd40817c2ec3ffb6003, type: 3}
+  - {fileID: 21300000, guid: ca5479252e5731142a9c364c593a5554, type: 3}
+  - {fileID: 21300000, guid: 67ca10e53da52e94590716d730d6a9e0, type: 3}
+  - {fileID: 21300000, guid: 01c71ef5e6e947c4999bcf457cd49fc0, type: 3}
+  - {fileID: 21300000, guid: ee49e1962b37c8042be37aae5113f4c9, type: 3}
+  - {fileID: 21300000, guid: ea460db69a4df0b4bb3e1b1281399dca, type: 3}
+  - {fileID: 21300000, guid: f882f0c630be14f4b861a38c3b19adc5, type: 3}
+  - {fileID: 21300000, guid: 945183e68b073184585b08209caf5f33, type: 3}
+  - {fileID: 21300000, guid: a7e5ae376a529874b8235f39ac8bd5a0, type: 3}
+  - {fileID: 21300000, guid: 72954577a71424c459743d5e01b4d860, type: 3}
+  - {fileID: 21300000, guid: a4667f779b58f564b883ac6de34426d9, type: 3}
+  - {fileID: 21300000, guid: 40e8f487726dbc04c9c34adc6abeec98, type: 3}
+  - {fileID: 21300000, guid: 4b3893f89d0fc4a4eb986118030dcf54, type: 3}
+  - {fileID: 21300000, guid: d82dcd096cc6d634ab76f26dca6f0096, type: 3}
+  - {fileID: 21300000, guid: ffcfd8793ed746e4fbc0a62af93433f9, type: 3}
+  - {fileID: 21300000, guid: 52133ca93660c344db3a746b385c5d4d, type: 3}
+  - {fileID: 21300000, guid: 4287b7c9465db0641a7a61abf5b5258f, type: 3}
+  - {fileID: 21300000, guid: c8a27a9a2f86a0242953863b4483bc8e, type: 3}
+  - {fileID: 21300000, guid: fe1412fad709e4948b3f5e40ed676cda, type: 3}
+  - {fileID: 21300000, guid: e6b3dd2b06867904cbdec55a3d931a79, type: 3}
+  - {fileID: 21300000, guid: 35f0618b37be4de42a9f40be8b276a74, type: 3}
+  - {fileID: 21300000, guid: 35df400cc9caa054b9cf178798d77620, type: 3}
+  - {fileID: 21300000, guid: 7126173d39163de449f3086ed576b6cb, type: 3}
+  - {fileID: 21300000, guid: b8adabbd7d46514429cd2e94b5ead697, type: 3}
+  - {fileID: 21300000, guid: 855a2f1e868314145a072b49cd2af5a8, type: 3}
+  - {fileID: 21300000, guid: e12ed48eb7e53704b977de7e6b1eb71d, type: 3}
+  - {fileID: 21300000, guid: fa561a8e39f3c314182a04d83a9ebf20, type: 3}
+  - {fileID: 21300000, guid: 76c705ae505d8f14bb63ec5f70090b20, type: 3}
+  - {fileID: 21300000, guid: 004095af1abd78348b898baf9d9f7cca, type: 3}
+  - {fileID: 21300000, guid: e38107df4b194e7458000c25ac60a09b, type: 3}
+  - {fileID: 21300000, guid: c4f015ff5727f444889840a77b9d0890, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Scrollbar 02 sliding area
+  - max number text 10
+  - Max number ok button text
+  - Settings Reset icon
+  - Settings element base
+  - Max number slider base
+  - Settings Language icon
+  - Settings No Ads icon
+  - Language flag Russian
+  - max number text 40
+  - Settings User icon
+  - Language flag Ukrainian
+  - max number text 30
+  - Settings panel base
+  - Settings button green
+  - max number text 20
+  - Toggle base orange shadow
+  - Scrollbar 02 handle blue
+  - Settings knob
+  - Language panel base
+  - Settings button red
+  - Language list element base
+  - Max number slider fill
+  - Toggle fill active green
+  - max number text 50
+  - Slider mark line
+  - Settings Vibration icon
+  - Max number button orange
+  - Toggle base gray shadow
+  - Settings Sound icon
+  - Max number button green
+  - Settings Push icon
+  - Settings Music icon
+  - Language flag English
+  - Settings Text icon
+  - Settings Voice icon
+  - Max number panel base
+  m_RenderDataMap: {}
+  m_Tag: Settings Panel
+  m_IsVariant: 0

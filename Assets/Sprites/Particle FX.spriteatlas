@@ -1,0 +1,152 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Particle FX
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 1024
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 47
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    - serializedVersion: 3
+      m_BuildTarget: iPhone
+      m_MaxTextureSize: 1024
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 50
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 5bc1d10cda89be1419e55075f262344a, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 1b3755204d0994d9ba3b488631681ce1, type: 3}
+  - {fileID: 21300000, guid: f4f6f160953e7094aa9afee62b3220c4, type: 3}
+  - {fileID: 21300000, guid: 5826f0119ae8e6e499d5edcaf13953cb, type: 3}
+  - {fileID: 21300000, guid: 67305741c643f45a69932e6470cb7b5c, type: 3}
+  - {fileID: 21300000, guid: fdbc40710af4744f1b1aaaf99d028f36, type: 3}
+  - {fileID: 21300000, guid: 5a6b42d1cb16d4e80a04cea43bc257bd, type: 3}
+  - {fileID: 21300000, guid: 88f8e30289ed6411f8c26fbb3eab3505, type: 3}
+  - {fileID: 21300000, guid: 0369ef52fb00444b686f143cc36b2b73, type: 3}
+  - {fileID: 21300000, guid: 4eb0b3a297d7445b0bac2ecfeb41cd52, type: 3}
+  - {fileID: 21300000, guid: 15e023c28f0e34cbfb2088f5078c2e25, type: 3}
+  - {fileID: 21300000, guid: 1868c3e3c6eab43068b4e25363442455, type: 3}
+  - {fileID: 21300000, guid: 8233dff429464498185129b2457a136a, type: 3}
+  - {fileID: 21300000, guid: 29bfd827d937048f8a658d9d44ea4adc, type: 3}
+  - {fileID: 21300000, guid: 62cd3da78eae6d640b10e5cde6d2982a, type: 3}
+  - {fileID: 21300000, guid: b4c2d77866c22cf4da98347293f28a63, type: 3}
+  - {fileID: 21300000, guid: fdcd9988ba4e0804899a464e45444e87, type: 3}
+  - {fileID: 21300000, guid: 676c6af8ea4934e71841025db9817c7f, type: 3}
+  - {fileID: 21300000, guid: dc6554091b11d49f5b3a82dee8d80599, type: 3}
+  - {fileID: 21300000, guid: 357960190e98b48f1838dfabcc8d2912, type: 3}
+  - {fileID: 21300000, guid: 5c8f1d6936b5344509ed8a53218cf670, type: 3}
+  - {fileID: 21300000, guid: 247271a91ae7f45a9aec012e9229dd6f, type: 3}
+  - {fileID: 21300000, guid: 56ff79a9daa874551ae600a1c4b7d67c, type: 3}
+  - {fileID: 21300000, guid: dc37e9f9b1b7346f4bcd9469408413b3, type: 3}
+  - {fileID: 21300000, guid: 6b8d863aaefb842fcb6259ffc653db01, type: 3}
+  - {fileID: -3446040602524017530, guid: 027a82fc154d992499a4f7d28bfd0de1, type: 3}
+  - {fileID: -4063435661266935436, guid: 027a82fc154d992499a4f7d28bfd0de1, type: 3}
+  - {fileID: -8666209855240999834, guid: 027a82fc154d992499a4f7d28bfd0de1, type: 3}
+  - {fileID: -4165736939570362921, guid: 027a82fc154d992499a4f7d28bfd0de1, type: 3}
+  - {fileID: 5380050169159684460, guid: 027a82fc154d992499a4f7d28bfd0de1, type: 3}
+  - {fileID: 3691959264443048579, guid: 027a82fc154d992499a4f7d28bfd0de1, type: 3}
+  - {fileID: -8972855571569624601, guid: 027a82fc154d992499a4f7d28bfd0de1, type: 3}
+  - {fileID: -1816916834094427548, guid: 027a82fc154d992499a4f7d28bfd0de1, type: 3}
+  - {fileID: -4242800091582269331, guid: 027a82fc154d992499a4f7d28bfd0de1, type: 3}
+  - {fileID: -2554665445408989601, guid: 027a82fc154d992499a4f7d28bfd0de1, type: 3}
+  - {fileID: 3153972643408560718, guid: 027a82fc154d992499a4f7d28bfd0de1, type: 3}
+  - {fileID: 2213770213707157713, guid: 027a82fc154d992499a4f7d28bfd0de1, type: 3}
+  - {fileID: 125445195147164586, guid: 027a82fc154d992499a4f7d28bfd0de1, type: 3}
+  - {fileID: -3258377463164025955, guid: 027a82fc154d992499a4f7d28bfd0de1, type: 3}
+  - {fileID: 21300000, guid: 3191730e352f0497aa312254cbdd9df8, type: 3}
+  - {fileID: 21300000, guid: 93be74ee564b04053816d1bfed959dd6, type: 3}
+  - {fileID: 21300000, guid: 9782c5ee18b484de3b3636148d0b9f51, type: 3}
+  - {fileID: 21300000, guid: 57191edf12ca349538520c87a1a1eeb4, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - fx_circle_blur
+  - Line tiled 01
+  - fx_circle_line_grayscale
+  - fx_glow
+  - fx_box_blur
+  - fx_star_white
+  - fx_special_particle_yellow
+  - fx_rotate_line
+  - fx_circle_blur 1
+  - fx_special_particle_red
+  - fx_star_green
+  - fx_special_particle_white
+  - fx_special_particle_blue
+  - Title Line 01
+  - Circle Blurred Strong
+  - Circle ring
+  - fx_special_particle_green
+  - fx_star_light
+  - fx_circle_glow
+  - fx_rotate_line_small
+  - fx_glow_small
+  - fx_circle
+  - fx_special_particle_purple
+  - fx_star_blue
+  - Circle
+  - Triangle-Blurred
+  - Circle-Blurred
+  - Capsule-Blurred
+  - Triangle
+  - 9-Sliced
+  - Square
+  - Hexagon-Blurred
+  - Hexagon
+  - IsometricDiamond-Blurred
+  - Capsule
+  - 9-Sliced-Blurred
+  - IsometricDiamond
+  - Square-Blurred
+  - fx_circle_line_blue
+  - fx_star_yellow
+  - fx_star_red
+  - fx_star_purple
+  m_RenderDataMap: {}
+  m_Tag: Particle FX
+  m_IsVariant: 0

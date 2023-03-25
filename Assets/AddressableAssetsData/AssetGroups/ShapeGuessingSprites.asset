@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: ShapeGuessingSprites
+  m_EditorClassIdentifier: 
+  m_GroupName: ShapeGuessingSprites
+  m_Data:
+    m_SerializedData: []
+  m_GUID: e43ad520718806b4982c3717ee1f1cd1
+  m_SerializeEntries:
+  - m_GUID: dff0c93a808f033479437d6ae4448d00
+    m_Address: Geometry objects/Cone
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ShapeGuessingSprites
+  - m_GUID: 08f00acac87e0584cabd636c4a1d8ae8
+    m_Address: Geometry objects/Cube
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ShapeGuessingSprites
+  - m_GUID: 0205637c741d2024ea5b67260f102fdb
+    m_Address: Geometry objects/Cuboid
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ShapeGuessingSprites
+  - m_GUID: a5e95c42dc0471f42bd5b09e176a512c
+    m_Address: Geometry objects/Cylinder
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ShapeGuessingSprites
+  - m_GUID: 0d3b7014141c29a44bcc77aed93d10a7
+    m_Address: Geometry objects/Dodecahedron
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ShapeGuessingSprites
+  - m_GUID: bc694fefb5a78994d8a61b9e89821f25
+    m_Address: Geometry objects/Ellipsoid
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ShapeGuessingSprites
+  - m_GUID: 0d0f700ebea4fc24faf00720bc3dc7a3
+    m_Address: Geometry objects/HexagonalPrism
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ShapeGuessingSprites
+  - m_GUID: 75760fa91ad14b04cbd9b8d171455ce3
+    m_Address: Geometry objects/HexagonalPyramid
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ShapeGuessingSprites
+  - m_GUID: bf6180ca26531f94d96a2a7525155704
+    m_Address: Geometry objects/Icosahedron
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ShapeGuessingSprites
+  - m_GUID: 37d46337ef843574cbfb5de39371ceaf
+    m_Address: Geometry objects/Octahedron
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ShapeGuessingSprites
+  - m_GUID: 9a73839fef6407e4cab4031652cc7916
+    m_Address: Geometry objects/PentagonalPrism
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ShapeGuessingSprites
+  - m_GUID: f40f0039159d4444cae10adbf2a363a5
+    m_Address: Geometry objects/Sphere
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ShapeGuessingSprites
+  - m_GUID: 8bdbfe0fe3791d448b9ba63b622c9624
+    m_Address: Geometry objects/SquareFrustum
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ShapeGuessingSprites
+  - m_GUID: c4bccde17bb272248aa502d619e12ff2
+    m_Address: Geometry objects/Tetrahedron
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ShapeGuessingSprites
+  - m_GUID: 7c8d9a0dd8fb4484dac05c805058b9aa
+    m_Address: Geometry objects/Triangular prism
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ShapeGuessingSprites
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 76746eb55ddbd544c89bef47883242cf, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: e45a19f389c5b2e4f98d229d1367a2eb, type: 2}
+    - {fileID: 11400000, guid: b615b1e414423f54aaef2a8bfc828466, type: 2}

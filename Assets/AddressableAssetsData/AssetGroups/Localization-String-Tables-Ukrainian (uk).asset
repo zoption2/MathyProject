@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-String-Tables-Ukrainian (uk)
+  m_EditorClassIdentifier: 
+  m_GroupName: Localization-String-Tables-Ukrainian (uk)
+  m_Data:
+    m_SerializedData: []
+  m_GUID: e8f9765ea842549488f3573c2805c44f
+  m_SerializeEntries:
+  - m_GUID: 35ca8b4958914c945b39299c6b74b52e
+    m_Address: GUI Elements_uk
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-uk
+    - Preload
+  - m_GUID: e0343381191834748bb9805503c7fdb8
+    m_Address: Languages_uk
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-uk
+    - Preload
+  - m_GUID: de37ce791a888174fac0c41950352d7c
+    m_Address: Game Names_uk
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-uk
+    - Preload
+  - m_GUID: 833776f5da7cdb4439524fac9f6154e2
+    m_Address: Theory Games_uk
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-uk
+    - Preload
+  - m_GUID: a9075333ebe693048b0caede6d48b148
+    m_Address: In-App Purchasing_uk
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-uk
+    - Preload
+  - m_GUID: f792b82a10721794a818c1f78e81cb11
+    m_Address: Grades and Skills_uk
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-uk
+    - Preload
+  - m_GUID: f47a12e8a5ca3ea4aa7dd790ee3658e8
+    m_Address: Settings Panel_uk
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-uk
+    - Preload
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: 76746eb55ddbd544c89bef47883242cf, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: bc10a59369dfb8f4b8a56647841359ef, type: 2}
+    - {fileID: 11400000, guid: 13cbf272935e3b9439d579a094c4f54f, type: 2}

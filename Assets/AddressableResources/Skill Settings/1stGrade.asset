@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c9b6b386afbf9240afe3e113d800e98, type: 3}
+  m_Name: 1stGrade
+  m_EditorClassIdentifier: 
+  SkillSettings:
+  - SkillType: 0
+    TaskSettings:
+    - {fileID: 11400000, guid: 8850c5e20e627da4c801854bb0c913c1, type: 2}
+    - {fileID: 11400000, guid: c89826a5d5c34e347b8b7fa27fc8c2a5, type: 2}
+    - {fileID: 11400000, guid: a81466db038e87141a8953fb520b5792, type: 2}
+    - {fileID: 11400000, guid: 56e74f704fd3f194da9a158df594ef1a, type: 2}
+  - SkillType: 1
+    TaskSettings:
+    - {fileID: 11400000, guid: b301c86b800e44542b8eff6217823fea, type: 2}
+    - {fileID: 11400000, guid: 415e3eb996489184c91da444be6d67cc, type: 2}
+    - {fileID: 11400000, guid: 5bcfa61e2388bc84ea4f4023547300dc, type: 2}
+    - {fileID: 11400000, guid: 2b88189fab8b27740ba7ea2a780f91f5, type: 2}
+    - {fileID: 11400000, guid: 6a392d07e0e4cc54fb758217347bc3f2, type: 2}
+    - {fileID: 11400000, guid: 03580c251440dd648b2d2724e8dd4a9c, type: 2}
+    - {fileID: 11400000, guid: 8e4bf40b1337c5b44bd9acbdb5aa7d14, type: 2}
+    - {fileID: 11400000, guid: a1aca117379e63345b7fabaf6cd3d9a3, type: 2}
+    - {fileID: 11400000, guid: 47fb03561b0717949aa6bd1e948fc019, type: 2}
+  - SkillType: 2
+    TaskSettings:
+    - {fileID: 11400000, guid: 4a56d2fdd028ff44090680e3ae22f5d2, type: 2}
+    - {fileID: 11400000, guid: 52c49c38941216149bc3ca86d2bb852e, type: 2}
+    - {fileID: 11400000, guid: 37fb16c2e6efc4343b6bc8942bb43f58, type: 2}
+    - {fileID: 11400000, guid: e0c16495c8a5ecb42ba8daef750e5f2c, type: 2}
+  - SkillType: 3
+    TaskSettings:
+    - {fileID: 11400000, guid: b4e9b08775cd7e64aa2b3c344cb09b33, type: 2}
+    - {fileID: 11400000, guid: 5d51b51a2cdb51741803880fec8594fa, type: 2}
+    - {fileID: 11400000, guid: 641a5726a204aa94887c48db7527388e, type: 2}
+    - {fileID: 11400000, guid: 7dd49130a25965d41b8113556164d046, type: 2}
+  - SkillType: 6
+    TaskSettings:
+    - {fileID: 11400000, guid: 3dd878ac5a7803d4ea79945eb5298f70, type: 2}
+    - {fileID: 11400000, guid: 8cab8f92bd904be4cb17fbc9abec303f, type: 2}
+    - {fileID: 11400000, guid: bc87db2e5f59284488de5afa65d9cc30, type: 2}
+    - {fileID: 11400000, guid: 514625ebf3517fe47bcaa0a1d636e6c5, type: 2}
+    - {fileID: 11400000, guid: 1f16ee1281597254389859f08c686cc4, type: 2}
+    - {fileID: 11400000, guid: 3c55859f7cf7b3c42bf1667c21ccd959, type: 2}
+    - {fileID: 11400000, guid: f48d197b9af10ec4ca05a5f6423d34bd, type: 2}

@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Daily Rewards panel
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 47
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    - serializedVersion: 3
+      m_BuildTarget: iPhone
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 50
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 0d93c08b02994ba4a9aa9d0f9c6aa2bf, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 627435220d2ee324c83d21d86af5c408, type: 3}
+  - {fileID: 21300000, guid: 5689d76292b4967448c0d6b0199d0bc0, type: 3}
+  - {fileID: 21300000, guid: a38b5ba2a35c27347b9ba5720a631fd2, type: 3}
+  - {fileID: 21300000, guid: a4deac731504c7c49bebd8a32eebade7, type: 3}
+  - {fileID: 21300000, guid: 2b41f1f5997515546ababe8c04cb477f, type: 3}
+  - {fileID: 21300000, guid: 9efdcdf5ffefd434ca696c666d8ece51, type: 3}
+  - {fileID: 21300000, guid: 7bb778b7ada79f1408516928d1dde3ba, type: 3}
+  - {fileID: 21300000, guid: 5991545ace53a8046a89aee35075ad18, type: 3}
+  - {fileID: 21300000, guid: 892b2e6adf21177429dd965c2fdf32d2, type: 3}
+  - {fileID: 21300000, guid: 5f37777af350cf14ea6c5163fc79b954, type: 3}
+  - {fileID: 21300000, guid: ada61a5b0c9916b4489204755869cf54, type: 3}
+  - {fileID: 21300000, guid: d41805eb6ebbd144ba0ee4731f215ace, type: 3}
+  - {fileID: 21300000, guid: 3872d34cde8f85948a14e9d60d1f3b50, type: 3}
+  - {fileID: 21300000, guid: b4b2ca2d90c25d54da00ab2587058e89, type: 3}
+  - {fileID: 21300000, guid: 9607925df2fefc349b22a0f478b08d2c, type: 3}
+  - {fileID: 21300000, guid: 407549ddd51b02d4e8ecb07269dea4fa, type: 3}
+  - {fileID: 21300000, guid: f96ed88e958d7bd4ab0b2c36846e5db1, type: 3}
+  - {fileID: 21300000, guid: fd98e05f92279b04ab7d318a48cfd643, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Daily Rewards checkmark
+  - gift box inactive
+  - Daily Rewards fx 01 spark
+  - Daily Rewards button bonus
+  - Daily Rewards button inactive
+  - Daily Rewards button active
+  - gift box active
+  - gift box large inactive
+  - Daily Rewards star
+  - gift box default
+  - Daily Rewards fx 02 star
+  - gift box large active
+  - Daily Rewards window base
+  - Daily Rewards today reward area
+  - Daily Rewards button bonus inactive
+  - gift box large default
+  - Daily Rewards button default
+  - Daily Rewards fx 03 dot
+  m_RenderDataMap: {}
+  m_Tag: Daily Rewards panel
+  m_IsVariant: 0

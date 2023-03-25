@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc699985f8f3a87438e3bac28e574c8f, type: 3}
+  m_Name: Geometry Objects List 01
+  m_EditorClassIdentifier: 
+  objects:
+  - Name: Tetrahedron
+    Image: {fileID: 21300000, guid: c4bccde17bb272248aa502d619e12ff2, type: 3}
+  - Name: Hexagonal pyramid
+    Image: {fileID: 21300000, guid: 75760fa91ad14b04cbd9b8d171455ce3, type: 3}
+  - Name: Cone
+    Image: {fileID: 21300000, guid: dff0c93a808f033479437d6ae4448d00, type: 3}
+  - Name: Cube
+    Image: {fileID: 21300000, guid: 08f00acac87e0584cabd636c4a1d8ae8, type: 3}
+  - Name: Cuboid
+    Image: {fileID: 21300000, guid: 0205637c741d2024ea5b67260f102fdb, type: 3}
+  - Name: Triangular prism
+    Image: {fileID: 21300000, guid: 7c8d9a0dd8fb4484dac05c805058b9aa, type: 3}
+  - Name: Octahedron
+    Image: {fileID: 21300000, guid: 37d46337ef843574cbfb5de39371ceaf, type: 3}
+  - Name: Icosahedron
+    Image: {fileID: 21300000, guid: bf6180ca26531f94d96a2a7525155704, type: 3}
+  - Name: Pentagonal prism
+    Image: {fileID: 21300000, guid: 9a73839fef6407e4cab4031652cc7916, type: 3}
+  - Name: Hexagonal prism
+    Image: {fileID: 21300000, guid: 0d0f700ebea4fc24faf00720bc3dc7a3, type: 3}
+  - Name: Sphere
+    Image: {fileID: 21300000, guid: f40f0039159d4444cae10adbf2a363a5, type: 3}
+  - Name: Ellipsoid
+    Image: {fileID: 21300000, guid: bc694fefb5a78994d8a61b9e89821f25, type: 3}
+  - Name: Dodecahedron
+    Image: {fileID: 21300000, guid: 0d3b7014141c29a44bcc77aed93d10a7, type: 3}
+  - Name: Square frustum
+    Image: {fileID: 21300000, guid: 8bdbfe0fe3791d448b9ba63b622c9624, type: 3}
+  - Name: Cylinder
+    Image: {fileID: 21300000, guid: a5e95c42dc0471f42bd5b09e176a512c, type: 3}

@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: TaskAssets
+  m_EditorClassIdentifier: 
+  m_GroupName: TaskAssets
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 1e4381d67e9cbeb4c8db5690ed5f312a
+  m_SerializeEntries:
+  - m_GUID: d53681fc20170bc4689351b5036ce29b
+    m_Address: OperatorView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4bde6c88af08e1b46a30b3fb0c7f20b3
+    m_Address: BaseVariantView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4e06b5d527712e24184e8f728f705d3e
+    m_Address: TextVariantView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5f5925c892c40af4fb70e15f38cd86fa
+    m_Address: ElementViewText
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 785facce94472364ba8d3718b0cd0cc6
+    m_Address: ElementViewImage
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ca14775000a80f94297d196af98f39f4
+    m_Address: UnknownElementViewText
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0d9d21aef07e7004f801dbb2d5feedcb
+    m_Address: TaskView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9d22109c0663cfb43a5244533e488a06
+    m_Address: ChallengeView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5b369d9f483095b438c5ad2c46e18cad
+    m_Address: PairsElementView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 044fb965db2c3c640abdeb9466cff741
+    m_Address: ElementViewExpression
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 627875f8246a7b24081116b1e2bea335
+    m_Address: VariantViewExpression
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 35dfaae187c6fa54289278d970cb6012
+    m_Address: UnknownExpressionElementView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f6d062884c30a1b46a5616a901f0ee53
+    m_Address: 1stGrade
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 151ed5c5aa5f28247ae8b0c220fdf4df
+    m_Address: Assets/Prefabs/Task Elements/DefaultElementView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ce245589fefd3594f981cd9289075e8d
+    m_Address: Assets/Scripts/InProgress/BaseTaskView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 32b5d2d904b3ba94882cf852142d143c
+    m_Address: Assets/Prefabs/Task Elements/DefaultVariantView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1502e28232f537641b7851db30af6b61
+    m_Address: Assets/Prefabs/Task Elements/DefaultOperatorView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 76746eb55ddbd544c89bef47883242cf, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: ec5b6a7d32ef67e43aae84feb31a4bae, type: 2}
+    - {fileID: 11400000, guid: 86270cea94a60fd48a07418d4b96ec65, type: 2}

@@ -1,0 +1,127 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Grades and Skills_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: ae932bab90c5a2f46b26a54b3795c9e7, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 14576836608
+    m_Localized: 'Preschool
+
+      1st Grade'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 150480674816
+    m_Localized: 2nd Grade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 923738365952
+    m_Localized: 3rd Grade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 928469540864
+    m_Localized: 4th Grade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 933234270208
+    m_Localized: 5th Grade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1012087185408
+    m_Localized: 6th Grade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1025676730368
+    m_Localized: 8th Grade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1019704041472
+    m_Localized: 7th Grade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1029774565376
+    m_Localized: 10th Grade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1027891322880
+    m_Localized: 9th Grade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1034065338368
+    m_Localized: 12th Grade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1032421171200
+    m_Localized: 11th Grade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2397650345984
+    m_Localized: 'Skills Plan:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2399256764416
+    m_Localized: All selected skills will be part of lessons
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22160392904704
+    m_Localized: 'Coming
+
+      soon!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6447239691558912
+    m_Localized: Sorting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6446600148279296
+    m_Localized: Shapes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6446575783567360
+    m_Localized: Complex
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6446552035418112
+    m_Localized: Comparison
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6446447874072576
+    m_Localized: Subtraction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6446401434738688
+    m_Localized: Addition
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6446253895901184
+    m_Localized: Count
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6448944462225408
+    m_Localized: 'up to:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6535653556281344
+    m_Localized: Select All
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6535711471230976
+    m_Localized: Deselect All
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

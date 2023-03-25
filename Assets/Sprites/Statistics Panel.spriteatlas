@@ -1,0 +1,198 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Statistics Panel
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 47
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    - serializedVersion: 3
+      m_BuildTarget: iPhone
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 50
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 7e2c7fb716d7a3240a3b6ccdc210c56a, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 99150e40dbbc67d48af59bda43c6a9a1, type: 3}
+  - {fileID: 21300000, guid: 8d754f804c769e6499ffbaee992a85f6, type: 3}
+  - {fileID: 21300000, guid: 9eaa28f0b7f24af4b8e0b7ff40b28102, type: 3}
+  - {fileID: 21300000, guid: c6981bf04b947414b9b9aefceb74065b, type: 3}
+  - {fileID: 21300000, guid: a4d7f69121741924d9fbe7de7d856b1a, type: 3}
+  - {fileID: 21300000, guid: 34af7c91c33a4a744ad43d40901e9802, type: 3}
+  - {fileID: 21300000, guid: eb9619a12ac44ba4ea2bad2a9f58f227, type: 3}
+  - {fileID: 21300000, guid: 6e88a9c14f345a84aaf38f46e5c3b8b1, type: 3}
+  - {fileID: 21300000, guid: 4423ec32179e6b0438084f24a95a203e, type: 3}
+  - {fileID: 21300000, guid: 84243972e696d97418243ee38455d271, type: 3}
+  - {fileID: 21300000, guid: 9bd5b0a358acf134c9ab7e0dbb57f72b, type: 3}
+  - {fileID: 21300000, guid: c96be544a5c474a45988c54fac1babd8, type: 3}
+  - {fileID: 21300000, guid: 19d02f54f8edd804686d3329cc2efd77, type: 3}
+  - {fileID: 21300000, guid: bee19364268380f45b5a7928f3f92ddb, type: 3}
+  - {fileID: 21300000, guid: be1307645e1c4e64492b5090aff3120b, type: 3}
+  - {fileID: 21300000, guid: 44808a64c167bd8449d8288d8df04467, type: 3}
+  - {fileID: 21300000, guid: 1d44da94fa9bb7a46b005c2ae6851808, type: 3}
+  - {fileID: 21300000, guid: 2ddc66a435de0414a86037c192e83edb, type: 3}
+  - {fileID: 21300000, guid: aaec9ec4253f5814da399170a6b28014, type: 3}
+  - {fileID: 21300000, guid: eb471755e5395ee45af574ea3a491cc5, type: 3}
+  - {fileID: 21300000, guid: d26765759a5f2354a90b5277c648f881, type: 3}
+  - {fileID: 21300000, guid: 0efe08758327b3b448b4c49a241c7d70, type: 3}
+  - {fileID: 21300000, guid: a51f1a953952ff549b6aa81078a9bb55, type: 3}
+  - {fileID: 21300000, guid: 99dabeb56f131614885dfbe1f3f400ca, type: 3}
+  - {fileID: 21300000, guid: 8611fee5686bd0d48af03bf5ff9d465a, type: 3}
+  - {fileID: 21300000, guid: d01ae44698e6a1840b03c6a65863d8f1, type: 3}
+  - {fileID: 21300000, guid: 21692866d822f90409568a1050c05a14, type: 3}
+  - {fileID: 21300000, guid: 6b6981865ac2a2c408d8810c2419370d, type: 3}
+  - {fileID: 21300000, guid: 0ebd63867144a6145a670d8e2eb2063a, type: 3}
+  - {fileID: 21300000, guid: c5d78db66a304434cbcb2acf42f817e4, type: 3}
+  - {fileID: 21300000, guid: 26e6d527a19f4b640bdfe6368e41fb55, type: 3}
+  - {fileID: 21300000, guid: cecf98b7101f3f14ea1b91df8a27d6d7, type: 3}
+  - {fileID: 21300000, guid: acd690c7b754a4a4a848ee17e7bcbff7, type: 3}
+  - {fileID: 21300000, guid: 586f97c768575c84b93585f9ee2786b0, type: 3}
+  - {fileID: 21300000, guid: efb3c708428e564449086c6ce9100f9c, type: 3}
+  - {fileID: 21300000, guid: 35d8a428f0aabae4dba4db390ed2c875, type: 3}
+  - {fileID: 21300000, guid: 36886e2899ded7e458de01308ebca350, type: 3}
+  - {fileID: 21300000, guid: 6cde4368af87e3a47bc3656f4db0e096, type: 3}
+  - {fileID: 21300000, guid: 9f9fc5981a2c02849b71266abb1f8081, type: 3}
+  - {fileID: 21300000, guid: 0bfcf2a8b31f8a7408408d629b414330, type: 3}
+  - {fileID: 21300000, guid: ee8c47b89e65bf34ab3b9ade94db4e2a, type: 3}
+  - {fileID: 21300000, guid: 3b6e1d7922715524ca8fdeb408045862, type: 3}
+  - {fileID: 21300000, guid: c54e8ad9d831f904cbd9719bff7c2794, type: 3}
+  - {fileID: 21300000, guid: 86124c0a9e7f97847a93e5e2402bf34e, type: 3}
+  - {fileID: 21300000, guid: 5522285a8a8ef3d4fb692fa07e21daf3, type: 3}
+  - {fileID: 21300000, guid: 47d6d3fab16dbb543a483e544e6adb6f, type: 3}
+  - {fileID: 21300000, guid: 7d8960bbb7ab6b14d9699708b3ec56ce, type: 3}
+  - {fileID: 21300000, guid: 1cdcf6bb9a73a3f4f88a1a8ecb7b9fd2, type: 3}
+  - {fileID: 21300000, guid: 30e84bcb1fe42b644b14d6ec5a29594c, type: 3}
+  - {fileID: 21300000, guid: e1b4f9ebd89cae74b85774e55cc7efe5, type: 3}
+  - {fileID: 21300000, guid: 24310b0c3eaff70428b62c702fed47ae, type: 3}
+  - {fileID: 21300000, guid: 2e3d5d0cf19fbcb48b1465d77fcb23f9, type: 3}
+  - {fileID: 21300000, guid: 0a0c393c3dce60d4695a6c3cc087757b, type: 3}
+  - {fileID: 21300000, guid: 5eeecf4c0f85aeb44b338aa27a66fdd0, type: 3}
+  - {fileID: 21300000, guid: 21bd787cc95788a47a9ce9d21fba2337, type: 3}
+  - {fileID: 21300000, guid: 6fd0367d8bf208d449cf51a8f52677b1, type: 3}
+  - {fileID: 21300000, guid: 56f00eeddec40cb4f8bfe5783d1625ee, type: 3}
+  - {fileID: 21300000, guid: ee936a1eb8e32684996983043a983055, type: 3}
+  - {fileID: 21300000, guid: 414208bef18b1534d889105914e12ebc, type: 3}
+  - {fileID: 21300000, guid: 3cd5abce9db3b814d8abaa0ce437a5a2, type: 3}
+  - {fileID: 21300000, guid: 8a80e23fcae10a04b81df4ee4920db37, type: 3}
+  - {fileID: 21300000, guid: 9541824fdb575524b8bafd58f2f8d7e4, type: 3}
+  - {fileID: 21300000, guid: 97c5776fbc854344ea7a42c625f843b3, type: 3}
+  - {fileID: 21300000, guid: d8b2a08fd2cc0054b8a9791f1ea5fbf1, type: 3}
+  - {fileID: 21300000, guid: cfc80f9fe659d2d4ca91cf4e56d61f76, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Grade C letter
+  - Close btn circle red
+  - ccalendar challenge indicator
+  - mode L btn
+  - mode S indicator small
+  - Arrow left - calendar
+  - lesson mode S icon
+  - skills slider orange
+  - calendar active icon
+  - Grade F letter
+  - graph btn active
+  - lessons active icon
+  - Grade B letter
+  - Grade A letter
+  - medal 02 silver
+  - calendar empty box
+  - skills indicator orange
+  - middle tab inactive
+  - skills coordinates
+  - lesson mode M icon
+  - mode M btn
+  - separator line
+  - graph btn inactive
+  - medal 01 golden
+  - Arrow right - calendar
+  - calendar date box
+  - calendar tear off line
+  - skills slider green
+  - calendar empty selected mode indicator
+  - pop-up cloud 01
+  - text area base
+  - calendar empty mode indicator
+  - time btn
+  - rate separator grid
+  - mode M indicator small
+  - Grade D letter
+  - top tab active
+  - calendar selected date box
+  - lesson mode Challenge icon
+  - lessons inactive icon
+  - paper binder clip decor
+  - skills indicator red
+  - histogram icon
+  - top tab inactive
+  - skills slider red
+  - progress_bar_red
+  - mode S btn
+  - skills active icon
+  - bottom tab inactive
+  - progress_bar_orange
+  - medal 03 bronze
+  - skills indicator green
+  - pie chart icon
+  - paper side panel texture
+  - lesson mode L icon
+  - middle tab active
+  - bottom tab active
+  - progress_bar_yellow
+  - Calendar window base
+  - calendar inactive icon
+  - statistics progress bar base
+  - mode L indicator small
+  - statistics panel base
+  - progress_bar_purple
+  - skills inactive icon
+  m_RenderDataMap: {}
+  m_Tag: Statistics Panel
+  m_IsVariant: 0

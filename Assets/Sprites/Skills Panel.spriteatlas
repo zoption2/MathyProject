@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Skills Panel
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 47
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    - serializedVersion: 3
+      m_BuildTarget: iPhone
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 50
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 0132b4411fa3a54469648c26d9ec414c, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: df265361ee77d4044bf2e4f607177749, type: 3}
+  - {fileID: 21300000, guid: 50fe6be16e611424eb2574dd06c78878, type: 3}
+  - {fileID: 21300000, guid: 9f2bdc353d7c67448bf13a31e061f658, type: 3}
+  - {fileID: 21300000, guid: 7ef34fe62324b744281fc23de68160df, type: 3}
+  - {fileID: 21300000, guid: a78c19373af0bbe47b2d0a8a7a3fb377, type: 3}
+  - {fileID: 21300000, guid: a2f8f0784abfbb34ab30d7a09a3fd42d, type: 3}
+  - {fileID: 21300000, guid: e331bee8d3027cb42a6d933111e54f74, type: 3}
+  - {fileID: 21300000, guid: 5c78852938c6fb449a19296a554938c1, type: 3}
+  - {fileID: 21300000, guid: e3b2f8d921eaac545af0622fea47baf5, type: 3}
+  - {fileID: 21300000, guid: 715cebd96594ec944bb6f9ebd4d4f90f, type: 3}
+  - {fileID: 21300000, guid: c234abda7dbef0f4e9f19ef0d64344e2, type: 3}
+  - {fileID: 21300000, guid: ad671e4bb6cecfd47a13e5fc726df373, type: 3}
+  - {fileID: 21300000, guid: 24e1c4cbac168bd419354bb651e0b1f9, type: 3}
+  - {fileID: 21300000, guid: dc692fcb2a4e6554889ef174d71e4958, type: 3}
+  - {fileID: 21300000, guid: 0528078c1adbe7c40ad7f5e1d85adadc, type: 3}
+  - {fileID: 21300000, guid: 1dbe499cc254a8c4a9993132fd032364, type: 3}
+  - {fileID: 21300000, guid: 442b7c4daf2a17e4d871b88a7e714e37, type: 3}
+  - {fileID: 21300000, guid: 5e3c608e229cae545b315b5ab6e2d18e, type: 3}
+  - {fileID: 21300000, guid: 8f19f39e95158374591cf6a08e15b1f0, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Skills panel Grade 01 icon
+  - Skills panel checkbox circle button blue
+  - Coming soon label
+  - Skill slider base active
+  - Scrollbar handle decor lines blue
+  - Scrollbar handle base blue
+  - Skills panel Tab button 02
+  - Skills panel Base
+  - Skill slider handle
+  - Mathy_skills_plan
+  - Skills panel separator line
+  - Skills panel checkbox square base
+  - Skill slider fill
+  - Skills panel details button
+  - Skills panel checkbox square button green
+  - Skills panel Tab button 01
+  - Skill slider base inactive
+  - Scrollbar area base
+  - Skills panel Grade 02 icon
+  m_RenderDataMap: {}
+  m_Tag: Skills Panel
+  m_IsVariant: 0

@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-Assets-Shared
+  m_EditorClassIdentifier: 
+  m_GroupName: Localization-Assets-Shared
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 77c14d71ee3730a45bcc6c9fc9def0f5
+  m_SerializeEntries:
+  - m_GUID: 817e94830b0703549811a68d04c1dcce
+    m_Address: Assets/Resources/Localization/Tables/GUI Elements Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: d95ba2a6c8894934ebfa23914344df46
+    m_Address: Assets/Resources/Localization/Tables/Languages Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: 70f67328c247d9d4b948263dcde437bb
+    m_Address: Assets/Resources/Localization/Tables/Game Names Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: 47b950865b31ebe46bfb6a89046947c5
+    m_Address: Assets/Resources/Localization/Tables/Textures Tables/Flags Textures
+      Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: 1317265bd367bf24c8c9252ba14c8797
+    m_Address: Assets/Samples/Localization/1.0.5/Smart Strings - Persistent Variables/String
+      Table/Gender Sample Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: 27153e20147c06c4c8d1304d28104a87
+    m_Address: Assets/Samples/Localization/1.0.5/Smart Strings - Persistent Variables/String
+      Table/Global Variables Sample Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: ab851bfa05a6c48449b7508a94fb93ff
+    m_Address: Assets/Localization/Tables/Textures Tables/Challenge Button Shared
+      Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: 43aab788be3943a4f96ee92462d3305b
+    m_Address: Assets/Localization/Tables/String Tables/Theory Games Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: 675d746fb6637d74091e43f763134a78
+    m_Address: Assets/Localization/Tables/String Tables/In-App Purchasing Shared
+      Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: ae932bab90c5a2f46b26a54b3795c9e7
+    m_Address: Assets/Localization/Tables/String Tables/Grades and Skills Shared
+      Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: f3b1cde76b478bb40bfa4600e11f2d74
+    m_Address: Assets/Localization/Tables/String Tables/Settings Panel Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: 76746eb55ddbd544c89bef47883242cf, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: d39c37779c8d41f4eb349bd5c2062129, type: 2}
+    - {fileID: 11400000, guid: 9739c0f332968fa49b71ec753db19262, type: 2}

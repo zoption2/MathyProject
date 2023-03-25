@@ -1,0 +1,348 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: GUI Elements Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: GUI Elements
+  m_TableCollectionNameGuidString: 817e94830b0703549811a68d04c1dcce
+  m_Entries:
+  - m_Id: 20730212352
+    m_Key: PlayButton_Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 382109429108736
+    m_Key: PlayButton_View
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2863663360634880
+    m_Key: PlayButton_Continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2864957743820800
+    m_Key: Practice
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2864964261769216
+    m_Key: Today
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2864969026498560
+    m_Key: Theory
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2878781028954112
+    m_Key: Assistant_Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2879046507425792
+    m_Key: Assistant_Voice
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2879578810740736
+    m_Key: Change_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2880808584867840
+    m_Key: Remove_Ad
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2880834618912768
+    m_Key: Ads_free
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5782916086755328
+    m_Key: Beginner
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5782957190934528
+    m_Key: Expert
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5783137206267904
+    m_Key: Years
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5783844936347648
+    m_Key: In_range
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18154725729759232
+    m_Key: ResultWindow_LessonCompleted
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18154731916357632
+    m_Key: ResultWindow_ChallengeCompleted
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18154740107833344
+    m_Key: ResultWindow_ChallengeFailed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22445262863462400
+    m_Key: ResultWindow_WellDone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22445417188683776
+    m_Key: ResultWindow_GameOver
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22455725512847360
+    m_Key: ResultWindow_Great
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22455776507195392
+    m_Key: ResultWindow_Wonderful
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22455809491202048
+    m_Key: ResultWindow_Perfect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22455860087091200
+    m_Key: ResultWindow_YouSmart
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22455915854557184
+    m_Key: ResultWindow_Fantastic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22455959009751040
+    m_Key: ResultWindow_YouFantastic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22455989443620864
+    m_Key: ResultWindow_YouClever
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22456015142121472
+    m_Key: ResultWindow_Okay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22456064974647296
+    m_Key: ResultWindow_NextTime
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22456097891545088
+    m_Key: ResultWindow_TryAgain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31912129305448448
+    m_Key: View_Result
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43479615269298176
+    m_Key: Watch_Ad
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43481467780128768
+    m_Key: Watch_Ad_Double
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46384097997152256
+    m_Key: Statistics
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64460653655023616
+    m_Key: Statistics_Awards
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64476566215254016
+    m_Key: Statistics_Count
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64476689041252352
+    m_Key: Statistics_Add-Sub
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64478199359791104
+    m_Key: Statistics_Comparison
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71052139939028992
+    m_Key: Statistics_Calendar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71052191822569472
+    m_Key: Statistics_Lessons
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71052228233322496
+    m_Key: Statistics_Skills
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73853692857081856
+    m_Key: Calendar_Day_Result
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73863402767310848
+    m_Key: Calendar_Grade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73863629725294592
+    m_Key: Calendar_Answers
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73863734415122432
+    m_Key: Calendar_Time
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73863765998231552
+    m_Key: Calendar_Total_Time
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73864111600492544
+    m_Key: Calendar_Lessons
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73864186196189184
+    m_Key: Calendar_Other
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74568629556404224
+    m_Key: Daily_Reward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75742397670678528
+    m_Key: Daily_Reward_Today
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75742796305719296
+    m_Key: Daily_Reward_Day
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75743018570276864
+    m_Key: Daily_Reward_Bonus_Claim
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85925780698750976
+    m_Key: Button_No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85925827070976000
+    m_Key: Button_Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88777566895792128
+    m_Key: Statistics_NotPlayed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89166036029988864
+    m_Key: Daily_Result_Lesson
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89166121082085376
+    m_Key: Daily_Result_Grade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89166221753769984
+    m_Key: Daily_Result_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 91611604748656640
+    m_Key: DailyResult_Sec
+    m_Metadata:
+      m_Items: []
+  - m_Id: 92021914001268736
+    m_Key: Calendar_Monday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 92022089520308224
+    m_Key: Calendar_Tuesday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 92022098848440320
+    m_Key: Calendar_Wednesday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 92022105395748864
+    m_Key: Calendar_Thursday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 92022127944327168
+    m_Key: Calendar_Friday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 92022383029313536
+    m_Key: Calendar_Saturday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 92022421675630592
+    m_Key: Calendar_Sunday
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97466912989569024
+    m_Key: Timer_Difficulty_Best_Score
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97466925257908224
+    m_Key: Timer_Difficulty_Endless
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97466931264151552
+    m_Key: Timer_Difficulty_Timer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97469564112658432
+    m_Key: Timer_Difficulty_Endless_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97469767720951808
+    m_Key: Timer_Difficulty_Easy_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97469927809146880
+    m_Key: Timer_Difficulty_Medium_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97469977671032832
+    m_Key: Timer_Difficulty_Hard_Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97470011791695872
+    m_Key: Timer_Difficulty_Easy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97470134034685952
+    m_Key: Timer_Difficulty_Medium
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97470159536054272
+    m_Key: Timer_Difficulty_Hard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 106193764851703808
+    m_Key: PlayPanel Skill Note
+    m_Metadata:
+      m_Items: []
+  - m_Id: 106915012820918272
+    m_Key: Timer Best Time
+    m_Metadata:
+      m_Items: []
+  - m_Id: 106915081662029824
+    m_Key: Timer Current Time
+    m_Metadata:
+      m_Items: []
+  - m_Id: 106915132295667712
+    m_Key: Challenges Lives
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 4867127154931138637
+  references:
+    version: 2
+    RefIds:
+    - rid: 4867127154931138637
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1652790103791

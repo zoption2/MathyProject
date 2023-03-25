@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/LoadingScreen.unity
+    guid: 9b8af3de016e3454cb9332ea70347248
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 23915c98dc801404cbe857bd798dc02c
+  - enabled: 1
+    path: Assets/Scenes/Task Result.unity
+    guid: 8e2d13ae20a8f304093007dafbb954ac
+  - enabled: 1
+    path: Assets/Scenes/Task Gameplay New.unity
+    guid: 52e83556740d512469293418d4cdb1f4
+  - enabled: 1
+    path: Assets/Scenes/Challenges Gameplay.unity
+    guid: e52f527f2cf54d94b9cc61b398867b11
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: e434860e7f11add4fb52a4838b047744, type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: 39b493040e425c9468c5b56fde471358, type: 2}

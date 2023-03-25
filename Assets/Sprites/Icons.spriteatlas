@@ -1,0 +1,364 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Icons
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 47
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    - serializedVersion: 3
+      m_BuildTarget: iPhone
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 50
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: ae522a350fff10b43a9d22dd911c97f3, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 547f3b20156ca98418292a931b2a45ac, type: 3}
+  - {fileID: 21300000, guid: 935a99b06f3085541acd19ddda589ffb, type: 3}
+  - {fileID: 21300000, guid: de467dd06594a40408cd1e9a0df7f2c4, type: 3}
+  - {fileID: 21300000, guid: 15bc32f0f9ab631448d4a12c489f6991, type: 3}
+  - {fileID: 21300000, guid: 5963e11177945104e8ad8eb2b3eeecb6, type: 3}
+  - {fileID: 21300000, guid: e7a41f315ebfbf74db0afd66bb35689f, type: 3}
+  - {fileID: 21300000, guid: db0685417e4b5004cb9b016b1212e873, type: 3}
+  - {fileID: 21300000, guid: 539405714b79f214589d3a21fb235ec9, type: 3}
+  - {fileID: 21300000, guid: 0d962bb1d2dcfe04fb5dc19b8c1fa66e, type: 3}
+  - {fileID: 21300000, guid: 276719c1c566efd47b41287b97bcd6e4, type: 3}
+  - {fileID: 21300000, guid: c21bead18e91f304387eb36bff168f67, type: 3}
+  - {fileID: 21300000, guid: 428671e170b1bea4ca652a856af11d18, type: 3}
+  - {fileID: 21300000, guid: 98ba80f193d3693468b6ea867efc51a4, type: 3}
+  - {fileID: 21300000, guid: 30c00312a2e773041bee612d7a1ddb30, type: 3}
+  - {fileID: 21300000, guid: 3c8ff81230d974b489b51faabb2deca8, type: 3}
+  - {fileID: 21300000, guid: f9a08b320f232c84dbd602bfebeb3af8, type: 3}
+  - {fileID: 21300000, guid: 1c5e235266b37f644b9439bf5c346b6c, type: 3}
+  - {fileID: 21300000, guid: 8e756752bf7455b468f28c54cf38ad8f, type: 3}
+  - {fileID: 21300000, guid: fdeff95269d22ae49b7da1cba7d2787f, type: 3}
+  - {fileID: 21300000, guid: e8698b62499279f4fa5856e8e18230a9, type: 3}
+  - {fileID: 21300000, guid: ceadc4821947b83439e8b03c783191ac, type: 3}
+  - {fileID: 21300000, guid: f13a51b2d0e352843a45020fd2368bd7, type: 3}
+  - {fileID: 21300000, guid: 091ee5c267b870046a9aa62e63623610, type: 3}
+  - {fileID: 21300000, guid: 1fe15ed27b75c724d90963a56a8ff008, type: 3}
+  - {fileID: 21300000, guid: 787be003fe65dbc43a8b4677f5d292be, type: 3}
+  - {fileID: 21300000, guid: dfa46103b46916d4e943f9cbbd0686ce, type: 3}
+  - {fileID: 21300000, guid: 8a2f82335092690438150f0054dc52d6, type: 3}
+  - {fileID: 21300000, guid: 51cf6d4347a53d0429dbf0eb8d7bb2b0, type: 3}
+  - {fileID: 21300000, guid: 7daad063669be21479fb0f3ffff5b77b, type: 3}
+  - {fileID: 21300000, guid: c1052f83c60c7034e9bda70ee40a8f96, type: 3}
+  - {fileID: 21300000, guid: 862e94d339c39724abf9e10dc000ad46, type: 3}
+  - {fileID: 21300000, guid: 7778bcd34a4698c4cb3941b8eb43db2c, type: 3}
+  - {fileID: 21300000, guid: 904d89f351386d145a55eadad02864cc, type: 3}
+  - {fileID: 21300000, guid: 2c82b91430b14354ebeb2c5e1b6ecf82, type: 3}
+  - {fileID: 21300000, guid: cc216e44f163dd044b1f331fe4cbd2c5, type: 3}
+  - {fileID: 21300000, guid: ca3ce36496bc19448a1db27dfbc87b4f, type: 3}
+  - {fileID: 21300000, guid: 44bfea7484edcdf49a94511d150e64c2, type: 3}
+  - {fileID: 21300000, guid: 8db57684693543d43ba0c541d24f9d90, type: 3}
+  - {fileID: 21300000, guid: 72ee92949fa3bf54e8a37df0b0e2593d, type: 3}
+  - {fileID: 21300000, guid: bd57c3949f2d8334280580d077cdb0dc, type: 3}
+  - {fileID: 21300000, guid: 00d55694dff2d1149b298bd6db4cd40d, type: 3}
+  - {fileID: 21300000, guid: fc0e28a42f148fe47a4df625fec1c71f, type: 3}
+  - {fileID: 21300000, guid: dbd0c4b4eb87fe04798cd4b20e2fe0d1, type: 3}
+  - {fileID: 21300000, guid: 13b07cb4b71d5ae4aa13f96b8bc03628, type: 3}
+  - {fileID: 21300000, guid: 236ff1c4b571dab48936c4bb32e50f61, type: 3}
+  - {fileID: 21300000, guid: 835e2ee448f919849852b9b80ae1a7d1, type: 3}
+  - {fileID: 21300000, guid: aa4839f4a27df5147806f881a69ba170, type: 3}
+  - {fileID: 21300000, guid: 8e5af135e399b3e41a8a96a9d6152cb3, type: 3}
+  - {fileID: 21300000, guid: 6e5c4b45bd982f8458c322c0a56e010f, type: 3}
+  - {fileID: 21300000, guid: 65e9de4574f13ae418562d711af61428, type: 3}
+  - {fileID: 21300000, guid: 5a1115759d70e9046bf7782e942ceca8, type: 3}
+  - {fileID: 21300000, guid: ba266d8593f7f9040a40acb20c08af6d, type: 3}
+  - {fileID: 21300000, guid: 0d52c695acaaa394ba5e2c56c0b2816a, type: 3}
+  - {fileID: 21300000, guid: 632929b56e94c4b4abb36729422453b2, type: 3}
+  - {fileID: 21300000, guid: ce7a26c5d2d4ec94aafa861b91be8f94, type: 3}
+  - {fileID: 21300000, guid: 8f30c9d52cc552647a01193341c940f1, type: 3}
+  - {fileID: 21300000, guid: ad90a5e5312f0e641afffa313b950bab, type: 3}
+  - {fileID: 21300000, guid: d34e220686b7bc4449dfff14f16e3b74, type: 3}
+  - {fileID: 21300000, guid: 4161961620580fd41a7010ed9377e344, type: 3}
+  - {fileID: 21300000, guid: 8540638696e225d47ae62e1fd4aaf729, type: 3}
+  - {fileID: 21300000, guid: 28f77da6cea623e49b344905351ff5d9, type: 3}
+  - {fileID: 21300000, guid: cbfb72e611afdbd41a23db836ea2d764, type: 3}
+  - {fileID: 21300000, guid: 9fd41ae60f848a44e954df41919330a3, type: 3}
+  - {fileID: 21300000, guid: ef0159f6373ee2b4ca8c757da74db638, type: 3}
+  - {fileID: 21300000, guid: 1a8c7b07a06ca9e43b5d26c1de8598bf, type: 3}
+  - {fileID: 21300000, guid: a8b863173c2dca34aaab0fec2729ec99, type: 3}
+  - {fileID: 21300000, guid: 245c4027cb6c7f04a866b5ca0b18528d, type: 3}
+  - {fileID: 21300000, guid: 30bdb457715490344880b28036257426, type: 3}
+  - {fileID: 21300000, guid: 7052ea57e658ba74d9c4b46e56318f2b, type: 3}
+  - {fileID: 21300000, guid: ef537c77b476e1540bdf484b4faef7c1, type: 3}
+  - {fileID: 21300000, guid: 5a58f7a7c0a94734e8433424fbe63cfe, type: 3}
+  - {fileID: 21300000, guid: 3fe490d7e9c5731468244ce8c3ff6769, type: 3}
+  - {fileID: 21300000, guid: 15d161f76ba201346949f97987dba533, type: 3}
+  - {fileID: 21300000, guid: c74e95f731b771f48973ae970471dffb, type: 3}
+  - {fileID: 21300000, guid: 5aaa71085edc49241864a4bd91aab5e1, type: 3}
+  - {fileID: 21300000, guid: 9ee44a183e835bc438a697800a4279df, type: 3}
+  - {fileID: 21300000, guid: 07a34e188a058724f9ace3ad911845f3, type: 3}
+  - {fileID: 21300000, guid: 37d94928f23a18642a7df7804bd6190b, type: 3}
+  - {fileID: 21300000, guid: fc13ba286bac6e5459082f8eaa0dda46, type: 3}
+  - {fileID: 21300000, guid: 56aba4389ea359d4296c466211fececd, type: 3}
+  - {fileID: 21300000, guid: 84648158adf9dc841badbba8367653b4, type: 3}
+  - {fileID: 21300000, guid: 9c6a275817d38334193056ee14fee110, type: 3}
+  - {fileID: 21300000, guid: f5f6d67870f456d47b3991fcf9ca84c1, type: 3}
+  - {fileID: 21300000, guid: 81b55b8876277954b95c67bf3e7cc311, type: 3}
+  - {fileID: 21300000, guid: 1efacb88e7375a941ac1794d83de35ae, type: 3}
+  - {fileID: 21300000, guid: dffb979810223904fa20def76cbc76d0, type: 3}
+  - {fileID: 21300000, guid: 4d8ec9c872d37644299709125774a3ab, type: 3}
+  - {fileID: 21300000, guid: f19aeb09e9c99bd489fa0f76acfc6ebb, type: 3}
+  - {fileID: 21300000, guid: 616f7c098ae8dbd4d9dbbf55df01c436, type: 3}
+  - {fileID: 21300000, guid: 2edfac0931cd0734ab9710e35473055b, type: 3}
+  - {fileID: 21300000, guid: 3fd49d19f1cfea847ad841392595c3c1, type: 3}
+  - {fileID: 21300000, guid: 3866712962f2e0941a3963f6f5031431, type: 3}
+  - {fileID: 21300000, guid: a6600639fd2d9204bb4f7fd30bfd88b0, type: 3}
+  - {fileID: 21300000, guid: f3f4d259bd39e0f418facd386bfdb94b, type: 3}
+  - {fileID: 21300000, guid: a24123897ea26614aa3a2069343fe842, type: 3}
+  - {fileID: 21300000, guid: aedc28e934206614b9d4a26afb334ec9, type: 3}
+  - {fileID: 21300000, guid: 64f6a0f943a0d9d40aeb6be113bf5fef, type: 3}
+  - {fileID: 21300000, guid: edcf0cf959d584a4b890fa1662c5efc8, type: 3}
+  - {fileID: 21300000, guid: 6236762ac228e9a4c86971d4197a34af, type: 3}
+  - {fileID: 21300000, guid: b0b3182a805d859408a868701d6e56c6, type: 3}
+  - {fileID: 21300000, guid: 3078894ad0656144face26b1e43ef515, type: 3}
+  - {fileID: 21300000, guid: 40489d6a4c1c41d40bbd6682f9eada19, type: 3}
+  - {fileID: 21300000, guid: 11aba27a0986bb640ba2c6b99ace22fb, type: 3}
+  - {fileID: 21300000, guid: 98a7857a5208fe04f8488fdccf4ccbf9, type: 3}
+  - {fileID: 21300000, guid: 1a90fe7a323ec814394cc49522753df1, type: 3}
+  - {fileID: 21300000, guid: 19a311fa93af23d478fb5a0d3961ebab, type: 3}
+  - {fileID: 21300000, guid: ad319d3bacb7ae54883771b364865ea2, type: 3}
+  - {fileID: 21300000, guid: 86f5065bd569afa4b9441933be8cad8b, type: 3}
+  - {fileID: 21300000, guid: 86ca048b2e17edb48a324074e2076537, type: 3}
+  - {fileID: 21300000, guid: 2a1c1d1c78733024d8a8c024d91bf78d, type: 3}
+  - {fileID: 21300000, guid: 018c335c83b6a9546bffe539b47fc4c3, type: 3}
+  - {fileID: 21300000, guid: 8327e77ca8a38164f96a544a0d041fe2, type: 3}
+  - {fileID: 21300000, guid: 80aadc7cb784e9042b35492b6dcb2c63, type: 3}
+  - {fileID: 21300000, guid: 9c8e848cf7e863541ac58534bba09b3f, type: 3}
+  - {fileID: 21300000, guid: 5c48de8cbff773449880847c6ec56b28, type: 3}
+  - {fileID: 21300000, guid: a277dc9cc6e595d4da4200f059b360a1, type: 3}
+  - {fileID: 21300000, guid: 6585babc236472645bb46a113bca3cee, type: 3}
+  - {fileID: 21300000, guid: 7e1f86dc69d1e07498f366250c616792, type: 3}
+  - {fileID: 21300000, guid: 680060fcba3fe8245abdfda563e2fc8f, type: 3}
+  - {fileID: 21300000, guid: 3dfd701d4be10414aa5a8f92b6d00d9a, type: 3}
+  - {fileID: 21300000, guid: 6c372e2dc12baf54e99d37c2c0bf8ba4, type: 3}
+  - {fileID: 21300000, guid: 85f0ae2db5ca2304589fa31184c3c50a, type: 3}
+  - {fileID: 21300000, guid: 50c1303da35fc314785b233e29c3155e, type: 3}
+  - {fileID: 21300000, guid: 9764ac3db74c1f94ea7b96790c51527b, type: 3}
+  - {fileID: 21300000, guid: 341d564d777856841958e53028ccca2b, type: 3}
+  - {fileID: 21300000, guid: 2c42a86da225a274f80b309b6c6f36b1, type: 3}
+  - {fileID: 21300000, guid: b54f1d6d2d1d54044b4e3ad27245964c, type: 3}
+  - {fileID: 21300000, guid: ef1cb87d92e5d5943a536e2607978e4f, type: 3}
+  - {fileID: 21300000, guid: 0010319d7c6f0d747a7a2de1487b9cba, type: 3}
+  - {fileID: 21300000, guid: aade2add2f6259e48bc01838f0c80b9a, type: 3}
+  - {fileID: 21300000, guid: 39ce160eea31e594ba8ef5f920057772, type: 3}
+  - {fileID: 21300000, guid: e257491e7b7d9084880aa202665c2c95, type: 3}
+  - {fileID: 21300000, guid: 51c5032ea1ed1f646a19071e1821547f, type: 3}
+  - {fileID: 21300000, guid: 71d7dc3ee01167c409cfe0ac5d22dc8f, type: 3}
+  - {fileID: 21300000, guid: 95129e3e27258fe4bb49cc1fa8daf88a, type: 3}
+  - {fileID: 21300000, guid: 8b65e24e7dece5848b8a592f15e84f20, type: 3}
+  - {fileID: 21300000, guid: ad9e0f8e1e30655488d03d33a0f8de18, type: 3}
+  - {fileID: 21300000, guid: 9553459e4d721be409e86aa2dd0c0fb0, type: 3}
+  - {fileID: 21300000, guid: 862b02ce65b969a4489ab1416a8e9fb3, type: 3}
+  - {fileID: 21300000, guid: c7e37ece93571d34d8e98944b261ebb0, type: 3}
+  - {fileID: 21300000, guid: 8202a91f611b02d43828c1326de13e70, type: 3}
+  - {fileID: 21300000, guid: a047f13fedf80b8448d4bca402b6e8f7, type: 3}
+  - {fileID: 21300000, guid: 5cb7f14fe213cd942bf6bb5bef721fc5, type: 3}
+  - {fileID: 21300000, guid: 7a01856f7c34ae94ca562be35d86c0bf, type: 3}
+  - {fileID: 21300000, guid: a5fed57fff7f88841a8c7de7ff699522, type: 3}
+  - {fileID: 21300000, guid: a43d97bfb4900904c90f9f56aae8ed73, type: 3}
+  - {fileID: 21300000, guid: 04b451cfd535fbb49b1a2e440ef45737, type: 3}
+  - {fileID: 21300000, guid: b84cd1df927f3f54c844381b0f8ad03a, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Icon_LanguageFlag_Large_Fra
+  - Music Off icon
+  - Notify icon 02-2
+  - Pairs Equation icon
+  - rank 20 icon
+  - Icon_LanguageFlag_Large_Pra
+  - Icon_LanguageFlag_Large_Tha
+  - double toolbar icon orange
+  - arrow reload toolbar icon orange
+  - Football icon
+  - Pythagoras table icon
+  - Icon_LanguageFlag_Large_Jpn
+  - no ads toolbar icon green
+  - Icon_LanguageFlag_Large_Gre
+  - mode S indicator small
+  - Answer Indicator 01 gray
+  - Star Bonus icon
+  - double toolbar icon green
+  - rank 01 icon
+  - Push Off icon
+  - Add-Sub 10 icon
+  - Check mark 02
+  - Icon_LanguageFlag_Large_Kor
+  - store toolbar icon orange
+  - Vibration Off icon
+  - rank 17 icon
+  - Comparison 20 icon
+  - Icon_LanguageFlag_Large_Tur
+  - Balls icon
+  - mathy slogan text
+  - Guess Shape icon
+  - Closed sumbol circle
+  - Star small 01 gold
+  - rank 07 icon
+  - Icon_LanguageFlag_Large_Pol
+  - rank 10 icon
+  - Sound On icon
+  - Icon_LanguageFlag_Large_Ina
+  - Assistant Text Off icon
+  - Division icon
+  - Icon_LanguageFlag_Large_Rus
+  - question mark toolbar icon orange
+  - Assistant Text On icon
+  - Question mark 01
+  - Icon_LanguageFlag_Large_Eng
+  - Add-Sub 1000 icon
+  - Loading_Rotate_White
+  - Icon_LanguageFlag_Large_Twn
+  - rank 02 icon
+  - grade panel icon 05
+  - rank 19 icon
+  - Multiplication table icon
+  - Icon_LanguageFlag_Large_Vnm
+  - share toolbar icon orange
+  - Timer icon 01
+  - mode L indicator small
+  - Red Circle Selector
+  - Icon_LanguageFlag_Large_Rou
+  - Cup Icon 01-2 small
+  - Pairs Operands icon
+  - Icon_LanguageFlag_Large_Ita
+  - Digits icon
+  - arrow left toolbar icon green
+  - temple toolbar icon orange
+  - Answer Indicator 01 blue
+  - grade panel icon 03
+  - rank 03 icon
+  - Apple icon
+  - Assistant Voice Off icon
+  - Cup Icon 01-1 big
+  - settings toolbar icon green
+  - Image Opening icon
+  - star result screen 01 gray
+  - Add-Sub 20 icon
+  - Like icon 01-2 blurred
+  - rank 04 icon
+  - rank 18 icon
+  - Grade path selector
+  - star result screen 01 gold
+  - Mathy_app_icon_v2-3
+  - home toolbar icon green
+  - Calendar Icon 01
+  - Icon_LanguageFlag_Large_Esp
+  - home toolbar icon orange
+  - Heart Icon 01 red
+  - "Notify Count \u043Aed 01"
+  - rank 12 icon
+  - grade panel icon 01
+  - arrow left toolbar icon orange
+  - arrow left toolbar icon blue
+  - Endless icon 01
+  - result-screen_high score icon
+  - Multiplication icon
+  - no ads toolbar icon orange
+  - Shapes icon
+  - Music On icon
+  - grade panel icon 06
+  - rank 14 icon
+  - arrow reload toolbar icon green
+  - rank 00 icon
+  - Close Icon 01
+  - rank 11 icon
+  - mathy logo text
+  - Heart Icon 01 grey
+  - share toolbar icon green
+  - Complex icon 02
+  - Assistant Voice On icon
+  - Like icon 01-1
+  - grade panel icon 04
+  - settings toolbar icon orange
+  - grade panel icon 02
+  - Leans
+  - rank 09 icon
+  - Icon_LanguageFlag_Large_Ara
+  - rank 15 icon
+  - rank 16 icon
+  - Pairs Numbers icon
+  - Notify icon 02-1
+  - Notify icon 02-3
+  - rank 05 icon
+  - Star small 01 gray
+  - Icon_LanguageFlag_Large_Chn
+  - rank 13 icon
+  - Answer Indicator 01 red
+  - Icon_LanguageFlag_Large_Swe
+  - Ads icon 01
+  - store toolbar icon green
+  - Basketball icon
+  - rank 08 icon
+  - Answer Indicator 01 green
+  - gift toolbar icon orange
+  - Missing Number icon
+  - rank 06 icon
+  - paw toolbar icon green
+  - XP icon 01
+  - Vibration On icon
+  - Icon_LanguageFlag_Large_Prt
+  - Sound Off icon
+  - Complex icon 01
+  - Icon_LanguageFlag_Large_Ukr
+  - mode M indicator small
+  - Push On icon
+  - Icon_LanguageFlag_Large_Deu
+  - Check mark 01 circle
+  - Comparison 10 icon
+  - gift toolbar icon green
+  - question mark toolbar icon green
+  - Add-Sub 100 icon
+  m_RenderDataMap: {}
+  m_Tag: Icons
+  m_IsVariant: 0

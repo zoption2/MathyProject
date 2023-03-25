@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Counting Objects
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 47
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 6d6beb1b01e72b94b88450cf70f2cb22, type: 3}
+    - {fileID: 102900000, guid: b0998fb83c0092545b8deb706f4ac435, type: 3}
+    - {fileID: 102900000, guid: 5d627c95c84228d409fd2844ada411f5, type: 3}
+    - {fileID: 102900000, guid: b90e32b4e38bfbb459a1d4761327f196, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 9e14c7a1cb1df1348a10c48def7825b7, type: 3}
+  - {fileID: 21300000, guid: 384f47230a0d26449924c6f7b447bdb7, type: 3}
+  - {fileID: 21300000, guid: 7e33ff537b9565f46939ed6451dee044, type: 3}
+  - {fileID: 21300000, guid: 590100b3d3ffe4d479eec5c374d7ca85, type: 3}
+  - {fileID: 21300000, guid: 4896ac040b6d870458875f96bc859699, type: 3}
+  - {fileID: 21300000, guid: 3204f464dc9155a4d8cd13e082086271, type: 3}
+  - {fileID: 21300000, guid: 38de86d49b2f78b4dadced13d8432027, type: 3}
+  - {fileID: 21300000, guid: 48ae98b57b95e7442a76052003dc2bca, type: 3}
+  - {fileID: 21300000, guid: 5b476336d126fad48915c0ebd3ae6783, type: 3}
+  - {fileID: 21300000, guid: 3aeb41b67d220984694998741993c287, type: 3}
+  - {fileID: 21300000, guid: e529eb37ee84e35448534d023960e7a4, type: 3}
+  - {fileID: 21300000, guid: 90f8ac77dd55bbf4cbbb2e79821c21ef, type: 3}
+  - {fileID: 21300000, guid: 9b63cb68b9b31844fb4c5788eec893a9, type: 3}
+  - {fileID: 21300000, guid: 9f4592c8c9e841f43b06b3af37432b36, type: 3}
+  - {fileID: 21300000, guid: 1118dd194f3c04b43bde653d4e6d4f72, type: 3}
+  - {fileID: 21300000, guid: 803d921a121ca214b94002912c6d4be5, type: 3}
+  - {fileID: 21300000, guid: b848518a0c1eb03498aea6aa34b1bfb3, type: 3}
+  - {fileID: 21300000, guid: 70edd1aa219abbb4fab3806d0afcee42, type: 3}
+  - {fileID: 21300000, guid: 7ef10a1b0d8f9244ca73f2246746c6b2, type: 3}
+  - {fileID: 21300000, guid: bc0993cbb5bf2c54c95f28b096ebfd8f, type: 3}
+  - {fileID: 21300000, guid: 59103e4cab6c4cd44b01546fc21c90fb, type: 3}
+  - {fileID: 21300000, guid: 2a2675cc9b6c4df4b826cf24ee758e47, type: 3}
+  - {fileID: 21300000, guid: d80e5e3d7a08b644d84d837f61430403, type: 3}
+  - {fileID: 21300000, guid: 9027bd4dea9f4254ba0ca50ecd27cda8, type: 3}
+  - {fileID: 21300000, guid: 04b73f7d53b96a44ca7f812da93cfe1f, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Top panel green
+  - Round Candy blue countable object
+  - Strawberry countable object
+  - Backward arrow icon
+  - Toolbar Button base
+  - Question mark icon
+  - Top panel yellow
+  - Top panel red
+  - Top panel violet
+  - Bean Candy violet countable object
+  - Top panel indigo
+  - Coin countable object
+  - Top panel orange
+  - Round Candy violet countable object
+  - Bean Candy green countable object
+  - Bean Candy orange countable object
+  - Round Candy red countable object
+  - Separator line
+  - Flower pot countable object
+  - Variant Button base
+  - Top panel blue
+  - Leaf countable object
+  - Variants panel base
+  - Object Frame base
+  - Cheese countable object
+  m_RenderDataMap: {}
+  m_Tag: Counting Objects
+  m_IsVariant: 0
