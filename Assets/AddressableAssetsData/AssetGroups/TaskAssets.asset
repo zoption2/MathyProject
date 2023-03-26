@@ -74,7 +74,7 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: ce245589fefd3594f981cd9289075e8d
-    m_Address: Assets/Scripts/InProgress/BaseTaskView.prefab
+    m_Address: Assets/Prefabs/TaskView/BaseTaskView.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 32b5d2d904b3ba94882cf852142d143c
@@ -83,6 +83,34 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 1502e28232f537641b7851db30af6b61
     m_Address: Assets/Prefabs/Task Elements/DefaultOperatorView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1a9fb6125c8271749afa7b7c870422c6
+    m_Address: Assets/Sprites/Backgrounds/Screens/bg_coliseum.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 122637228a29c8c41bf913aee7e92e41
+    m_Address: Assets/Sprites/Backgrounds/Screens/bg_chichen_itza.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2caceca15169df341817765412a57bab
+    m_Address: Assets/Sprites/Backgrounds/Screens/bg_golden_gates.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7f6d0e9645b7de34c86b299ed2b96abc
+    m_Address: Assets/Sprites/Backgrounds/Screens/bg_pantheon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c6d136194910992488c4e446a92823db
+    m_Address: Assets/Sprites/Backgrounds/Screens/bg_pyramids.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fe27ddfd4d3fe2f438ab858c6f525b96
+    m_Address: Assets/Sprites/Backgrounds/Screens/bg_stonehenge.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d9dd308d4e3f580479ccc5d5d712c383
+    m_Address: Assets/Sprites/Backgrounds/Screens/bg_daily_rewards.png
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

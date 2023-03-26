@@ -1,7 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Mathy.Core.Tasks.DailyTasks;
 using Mathy.Data;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,6 +22,7 @@ namespace Mathy.Core.Tasks
 
         private Queue<ITaskController> tasks = new(kMaxTasksLoadedAtOnce);
         private ITaskFactory taskFactory;
+        private ITaskBackgroundSevice backgroundHandler;
         private TaskManager taskManager;
         private DataManager dataManager;
         private int remainingTasksCount;
@@ -32,9 +32,10 @@ namespace Mathy.Core.Tasks
         public bool IsPractice { get; set; }
         private int TasksInQueue => tasks.Count;
 
-        public GameplayService(ITaskFactory taskFactory) 
+        public GameplayService(ITaskFactory taskFactory, ITaskBackgroundSevice backgroundHandler) 
         {
             this.taskFactory = taskFactory;
+            this.backgroundHandler = backgroundHandler;
         }
 
         public async void Prepare(TaskMode mode, List<ScriptableTask> availableTasks)
@@ -54,8 +55,8 @@ namespace Mathy.Core.Tasks
                 remainingTasksCount -= taskIndexer;
             }
 
+            backgroundHandler.Reset();
             UpdateTasksQueue();
-
         }
 
         public void Start()
@@ -93,7 +94,7 @@ namespace Mathy.Core.Tasks
             controller.ON_FORCE_EXIT -= ClickOnExitFromGameplay;
             controller.HideAndRelease(()=>
             {
-                GameObject.Destroy(controller.Parent.gameObject);
+                GameObject.Destroy(controller.ViewParent.gameObject);
             });
 
             if (!TryStartTask())
@@ -110,7 +111,7 @@ namespace Mathy.Core.Tasks
                 {
                     var parent = taskManager.GetNewTaskParent();
                     var task = await taskFactory.CreateTaskFromRange(availableTasks, parent);
-                    task.Parent = parent;
+                    task.ViewParent = parent;
                     tasks.Enqueue(task);
                     remainingTasksCount--;
                 }
@@ -129,13 +130,6 @@ namespace Mathy.Core.Tasks
                 task.ReleaseImmediate();
             }
         }
-
-        //private ScriptableTask GetRandomTaskFromAvailable()
-        //{
-        //    var random = new System.Random();
-        //    var task = availableTasks[random.Next(0, availableTasks.Count)];
-        //    return task;
-        //}
 
         private int GetTasksCountByMode(TaskMode mode)
         {

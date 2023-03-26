@@ -14,7 +14,8 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<IAddressableRefsHolder>().FromInstance(refsHolder).AsSingle();
         Container.Bind<IGameplayService>().To<GameplayService>().AsSingle();
         Container.Bind<ITaskFactory>().To<TaskFactory>().AsSingle();
-        Container.Bind<IUIComponentsFactory>().To<UIComponentFactory>().AsSingle();
+        Container.Bind<ITaskViewComponentsProvider>().To<TaskViewComponentsProvider>().AsSingle();
+        Container.Bind<ITaskBackgroundSevice>().To<TaskBackgroundService>().AsSingle();
 
         BindTaskControllers();
     }

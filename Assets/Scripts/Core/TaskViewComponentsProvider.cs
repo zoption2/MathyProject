@@ -4,17 +4,17 @@ using Cysharp.Threading.Tasks;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
-    public interface IUIComponentsFactory
+    public interface ITaskViewComponentsProvider
     {
         UniTask<TComponent> GetUIComponentAsync<TComponent>(UIComponentType type, Transform parent);
         UniTask<ITaskViewComponent> GetUIComponentAsync(UIComponentType type, Transform parent);
     }
 
-    public class UIComponentFactory : IUIComponentsFactory
+    public class TaskViewComponentsProvider : ITaskViewComponentsProvider
     {
         private IAddressableRefsHolder refsHolder;
 
-        public UIComponentFactory(IAddressableRefsHolder holder)
+        public TaskViewComponentsProvider(IAddressableRefsHolder holder)
         {
             refsHolder = holder;
         }

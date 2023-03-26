@@ -20,7 +20,7 @@ namespace Mathy
 
     public class TaskFactory : ITaskFactory
     {
-        [Inject] protected DiContainer container;
+        private DiContainer container;
         private IAddressableRefsHolder refsHolder;
 
         public TaskFactory(DiContainer container, IAddressableRefsHolder refsHolder)
@@ -49,7 +49,7 @@ namespace Mathy
                 case TaskType.Addition:
                     var model = new AdditionTaskModel(taskSettings);
                     var controller = container.Resolve<AdditionTaskController>();
-                    var view = await refsHolder.TaskViewProvider.InstantiateFromReference<IView>(TaskType.Addition, viewParent);
+                    var view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.Addition, viewParent);
                     controller.Init(model, view);
                     return controller;
 

@@ -8,18 +8,12 @@ using Cysharp.Threading.Tasks;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
-    public interface ITaskView : IView
-    {
-        event Action ON_EXIT_CLICK;
-        public void SetTitle(string title);
-        public void SetDescription(string description);
-
-    }
 
     public interface IStandardTaskView : ITaskView
     {
         public Transform ElementsParent { get; }
         public Transform VariantsParent {get; }
+        public void SetHeaderColor(Color color);
     }
 
     public class StandardTaskView: MonoBehaviour, IStandardTaskView
@@ -27,9 +21,10 @@ namespace Mathy.Core.Tasks.DailyTasks
         public event Action ON_EXIT_CLICK;
 
         [SerializeField] private Image backgroundImage;
+        [SerializeField] private Image headerImage;
         [SerializeField] private TMP_Text titleText;
         [SerializeField] private Button exitButton;
-        [SerializeField] private UIComponentFactory componentsFactory;
+        [SerializeField] private TaskViewComponentsProvider componentsFactory;
 
         [SerializeField] private Transform elementsPanel;
         [SerializeField] private Transform variantsPanel;
@@ -69,6 +64,16 @@ namespace Mathy.Core.Tasks.DailyTasks
             });
         }
 
+        public void SetHeaderColor(Color color)
+        {
+            headerImage.color = color;
+        }
+
+        public void SetBackground(Sprite image)
+        {
+            backgroundImage.sprite = image;
+        }
+
         public void Release()
         {
             Destroy(gameObject);
@@ -78,6 +83,8 @@ namespace Mathy.Core.Tasks.DailyTasks
         {
             ON_EXIT_CLICK?.Invoke();
         }
+
+
     }
 }
 

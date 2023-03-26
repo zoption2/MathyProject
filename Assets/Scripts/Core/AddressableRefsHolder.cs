@@ -94,7 +94,7 @@ namespace Mathy
     {
         [SerializeField] private ReferenceData[] references;
 
-        public async UniTask<Data> GetRandomData()
+        public async UniTask<BackgroundData> GetRandomData()
         {
             var random = new System.Random();
             var values = Enum.GetValues(typeof(BackgroundType));
@@ -102,10 +102,10 @@ namespace Mathy
             return await GetData(back);
         }
 
-        public async UniTask<Data> GetData(BackgroundType type)
+        public async UniTask<BackgroundData> GetData(BackgroundType type)
         {
             var referenceData = GetReference(type);
-            var data = new Data();
+            var data = new BackgroundData();
             data.Color = referenceData.Color;
             try
             {
@@ -137,12 +137,6 @@ namespace Mathy
                 );
         }
 
-        public class Data
-        {
-            public Sprite Sprite;
-            public Color Color;
-        }
-
         [Serializable]
         private class ReferenceData
         {
@@ -150,6 +144,13 @@ namespace Mathy
             [field: SerializeField] public AssetReferenceSprite Reference { get; private set; }
             [field: SerializeField] public Color Color { get; private set; }
         }
+    }
+
+    [Serializable]
+    public class BackgroundData
+    {
+        public Sprite Sprite;
+        public Color Color;
     }
 }
 

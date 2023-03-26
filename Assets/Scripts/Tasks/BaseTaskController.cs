@@ -11,7 +11,7 @@ namespace Mathy.Core.Tasks.DailyTasks
     {
         public event Action<ITaskController> ON_COMPLETE;
         public event Action ON_FORCE_EXIT;
-        public Transform Parent { get; set; }
+        public Transform ViewParent { get; set; }
         public void Init(IModel model, IView view);
         void StartTask();
         TaskData GetResults();
@@ -24,22 +24,24 @@ namespace Mathy.Core.Tasks.DailyTasks
         public event Action<ITaskController> ON_COMPLETE;
         public event Action ON_FORCE_EXIT;
 
-        protected virtual string LocalizationTableKey { get; } = "Game Names";
-
-        private DateTime timer;
-        private Transform viewParent;
-        protected IUIComponentsFactory componentsFactory;
+        protected ITaskViewComponentsProvider componentsFactory;
+        protected ITaskBackgroundSevice backgroundSevice;
         protected TaskData taskData;
+        private DateTime timer;
 
+        protected virtual string LocalizationTableKey { get; } = "Game Names";
+        protected virtual bool UseRandomBackground { get; } = false;
         public TModel Model { get; private set; }
         public TView View { get; private set; }
-        public Transform Parent { get; set; }
+        public Transform ViewParent { get; set; }
         protected double TotalPlayingTime { get; private set; }
 
 
-        public BaseTaskController(IUIComponentsFactory componentsFactory)
+        public BaseTaskController(ITaskViewComponentsProvider componentsFactory
+            , ITaskBackgroundSevice backgroundSevice)
         {
             this.componentsFactory = componentsFactory;
+            this.backgroundSevice = backgroundSevice;
         }
 
         public void StartTask()
@@ -64,8 +66,9 @@ namespace Mathy.Core.Tasks.DailyTasks
             View.ON_EXIT_CLICK += ExitButtonClick;
         }
 
-        public abstract TaskData GetResults();
         protected abstract UniTask DoOnInit();
+
+        public abstract TaskData GetResults();
 
         public void HideAndRelease(Action callback)
         {

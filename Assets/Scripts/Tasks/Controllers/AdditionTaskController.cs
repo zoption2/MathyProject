@@ -3,6 +3,7 @@ using Mathy.UI.Tasks;
 using System;
 using Mathy.Data;
 using System.Collections.Generic;
+using Mathy;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
@@ -14,7 +15,8 @@ namespace Mathy.Core.Tasks.DailyTasks
         private string userAnswer;
         private string correctAnswer;
 
-        public AdditionTaskController(IUIComponentsFactory componentsFactory) : base(componentsFactory)
+        public AdditionTaskController(ITaskViewComponentsProvider componentsFactory, ITaskBackgroundSevice backgroundSevice) 
+            : base(componentsFactory, backgroundSevice)
         {
         }
 
@@ -24,7 +26,11 @@ namespace Mathy.Core.Tasks.DailyTasks
         }
 
         protected override async UniTask DoOnInit()
-        {  
+        {
+            var backgroundData = await backgroundSevice.GetData<StandardBackgroundType>(View);
+            View.SetBackground(backgroundData.Sprite);
+            View.SetHeaderColor(backgroundData.Color);
+
             var questionSign = ((char)ArithmeticSigns.QuestionMark).ToString();
 
             var expression = Model.Expression;

@@ -56,6 +56,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backgroundImage: {fileID: 3579856227582199157}
+  headerImage: {fileID: 166166047306904927}
   titleText: {fileID: 5941959152841572854}
   exitButton: {fileID: 6946608413845487250}
   elementsPanel: {fileID: 4775105447081380351}
