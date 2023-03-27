@@ -266,9 +266,8 @@ public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
         AudioSystem.Instance.FadeMusic(0, 1f, true);
         _ = ScenesManager.Instance.SetGameplaySceneActive();
         var settings = GradeManager.Instance.AvailableTaskSettings();
-        gameplayService.Prepare(SelectedTaskMode, settings);
+        gameplayService.StartGame(SelectedTaskMode, settings);
         await UniTask.Delay(1000);
-        gameplayService.Start();
         LoadingManager.Instance.ClosePanel();
     }
 }

@@ -9,8 +9,7 @@ namespace Mathy.Core.Tasks
 {
     public interface IGameplayService
     {
-        public void Prepare(TaskMode mode, List<ScriptableTask> availableTasks);
-        public void Start();
+        public void StartGame(TaskMode mode, List<ScriptableTask> availableTasks);
     }
 
     public class GameplayService : IGameplayService
@@ -43,7 +42,7 @@ namespace Mathy.Core.Tasks
             this.backgroundService = backgroundHandler;
         }
 
-        public async void Prepare(TaskMode mode, List<ScriptableTask> availableTasks)
+        public async void StartGame(TaskMode mode, List<ScriptableTask> availableTasks)
         {
             taskManager = TaskManager.Instance;
             dataManager = DataManager.Instance;
@@ -65,11 +64,8 @@ namespace Mathy.Core.Tasks
 
             backgroundService.Reset();
             UpdateCounter();
-            UpdateTasksQueue();
-        }
+            await UpdateTasksQueue();
 
-        public void Start()
-        {
             if (!TryStartTask())
             {
                 EndGameplay();
@@ -86,7 +82,7 @@ namespace Mathy.Core.Tasks
             currentTask.StartTask();
             currentTask.ON_COMPLETE += OnTaskComplete;
             currentTask.ON_FORCE_EXIT += ClickOnExitFromGameplay;
-            scenePointer.TaskCounterPanel.UpdatePanel(taskIndexer, GetTasksCountByMode(playingMode));
+            scenePointer.TaskCounterPanel.UpdatePanel(taskIndexer, totalTasksInMode);
             return true;
         }
 
@@ -98,23 +94,23 @@ namespace Mathy.Core.Tasks
             result.TaskModeIndex = taskIndexer;
             taskIndexer++;
             dataManager.SaveTaskData(result);
-            UpdateTasksQueue();
+            await UpdateTasksQueue();
 
             await UniTask.Delay(kTaskEndDelayMS);
             controller.ON_FORCE_EXIT -= ClickOnExitFromGameplay;
+
             controller.HideAndRelease(()=>
             {
                 currentTask = null;
+                if (!TryStartTask())
+                {
+                    EndGameplay();
+                }
                 GameObject.Destroy(controller.ViewParent.gameObject);
             });
-
-            if (!TryStartTask())
-            {
-                EndGameplay();
-            }
         }
 
-        private async void UpdateTasksQueue()
+        private async UniTask UpdateTasksQueue()
         {
             for (int i = 0; i < kMaxTasksLoadedAtOnce; i++)
             {
@@ -132,7 +128,8 @@ namespace Mathy.Core.Tasks
         private async void UpdateCounter()
         {
             List<bool> userAnswers = await DataManager.Instance.GetTodayAnswers(playingMode);
-            for (int i = 0, j = userAnswers.Count; i < j; i++)
+            int i = 0;
+            for (int j = userAnswers.Count; i < j; i++)
             {
                 TaskIndicator indicator = scenePointer.TaskCounterPanel.TaskIndicators[i];
                 var isCorrect = userAnswers[i];
@@ -143,7 +140,7 @@ namespace Mathy.Core.Tasks
                 }
             }
 
-            scenePointer.TaskCounterPanel.TaskIndicators[taskIndexer].Status = TaskStatus.InProgress;
+            scenePointer.TaskCounterPanel.TaskIndicators[i].Status = TaskStatus.InProgress;
         }
 
         private void SetupPractice()
@@ -162,10 +159,10 @@ namespace Mathy.Core.Tasks
 
         private void EndGameplay()
         {
-            //var resultsView = scenePointer.ResultsWindow;
-            //resultsView.gameObject.SetActive(true);
-            //float correctRate = correctAnswers / (float)totalTasksInMode * 100f;
-            //resultsView.DisplayResult(correctAnswers, totalTasksInMode, correctRate, false);
+            var resultsView = scenePointer.ResultsWindow;
+            resultsView.gameObject.SetActive(true);
+            float correctRate = correctAnswers / (float)totalTasksInMode * 100f;
+            resultsView.DisplayResult(correctAnswers, totalTasksInMode, correctRate, false);
         }
 
         private void ClearTasks()
@@ -182,6 +179,7 @@ namespace Mathy.Core.Tasks
                 GameObject.Destroy(currentTask.ViewParent.gameObject);
             }
             tasks.Clear();
+            correctAnswers = 0;
         }
 
         private int GetTasksCountByMode(TaskMode mode)
@@ -196,6 +194,17 @@ namespace Mathy.Core.Tasks
                 default:
                     throw new System.NotImplementedException();
             }
+        }
+    }
+
+    public class Scenario
+    {
+        private TaskMode playingMode;
+        protected GameplayService service;
+
+        public Scenario(GameplayService gameplayService)
+        {
+            service = gameplayService;
         }
     }
 }

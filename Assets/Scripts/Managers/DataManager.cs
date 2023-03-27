@@ -207,7 +207,7 @@ namespace Mathy.Data
 
         public async Task<int> GetLastTaskIndexOfMode(TaskMode mode)
         { 
-            return (await DbHandler.TodayDoneTasksAmount(mode) - 1);
+            return (await DbHandler.TodayDoneTasksAmount(mode));
         }
 
         #region CALENDAR

@@ -94,7 +94,7 @@ public class PlayButton : ButtonFX
     {
         
         //DataManager.Instance.Test();
-        int taskAmount = await DataManager.Instance.TodayDoneTasksAmount(PlayButtonPanel.Instance.SelectedTaskMode);
+        int taskAmount = await DataManager.Instance.GetLastTaskIndexOfMode(PlayButtonPanel.Instance.SelectedTaskMode);
         //Debug.LogError("Here was TodayDoneTasksAmount");
         //int taskAmount = 0;
         //bool isModeCompleted = false;
