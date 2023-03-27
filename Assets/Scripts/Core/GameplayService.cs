@@ -22,6 +22,7 @@ namespace Mathy.Core.Tasks
         private const int kTaskEndDelayMS = 1500;
 
         private Queue<ITaskController> tasks;
+        private ITaskController currentTask;
         private ITaskFactory taskFactory;
         private ITaskBackgroundSevice backgroundService;
         private TaskManager taskManager;
@@ -78,10 +79,10 @@ namespace Mathy.Core.Tasks
             {
                 return false;
             }
-            var task = tasks.Dequeue();
-            task.StartTask();
-            task.ON_COMPLETE += OnTaskComplete;
-            task.ON_FORCE_EXIT += ClickOnExitFromGameplay;
+            currentTask = tasks.Dequeue();
+            currentTask.StartTask();
+            currentTask.ON_COMPLETE += OnTaskComplete;
+            currentTask.ON_FORCE_EXIT += ClickOnExitFromGameplay;
             return true;
         }
 
@@ -99,6 +100,7 @@ namespace Mathy.Core.Tasks
             controller.ON_FORCE_EXIT -= ClickOnExitFromGameplay;
             controller.HideAndRelease(()=>
             {
+                currentTask = null;
                 GameObject.Destroy(controller.ViewParent.gameObject);
             });
 
@@ -142,7 +144,7 @@ namespace Mathy.Core.Tasks
 
         private void ClickOnExitFromGameplay()
         {
-            EndGameplay();
+            ClearTasks();
             TaskManager.Instance.ResetToDefault();
             GameManager.Instance.ChangeState(GameState.MainMenu);
             AdManager.Instance.ShowAdWithProbability(AdManager.Instance.ShowInterstitialAd, 10);
@@ -151,11 +153,21 @@ namespace Mathy.Core.Tasks
 
         private void EndGameplay()
         {
+
+        }
+
+        private void ClearTasks()
+        {
             backgroundService.Reset();
             foreach (var task in tasks)
             {
                 task.ReleaseImmediate();
                 GameObject.Destroy(task.ViewParent.gameObject);
+            }
+            if (currentTask != null)
+            {
+                currentTask.ReleaseImmediate();
+                GameObject.Destroy(currentTask.ViewParent.gameObject);
             }
             tasks.Clear();
         }
