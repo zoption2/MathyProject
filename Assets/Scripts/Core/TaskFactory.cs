@@ -44,7 +44,7 @@ namespace Mathy
 
         private async UniTask<ITaskController> CreateTaskInternal(ScriptableTask taskSettings, Transform viewParent)
         {
-            BaseTaskModel model;
+            ITaskModel model;
             ITaskController controller;
             IStandardTaskView view;
 

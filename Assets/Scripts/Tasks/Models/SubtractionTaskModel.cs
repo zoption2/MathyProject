@@ -7,14 +7,7 @@ using Mathy;
 
 namespace Mathy.Core.Tasks
 {
-    public interface ISubtractionTaskModel : ITaskModel
-    {
-        List<ExpressionElement> Expression { get; }
-        List<string> Variants { get; }
-        ExpressionElement CorrectElement { get; }
-    }
-
-    public class SubtractionTaskModel : BaseTaskModel, ISubtractionTaskModel
+    public class SubtractionTaskModel : BaseTaskModel, IDefaultTaskModel
     {
         private List<ExpressionElement> expression;
         private List<string> variants;

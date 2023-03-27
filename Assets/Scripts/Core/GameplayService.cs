@@ -162,10 +162,10 @@ namespace Mathy.Core.Tasks
 
         private void EndGameplay()
         {
-            var resultsView = scenePointer.ResultsWindow;
-            resultsView.gameObject.SetActive(true);
-            float correctRate = correctAnswers / (float)totalTasksInMode * 100f;
-            resultsView.DisplayResult(correctAnswers, totalTasksInMode, correctRate, false);
+            //var resultsView = scenePointer.ResultsWindow;
+            //resultsView.gameObject.SetActive(true);
+            //float correctRate = correctAnswers / (float)totalTasksInMode * 100f;
+            //resultsView.DisplayResult(correctAnswers, totalTasksInMode, correctRate, false);
         }
 
         private void ClearTasks()

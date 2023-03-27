@@ -7,7 +7,7 @@ using Mathy;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
-    public class DefaultTaskController : BaseTaskController<IStandardTaskView, ISubtractionTaskModel>
+    public class DefaultTaskController : BaseTaskController<IStandardTaskView, IDefaultTaskModel>
     {
         private List<ITaskViewComponent> taskElements;
         private List<ITaskViewComponentClickable> taskVariants;

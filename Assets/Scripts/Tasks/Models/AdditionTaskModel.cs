@@ -3,15 +3,7 @@ using Mathy.Data;
 
 namespace Mathy.Core.Tasks
 {
-    public interface IAdditionTaskModel : ITaskModel
-    {
-        List<ExpressionElement> Expression { get; }
-        List<string> Variants { get; }
-        ExpressionElement CorrectElement { get; }
-    }
-
-
-    public sealed class AdditionTaskModel : BaseTaskModel, IAdditionTaskModel
+    public sealed class AdditionTaskModel : BaseTaskModel, IDefaultTaskModel
     {
         private List<ExpressionElement> expression;
         private List<string> variants;

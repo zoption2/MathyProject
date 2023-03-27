@@ -7,7 +7,7 @@ using Mathy;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
-    public class AdditionTaskController : BaseTaskController<IStandardTaskView, IAdditionTaskModel>
+    public class AdditionTaskController : BaseTaskController<IStandardTaskView, IDefaultTaskModel>
     {
         private List<ITaskViewComponent> taskElements;
         private List<ITaskViewComponentClickable> taskVariants;
