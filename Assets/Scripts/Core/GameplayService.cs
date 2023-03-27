@@ -22,6 +22,7 @@ namespace Mathy.Core.Tasks
         private const int kTaskEndDelayMS = 1500;
 
         private Queue<ITaskController> tasks;
+        private ITaskController currentTask;
         private ITaskFactory taskFactory;
         private ITaskBackgroundSevice backgroundService;
         private TaskManager taskManager;
@@ -29,6 +30,8 @@ namespace Mathy.Core.Tasks
         private DataManager dataManager;
         private int remainingTasksCount;
         private int taskIndexer = 0;
+        private int correctAnswers;
+        private int totalTasksInMode;
         private TaskMode playingMode;
         private List<ScriptableTask> availableTasks;
         public bool IsPractice { get; set; }
@@ -49,7 +52,8 @@ namespace Mathy.Core.Tasks
             playingMode = mode;
             tasks = new(kMaxTasksLoadedAtOnce);
             this.availableTasks = availableTasks;
-            remainingTasksCount = GetTasksCountByMode(mode);
+            totalTasksInMode = GetTasksCountByMode(mode);
+            remainingTasksCount = totalTasksInMode;
 
             bool isTodayDateExists = await dataManager.IsTodayModeExist(mode);
             if (isTodayDateExists)
@@ -78,10 +82,11 @@ namespace Mathy.Core.Tasks
             {
                 return false;
             }
-            var task = tasks.Dequeue();
-            task.StartTask();
-            task.ON_COMPLETE += OnTaskComplete;
-            task.ON_FORCE_EXIT += ClickOnExitFromGameplay;
+            currentTask = tasks.Dequeue();
+            currentTask.StartTask();
+            currentTask.ON_COMPLETE += OnTaskComplete;
+            currentTask.ON_FORCE_EXIT += ClickOnExitFromGameplay;
+            scenePointer.TaskCounterPanel.UpdatePanel(taskIndexer, GetTasksCountByMode(playingMode));
             return true;
         }
 
@@ -99,6 +104,7 @@ namespace Mathy.Core.Tasks
             controller.ON_FORCE_EXIT -= ClickOnExitFromGameplay;
             controller.HideAndRelease(()=>
             {
+                currentTask = null;
                 GameObject.Destroy(controller.ViewParent.gameObject);
             });
 
@@ -129,7 +135,12 @@ namespace Mathy.Core.Tasks
             for (int i = 0, j = userAnswers.Count; i < j; i++)
             {
                 TaskIndicator indicator = scenePointer.TaskCounterPanel.TaskIndicators[i];
-                indicator.Status = userAnswers[i] ? TaskStatus.Right : TaskStatus.Wrong;
+                var isCorrect = userAnswers[i];
+                indicator.Status = isCorrect ? TaskStatus.Right : TaskStatus.Wrong;
+                if (isCorrect)
+                {
+                    correctAnswers++;
+                }
             }
 
             scenePointer.TaskCounterPanel.TaskIndicators[taskIndexer].Status = TaskStatus.InProgress;
@@ -142,7 +153,7 @@ namespace Mathy.Core.Tasks
 
         private void ClickOnExitFromGameplay()
         {
-            EndGameplay();
+            ClearTasks();
             TaskManager.Instance.ResetToDefault();
             GameManager.Instance.ChangeState(GameState.MainMenu);
             AdManager.Instance.ShowAdWithProbability(AdManager.Instance.ShowInterstitialAd, 10);
@@ -151,11 +162,24 @@ namespace Mathy.Core.Tasks
 
         private void EndGameplay()
         {
+            var resultsView = scenePointer.ResultsWindow;
+            resultsView.gameObject.SetActive(true);
+            float correctRate = correctAnswers / (float)totalTasksInMode * 100f;
+            resultsView.DisplayResult(correctAnswers, totalTasksInMode, correctRate, false);
+        }
+
+        private void ClearTasks()
+        {
             backgroundService.Reset();
             foreach (var task in tasks)
             {
                 task.ReleaseImmediate();
                 GameObject.Destroy(task.ViewParent.gameObject);
+            }
+            if (currentTask != null)
+            {
+                currentTask.ReleaseImmediate();
+                GameObject.Destroy(currentTask.ViewParent.gameObject);
             }
             tasks.Clear();
         }
