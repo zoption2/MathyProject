@@ -42,7 +42,7 @@ MonoBehaviour:
         m_EditorAssetChanged: 0
   <BackgroundProvider>k__BackingField:
     references:
-    - <Type>k__BackingField: 0
+    - <Type>k__BackingField: 1
       <Reference>k__BackingField:
         m_AssetGUID: 1a9fb6125c8271749afa7b7c870422c6
         m_SubObjectName: bg_coliseum
@@ -50,7 +50,7 @@ MonoBehaviour:
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
       <Color>k__BackingField: {r: 0.8000001, g: 0.27450982, b: 0.33333334, a: 1}
-    - <Type>k__BackingField: 1
+    - <Type>k__BackingField: 2
       <Reference>k__BackingField:
         m_AssetGUID: 122637228a29c8c41bf913aee7e92e41
         m_SubObjectName: bg_chichen_itza
@@ -58,7 +58,7 @@ MonoBehaviour:
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
       <Color>k__BackingField: {r: 0, g: 0.47058827, b: 1, a: 1}
-    - <Type>k__BackingField: 2
+    - <Type>k__BackingField: 3
       <Reference>k__BackingField:
         m_AssetGUID: 2caceca15169df341817765412a57bab
         m_SubObjectName: bg_golden_gates
@@ -66,7 +66,7 @@ MonoBehaviour:
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
       <Color>k__BackingField: {r: 0.7058824, g: 0.23529413, b: 0.90196085, a: 1}
-    - <Type>k__BackingField: 3
+    - <Type>k__BackingField: 4
       <Reference>k__BackingField:
         m_AssetGUID: 7f6d0e9645b7de34c86b299ed2b96abc
         m_SubObjectName: bg_pantheon
@@ -74,7 +74,7 @@ MonoBehaviour:
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
       <Color>k__BackingField: {r: 0.14117648, g: 0.58431375, b: 0.15294118, a: 1}
-    - <Type>k__BackingField: 4
+    - <Type>k__BackingField: 5
       <Reference>k__BackingField:
         m_AssetGUID: c6d136194910992488c4e446a92823db
         m_SubObjectName: bg_pyramids
@@ -82,7 +82,7 @@ MonoBehaviour:
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
       <Color>k__BackingField: {r: 0.9333334, g: 0.5882353, b: 0, a: 1}
-    - <Type>k__BackingField: 5
+    - <Type>k__BackingField: 6
       <Reference>k__BackingField:
         m_AssetGUID: fe27ddfd4d3fe2f438ab858c6f525b96
         m_SubObjectName: bg_stonehenge
@@ -90,7 +90,7 @@ MonoBehaviour:
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
       <Color>k__BackingField: {r: 0, g: 0.47058827, b: 1, a: 1}
-    - <Type>k__BackingField: 6
+    - <Type>k__BackingField: 7
       <Reference>k__BackingField:
         m_AssetGUID: d9dd308d4e3f580479ccc5d5d712c383
         m_SubObjectName: bg_daily_rewards

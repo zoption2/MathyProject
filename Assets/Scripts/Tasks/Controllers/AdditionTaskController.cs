@@ -96,7 +96,6 @@ namespace Mathy.Core.Tasks.DailyTasks
             taskData.SelectedAnswerIndexes.Add(view.Index);
 
             CompleteTask();
-            //DataManager.Instance.SaveTaskData(taskData);
         }
 
         private UIComponentType GetElementViewByType(TaskElementType type)

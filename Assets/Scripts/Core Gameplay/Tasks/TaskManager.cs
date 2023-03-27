@@ -672,22 +672,5 @@ namespace Mathy.Core.Tasks
             currentDifficulty = timerMode;
             StartTimer();
         }
-
-        public Transform GetNewTaskParent()
-        {
-            var holderGO = new GameObject("TaskViewSubholder", typeof(RectTransform));
-            var holderTransform = holderGO.transform;
-            holderTransform.SetParent(taskParent, false);
-            var rect = holderGO.GetComponent<RectTransform>();
-            rect.anchorMin = Vector3.zero;
-            rect.anchorMax = Vector3.one;
-            rect.anchoredPosition = Vector3.zero;
-            rect.SetLeft(0);
-            rect.SetRight(0);
-            rect.SetTop(0);
-            rect.SetBottom(0);
-            holderTransform.SetAsFirstSibling();
-            return holderTransform;
-        }
     }
 }

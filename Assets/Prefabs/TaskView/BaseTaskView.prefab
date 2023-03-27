@@ -1306,9 +1306,8 @@ GameObject:
   - component: {fileID: 6946608413845487248}
   - component: {fileID: 5265367577768100800}
   - component: {fileID: 6946608413845487250}
-  - component: {fileID: 47937895406857007}
   m_Layer: 5
-  m_Name: Backward Button
+  m_Name: Back_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1417,36 +1416,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &47937895406857007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6946608413845487261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16f55f877ec3ff844936e4d06f455b94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isRotating: 1
-  isScaling: 1
-  tweenDuration: 0.5
-  rotatingElement: {fileID: 6946608413027198250}
-  scaleTo: {x: 0.1, y: 0.1, z: 0}
-  rotateTo: {x: 0, y: 0, z: 15}
-  OnTweenCompleteEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  isSound: 1
-  iconImage: {fileID: 6946608413027198249}
-  buttonImage: {fileID: 0}
-  buttonImages:
-  - {fileID: 21300000, guid: f8d9260c5b3687d4badf7f97440cf165, type: 3}
-  - {fileID: 21300000, guid: 7d6d8fe6ddc074347bdad02ae0f67018, type: 3}
-  backToMainMenu: 0
-  backToDifficultyPanel: 1
-  showAdOnPress: 1
 --- !u!1 &7807697838001143202
 GameObject:
   m_ObjectHideFlags: 0

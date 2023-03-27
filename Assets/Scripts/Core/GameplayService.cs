@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using Mathy.Core.Tasks.DailyTasks;
 using Mathy.Data;
+using Mathy.UI;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,10 +21,11 @@ namespace Mathy.Core.Tasks
         private const int kMaxTasksLoadedAtOnce = 2;
         private const int kTaskEndDelayMS = 1500;
 
-        private Queue<ITaskController> tasks = new(kMaxTasksLoadedAtOnce);
+        private Queue<ITaskController> tasks;
         private ITaskFactory taskFactory;
-        private ITaskBackgroundSevice backgroundHandler;
+        private ITaskBackgroundSevice backgroundService;
         private TaskManager taskManager;
+        private GameplayScenePointer scenePointer;
         private DataManager dataManager;
         private int remainingTasksCount;
         private int taskIndexer = 0;
@@ -35,15 +37,17 @@ namespace Mathy.Core.Tasks
         public GameplayService(ITaskFactory taskFactory, ITaskBackgroundSevice backgroundHandler) 
         {
             this.taskFactory = taskFactory;
-            this.backgroundHandler = backgroundHandler;
+            this.backgroundService = backgroundHandler;
         }
 
         public async void Prepare(TaskMode mode, List<ScriptableTask> availableTasks)
         {
             taskManager = TaskManager.Instance;
             dataManager = DataManager.Instance;
+            scenePointer = GameplayScenePointer.Instance;
 
             playingMode = mode;
+            tasks = new(kMaxTasksLoadedAtOnce);
             this.availableTasks = availableTasks;
             remainingTasksCount = GetTasksCountByMode(mode);
 
@@ -55,7 +59,8 @@ namespace Mathy.Core.Tasks
                 remainingTasksCount -= taskIndexer;
             }
 
-            backgroundHandler.Reset();
+            backgroundService.Reset();
+            UpdateCounter();
             UpdateTasksQueue();
         }
 
@@ -109,7 +114,7 @@ namespace Mathy.Core.Tasks
             {
                 if (remainingTasksCount > 0 && TasksInQueue < 2)
                 {
-                    var parent = taskManager.GetNewTaskParent();
+                    var parent = scenePointer.GetNewTaskParent();
                     var task = await taskFactory.CreateTaskFromRange(availableTasks, parent);
                     task.ViewParent = parent;
                     tasks.Enqueue(task);
@@ -118,17 +123,41 @@ namespace Mathy.Core.Tasks
             }
         }
 
+        private async void UpdateCounter()
+        {
+            List<bool> userAnswers = await DataManager.Instance.GetTodayAnswers(playingMode);
+            for (int i = 0, j = userAnswers.Count; i < j; i++)
+            {
+                TaskIndicator indicator = scenePointer.TaskCounterPanel.TaskIndicators[i];
+                indicator.Status = userAnswers[i] ? TaskStatus.Right : TaskStatus.Wrong;
+            }
+
+            scenePointer.TaskCounterPanel.TaskIndicators[taskIndexer].Status = TaskStatus.InProgress;
+        }
+
+        private void SetupPractice()
+        {
+            scenePointer.TaskCounterPanel.gameObject.SetActive(false);
+        }
+
         private void ClickOnExitFromGameplay()
         {
+            EndGameplay();
+            TaskManager.Instance.ResetToDefault();
+            GameManager.Instance.ChangeState(GameState.MainMenu);
+            AdManager.Instance.ShowAdWithProbability(AdManager.Instance.ShowInterstitialAd, 10);
             Debug.Log("Request to TaskService to Exit from gameplay");
         }
 
         private void EndGameplay()
         {
+            backgroundService.Reset();
             foreach (var task in tasks)
             {
                 task.ReleaseImmediate();
+                GameObject.Destroy(task.ViewParent.gameObject);
             }
+            tasks.Clear();
         }
 
         private int GetTasksCountByMode(TaskMode mode)
