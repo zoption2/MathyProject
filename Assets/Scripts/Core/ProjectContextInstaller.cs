@@ -22,7 +22,7 @@ public class ProjectContextInstaller : MonoInstaller
 
     private void BindTaskControllers()
     {
-        Container.Bind<AdditionTaskController>().To<AdditionTaskController>().AsTransient();
+        Container.Bind<DefaultTaskController>().To<DefaultTaskController>().AsTransient();
     }
 }
 
