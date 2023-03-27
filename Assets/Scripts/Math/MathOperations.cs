@@ -1,3 +1,4 @@
+using Mathy.Core.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -59,6 +60,22 @@ namespace Mathy.Core
         public static bool IsEqual(float a, float b) { return Mathf.Approximately(a, b); }
         public static bool IsGreaterThan(float a, float b) { return a > b; }
         public static bool IsLessThan(float a, float b) { return a < b; }
+
+        public static ArithmeticSigns Compare(float a, float b)
+        {
+            if (Mathf.Approximately(a, b))
+            {
+                return ArithmeticSigns.Equal;
+            }
+            else if (a < b)
+            {
+                return ArithmeticSigns.LessThan;
+            }
+            else
+            {
+                return ArithmeticSigns.GreaterThan;
+            }
+        }
 
         #endregion
 

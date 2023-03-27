@@ -13,7 +13,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         public override void Init(int index, string value, TaskElementState initedState = TaskElementState.Default)
         {
             base.Init(index, value, initedState);
-            valueText.material = defaultMaterial;
+            valueText.fontMaterial = defaultMaterial;
             valueText.color = defaultColor;
         }
 
@@ -21,12 +21,12 @@ namespace Mathy.Core.Tasks.DailyTasks
         {
             if (state != TaskElementState.Default)
             {
-                valueText.material = answerMaterial;
+                valueText.fontMaterial = answerMaterial;
                 valueText.color = answerColor;
             }
             else
             {
-                valueText.material = defaultMaterial;
+                valueText.fontMaterial = defaultMaterial;
                 valueText.color = defaultColor;
             }
         }

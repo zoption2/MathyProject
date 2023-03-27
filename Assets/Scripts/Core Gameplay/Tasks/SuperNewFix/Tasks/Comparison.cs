@@ -78,7 +78,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             }
             else
             {
-                return ArithmeticSigns.MoreThan;
+                return ArithmeticSigns.GreaterThan;
             }
         }
     }

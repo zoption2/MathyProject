@@ -46,7 +46,7 @@ namespace Mathy.Core.Tasks
 
         public abstract TaskData GetResult();
 
-        protected List<string> GetVariants(int correctValue, int amountOfVariants, int minValue, int maxValue, out int correctValueIndex)
+        protected virtual List<string> GetVariants(int correctValue, int amountOfVariants, int minValue, int maxValue, out int correctValueIndex)
         {
             var random = new System.Random();
             var results = new List<string>(amountOfVariants);
@@ -66,7 +66,7 @@ namespace Mathy.Core.Tasks
             return results;
         }
 
-        private int GetIndexOfValueFromList(string value, List<string> fromList)
+        protected int GetIndexOfValueFromList(string value, List<string> fromList)
         {
             for (int i = 0, j = fromList.Count; i < j; i++)
             {

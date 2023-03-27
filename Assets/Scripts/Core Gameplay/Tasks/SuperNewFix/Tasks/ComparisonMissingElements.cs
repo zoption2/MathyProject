@@ -39,7 +39,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         protected override async System.Threading.Tasks.Task CreateOperators()
         {
             List<ArithmeticSigns> tempSigns =
-                    new List<ArithmeticSigns>() { ArithmeticSigns.LessThan, ArithmeticSigns.Equal, ArithmeticSigns.MoreThan };
+                    new List<ArithmeticSigns>() { ArithmeticSigns.LessThan, ArithmeticSigns.Equal, ArithmeticSigns.GreaterThan };
             sign = tempSigns[Random.Range(0, tempSigns.Count)];
             this.operators.Add(new Operator(sign));
         }
@@ -77,7 +77,7 @@ namespace Mathy.Core.Tasks.DailyTasks
                             {
                                 this.variants.Add(new Variant(Random.Range(firstElement, TaskSettings.BaseStats.MaxNumber+1), true));
                             }
-                            else if (sign == ArithmeticSigns.MoreThan)
+                            else if (sign == ArithmeticSigns.GreaterThan)
                             {
                                 this.variants.Add(new Variant(Random.Range(TaskSettings.BaseStats.MinNumber, firstElement), true));
                             }
@@ -188,7 +188,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             else if ((int)value1 > (int)value2)
             {
                 //Debug.LogError((int)value1 + " > " + (int)value2);
-                return ArithmeticSigns.MoreThan;
+                return ArithmeticSigns.GreaterThan;
             }
             throw new ArgumentOutOfRangeException();
         }

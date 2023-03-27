@@ -55,7 +55,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             ArithmeticSigns answerSign = Compare(Elements[0].Value, Elements[1].Value);
 
             List<ArithmeticSigns> tempSigns =
-                new List<ArithmeticSigns>() { ArithmeticSigns.LessThan, ArithmeticSigns.Equal, ArithmeticSigns.MoreThan };
+                new List<ArithmeticSigns>() { ArithmeticSigns.LessThan, ArithmeticSigns.Equal, ArithmeticSigns.GreaterThan };
 
             for (int i = 0; i < tempSigns.Count; i++)
             {
@@ -88,7 +88,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             }
             else
             {
-                return ArithmeticSigns.MoreThan;
+                return ArithmeticSigns.GreaterThan;
             }
         }
 

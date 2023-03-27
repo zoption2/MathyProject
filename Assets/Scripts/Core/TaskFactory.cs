@@ -65,6 +65,11 @@ namespace Mathy
                     return controller;
 
                 case TaskType.Comparison:
+                    model = new ComparisonTaskModel(taskSettings);
+                    controller = container.Resolve<DefaultTaskController>();
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.Comparison, viewParent);
+                    controller.Init(model, view);
+                    return controller;
 
                 case TaskType.Multiplication:
 

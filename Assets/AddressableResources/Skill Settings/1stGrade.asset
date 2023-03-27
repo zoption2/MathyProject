@@ -35,8 +35,6 @@ MonoBehaviour:
     TaskSettings:
     - {fileID: 11400000, guid: b4e9b08775cd7e64aa2b3c344cb09b33, type: 2}
     - {fileID: 11400000, guid: 5d51b51a2cdb51741803880fec8594fa, type: 2}
-    - {fileID: 11400000, guid: 641a5726a204aa94887c48db7527388e, type: 2}
-    - {fileID: 11400000, guid: 7dd49130a25965d41b8113556164d046, type: 2}
   - SkillType: 6
     TaskSettings:
     - {fileID: 11400000, guid: 3dd878ac5a7803d4ea79945eb5298f70, type: 2}
