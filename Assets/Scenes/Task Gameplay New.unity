@@ -381,6 +381,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   taskParent: {fileID: 1892460250}
   <TaskCounterPanel>k__BackingField: {fileID: 1382149158}
+  <ResultsWindow>k__BackingField: {fileID: 860994468}
 --- !u!1001 &34778954
 PrefabInstance:
   m_ObjectHideFlags: 0

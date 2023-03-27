@@ -7,6 +7,7 @@ namespace Mathy.Core.Tasks
     {
         [SerializeField] private Transform taskParent;
         [field: SerializeField] public TaskCounterPanel TaskCounterPanel { get; private set; }
+        [field: SerializeField] public ResultWindow ResultsWindow { get; private set; }
 
         public Transform GetNewTaskParent()
         {

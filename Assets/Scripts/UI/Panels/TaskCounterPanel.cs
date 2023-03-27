@@ -95,6 +95,12 @@ namespace Mathy.UI
             SetIndicatorStatus(taskIndex, TaskStatus.InProgress);
         }
 
+        public void UpdatePanel(int taskIndex, int taskAmount)
+        {
+            UpdateCounterText(taskIndex, taskAmount);
+            SetIndicatorStatus(taskIndex, TaskStatus.InProgress);
+        }
+
         public void UpdateCounterText(int taskIndex, int amount)
         {
             taskCounter.text = (taskIndex + 1) + "/" + amount;

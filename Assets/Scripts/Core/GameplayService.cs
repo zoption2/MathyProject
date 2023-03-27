@@ -30,6 +30,8 @@ namespace Mathy.Core.Tasks
         private DataManager dataManager;
         private int remainingTasksCount;
         private int taskIndexer = 0;
+        private int correctAnswers;
+        private int totalTasksInMode;
         private TaskMode playingMode;
         private List<ScriptableTask> availableTasks;
         public bool IsPractice { get; set; }
@@ -50,7 +52,8 @@ namespace Mathy.Core.Tasks
             playingMode = mode;
             tasks = new(kMaxTasksLoadedAtOnce);
             this.availableTasks = availableTasks;
-            remainingTasksCount = GetTasksCountByMode(mode);
+            totalTasksInMode = GetTasksCountByMode(mode);
+            remainingTasksCount = totalTasksInMode;
 
             bool isTodayDateExists = await dataManager.IsTodayModeExist(mode);
             if (isTodayDateExists)
@@ -83,6 +86,7 @@ namespace Mathy.Core.Tasks
             currentTask.StartTask();
             currentTask.ON_COMPLETE += OnTaskComplete;
             currentTask.ON_FORCE_EXIT += ClickOnExitFromGameplay;
+            scenePointer.TaskCounterPanel.UpdatePanel(taskIndexer, GetTasksCountByMode(playingMode));
             return true;
         }
 
@@ -131,7 +135,12 @@ namespace Mathy.Core.Tasks
             for (int i = 0, j = userAnswers.Count; i < j; i++)
             {
                 TaskIndicator indicator = scenePointer.TaskCounterPanel.TaskIndicators[i];
-                indicator.Status = userAnswers[i] ? TaskStatus.Right : TaskStatus.Wrong;
+                var isCorrect = userAnswers[i];
+                indicator.Status = isCorrect ? TaskStatus.Right : TaskStatus.Wrong;
+                if (isCorrect)
+                {
+                    correctAnswers++;
+                }
             }
 
             scenePointer.TaskCounterPanel.TaskIndicators[taskIndexer].Status = TaskStatus.InProgress;
@@ -153,7 +162,10 @@ namespace Mathy.Core.Tasks
 
         private void EndGameplay()
         {
-
+            var resultsView = scenePointer.ResultsWindow;
+            resultsView.gameObject.SetActive(true);
+            float correctRate = correctAnswers / (float)totalTasksInMode * 100f;
+            resultsView.DisplayResult(correctAnswers, totalTasksInMode, correctRate, false);
         }
 
         private void ClearTasks()
