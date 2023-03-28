@@ -80,7 +80,22 @@ namespace Mathy.Core.Tasks
                 );
         }
 
-        private void ShakeResults(List<string> list)
+        public static List<int> GetIndexesOfValueFromList(List<string> values, List<string> fromList)
+        {
+            List<int> indexes = new List<int>();
+            HashSet<int> addedIndexes = new HashSet<int>(); // to avoid duplicates
+            for (int i = 0; i < fromList.Count; i++)
+            {
+                if (values.Contains(fromList[i]) && !addedIndexes.Contains(i))
+                {
+                    indexes.Add(i);
+                    addedIndexes.Add(i);
+                }
+            }
+            return indexes;
+        }
+
+        protected void ShakeResults(List<string> list)
         {
             var random = new System.Random();
             for (int i = list.Count - 1; i > 0; i--)

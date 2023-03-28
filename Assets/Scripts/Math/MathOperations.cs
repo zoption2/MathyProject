@@ -81,6 +81,37 @@ namespace Mathy.Core
 
         #region SPLITTING
 
+        public static int[] SplitNumberIntoAddends(int numToSplit, int amount)
+        {
+            int[] results = new int[amount];
+            int sum = 0;
+
+            for (int i = 0; i < amount - 1; i++)
+            {
+                int maxVal = numToSplit - sum - (amount - i - 1); // Maximum value for this integer
+                int value = 0;
+                if (maxVal > 0) // Only generate positive integers
+                {
+                    value = new System.Random().Next(1, maxVal + 1); // Generate random integer between 1 and maxVal
+                }
+                results[i] = value;
+                sum += value;
+            }
+
+            results[amount - 1] = numToSplit - sum;
+
+            if (results[amount - 1] < 0) // If sum is greater than numToSplit, set all values to 0
+            {
+                for (int i = 0; i < amount - 1; i++)
+                {
+                    results[i] = 0;
+                }
+                results[amount - 1] = numToSplit;
+            }
+
+            return results;
+        }
+
         public static (int, int, string) GetSumDiffPair(int n)
         {
             System.Random rnd = new System.Random();

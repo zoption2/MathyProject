@@ -106,6 +106,11 @@ namespace Mathy
                 case TaskType.ComparisonExpressions:
 
                 case TaskType.SumOfNumbers:
+                    model = new SumOfNumbersTaskModel(taskSettings);
+                    controller = container.Resolve<SumOfNumbersTaskController>();
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.SumOfNumbers, viewParent);
+                    controller.Init(model, view);
+                    return controller;
 
                 case TaskType.MissingExpression:
 

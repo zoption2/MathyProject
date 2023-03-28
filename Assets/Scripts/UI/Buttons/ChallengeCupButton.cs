@@ -45,7 +45,7 @@ public class ChallengeCupButton : ButtonFX
     {
         base.Initialization();
         playTransform = playText.transform;
-        UpdateChallengeStatus();
+        //UpdateChallengeStatus();
     }
 
     public async void UpdateChallengeStatus()

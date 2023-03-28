@@ -35,7 +35,7 @@ namespace Mathy.Core.Tasks
             }
             int answer = this.Random.Range(TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber);
             this.Elements.Add(new TaskElement(answer));
-            CorrectVariantsValues = SplitNumberIntoAddends(answer, TaskSettings.BaseStats.ElementsAmount).ToList();
+            CorrectVariantsValues = MathOperations.SplitNumberIntoAddends(answer, TaskSettings.BaseStats.ElementsAmount).ToList();
         }
 
         protected override async System.Threading.Tasks.Task CreateOperators()
@@ -62,7 +62,7 @@ namespace Mathy.Core.Tasks
             CorrectVariantIndexes = answerIndexes;
 
             List<int> variantsValues = await Random.ExclusiveNumericRange(
-                TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber, 
+                TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber,
                 TaskSettings.BaseStats.VariantsAmount, CorrectVariantsValues);
             var correctValues = CorrectVariantsValues;
 
@@ -142,64 +142,5 @@ namespace Mathy.Core.Tasks
                 element.Value = variantValue;
             }
         }
-
-        public static int[] SplitNumberIntoAddends(int numToSplit, int amount)
-        {
-            int[] results = new int[amount];
-            int sum = 0;
-
-            for (int i = 0; i < amount - 1; i++)
-            {
-                int maxVal = numToSplit - sum - (amount - i - 1); // Maximum value for this integer
-                int value = 0;
-                if (maxVal > 0) // Only generate positive integers
-                {
-                    value = new System.Random().Next(1, maxVal + 1); // Generate random integer between 1 and maxVal
-                }
-                results[i] = value;
-                sum += value;
-            }
-
-            results[amount - 1] = numToSplit - sum;
-
-            if (results[amount - 1] < 0) // If sum is greater than numToSplit, set all values to 0
-            {
-                for (int i = 0; i < amount - 1; i++)
-                {
-                    results[i] = 0;
-                }
-                results[amount - 1] = numToSplit;
-            }
-
-            return results;
-        }
-
-        //public static int[] SplitNumberIntoAddends(int numToSplit, int amount)
-        //{
-        //    int[] results = new int[amount];
-        //    if (numToSplit == 0)
-        //    {
-        //        return results;
-        //    }
-        //    if (numToSplit == 1)
-        //    {
-        //        results[0] = 1;
-        //        return results;
-        //    }
-
-        //    int sum = 0;
-
-        //    for (int i = 0; i < amount - 1; i++)
-        //    {
-        //        int maxVal = numToSplit - sum - (amount - i - 1); // Calculate maximum value for this integer
-        //        int value = new System.Random().Next(1, maxVal + 1); // Generate random integer between 1 and maxVal
-        //        results[i] = value;
-        //        sum += value;
-        //    }
-
-        //    results[amount - 1] = numToSplit - sum;
-
-        //    return results;
-        //}
     }
 }
