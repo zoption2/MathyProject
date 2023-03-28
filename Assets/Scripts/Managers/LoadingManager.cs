@@ -45,7 +45,11 @@ namespace Mathy.Core
             AsyncOperation asyncLoadMainMenu = SceneManager.LoadSceneAsync("MainMenu", LoadSceneMode.Additive);
             await UniTask.WaitUntil(() => asyncLoadMainMenu.isDone).ContinueWith(LoadGameplayScenes);
             await UniTask.WaitUntil(() => IAPManager.Instance != null).ContinueWith(() =>
-            IAPManager.Instance.DebugText = DebugInApp);
+            {
+            Application.targetFrameRate = 60;
+            IAPManager.Instance.DebugText = DebugInApp;
+            });
+
         }
 
         private async UniTask UnloadAllScenesExcept(string sceneName)
