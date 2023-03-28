@@ -51,6 +51,8 @@ namespace Mathy.Core.Tasks
             dataManager = DataManager.Instance;
             scenePointer = GameplayScenePointer.Instance;
 
+            correctAnswers = 0;
+            taskIndexer = 0;
             tasks = new(kMaxTasksLoadedAtOnce);
             this.availableTasks = availableTasks;
 
@@ -139,7 +141,6 @@ namespace Mathy.Core.Tasks
                 GameObject.Destroy(currentTask.ViewParent.gameObject);
             }
             tasks.Clear();
-            correctAnswers = 0;
         }
     }
 }

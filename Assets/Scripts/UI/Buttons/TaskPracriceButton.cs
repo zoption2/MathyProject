@@ -5,6 +5,9 @@ using Mathy.UI;
 using System;
 using DG.Tweening;
 using System.Linq;
+using Zenject;
+using Mathy.Core.Tasks;
+using Cysharp.Threading.Tasks;
 
 public class TaskPracriceButton : TweenedButton
 {
@@ -32,6 +35,7 @@ public class TaskPracriceButton : TweenedButton
     }
 
     #endregion
+    [Inject] private IGameplayService gameplayService;
 
     private void OnEnable()
     {
@@ -39,7 +43,7 @@ public class TaskPracriceButton : TweenedButton
         button.onClick.AddListener(OnPress);
     }
 
-    private void RunTask()
+    private async void RunTask()
     {
         if (taskConfigs.Count > 0)
         {
@@ -49,7 +53,11 @@ public class TaskPracriceButton : TweenedButton
             }
             else
             {
-                ScenesManager.Instance.StartTaskPractice(taskConfigs, tasksAmount);
+                AudioSystem.Instance.FadeMusic(0, 1f, true);
+                _ = ScenesManager.Instance.SetGameplaySceneActive();
+                gameplayService.StartGame(TaskMode.Practic, taskConfigs);
+                await UniTask.Delay(1000);
+                LoadingManager.Instance.ClosePanel();
             }
         }
         else
