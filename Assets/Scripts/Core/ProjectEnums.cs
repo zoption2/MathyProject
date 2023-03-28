@@ -5,7 +5,11 @@
         DefaultElement = 0,
         DefaultVariant = 10,
         DefaultOperator = 20,
-        DefaultCounter = 100,
+    }
+
+    public enum GameplayScenePopup
+    {
+        DefaultCounter
     }
 
     public enum TaskElementType

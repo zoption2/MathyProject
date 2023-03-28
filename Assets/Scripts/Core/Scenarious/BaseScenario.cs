@@ -21,7 +21,7 @@ namespace Mathy.Core.Tasks
         protected ITaskController currentTask;
         protected ITaskFactory taskFactory;
         protected ITaskBackgroundSevice backgroundService;
-        protected ITaskViewComponentsProvider componentsProvider;
+        protected IAddressableRefsHolder addressableRefs;
         protected TaskManager taskManager;
         protected GameplayScenePointer scenePointer;
         protected DataManager dataManager;
@@ -34,11 +34,11 @@ namespace Mathy.Core.Tasks
 
         public BaseScenario(ITaskFactory taskFactory
             , ITaskBackgroundSevice backgroundHandler
-            , ITaskViewComponentsProvider componentsProvider)
+            , IAddressableRefsHolder addressableRefs)
         {
             this.taskFactory = taskFactory;
             this.backgroundService = backgroundHandler;
-            this.componentsProvider = componentsProvider;
+            this.addressableRefs = addressableRefs;
         }
 
         protected abstract UniTask DoOnStart();

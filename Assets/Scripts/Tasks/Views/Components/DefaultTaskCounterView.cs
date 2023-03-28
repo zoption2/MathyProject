@@ -27,10 +27,12 @@ namespace Mathy.UI
         [SerializeField] private Sprite[] statusSprites;
 
         private bool isInited;
+        private int totalIndicators;
 
 
         public void Init(int total, List<bool> existingAnswers = null)
         {
+            totalIndicators = total;
             for (int i = 0, j = indicators.Length; i < j; i++)
             {
                 bool isActive = i < total;
@@ -56,7 +58,7 @@ namespace Mathy.UI
         {
             if (isInited)
             {
-                counterText.text = string.Format(kCounterFormat, currentIndex);
+                counterText.text = string.Format(kCounterFormat, currentIndex, totalIndicators);
             }
         }
 

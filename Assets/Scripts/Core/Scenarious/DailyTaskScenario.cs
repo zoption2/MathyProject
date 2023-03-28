@@ -16,8 +16,8 @@ namespace Mathy.Core.Tasks
 
         protected DailyTaskScenario(ITaskFactory taskFactory,
             ITaskBackgroundSevice backgroundHandler,
-            ITaskViewComponentsProvider componentsProvider) 
-            : base(taskFactory, backgroundHandler, componentsProvider)
+            IAddressableRefsHolder addressableRefs) 
+            : base(taskFactory, backgroundHandler, addressableRefs)
         {
         }
 
@@ -26,7 +26,7 @@ namespace Mathy.Core.Tasks
         {
             remainingTasksCount = TotalTasks;
             var counterParent = scenePointer.CounterParent;
-            counterView = await componentsProvider.GetUIComponentAsync<ITaskCounter>(UIComponentType.DefaultCounter, counterParent);
+            counterView = await addressableRefs.GameplayScenePopupsProvider.InstantiateFromReference<ITaskCounter>(GameplayScenePopup.DefaultCounter, counterParent);
             bool isTodayDateExists = await dataManager.IsTodayModeExist(TaskMode);
             if (isTodayDateExists)
             {
@@ -49,7 +49,7 @@ namespace Mathy.Core.Tasks
         protected override bool TryStartTask()
         {
             var temp = base.TryStartTask();
-            counterView.SetCurrentCount(taskIndexer);
+            counterView.SetCurrentCount(taskIndexer + 1);
             counterView.ChangeStatusByIndex(taskIndexer, TaskStatus.InProgress);
             return temp;
         }
@@ -75,6 +75,12 @@ namespace Mathy.Core.Tasks
             resultsView.DisplayResult(correctAnswers, TotalTasks, correctRate, false);
         }
 
+        protected override void ClickOnExitFromGameplay()
+        {
+            GameObject.Destroy(counterView.gameObject);
+            base.ClickOnExitFromGameplay();
+        }
+
         protected async void InitCounter()
         {
             List<bool> userAnswers = await DataManager.Instance.GetTodayAnswers(TaskMode);
@@ -98,10 +104,10 @@ namespace Mathy.Core.Tasks
         protected override int TotalTasks => 10;
 
 
-        public SmallScenario(ITaskFactory taskFactory
-            , ITaskBackgroundSevice backgroundHandler
-            , ITaskViewComponentsProvider componentsProvider) 
-            : base(taskFactory, backgroundHandler, componentsProvider)
+        protected SmallScenario(ITaskFactory taskFactory,
+            ITaskBackgroundSevice backgroundHandler,
+            IAddressableRefsHolder addressableRefs)
+            : base(taskFactory, backgroundHandler, addressableRefs)
         {
         }
     }
@@ -113,10 +119,10 @@ namespace Mathy.Core.Tasks
         protected override int TotalTasks => 20;
 
 
-        public MediumScenario(ITaskFactory taskFactory
-            , ITaskBackgroundSevice backgroundHandler
-            , ITaskViewComponentsProvider componentsProvider)
-            : base(taskFactory, backgroundHandler, componentsProvider)
+        protected MediumScenario(ITaskFactory taskFactory,
+            ITaskBackgroundSevice backgroundHandler,
+            IAddressableRefsHolder addressableRefs)
+            : base(taskFactory, backgroundHandler, addressableRefs)
         {
         }
     }
@@ -128,10 +134,10 @@ namespace Mathy.Core.Tasks
         protected override int TotalTasks => 30;
 
 
-        public LargeScenario(ITaskFactory taskFactory
-            , ITaskBackgroundSevice backgroundHandler
-            , ITaskViewComponentsProvider componentsProvider)
-            : base(taskFactory, backgroundHandler, componentsProvider)
+        protected LargeScenario(ITaskFactory taskFactory,
+            ITaskBackgroundSevice backgroundHandler,
+            IAddressableRefsHolder addressableRefs)
+            : base(taskFactory, backgroundHandler, addressableRefs)
         {
         }
     }

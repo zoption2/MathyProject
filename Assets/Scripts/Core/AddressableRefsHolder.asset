@@ -46,7 +46,9 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    - <Type>k__BackingField: 100
+  <GameplayScenePopupsProvider>k__BackingField:
+    references:
+    - <Type>k__BackingField: 0
       <Reference>k__BackingField:
         m_AssetGUID: ba96cda7e6d2c1d44a3c8957cdb940ed
         m_SubObjectName: 

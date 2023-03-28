@@ -7,10 +7,10 @@ namespace Mathy.Core.Tasks
     {
         public override TaskMode TaskMode => TaskMode.Practic;
 
-        public PracticeScenario(ITaskFactory taskFactory
-            , ITaskBackgroundSevice backgroundHandler
-            , ITaskViewComponentsProvider componentsProvider)
-            : base(taskFactory, backgroundHandler, componentsProvider)
+        protected PracticeScenario(ITaskFactory taskFactory,
+            ITaskBackgroundSevice backgroundHandler,
+            IAddressableRefsHolder addressableRefs)
+            : base(taskFactory, backgroundHandler, addressableRefs)
         {
         }
 
