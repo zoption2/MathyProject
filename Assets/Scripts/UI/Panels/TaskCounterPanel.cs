@@ -41,7 +41,7 @@ namespace Mathy.UI
 
         void Start()
         {
-            Initialization();
+           // Initialization();
         }
 
         private void OnDisable()
@@ -92,6 +92,12 @@ namespace Mathy.UI
         public void UpdatePanel(int taskIndex)
         {
             UpdateCounterText(taskIndex, TaskManager.Instance.TasksAmount);
+            SetIndicatorStatus(taskIndex, TaskStatus.InProgress);
+        }
+
+        public void UpdatePanel(int taskIndex, int taskAmount)
+        {
+            UpdateCounterText(taskIndex, taskAmount);
             SetIndicatorStatus(taskIndex, TaskStatus.InProgress);
         }
 

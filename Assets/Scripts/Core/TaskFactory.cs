@@ -44,16 +44,25 @@ namespace Mathy
 
         private async UniTask<ITaskController> CreateTaskInternal(ScriptableTask taskSettings, Transform viewParent)
         {
+            ITaskModel model;
+            ITaskController controller;
+            IStandardTaskView view;
+
             switch (taskSettings.TaskType)
             {
                 case TaskType.Addition:
-                    var model = new AdditionTaskModel(taskSettings);
-                    var controller = container.Resolve<AdditionTaskController>();
-                    var view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.Addition, viewParent);
+                    model = new AdditionTaskModel(taskSettings);
+                    controller = container.Resolve<DefaultTaskController>();
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.Addition, viewParent);
                     controller.Init(model, view);
                     return controller;
 
                 case TaskType.Subtraction:
+                    model = new SubtractionTaskModel(taskSettings);
+                    controller = container.Resolve<DefaultTaskController>();
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.Subtraction, viewParent);
+                    controller.Init(model, view);
+                    return controller;
 
                 case TaskType.Comparison:
 

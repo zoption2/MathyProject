@@ -1,15 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
-using System;
 
-[Serializable] public enum TaskStatus
-{
-    Pending = 0,
-    InProgress = 1,
-    Right = 2,
-    Wrong = 3
-}
 namespace Mathy.UI
 {
     public class TaskIndicator : IndicatorElement<TaskStatus>

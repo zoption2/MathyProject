@@ -1,13 +1,13 @@
-﻿using Cysharp.Threading.Tasks;
-using Mathy.UI.Tasks;
-using System;
-using Mathy.Data;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Mathy.UI.Tasks;
+using Mathy.Data;
+using System;
 using Mathy;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
-    public class AdditionTaskController : BaseTaskController<IStandardTaskView, IDefaultTaskModel>
+    public class DefaultTaskController : BaseTaskController<IStandardTaskView, IDefaultTaskModel>
     {
         private List<ITaskViewComponent> taskElements;
         private List<ITaskViewComponentClickable> taskVariants;
@@ -15,7 +15,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         private string userAnswer;
         private string correctAnswer;
 
-        public AdditionTaskController(ITaskViewComponentsProvider componentsFactory, ITaskBackgroundSevice backgroundSevice) 
+        public DefaultTaskController(ITaskViewComponentsProvider componentsFactory, ITaskBackgroundSevice backgroundSevice)
             : base(componentsFactory, backgroundSevice)
         {
         }
@@ -124,4 +124,3 @@ namespace Mathy.Core.Tasks.DailyTasks
         }
     }
 }
-

@@ -13,6 +13,14 @@ namespace Mathy.Core.Tasks
         void Release();
     }
 
+    public interface IDefaultTaskModel : ITaskModel
+    {
+        List<ExpressionElement> Expression { get; }
+        List<string> Variants { get; }
+        ExpressionElement CorrectElement { get; }
+    }
+
+
     public abstract class BaseTaskModel : IModel
     {
         public virtual string TitleKey => TaskSettings.Title;

@@ -13,6 +13,7 @@ namespace Mathy
         TaskViewAddressableRef TaskViewProvider { get;}
         UIComponentAddressableRef UIComponentProvider { get; }
         BackgroundAddressableRef BackgroundProvider { get; }
+        GameplayScenePopupAddressableRef GameplayScenePopupsProvider { get; }
     }
 
 
@@ -21,6 +22,7 @@ namespace Mathy
     {
         [field: SerializeField] public TaskViewAddressableRef TaskViewProvider { get; private set; }
         [field: SerializeField] public UIComponentAddressableRef UIComponentProvider { get; private set; }
+        [field: SerializeField] public GameplayScenePopupAddressableRef GameplayScenePopupsProvider { get; private set; }
         [field: SerializeField] public BackgroundAddressableRef BackgroundProvider { get; private set; }
     }
 
@@ -85,6 +87,12 @@ namespace Mathy
 
     [Serializable]
     public class UIComponentAddressableRef : AddressableRefsProvider<UIComponentType, AssetReferenceGameObject>
+    {
+
+    }
+
+    [Serializable]
+    public class GameplayScenePopupAddressableRef : AddressableRefsProvider<GameplayScenePopup, AssetReferenceGameObject>
     {
 
     }

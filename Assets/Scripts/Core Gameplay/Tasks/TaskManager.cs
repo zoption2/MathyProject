@@ -24,7 +24,6 @@ namespace Mathy.Core.Tasks
         [SerializeField] private Image headerImage;
         [SerializeField] private TextMeshProUGUI headerTitle;
         [SerializeField] private ResultWindow resultWindow;
-        [SerializeField] private TaskCounterPanel taskCounterPanel;
         [SerializeField] private TimerDifficultyMenu timerDifficultyMenu;
         [SerializeField] public Transform GameplayPanel;
 
@@ -49,7 +48,6 @@ namespace Mathy.Core.Tasks
             set
             {
                 isPractice = value;
-                taskCounterPanel.gameObject.SetActive(!value); //turning on\off counter panel
                 currenTaskData.Mode = TaskMode.Practic;
             }
         }
@@ -136,41 +134,6 @@ namespace Mathy.Core.Tasks
             await UniTask.WaitWhile(() => GameplayPanel.childCount > 0);
         }
 
-        private async void UpdateCompletedTasksIndicators(TaskMode mode)
-        {
-            if(await DataManager.Instance.IsTodayModeExist(mode))
-            {
-                List<bool> userAnswers = await DataManager.Instance.GetTodayAnswers(mode);
-                //Debug.LogError("userAnswers");
-
-                for(int i = 0; i < userAnswers.Count; i++)
-                {
-                    //Debug.LogError("userAnswer "+ i + " = " + userAnswers[i].ToString());
-                }
-
-                if (userAnswers.Count != 0)
-                {
-                    for (int i = 0; i < currentTaskIndex; i++)
-                    {
-                        TaskIndicator indicator = taskCounterPanel.TaskIndicators[i];
-                        if (userAnswers[i])
-                        {
-                            indicator.Status = TaskStatus.Right;
-                            CorrectAnswers++;
-                        }
-                        else
-                        {
-                            indicator.Status = TaskStatus.Wrong;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                Debug.LogError("This mode doesn't exist");
-            }
-        }
-
         public void SaveTaskData(TaskType taskType, bool isCorrect, List<int> selectedVariantIndexes, List<int> corectVariantIndexes, List<Element> elements, List<Operator> operators, List<Variant> variants)
         {
             currenTaskData.TaskModeIndex = currentTaskIndex;
@@ -218,7 +181,6 @@ namespace Mathy.Core.Tasks
                 currentTaskIndex = 0;
             }
 
-            taskCounterPanel.UpdateIndicatorsAmount(GetTasksAmountOfMode(mode));
             await GenerateAllTasks();
 
             switch (mode)
@@ -380,7 +342,6 @@ namespace Mathy.Core.Tasks
             if(await DataManager.Instance.IsTodayModeExist(mode))
             {
                 currentTaskIndex = await DataManager.Instance.GetLastTaskIndexOfMode(mode) + 1;
-                UpdateCompletedTasksIndicators(mode);
             }
 
             await ActivateTaskAsync(currentTaskIndex);
@@ -419,7 +380,6 @@ namespace Mathy.Core.Tasks
             }
             currentTaskIndex = 0;
 
-            taskCounterPanel.UpdateIndicatorsAmount(amount);
             await ActivateTaskAsync(currentTaskIndex);
 
         }
@@ -439,7 +399,6 @@ namespace Mathy.Core.Tasks
                 }
             }
             currentTaskIndex = 0;
-            taskCounterPanel.UpdateIndicatorsAmount(amount);
             await ActivateTaskAsync(currentTaskIndex);
         }
 
@@ -472,11 +431,6 @@ namespace Mathy.Core.Tasks
             currenTaskData.EndTime = DateTime.UtcNow;
             VibrationManager.Instance.TapPeekVibrate();
 
-            if (taskCounterPanel.gameObject.activeInHierarchy)
-            {
-                taskCounterPanel.SetIndicatorStatus(currentTaskIndex, TaskStatus.Right);
-            }
-
             RunNextTask();
         }
 
@@ -484,11 +438,6 @@ namespace Mathy.Core.Tasks
         {
             currenTaskData.EndTime = DateTime.UtcNow;
             VibrationManager.Instance.TapNopeVibrate();
-
-            if (taskCounterPanel.gameObject.activeInHierarchy)
-            {
-                taskCounterPanel.SetIndicatorStatus(currentTaskIndex, TaskStatus.Wrong);
-            }
 
             if (isPractice)
             {
@@ -518,8 +467,6 @@ namespace Mathy.Core.Tasks
 
 
                 currenTaskData.StartTime = DateTime.UtcNow;
-                if (taskCounterPanel.gameObject.activeInHierarchy)
-                    taskCounterPanel.UpdatePanel(taskIndex); // Update status indicators and text on the Task counter panel
             }
             else
             {
@@ -529,8 +476,6 @@ namespace Mathy.Core.Tasks
                 activeTask.TaskBehaviour.SetActiveViewPanels(true);
 
                 currenTaskData.StartTime = DateTime.UtcNow;
-                if (taskCounterPanel.gameObject.activeInHierarchy)
-                    taskCounterPanel.UpdatePanel(taskIndex); // Update status indicators and text on the Task counter panel
             }
             if (isPractice)
             {
@@ -623,7 +568,6 @@ namespace Mathy.Core.Tasks
 
         public void ResetToDefault()
         {
-            taskCounterPanel.ResetToDefault(true);
             ShowResult(false);
             CorrectAnswers = 0;
             timerValue = 0;

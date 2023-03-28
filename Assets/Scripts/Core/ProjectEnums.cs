@@ -7,10 +7,23 @@
         DefaultOperator = 20,
     }
 
+    public enum GameplayScenePopup
+    {
+        DefaultCounter
+    }
+
     public enum TaskElementType
     {
         Value,
         Operator,
+    }
+
+    public enum TaskStatus
+    {
+        Pending = 0,
+        InProgress = 1,
+        Right = 2,
+        Wrong = 3
     }
 
     public enum BackgroundType

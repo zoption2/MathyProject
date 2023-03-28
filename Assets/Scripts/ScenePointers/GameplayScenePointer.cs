@@ -6,7 +6,10 @@ namespace Mathy.Core.Tasks
     public class GameplayScenePointer : StaticInstance<GameplayScenePointer>
     {
         [SerializeField] private Transform taskParent;
-        [field: SerializeField] public TaskCounterPanel TaskCounterPanel { get; private set; }
+
+        [field: SerializeField] public Transform CounterParent { get; private set; }
+        [field: SerializeField] public ResultWindow ResultsWindow { get; private set; }
+
 
         public Transform GetNewTaskParent()
         {

@@ -1,13 +1,17 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Mathy.UI.Tasks;
 using Mathy.Data;
+using System;
+using Mathy;
 
 namespace Mathy.Core.Tasks
 {
-    public sealed class AdditionTaskModel : BaseTaskModel, IDefaultTaskModel
+    public class SubtractionTaskModel : BaseTaskModel, IDefaultTaskModel
     {
         private List<ExpressionElement> expression;
         private List<string> variants;
-        private List<string> values;
+        private List<string> elements;
         private List<string> operators;
         private ExpressionElement correctAnswer;
         private int correctAnswerIndex;
@@ -16,26 +20,26 @@ namespace Mathy.Core.Tasks
         public List<string> Variants => variants;
         public ExpressionElement CorrectElement => correctAnswer;
 
-        public AdditionTaskModel(ScriptableTask taskSettings) : base(taskSettings)
+        public SubtractionTaskModel(ScriptableTask taskSettings) : base(taskSettings)
         {
             var random = new System.Random();
-            var valueOne = random.Next(minValue, maxValue);
-            var valueTwo = random.Next(minValue, maxValue - valueOne);
-            var result = valueOne + valueTwo;
+            var elementOne = random.Next(minValue, maxValue);
+            var elementTwo = random.Next(minValue, elementOne);
+            var result = elementOne - elementTwo;
 
             expression = new List<ExpressionElement>
             {
-                new ExpressionElement(TaskElementType.Value, valueOne),
-                new ExpressionElement(TaskElementType.Operator, (char)ArithmeticSigns.Plus),
-                new ExpressionElement(TaskElementType.Value, valueTwo),
+                new ExpressionElement(TaskElementType.Value, elementOne),
+                new ExpressionElement(TaskElementType.Operator, (char)ArithmeticSigns.Minus),
+                new ExpressionElement(TaskElementType.Value, elementTwo),
                 new ExpressionElement(TaskElementType.Operator, (char)ArithmeticSigns.Equal),
                 new ExpressionElement(TaskElementType.Value, result, true)
             };
 
-            values = new List<string>(3);
-            values.Add(expression[0].Value);
-            values.Add(expression[2].Value);
-            values.Add(expression[4].Value);
+            elements = new List<string>(3);
+            elements.Add(expression[0].Value);
+            elements.Add(expression[2].Value);
+            elements.Add(expression[4].Value);
 
             operators = new List<string>(2);
             operators.Add(expression[1].Value);
@@ -51,7 +55,7 @@ namespace Mathy.Core.Tasks
         {
             var result = new TaskData();
             result.TaskType = TaskType;
-            result.ElementValues = values;
+            result.ElementValues = elements;
             result.OperatorValues = operators;
             result.VariantValues = variants;
 
@@ -61,4 +65,3 @@ namespace Mathy.Core.Tasks
         }
     }
 }
-
