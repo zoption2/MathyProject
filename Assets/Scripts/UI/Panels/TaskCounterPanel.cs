@@ -41,7 +41,7 @@ namespace Mathy.UI
 
         void Start()
         {
-            Initialization();
+           // Initialization();
         }
 
         private void OnDisable()

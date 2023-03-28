@@ -113,6 +113,10 @@ MonoBehaviour:
     m_Address: Assets/Sprites/Backgrounds/Screens/bg_daily_rewards.png
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: ba96cda7e6d2c1d44a3c8957cdb940ed
+    m_Address: Assets/Prefabs/TaskElements/DefaultCounterView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 76746eb55ddbd544c89bef47883242cf, type: 2}
   m_SchemaSet:

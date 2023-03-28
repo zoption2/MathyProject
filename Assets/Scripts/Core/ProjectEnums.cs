@@ -5,12 +5,21 @@
         DefaultElement = 0,
         DefaultVariant = 10,
         DefaultOperator = 20,
+        DefaultCounter = 100,
     }
 
     public enum TaskElementType
     {
         Value,
         Operator,
+    }
+
+    public enum TaskStatus
+    {
+        Pending = 0,
+        InProgress = 1,
+        Right = 2,
+        Wrong = 3
     }
 
     public enum BackgroundType
