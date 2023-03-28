@@ -3274,6 +3274,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   counterText: {fileID: 8509900693730028198}
+  button: {fileID: 8509900692499558659}
+  movableRect: {fileID: 8509900692552770001}
+  indicatorPanel: {fileID: 8509900693567978523}
+  panelSounds:
+  - {fileID: 8300000, guid: 03cc434b91fa8104cbe95c59bf7d8f6e, type: 3}
+  - {fileID: 8300000, guid: d3ef7a1f7e7f4984aaa76b21bc12cb4b, type: 3}
   indicators:
   - {fileID: 1439838652144184728}
   - {fileID: 6218692831051801769}
@@ -3438,7 +3444,7 @@ MonoBehaviour:
   fitType: 4
   rows: 3
   columns: 10
-  cellSize: {x: 79.653175, y: 137.33333}
+  cellSize: {x: -4.9399962, y: 137.33333}
   spacing: {x: 64, y: 0}
   fitX: 1
   fitY: 1
