@@ -75,6 +75,11 @@ namespace Mathy
                 case TaskType.RandomArithmetic:
 
                 case TaskType.MissingNumber:
+                    model = new MissingNumberTaskModel(taskSettings);
+                    controller = container.Resolve<DefaultTaskController>();
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.MissingNumber, viewParent);
+                    controller.Init(model, view);
+                    return controller;
 
                 case TaskType.ImageOpening:
 
