@@ -381,7 +381,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   taskParent: {fileID: 1892460250}
   <CounterParent>k__BackingField: {fileID: 499098837}
-  <TaskCounterPanel>k__BackingField: {fileID: 1382149158}
   <ResultsWindow>k__BackingField: {fileID: 860994468}
 --- !u!1001 &34778954
 PrefabInstance:
@@ -613,7 +612,6 @@ MonoBehaviour:
   headerImage: {fileID: 943081480}
   headerTitle: {fileID: 528232553}
   resultWindow: {fileID: 860994468}
-  taskCounterPanel: {fileID: 1382149158}
   timerDifficultyMenu: {fileID: 866150363}
   GameplayPanel: {fileID: 1980157821}
   bgImages:
@@ -7346,7 +7344,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8231010828821229303, guid: 750990e90431f499487035e155ff4b93, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 25.002808
+      value: 25.002686
       objectReference: {fileID: 0}
     - target: {fileID: 8231010828821229303, guid: 750990e90431f499487035e155ff4b93, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
