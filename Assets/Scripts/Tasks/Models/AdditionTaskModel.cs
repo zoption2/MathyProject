@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using CustomRandom;
+using System.Linq;
 using Mathy.Data;
 
 namespace Mathy.Core.Tasks
@@ -7,7 +9,7 @@ namespace Mathy.Core.Tasks
     {
         private List<ExpressionElement> expression;
         private List<string> variants;
-        private List<string> values;
+        private List<string> elements;
         private List<string> operators;
         private ExpressionElement correctAnswer;
         private int correctAnswerIndex;
@@ -18,30 +20,25 @@ namespace Mathy.Core.Tasks
 
         public AdditionTaskModel(ScriptableTask taskSettings) : base(taskSettings)
         {
-            var random = new System.Random();
-            var valueOne = random.Next(minValue, maxValue);
-            var valueTwo = random.Next(minValue, maxValue - valueOne);
-            var result = valueOne + valueTwo;
+            var random = new FastRandom();
+            var elementValues = random.GetRandomElementValues(totalValues, maxValue);
+            var result = elementValues.Sum();
 
-            expression = new List<ExpressionElement>
+            elements = new List<string>();
+            operators = new List<string>();
+            expression = new List<ExpressionElement>();
+
+            for (int i = 0; i < elementValues.Count; i++)
             {
-                new ExpressionElement(TaskElementType.Value, valueOne),
-                new ExpressionElement(TaskElementType.Operator, (char)ArithmeticSigns.Plus),
-                new ExpressionElement(TaskElementType.Value, valueTwo),
-                new ExpressionElement(TaskElementType.Operator, (char)ArithmeticSigns.Equal),
-                new ExpressionElement(TaskElementType.Value, result, true)
-            };
+                expression.Add(new ExpressionElement(TaskElementType.Value, elementValues[i]));
+                expression.Add(new ExpressionElement(TaskElementType.Operator,
+                    i == totalValues - 1 ? (char)ArithmeticSigns.Equal : (char)ArithmeticSigns.Plus));
+            }
+            expression.Add(new ExpressionElement(TaskElementType.Value, result, true));
 
-            values = new List<string>(3);
-            values.Add(expression[0].Value);
-            values.Add(expression[2].Value);
-            values.Add(expression[4].Value);
+            GetExpressionValues(expression, out elements, out operators);
 
-            operators = new List<string>(2);
-            operators.Add(expression[1].Value);
-            operators.Add(expression[3].Value);
-
-            correctAnswer = expression[4];
+            correctAnswer = expression.Last();
 
             variants = GetVariants(result, amountOfVariants, minValue, maxValue, out int indexOfCorrect);
             correctAnswerIndex = indexOfCorrect;
@@ -51,10 +48,9 @@ namespace Mathy.Core.Tasks
         {
             var result = new TaskData();
             result.TaskType = TaskType;
-            result.ElementValues = values;
+            result.ElementValues = elements;
             result.OperatorValues = operators;
             result.VariantValues = variants;
-
             result.CorrectAnswerIndexes = new List<int>(1);
             result.CorrectAnswerIndexes.Add(correctAnswerIndex);
             return result;

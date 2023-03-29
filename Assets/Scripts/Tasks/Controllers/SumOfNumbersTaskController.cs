@@ -99,7 +99,7 @@ namespace Mathy.Core.Tasks.DailyTasks
                 correctVariants[unknownElementIndex].ChangeValue(selectedAnswerValue);
             }
 
-            if (userAnswers.Count == Model.Elements.Count || !isAnswerCorrect)
+            if (userAnswers.Count >= Model.UnknowntElementsAmount || !isAnswerCorrect)
             {
                 foreach (var variant in taskVariants) variant.IsInteractable = false;
                 StopTimer();

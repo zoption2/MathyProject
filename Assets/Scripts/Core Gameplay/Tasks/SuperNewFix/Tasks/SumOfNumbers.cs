@@ -61,7 +61,7 @@ namespace Mathy.Core.Tasks
 
             CorrectVariantIndexes = answerIndexes;
 
-            List<int> variantsValues = await Random.ExclusiveNumericRange(
+            List<int> variantsValues = Random.ExclusiveNumericRange(
                 TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber,
                 TaskSettings.BaseStats.VariantsAmount, CorrectVariantsValues);
             var correctValues = CorrectVariantsValues;

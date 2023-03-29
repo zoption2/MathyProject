@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System;
 using Mathy.Data;
+using System.Linq;
 
 namespace Mathy.Core.Tasks
 {
@@ -34,6 +35,8 @@ namespace Mathy.Core.Tasks
         protected int maxValue;
         protected int amountOfVariants;
 
+        protected const string kUnknownElement = "?";
+
         public BaseTaskModel(ScriptableTask taskSettings)
         {
             TaskSettings = taskSettings;
@@ -64,6 +67,29 @@ namespace Mathy.Core.Tasks
             ShakeResults(results);
             correctValueIndex = GetIndexOfValueFromList(correctValue.ToString(), results);
             return results;
+        }
+
+        /// <summary>
+        /// Extracts values and operators from a list of expression elements.
+        /// </summary>
+        /// <param name="expression">The list of expression elements to extract values and operators from.</param>
+        /// <param name="elements">When the method returns, contains a list of strings representing the extracted values.</param>
+        /// <param name="operators">When the method returns, contains a list of strings representing the extracted operators.</param>
+        /// <remarks>
+        /// Values are extracted from expression elements with type "Value". If an element is marked as unknown, the kUnknownElement string is used instead of its value.
+        /// Operators are extracted from expression elements with type "Operator".
+        /// </remarks>
+        protected virtual void GetExpressionValues(List<ExpressionElement> expression, out List<string> elements, out List<string> operators)
+        {
+            elements = expression
+                .Where(e => e.Type == TaskElementType.Value)
+                .Select(e => e.IsUnknown ? kUnknownElement : e.Value)
+                .ToList();
+
+            operators = expression
+                .Where(e => e.Type == TaskElementType.Operator)
+                .Select(e => e.Value)
+                .ToList();
         }
 
         protected int GetIndexOfValueFromList(string value, List<string> fromList)
