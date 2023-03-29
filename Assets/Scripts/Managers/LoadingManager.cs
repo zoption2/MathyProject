@@ -13,6 +13,7 @@ namespace Mathy.Core
 {
     public class LoadingManager : StaticInstance<LoadingManager>
     {
+        private const int kFPS = 60;
         #region FIELDS
 
         [SerializeField] private Transform tweenedTransform;
@@ -46,8 +47,9 @@ namespace Mathy.Core
             await UniTask.WaitUntil(() => asyncLoadMainMenu.isDone).ContinueWith(LoadGameplayScenes);
             await UniTask.WaitUntil(() => IAPManager.Instance != null).ContinueWith(() =>
             {
-            Application.targetFrameRate = 60;
-            IAPManager.Instance.DebugText = DebugInApp;
+                QualitySettings.vSyncCount = 0;
+                Application.targetFrameRate = kFPS;
+                IAPManager.Instance.DebugText = DebugInApp;
             });
 
         }
