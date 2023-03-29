@@ -42,7 +42,7 @@ namespace Mathy.Core.Tasks
         }
 
         public List<ArithmeticSigns> Signs =
-                new List<ArithmeticSigns>() { ArithmeticSigns.LessThan, ArithmeticSigns.Equal, ArithmeticSigns.MoreThan };
+                new List<ArithmeticSigns>() { ArithmeticSigns.LessThan, ArithmeticSigns.Equal, ArithmeticSigns.GreaterThan };
 
         protected TaskViewElement uknownElement;
 

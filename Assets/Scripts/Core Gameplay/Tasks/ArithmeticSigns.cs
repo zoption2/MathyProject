@@ -11,7 +11,7 @@ namespace Mathy.Core.Tasks
         Minus = '-',
         Multiply = 'x',
         Divide = ':',
-        MoreThan = '>',
+        GreaterThan = '>',
         LessThan = '<',
         Equal = '=',
         QuestionMark = '?'

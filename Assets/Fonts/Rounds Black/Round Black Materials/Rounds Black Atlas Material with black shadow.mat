@@ -9,7 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Rounds Black Atlas Material with black shadow
   m_Shader: {fileID: 4800000, guid: 41ab415424260934ba3982be56ba7aab, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - UNDERLAY_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -84,10 +85,10 @@ Material:
     - _StencilWriteMask: 255
     - _TextureHeight: 1024
     - _TextureWidth: 1024
-    - _UnderlayDilate: -0.15
-    - _UnderlayOffsetX: 0.5
-    - _UnderlayOffsetY: -0.75
-    - _UnderlaySoftness: 0.25
+    - _UnderlayDilate: -0.5
+    - _UnderlayOffsetX: 0
+    - _UnderlayOffsetY: -1
+    - _UnderlaySoftness: 0.5
     - _VertexOffsetX: 0
     - _VertexOffsetY: 0
     - _WeightBold: 0.75

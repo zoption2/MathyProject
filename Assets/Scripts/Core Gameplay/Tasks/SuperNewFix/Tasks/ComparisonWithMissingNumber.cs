@@ -74,7 +74,7 @@ namespace Mathy.Core.Tasks.DailyTasks
                         {
                             this.variants.Add(new Variant(Random.Range(TaskSettings.BaseStats.MinNumber, knownElement), true));
                         }
-                        else if(sign == ArithmeticSigns.MoreThan)
+                        else if(sign == ArithmeticSigns.GreaterThan)
                         {
                             this.variants.Add(new Variant(Random.Range(knownElement, TaskSettings.BaseStats.MaxNumber), true));
                         }
@@ -161,7 +161,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             }
             else
             {
-                return ArithmeticSigns.MoreThan;
+                return ArithmeticSigns.GreaterThan;
             }
         }
 
