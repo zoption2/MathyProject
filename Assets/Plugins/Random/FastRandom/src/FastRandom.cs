@@ -82,7 +82,15 @@ namespace CustomRandom
             return result;
         }
 
-        public async System.Threading.Tasks.Task<List<int>> ExclusiveNumericRange(int minValue, int maxValue, int count, List<int> exceptions)
+        /// <summary>
+        /// Generates a specified number of random integers within a given range while excluding a specified set of integers.
+        /// </summary>
+        /// <param name="minValue">The minimum value of the range.</param>
+        /// <param name="maxValue">The maximum value of the range.</param>
+        /// <param name="count">The number of random integers to generate.</param>
+        /// <param name="exceptions">A list of integers to exclude from the generated random numbers.</param>
+        /// <returns>A list of integers containing the generated random numbers.</returns>
+        public List<int> ExclusiveNumericRange(int minValue, int maxValue, int count, List<int> exceptions)
         {
             System.Random random = new System.Random();
 
@@ -103,6 +111,42 @@ namespace CustomRandom
             }
 
             return randomInts;
+        }
+
+        /// <summary>
+        /// Generates a list of random positive integers whose sum is less than or equal to a specified maximum number.
+        /// If the sum of all generated random integers already equals the maximum number, the rest of the integers will be equal to 0.
+        /// </summary>
+        /// <param name="amount">The number of integers to generate.</param>
+        /// <param name="maxNumber">The maximum possible sum of the generated integers.</param>
+        /// <returns>A List<int> containing the generated integers.</returns>
+        public List<int> GetRandomElementValues(int amount, int maxNumber)
+        {
+            List<int> result = new List<int>();
+            int sum = 0;
+            int remainingAmount = amount;
+            for (int i = 0; i < amount; i++)
+            {
+                if (sum == maxNumber)
+                {
+                    result.Add(0);
+                    remainingAmount--;
+                }
+                else
+                {
+                    int maxPossible = maxNumber - sum - remainingAmount + 1;
+                    int randomInt = (new System.Random()).Next(1, Math.Min(maxPossible, maxNumber) + 1);
+                    result.Add(randomInt);
+                    sum += randomInt;
+                    remainingAmount--;
+                }
+            }
+            while (remainingAmount > 0)
+            {
+                result.Add(0);
+                remainingAmount--;
+            }
+            return result;
         }
 
         public bool TossACoin()
