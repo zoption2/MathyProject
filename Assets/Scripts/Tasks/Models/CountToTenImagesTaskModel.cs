@@ -10,7 +10,7 @@ namespace Mathy.Core.Tasks
     }
 
 
-    public class CountToTenImagesTaskModel : BaseTaskModel
+    public class CountToTenImagesTaskModel : BaseTaskModel, ICountToTenImagesTaskModel
     {
         private const int kMaxValueLimit = 10;
 
@@ -20,13 +20,13 @@ namespace Mathy.Core.Tasks
         private List<string> elements;
         private List<int> correctIndexes;
 
-        int CountToShow { get; }
+        public int CountToShow => countToShow;
 
 
         public CountToTenImagesTaskModel(ScriptableTask taskSettings) : base(taskSettings)
         {
             var random = new System.Random();
-            countToShow = random.Next(kMaxValueLimit);
+            countToShow = random.Next(1 , kMaxValueLimit);
 
             elements = new List<string>() 
             { 

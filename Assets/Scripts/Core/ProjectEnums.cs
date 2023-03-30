@@ -3,7 +3,10 @@
     public enum UIComponentType
     {
         DefaultElement = 0,
+        ImageWithColliderElement = 1,
+
         DefaultVariant = 10,
+
         DefaultOperator = 20,
     }
 
@@ -108,6 +111,21 @@
         YellowLines = 161,
         YellowStars = 162,
         YellowZigzag = 163,
+    }
+
+    public enum TaskCountedImageElementType
+    {
+        GreenBean,
+        OrangeBean,
+        VioletBean,
+        Cheese,
+        Coin,
+        Flower,
+        Leaf,
+        BlueCandy,
+        RedCandy,
+        VioletCandy,
+        Strawberry,
     }
 }
 

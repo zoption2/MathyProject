@@ -71,6 +71,27 @@ namespace Mathy
                     controller.Init(model, view);
                     return controller;
 
+                case TaskType.MissingNumber:
+                    model = new MissingNumberTaskModel(taskSettings);
+                    controller = container.Resolve<DefaultTaskController>();
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.MissingNumber, viewParent);
+                    controller.Init(model, view);
+                    return controller;
+
+                case TaskType.SumOfNumbers:
+                    model = new SumOfNumbersTaskModel(taskSettings);
+                    controller = container.Resolve<SumOfNumbersTaskController>();
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.SumOfNumbers, viewParent);
+                    controller.Init(model, view);
+                    return controller;
+
+                case TaskType.CountTo10Images:
+                    model = new CountToTenImagesTaskModel(taskSettings);
+                    controller = container.Resolve<CountToTenImagesTaskController>();
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<ICountingToTenTaskView>(TaskType.CountTo10Images, viewParent);
+                    controller.Init(model, view);
+                    return controller;
+
                 case TaskType.Multiplication:
 
                 case TaskType.Division:
@@ -78,13 +99,6 @@ namespace Mathy
                 case TaskType.ComplexAddSub:
 
                 case TaskType.RandomArithmetic:
-
-                case TaskType.MissingNumber:
-                    model = new MissingNumberTaskModel(taskSettings);
-                    controller = container.Resolve<DefaultTaskController>();
-                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.MissingNumber, viewParent);
-                    controller.Init(model, view);
-                    return controller;
 
                 case TaskType.ImageOpening:
 
@@ -109,13 +123,6 @@ namespace Mathy
                 case TaskType.AddSubMissingNumber:
 
                 case TaskType.ComparisonExpressions:
-
-                case TaskType.SumOfNumbers:
-                    model = new SumOfNumbersTaskModel(taskSettings);
-                    controller = container.Resolve<SumOfNumbersTaskController>();
-                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.SumOfNumbers, viewParent);
-                    controller.Init(model, view);
-                    return controller;
 
                 case TaskType.MissingExpression:
 

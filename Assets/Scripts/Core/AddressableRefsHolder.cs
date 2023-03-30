@@ -14,6 +14,7 @@ namespace Mathy
         UIComponentAddressableRef UIComponentProvider { get; }
         BackgroundAddressableRef BackgroundProvider { get; }
         GameplayScenePopupAddressableRef GameplayScenePopupsProvider { get; }
+        TaskCountedImageAdressableRef TaskCountedImageProvider { get; }
     }
 
 
@@ -24,26 +25,13 @@ namespace Mathy
         [field: SerializeField] public UIComponentAddressableRef UIComponentProvider { get; private set; }
         [field: SerializeField] public GameplayScenePopupAddressableRef GameplayScenePopupsProvider { get; private set; }
         [field: SerializeField] public BackgroundAddressableRef BackgroundProvider { get; private set; }
+        [field: SerializeField] public TaskCountedImageAdressableRef TaskCountedImageProvider { get; private set; }
     }
 
     public abstract class AddressableRefsProvider<TType, TRef> where TType : Enum where TRef : AssetReference
     {
         [SerializeField] private RefPair[] references;
         protected DiContainer container;
-
-        public TRef GetReference(TType type)
-        {
-            for (int i = 0, j = references.Length; i < j; i++)
-            {
-                if (references[i].Type.Equals(type))
-                {
-                    return references[i].Reference;
-                }
-            }
-            throw new ArgumentException(
-                string.Format("There is no addressable reference finded for task >>{0}<<", type)
-                );
-        }
 
         public async UniTask<T> InstantiateFromReference<T>(TType type, Transform parent)
         {
@@ -71,6 +59,37 @@ namespace Mathy
             }
         }
 
+        public async UniTask<T> LoadAsync<T>(TType type)
+        {
+            TRef reference = GetReference(type);
+            try
+            {
+                AsyncOperationHandle<T> handler = Addressables.LoadAssetAsync<T>(reference.RuntimeKey);
+                await handler;
+                return handler.Result;
+            }
+            catch (Exception)
+            {
+                throw new ArgumentNullException(
+                    string.Format("Can't Load async by addressable reference for >>{0}<<", type)
+                    );
+            }
+        }
+
+        private TRef GetReference(TType type)
+        {
+            for (int i = 0, j = references.Length; i < j; i++)
+            {
+                if (references[i].Type.Equals(type))
+                {
+                    return references[i].Reference;
+                }
+            }
+            throw new ArgumentException(
+                string.Format("There is no addressable reference finded for task >>{0}<<", type)
+                );
+        }
+
         [Serializable]
         public class RefPair
         {
@@ -96,6 +115,19 @@ namespace Mathy
     {
 
     }
+
+    [Serializable]
+    public class TaskCountedImageAdressableRef : AddressableRefsProvider<TaskCountedImageElementType, AssetReferenceSprite>
+    { 
+        public async UniTask<Sprite> GetRandomSprite()
+        {
+            var random = new System.Random();
+            var values = Enum.GetValues(typeof(TaskCountedImageElementType));
+            var type = (TaskCountedImageElementType)values.GetValue(random.Next(values.Length));
+            return await LoadAsync<Sprite>(type);
+        }
+    }
+
 
     [Serializable]
     public class BackgroundAddressableRef
@@ -148,21 +180,6 @@ namespace Mathy
             [field: SerializeField] public BackgroundType Type { get; private set; }
             [field: SerializeField] public AssetReference Reference { get; private set; }
         }
-    }
-
-    public class AssetReferenceTaskViewDecor : AssetReferenceT<BaseTaskViewDecorData>
-    {
-        public AssetReferenceTaskViewDecor(string guid) : base(guid)
-        {
-        }
-    }
-
-
-    [Serializable]
-    public class BackgroundData
-    {
-        public Sprite Sprite;
-        public Color Color;
     }
 }
 

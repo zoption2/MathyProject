@@ -37,7 +37,8 @@ public enum TaskType
     AddSubMissingNumber = 17,
     ComparisonExpressions = 18,
     SumOfNumbers = 19,
-    MissingExpression = 20
+    MissingExpression = 20,
+    CountTo10Images = 22,
 }
 
 [Serializable]

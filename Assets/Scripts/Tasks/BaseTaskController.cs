@@ -26,6 +26,7 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         protected ITaskViewComponentsProvider componentsFactory;
         protected ITaskBackgroundSevice backgroundSevice;
+        protected IAddressableRefsHolder refsHolder;
         protected TaskData taskData;
         private DateTime timer;
 
@@ -68,7 +69,10 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         protected abstract UniTask DoOnInit();
 
-        public abstract TaskData GetResults();
+        public virtual TaskData GetResults()
+        {
+            return taskData;
+        }
 
         public void HideAndRelease(Action callback)
         {

@@ -253,6 +253,60 @@ MonoBehaviour:
     m_Address: Assets/Scripts/TaskViewDecorService/DecorData/VariantOneView/Yellow/YellowZigzagDecorData.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 197d1267638ca8542ac6fc58a2ec6fa4
+    m_Address: Assets/Prefabs/TaskElements/NewElements/ImageWithColliderElementView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1118dd194f3c04b43bde653d4e6d4f72
+    m_Address: Assets/Sprites/Counting Objects/Objects/Bean Candy green countable
+      object.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 803d921a121ca214b94002912c6d4be5
+    m_Address: Assets/Sprites/Counting Objects/Objects/Bean Candy orange countable
+      object.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3aeb41b67d220984694998741993c287
+    m_Address: Assets/Sprites/Counting Objects/Objects/Bean Candy violet countable
+      object.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 04b73f7d53b96a44ca7f812da93cfe1f
+    m_Address: Assets/Sprites/Counting Objects/Objects/Cheese countable object.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 90f8ac77dd55bbf4cbbb2e79821c21ef
+    m_Address: Assets/Sprites/Counting Objects/Objects/Coin countable object.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7ef10a1b0d8f9244ca73f2246746c6b2
+    m_Address: Assets/Sprites/Counting Objects/Objects/Flower pot countable object.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2a2675cc9b6c4df4b826cf24ee758e47
+    m_Address: Assets/Sprites/Counting Objects/Objects/Leaf countable object.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 384f47230a0d26449924c6f7b447bdb7
+    m_Address: Assets/Sprites/Counting Objects/Objects/Round Candy blue countable
+      object.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b848518a0c1eb03498aea6aa34b1bfb3
+    m_Address: Assets/Sprites/Counting Objects/Objects/Round Candy red countable
+      object.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9f4592c8c9e841f43b06b3af37432b36
+    m_Address: Assets/Sprites/Counting Objects/Objects/Round Candy violet countable
+      object.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7e33ff537b9565f46939ed6451dee044
+    m_Address: Assets/Sprites/Counting Objects/Objects/Strawberry countable object.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 76746eb55ddbd544c89bef47883242cf, type: 2}
   m_SchemaSet:
