@@ -29,9 +29,9 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         protected override async System.Threading.Tasks.Task CreateElements()
         {
-            int value = this.Random.Range(TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber);
+            int value = this.Random.Range(TaskSettings.MinNumber, TaskSettings.MaxNumber);
             this.Elements.Add(new TaskElement(ArithmeticSigns.QuestionMark));
-            for (int i = 0; i < TaskSettings.BaseStats.ElementsAmount; i++)
+            for (int i = 0; i < TaskSettings.ElementsAmount; i++)
             {
                 this.Elements.Add(new TaskElement(value));
             }
@@ -43,7 +43,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             List<ArithmeticSigns> signs = new List<ArithmeticSigns>()
             { ArithmeticSigns.Plus, ArithmeticSigns.Minus };
 
-            while (oprIndex < TaskSettings.BaseStats.OperatorsAmount - 1)
+            while (oprIndex < TaskSettings.ElementsAmount - 1)
             {
                 this.operators.Add(new Operator(signs[Random.Range(0, signs.Count)]));
                 oprIndex++;
@@ -55,12 +55,12 @@ namespace Mathy.Core.Tasks.DailyTasks
         protected override async System.Threading.Tasks.Task CreateVariants()
         {
             int answer = (int)Elements.Last().Value;
-            int answerIndex = Random.Range(0, TaskSettings.BaseStats.VariantsAmount - 1);
+            int answerIndex = Random.Range(0, TaskSettings.VariantsAmount - 1);
             CorrectVariantIndexes.Add(answerIndex);
 
-            List<int> variants = await Random.ExclusiveNumericRange(TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber, TaskSettings.BaseStats.VariantsAmount, answer);
+            List<int> variants = await Random.ExclusiveNumericRange(TaskSettings.MinNumber, TaskSettings.MaxNumber, TaskSettings.VariantsAmount, answer);
 
-            for (int i = 0; i < TaskSettings.BaseStats.VariantsAmount; i++)
+            for (int i = 0; i < TaskSettings.VariantsAmount; i++)
             {
                 if (i == answerIndex)
                 {

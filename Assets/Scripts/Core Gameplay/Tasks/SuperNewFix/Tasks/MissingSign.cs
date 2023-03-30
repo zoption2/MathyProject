@@ -23,21 +23,21 @@ namespace Mathy.Core.Tasks
 
         protected override async System.Threading.Tasks.Task CreateElements()
         {
-            for (int i = 0; i < TaskSettings.BaseStats.ElementsAmount; i++)
+            for (int i = 0; i < TaskSettings.ElementsAmount; i++)
             {
-                int minNumber = TaskSettings.BaseStats.MinNumber;
+                int minNumber = TaskSettings.MinNumber;
                 //seeting minimal number to 1 to prevent some task glitches
-                if(TaskSettings.BaseStats.MinNumber == 0)
+                if(TaskSettings.MinNumber == 0)
                 {
                     minNumber = 1;
                 }
-                this.Elements.Add(new TaskElement(this.Random.Range(minNumber, TaskSettings.BaseStats.MaxNumber)));
+                this.Elements.Add(new TaskElement(this.Random.Range(minNumber, TaskSettings.MaxNumber)));
             }
             this.Elements.Add(new TaskElement(ArithmeticSigns.QuestionMark));
 
             string expression = GetExpression;
             int answer = MathOperations.EvaluateInt(expression);
-            if (answer < 0 || answer > TaskSettings.BaseStats.MaxNumber)
+            if (answer < 0 || answer > TaskSettings.MaxNumber)
             {
                 await ClearElements();
             }
@@ -50,7 +50,7 @@ namespace Mathy.Core.Tasks
             List<ArithmeticSigns> signs = new List<ArithmeticSigns>() 
             { ArithmeticSigns.Plus, ArithmeticSigns.Minus };
 
-            while (oprIndex < TaskSettings.BaseStats.OperatorsAmount - 1)
+            while (oprIndex < TaskSettings.ElementsAmount - 1)
             {
                 this.operators.Add(new Operator(signs[Random.Range(0, signs.Count)]));
                 oprIndex++;

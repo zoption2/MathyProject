@@ -24,6 +24,10 @@ public class ChallengesManager : StaticInstance<ChallengesManager>//, ISaveable
     [SerializeField] private TextMeshProUGUI headerTitle;
     [SerializeField] private ResultWindow resultWindow;
 
+    [Header("GFX References:")]
+    [SerializeField] private List<Sprite> bgImages;
+    [SerializeField] private List<Color> headerColors;
+
     public int TasksAmount { get => taskList.Count; }
     private bool isPractice;
     public bool IsPractice 
@@ -173,14 +177,21 @@ public class ChallengesManager : StaticInstance<ChallengesManager>//, ISaveable
         taskLogic.gameObject.SetActive(true);
         activeTask = taskLogic;
 
-        bgImage.sprite = task.bgImage;
-        headerImage.color = task.panelColor;
+        UpdateSceneVisual();
         headerTitle.text = LocalizationManager.GetLocalizedTaskTitle(task.Title);
 
-        taskLogic.stats = task.BaseStats;
-
+        taskLogic.ElementsAmount = task.ElementsAmount;
+        taskLogic.VariantsAmount = task.VariantsAmount;
+        taskLogic.MaxNumber = task.MaxNumber;
 
         taskLogic.RunTask();
+    }
+
+    private void UpdateSceneVisual()
+    {
+        int index = UnityEngine.Random.Range(0, bgImages.Count);
+        headerImage.color = headerColors[index];
+        bgImage.sprite = bgImages[index];
     }
 
     public void ShowResult(bool isActive)

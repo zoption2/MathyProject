@@ -12,15 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb5c23fd834c21743bf7677711b06d5e, type: 3}
   m_Name: ComparisonMissingElements
   m_EditorClassIdentifier: 
-  _stats:
-    OperatorsAmount: 1
-    ElementsAmount: 2
-    VariantsAmount: 4
-    MinNumber: 0
-    MaxNumber: 20
+  ElementsAmount: 2
+  VariantsAmount: 4
+  MinNumber: 0
+  MaxNumber: 20
   Title: Comparison_Missing_Elements
   Description: Task description here
-  bgImage: {fileID: 21300000, guid: 8424b067f259acc42b7e32af15544144, type: 3}
-  operatorColor: {r: 0.77254903, g: 0.48235294, b: 0.8980392, a: 1}
-  panelColor: {r: 0.41176474, g: 0.37254903, b: 0.74509805, a: 0.78431374}
   TaskType: 16

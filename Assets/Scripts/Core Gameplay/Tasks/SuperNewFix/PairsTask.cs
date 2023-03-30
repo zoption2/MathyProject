@@ -51,10 +51,10 @@ namespace Mathy.Core.Tasks
         protected virtual async System.Threading.Tasks.Task CreateElements()
         {
             List<Element> tempList = new List<Element>();
-            for (int i = 0; i < (TaskSettings.BaseStats.ElementsAmount / 2); i++)
+            for (int i = 0; i < (TaskSettings.ElementsAmount / 2); i++)
             {
-                tempList.Add(new ButtonTaskElement(this.TaskSettings.BaseStats.MaxNumber - i));
-                tempList.Add(new ButtonTaskElement(this.TaskSettings.BaseStats.MaxNumber - i));
+                tempList.Add(new ButtonTaskElement(this.TaskSettings.MaxNumber - i));
+                tempList.Add(new ButtonTaskElement(this.TaskSettings.MaxNumber - i));
             }
 
             System.Random random = new System.Random();

@@ -105,7 +105,7 @@ public class PairsEquationOLD : ChallengeOLD
     protected override void SetVariantsValues()
     {
         List<int> numberList = new List<int>();
-        numberList = ListExtensions.UniqueRandomInts(stats.MaxNumber, variants.Count / 2);
+        numberList = ListExtensions.UniqueRandomInts(MaxNumber, variants.Count / 2);
         /*for (int i = 0; i < variants.Count / 2; i++)
         {
             //int randomInt = numberList.UniqueRandom(0, stats.maxNumber);
@@ -122,7 +122,7 @@ public class PairsEquationOLD : ChallengeOLD
             int a = Random.Range(-c, c);
             int b = c - a;
 
-            while (b > stats.MaxNumber || a == 0 || b == 0)
+            while (b > MaxNumber || a == 0 || b == 0)
             {
                 a = Random.Range(-c, c);
                 b = c - a;

@@ -10,18 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb5c23fd834c21743bf7677711b06d5e, type: 3}
-  m_Name: MissingNumber 50
+  m_Name: MissingNumber
   m_EditorClassIdentifier: 
-  _stats:
-    OperatorsAmount: 0
-    ElementsAmount: 5
-    VariantsAmount: 4
-    MinNumber: 0
-    MaxNumber: 50
+  ElementsAmount: 5
+  VariantsAmount: 4
+  MinNumber: 0
+  MaxNumber: 50
   Title: Missing_number
   Description: Here
-  bgImage: {fileID: 21300000, guid: 72a28be0d74a27247a766facb57082e6, type: 3}
-  operatorColor: {r: 0, g: 0.60784316, b: 1, a: 1}
-  panelColor: {r: 0.2509804, g: 0.69803923, b: 0.80392164, a: 0.78431374}
-  MaxNumber: 50
   TaskType: 6

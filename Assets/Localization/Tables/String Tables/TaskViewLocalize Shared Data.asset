@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TaskViewLocalize Shared Data
   m_EditorClassIdentifier: 
   m_TableCollectionName: TaskViewLocalize
-  m_TableCollectionNameGuidString: 00000000000000000000000000000000
+  m_TableCollectionNameGuidString: 63d3c511c7971744095c9db5fcf9134c
   m_Entries: []
   m_Metadata:
     m_Items: []

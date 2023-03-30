@@ -50,16 +50,16 @@ namespace Mathy.Core.Tasks
 
         protected virtual async System.Threading.Tasks.Task CreateElements()
         {
-            for (int i = 0; i < TaskSettings.BaseStats.ElementsAmount; i++)
+            for (int i = 0; i < TaskSettings.ElementsAmount; i++)
             {
-                this.Elements.Add(new TaskElement(this.Random.Range(TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber)));
+                this.Elements.Add(new TaskElement(this.Random.Range(TaskSettings.MinNumber, TaskSettings.MaxNumber)));
             }
             this.Elements.Add(new TaskElement(ArithmeticSigns.QuestionMark));
 
 
             string expression = GetExpression;
             int answer = MathOperations.EvaluateInt(expression);
-            if (answer < 0 || answer > TaskSettings.BaseStats.MaxNumber)
+            if (answer < 0 || answer > TaskSettings.MaxNumber)
             {
                 await ClearElements();
             }
@@ -71,12 +71,12 @@ namespace Mathy.Core.Tasks
         {
             string expression = GetExpression;
             int answer = MathOperations.EvaluateInt(expression);
-            int answerIndex = Random.Range(0, TaskSettings.BaseStats.VariantsAmount - 1);
+            int answerIndex = Random.Range(0, TaskSettings.VariantsAmount - 1);
             CorrectVariantIndexes.Add(answerIndex);
 
-            List<int> variants = await Random.ExclusiveNumericRange(TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber, TaskSettings.BaseStats.VariantsAmount, answer);
+            List<int> variants = await Random.ExclusiveNumericRange(TaskSettings.MinNumber, TaskSettings.MaxNumber, TaskSettings.VariantsAmount, answer);
 
-            for(int i = 0; i < TaskSettings.BaseStats.VariantsAmount; i++)
+            for(int i = 0; i < TaskSettings.VariantsAmount; i++)
             {
                 if (i == answerIndex)
                 {

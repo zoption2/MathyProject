@@ -29,9 +29,9 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         protected override async System.Threading.Tasks.Task CreateElements()
         {
-            for (int i = 0; i < TaskSettings.BaseStats.ElementsAmount; i++)
+            for (int i = 0; i < TaskSettings.ElementsAmount; i++)
             {
-                this.Elements.Add(new TaskElement(this.Random.Range(TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber)));
+                this.Elements.Add(new TaskElement(this.Random.Range(TaskSettings.MinNumber, TaskSettings.MaxNumber)));
             }
         }
 
@@ -55,14 +55,14 @@ namespace Mathy.Core.Tasks.DailyTasks
             this.unknownElementIndex = unknownElementIndex;
             this.Elements[unknownElementIndex] = new TaskElement(ArithmeticSigns.QuestionMark);
 
-            List<int> variants = await Random.ExclusiveNumericRange(TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber, TaskSettings.BaseStats.VariantsAmount, -1);
+            List<int> variants = await Random.ExclusiveNumericRange(TaskSettings.MinNumber, TaskSettings.MaxNumber, TaskSettings.VariantsAmount, -1);
 
             int knownElement = (int)this.Elements.Find(x => x.Value.GetType() != typeof(ArithmeticSigns)).Value;
 
             bool isCorrectAnswExists = false;
-            for (int i = 0; i < TaskSettings.BaseStats.VariantsAmount; i++)
+            for (int i = 0; i < TaskSettings.VariantsAmount; i++)
             {
-                if(i == TaskSettings.BaseStats.VariantsAmount - 1)
+                if(i == TaskSettings.VariantsAmount - 1)
                 {
                     if (!isCorrectAnswExists)
                     {
@@ -72,11 +72,11 @@ namespace Mathy.Core.Tasks.DailyTasks
                         }
                         else if (sign == ArithmeticSigns.LessThan)
                         {
-                            this.variants.Add(new Variant(Random.Range(TaskSettings.BaseStats.MinNumber, knownElement), true));
+                            this.variants.Add(new Variant(Random.Range(TaskSettings.MinNumber, knownElement), true));
                         }
                         else if(sign == ArithmeticSigns.GreaterThan)
                         {
-                            this.variants.Add(new Variant(Random.Range(knownElement, TaskSettings.BaseStats.MaxNumber), true));
+                            this.variants.Add(new Variant(Random.Range(knownElement, TaskSettings.MaxNumber), true));
                         }
                         CorrectVariantIndexes.Add(i);
                     }

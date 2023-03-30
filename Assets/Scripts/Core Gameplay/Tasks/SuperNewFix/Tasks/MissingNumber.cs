@@ -22,11 +22,11 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         protected override async System.Threading.Tasks.Task CreateElements()
         {
-            int startValue = Random.Range(TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber);
+            int startValue = Random.Range(TaskSettings.MinNumber, TaskSettings.MaxNumber);
 
-            bool isPositive = startValue + (TaskSettings.BaseStats.ElementsAmount - 1) < TaskSettings.BaseStats.MaxNumber;
+            bool isPositive = startValue + (TaskSettings.ElementsAmount - 1) < TaskSettings.MaxNumber;
 
-            for (int i = 0; i < TaskSettings.BaseStats.ElementsAmount; i++)
+            for (int i = 0; i < TaskSettings.ElementsAmount; i++)
             {
                 if (isPositive)
                 {
@@ -40,17 +40,17 @@ namespace Mathy.Core.Tasks.DailyTasks
         }
         protected override async System.Threading.Tasks.Task CreateVariants()
         {
-            unknownElementIndex = Random.Range(0, TaskSettings.BaseStats.ElementsAmount - 1);
+            unknownElementIndex = Random.Range(0, TaskSettings.ElementsAmount - 1);
             this.unknownElementIndex = unknownElementIndex;
             int answer = (int)Elements[unknownElementIndex].Value;
             //making element value uknown
             Elements[unknownElementIndex] = new TaskElement(ArithmeticSigns.QuestionMark);
-            int answerIndex = Random.Range(0, TaskSettings.BaseStats.VariantsAmount - 1);
+            int answerIndex = Random.Range(0, TaskSettings.VariantsAmount - 1);
             CorrectVariantIndexes.Add(answerIndex);
 
-            List<int> variants = await Random.ExclusiveNumericRange(TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber, TaskSettings.BaseStats.VariantsAmount, answer);
+            List<int> variants = await Random.ExclusiveNumericRange(TaskSettings.MinNumber, TaskSettings.MaxNumber, TaskSettings.VariantsAmount, answer);
 
-            for (int i = 0; i < TaskSettings.BaseStats.VariantsAmount; i++)
+            for (int i = 0; i < TaskSettings.VariantsAmount; i++)
             {
                 if (i == answerIndex)
                 {

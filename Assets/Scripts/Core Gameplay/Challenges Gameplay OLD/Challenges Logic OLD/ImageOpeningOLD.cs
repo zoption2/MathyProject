@@ -130,7 +130,7 @@ public class ImageOpeningOLD : ChallengeOLD
         string expression = Expression();
         Answer = (int)Evaluate(expression);
 
-        if (Answer > stats.MaxNumber || (onlyPositive && Answer < 0))
+        if (Answer > MaxNumber || (onlyPositive && Answer < 0))
         {
             GenerateChalengeElements();
             CalculateChalengeExpression();
@@ -148,7 +148,7 @@ public class ImageOpeningOLD : ChallengeOLD
         {
             if (variant != correctVariant)
             {
-                int randomInt = variantsValues.UniqueRandom(0, stats.MaxNumber);
+                int randomInt = variantsValues.UniqueRandom(0, MaxNumber);
                 variantsValues.Add(randomInt);
                 variant.SetText(randomInt.ToString());
             }
