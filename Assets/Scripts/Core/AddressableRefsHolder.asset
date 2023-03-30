@@ -44,6 +44,12 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 22
+      <Reference>k__BackingField:
+        m_AssetGUID: 6b3cc2c3ce225d94d8173a5ae4236104
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
   <UIComponentProvider>k__BackingField:
     references:
     - <Type>k__BackingField: 0
@@ -192,21 +198,21 @@ MonoBehaviour:
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-    - <Type>k__BackingField: 120
+    - <Type>k__BackingField: 121
       <Reference>k__BackingField:
         m_AssetGUID: b3279636c338b434694fd8e82d5144b3
         m_SubObjectName: 
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-    - <Type>k__BackingField: 120
+    - <Type>k__BackingField: 122
       <Reference>k__BackingField:
         m_AssetGUID: 84b8670019b987e4ab65d03f3029cca7
         m_SubObjectName: 
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-    - <Type>k__BackingField: 120
+    - <Type>k__BackingField: 123
       <Reference>k__BackingField:
         m_AssetGUID: da6baab407bd7b248b4ba92f9643c737
         m_SubObjectName: 

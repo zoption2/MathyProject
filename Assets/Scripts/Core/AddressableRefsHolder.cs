@@ -47,15 +47,15 @@ namespace Mathy
                 }
                 var viewGO = container.InstantiatePrefab(viewPrefab, parent);
                 
-                Addressables.Release(handler);
+                //Addressables.Release(handler);
                 var view = viewGO.GetComponent<T>();
                 return view;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw new ArgumentNullException(
-                    string.Format("Can't instantiate gameobject by addressable reference for >>{0}<<", type)
-                    );
+                string.Format("Can't instantiate gameobject by addressable reference for >>{0}<<", type)
+                );
             }
         }
 

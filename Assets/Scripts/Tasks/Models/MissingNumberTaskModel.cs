@@ -40,6 +40,8 @@ namespace Mathy.Core.Tasks
                 i = isPositive ? i + 1 : i - 1;
             }
 
+            operators = new List<string>();
+
             variants = GetVariants(correctValue, amountOfVariants, minValue, maxValue, out int indexOfCorrect);
             correctAnswerIndex = indexOfCorrect;
         }
@@ -49,7 +51,7 @@ namespace Mathy.Core.Tasks
             var result = new TaskData();
             result.TaskType = TaskType;
             result.ElementValues = values;
-            result.OperatorValues = new List<string>(0);
+            result.OperatorValues = operators;
             result.VariantValues = variants;
 
             result.CorrectAnswerIndexes = new List<int>(1);

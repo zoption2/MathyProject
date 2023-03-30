@@ -15,7 +15,7 @@ MonoBehaviour:
   SkillSettings:
   - SkillType: 0
     TaskSettings:
-    - {fileID: 11400000, guid: 94107d21e609efc4ca9819fb29627ddb, type: 2}
+    - {fileID: 11400000, guid: 9727750381ff83840bf347512274da18, type: 2}
   - SkillType: 1
     TaskSettings:
     - {fileID: 11400000, guid: 9d7d946ddea969140a84d41d3ec7a30a, type: 2}
@@ -29,9 +29,5 @@ MonoBehaviour:
   - SkillType: 6
     TaskSettings:
     - {fileID: 11400000, guid: 3dd878ac5a7803d4ea79945eb5298f70, type: 2}
-    - {fileID: 11400000, guid: 8cab8f92bd904be4cb17fbc9abec303f, type: 2}
-    - {fileID: 11400000, guid: bc87db2e5f59284488de5afa65d9cc30, type: 2}
     - {fileID: 11400000, guid: 514625ebf3517fe47bcaa0a1d636e6c5, type: 2}
-    - {fileID: 11400000, guid: 1f16ee1281597254389859f08c686cc4, type: 2}
     - {fileID: 11400000, guid: 3c55859f7cf7b3c42bf1667c21ccd959, type: 2}
-    - {fileID: 11400000, guid: f48d197b9af10ec4ca05a5f6423d34bd, type: 2}

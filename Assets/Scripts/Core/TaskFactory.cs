@@ -46,7 +46,7 @@ namespace Mathy
         {
             ITaskModel model;
             ITaskController controller;
-            IStandardTaskView view;
+            ITaskView view;
 
             switch (taskSettings.TaskType)
             {
@@ -54,42 +54,42 @@ namespace Mathy
                     model = new AdditionTaskModel(taskSettings);
                     controller = container.Resolve<DefaultTaskController>();
                     view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.Addition, viewParent);
-                    controller.Init(model, view);
+                    await controller.Init(model, view);
                     return controller;
 
                 case TaskType.Subtraction:
                     model = new SubtractionTaskModel(taskSettings);
                     controller = container.Resolve<DefaultTaskController>();
                     view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.Subtraction, viewParent);
-                    controller.Init(model, view);
+                    await controller.Init(model, view);
                     return controller;
 
                 case TaskType.Comparison:
                     model = new ComparisonTaskModel(taskSettings);
                     controller = container.Resolve<DefaultTaskController>();
                     view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.Comparison, viewParent);
-                    controller.Init(model, view);
+                    await controller.Init(model, view);
                     return controller;
 
                 case TaskType.MissingNumber:
                     model = new MissingNumberTaskModel(taskSettings);
                     controller = container.Resolve<DefaultTaskController>();
                     view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.MissingNumber, viewParent);
-                    controller.Init(model, view);
+                    await controller.Init(model, view);
                     return controller;
 
                 case TaskType.SumOfNumbers:
                     model = new SumOfNumbersTaskModel(taskSettings);
                     controller = container.Resolve<SumOfNumbersTaskController>();
                     view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.SumOfNumbers, viewParent);
-                    controller.Init(model, view);
+                    await controller.Init(model, view);
                     return controller;
 
                 case TaskType.CountTo10Images:
                     model = new CountToTenImagesTaskModel(taskSettings);
                     controller = container.Resolve<CountToTenImagesTaskController>();
                     view = await refsHolder.TaskViewProvider.InstantiateFromReference<ICountingToTenTaskView>(TaskType.CountTo10Images, viewParent);
-                    controller.Init(model, view);
+                    await controller.Init(model, view);
                     return controller;
 
                 case TaskType.Multiplication:

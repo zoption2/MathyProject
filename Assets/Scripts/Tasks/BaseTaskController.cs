@@ -12,7 +12,8 @@ namespace Mathy.Core.Tasks.DailyTasks
         public event Action<ITaskController> ON_COMPLETE;
         public event Action ON_FORCE_EXIT;
         public Transform ViewParent { get; set; }
-        public void Init(IModel model, IView view);
+        public UniTask Init(IModel model, IView view);
+        void Prepare();
         void StartTask();
         TaskData GetResults();
         void HideAndRelease(Action callback);
@@ -24,7 +25,6 @@ namespace Mathy.Core.Tasks.DailyTasks
         public event Action<ITaskController> ON_COMPLETE;
         public event Action ON_FORCE_EXIT;
 
-        protected ITaskViewComponentsProvider componentsFactory;
         protected ITaskBackgroundSevice backgroundSevice;
         protected IAddressableRefsHolder refsHolder;
         protected TaskData taskData;
@@ -38,27 +38,43 @@ namespace Mathy.Core.Tasks.DailyTasks
         protected double TotalPlayingTime { get; private set; }
 
 
-        public BaseTaskController(ITaskViewComponentsProvider componentsFactory
+        public BaseTaskController(IAddressableRefsHolder refsHolder
             , ITaskBackgroundSevice backgroundSevice)
         {
-            this.componentsFactory = componentsFactory;
             this.backgroundSevice = backgroundSevice;
+            this.refsHolder = refsHolder;
+        }
+
+        public void Prepare()
+        {
+            DoOnTaskPrepare();
         }
 
         public void StartTask()
         {
             View.Show(() =>
             {
+                OnTaskShowed();
                 StartTimer();
             });
         }
 
-        public void Init(IModel model, IView view)
+        protected virtual void OnTaskShowed()
+        {
+
+        }
+
+        protected virtual void DoOnTaskPrepare()
+        {
+
+        }
+
+        public async UniTask Init(IModel model, IView view)
         {
             Model = (TModel)model;
             View = (TView)view;
 
-            _ = DoOnInit();
+            await DoOnInit();
 
             taskData = Model.GetResult();
             var title = LocalizationManager.GetLocalizedString(LocalizationTableKey, Model.TitleKey);

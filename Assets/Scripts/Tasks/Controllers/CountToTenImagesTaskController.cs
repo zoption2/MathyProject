@@ -7,11 +7,12 @@ namespace Mathy.Core.Tasks.DailyTasks
 {
     public class CountToTenImagesTaskController : BaseTaskController<ICountingToTenTaskView, ICountToTenImagesTaskModel>
     {
+        private List<ITaskElementImageWithCollider> elements;
         private ITaskViewComponentClickable[] variantsInputs;
         private string correctAnswer;
 
-        public CountToTenImagesTaskController(ITaskViewComponentsProvider componentsFactory, ITaskBackgroundSevice backgroundSevice) 
-            : base(componentsFactory, backgroundSevice)
+        public CountToTenImagesTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice) 
+            : base(refsHolder, backgroundSevice)
         {
         }
 
@@ -29,6 +30,7 @@ namespace Mathy.Core.Tasks.DailyTasks
 
             var elementsHolder = View.ElementsHolder;
 
+            elements = new List<ITaskElementImageWithCollider>(10);
 
             var sprite = await refsHolder.TaskCountedImageProvider.GetRandomSprite();
             for (int i = 0; i < countOfElements; i++)
@@ -36,6 +38,9 @@ namespace Mathy.Core.Tasks.DailyTasks
                 var component = await refsHolder.UIComponentProvider
                     .InstantiateFromReference<ITaskElementImageWithCollider>(UIComponentType.ImageWithColliderElement, elementsHolder);
                 component.Init(i, sprite);
+                var randomPosition = View.GetRandomPositionAtHolder();
+                component.SetPosition(randomPosition);
+                elements.Add(component);
             }
 
             variantsInputs = View.Inputs;
@@ -45,6 +50,16 @@ namespace Mathy.Core.Tasks.DailyTasks
                 variantsInputs[i].Init(i, value);
                 variantsInputs[i].ON_CLICK += DoOnVariantClick;
             }
+        }
+
+        protected override void OnTaskShowed()
+        {
+            EnableColliders(false);
+        }
+
+        protected override void DoOnTaskPrepare()
+        {
+            EnableColliders(true);
         }
 
         private void DoOnVariantClick(ITaskViewComponent input)
@@ -61,6 +76,14 @@ namespace Mathy.Core.Tasks.DailyTasks
             taskData.SelectedAnswerIndexes.Add(input.Index);
 
             CompleteTask();
+        }
+
+        private void EnableColliders(bool isEnable)
+        {
+            foreach (var element in elements)
+            {
+                element.EnableColliders(isEnable);
+            }
         }
 
         private void UnsubscribeInputs()

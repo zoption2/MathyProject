@@ -15,8 +15,8 @@ namespace Mathy.Core.Tasks.DailyTasks
         private string userAnswer;
         private string correctAnswer;
 
-        public DefaultTaskController(ITaskViewComponentsProvider componentsFactory, ITaskBackgroundSevice backgroundSevice)
-            : base(componentsFactory, backgroundSevice)
+        public DefaultTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice) 
+            : base(refsHolder, backgroundSevice)
         {
         }
 
@@ -43,7 +43,8 @@ namespace Mathy.Core.Tasks.DailyTasks
                 var isUnknown = expression[i].IsUnknown;
                 UIComponentType elementView = GetElementViewByType(elementType);
 
-                var component = await componentsFactory.GetUIComponentAsync(elementView, elementsParent);
+                var component = await refsHolder.UIComponentProvider
+                    .InstantiateFromReference<ITaskViewComponent>(elementView, elementsParent);
 
                 TaskElementState state = TaskElementState.Default;
                 if (isUnknown)
@@ -63,7 +64,8 @@ namespace Mathy.Core.Tasks.DailyTasks
             for (int i = 0; i < variants.Count; i++)
             {
                 var variantValue = variants[i];
-                var component = await componentsFactory.GetUIComponentAsync<ITaskViewComponentClickable>(UIComponentType.DefaultVariant, variantsParent);
+                var component = await refsHolder.UIComponentProvider
+                    .InstantiateFromReference<ITaskViewComponentClickable>(UIComponentType.DefaultVariant, variantsParent);
                 component.Init(i, variantValue);
                 component.ON_CLICK += DoOnClick;
                 taskVariants.Add(component);

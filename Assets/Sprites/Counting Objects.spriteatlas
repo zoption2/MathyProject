@@ -74,10 +74,12 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 9b63cb68b9b31844fb4c5788eec893a9, type: 3}
   - {fileID: 21300000, guid: 9f4592c8c9e841f43b06b3af37432b36, type: 3}
   - {fileID: 21300000, guid: 1118dd194f3c04b43bde653d4e6d4f72, type: 3}
+  - {fileID: 21300000, guid: 60bedcd93c273db40a2f81c7866d26f4, type: 3}
   - {fileID: 21300000, guid: 803d921a121ca214b94002912c6d4be5, type: 3}
   - {fileID: 21300000, guid: b848518a0c1eb03498aea6aa34b1bfb3, type: 3}
   - {fileID: 21300000, guid: 70edd1aa219abbb4fab3806d0afcee42, type: 3}
   - {fileID: 21300000, guid: 7ef10a1b0d8f9244ca73f2246746c6b2, type: 3}
+  - {fileID: 21300000, guid: 59038a8b04eea5a4886247bac4ae7bee, type: 3}
   - {fileID: 21300000, guid: b616e1ab66bc8944cafac45dcc77dcc7, type: 3}
   - {fileID: 21300000, guid: bc0993cbb5bf2c54c95f28b096ebfd8f, type: 3}
   - {fileID: 21300000, guid: 59103e4cab6c4cd44b01546fc21c90fb, type: 3}
@@ -109,10 +111,12 @@ SpriteAtlas:
   - Top panel orange
   - Round Candy violet countable object
   - Bean Candy green countable object
+  - Variant Button Correct
   - Bean Candy orange countable object
   - Round Candy red countable object
   - Separator line
   - Flower pot countable object
+  - Variant Button Wrong
   - VioletHolder
   - Variant Button base
   - Top panel blue

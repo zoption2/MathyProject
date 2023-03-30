@@ -12,6 +12,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         Transform ElementsHolder { get; }
         void SetHeaderImage(Sprite sprite);
         void SetInputsHolderImage(Sprite sprite);
+        Vector2 GetRandomPositionAtHolder();
         ITaskViewComponentClickable[] Inputs { get; }
     }
 
@@ -26,7 +27,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         [SerializeField] private Image backgroundImage;
         [SerializeField] private Image headerImage;
         [SerializeField] private Image inputsHolderImage;
-        [SerializeField] private Transform elementsHolder;
+        [SerializeField] private RectTransform elementsHolder;
         [SerializeField] private BaseViewAnimator animator;
         [SerializeField] private TaskElementViewClickable[] inputs;
 
@@ -63,6 +64,16 @@ namespace Mathy.Core.Tasks.DailyTasks
         public void SetDescription(string description)
         {
             
+        }
+
+        public Vector2 GetRandomPositionAtHolder()
+        {
+            var size = elementsHolder.rect.size;
+            float xPos = UnityEngine.Random.Range(-(size.x/2) + 50, size.x/2 - 50);
+            float yPos = UnityEngine.Random.Range(-(size.y/2) + 50, size.y/2 - 50);
+            size.x = xPos;
+            size.y = yPos;
+            return size;
         }
 
         public void SetHeaderImage(Sprite sprite)
