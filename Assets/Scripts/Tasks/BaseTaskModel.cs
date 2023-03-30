@@ -40,14 +40,33 @@ namespace Mathy.Core.Tasks
         public BaseTaskModel(ScriptableTask taskSettings)
         {
             TaskSettings = taskSettings;
-            totalValues = taskSettings.BaseStats.ElementsAmount;
-            totalOperators = taskSettings.BaseStats.OperatorsAmount;
-            minValue = taskSettings.BaseStats.MinNumber;
-            maxValue = taskSettings.BaseStats.MaxNumber;
-            amountOfVariants = taskSettings.BaseStats.VariantsAmount;
+            totalValues = taskSettings.ElementsAmount;
+            minValue = taskSettings.MinNumber;
+            maxValue = taskSettings.MaxNumber;
+            amountOfVariants = taskSettings.VariantsAmount;
         }
 
         public abstract TaskData GetResult();
+
+        //protected virtual List<string> GetVariants(int correctValue, int amountOfVariants, int minValue, int maxValue, out int correctValueIndex)
+        //{
+        //    var random = new System.Random();
+        //    var results = new List<string>(amountOfVariants);
+        //    results.Add(correctValue.ToString());
+
+        //    for (int i = 1; i < amountOfVariants; i++)
+        //    {
+        //        var variant = random.Next(minValue, maxValue);
+        //        while (variant == correctValue)
+        //        {
+        //            variant = random.Next(minValue, maxValue);
+        //        }
+        //        results.Add(variant.ToString());
+        //    }
+        //    ShakeResults(results);
+        //    correctValueIndex = GetIndexOfValueFromList(correctValue.ToString(), results);
+        //    return results;
+        //}
 
         protected virtual List<string> GetVariants(int correctValue, int amountOfVariants, int minValue, int maxValue, out int correctValueIndex)
         {
@@ -55,18 +74,48 @@ namespace Mathy.Core.Tasks
             var results = new List<string>(amountOfVariants);
             results.Add(correctValue.ToString());
 
-            for (int i = 1; i < amountOfVariants; i++)
+            var variants = new SortedSet<int>();
+            variants.Add(correctValue);
+
+            int maxAttempts = 100;
+            int attempts = 0;
+
+            while (variants.Count < amountOfVariants && attempts < maxAttempts)
             {
-                var variant = random.Next(minValue, maxValue);
-                while (variant == correctValue)
+                int range = (maxValue - minValue) / 2;
+                int minVariantValue = Math.Max(minValue, correctValue - range);
+                int maxVariantValue = Math.Min(maxValue, correctValue + range);
+                int variant = random.Next(minVariantValue, maxVariantValue + 1);
+                if (!variants.Contains(variant))
                 {
-                    variant = random.Next(minValue, maxValue);
+                    variants.Add(variant);
                 }
-                results.Add(variant.ToString());
+                attempts++;
             }
-            ShakeResults(results);
-            correctValueIndex = GetIndexOfValueFromList(correctValue.ToString(), results);
-            return results;
+
+            if (variants.Count < amountOfVariants)
+            {
+                var duplicates = new List<int>();
+                foreach (var variant in variants)
+                {
+                    if (variant != correctValue && duplicates.Count < amountOfVariants - variants.Count)
+                    {
+                        duplicates.Add(variant);
+                    }
+                }
+                results.AddRange(variants.Select(v => v.ToString()).Where(v => v != correctValue.ToString()));
+                results.AddRange(duplicates.Select(v => v.ToString()));
+                ShakeResults(results);
+                correctValueIndex = GetIndexOfValueFromList(correctValue.ToString(), results);
+                throw new Exception($"Could not generate enough unique variants for {correctValue}. Generated {variants.Count} unique variants, but needed {amountOfVariants}. Generated {duplicates.Count} duplicates instead.");
+            }
+            else
+            {
+                results.AddRange(variants.Select(v => v.ToString()).Where(v => v != correctValue.ToString()));
+                ShakeResults(results);
+                correctValueIndex = GetIndexOfValueFromList(correctValue.ToString(), results);
+                return results;
+            }
         }
 
         /// <summary>

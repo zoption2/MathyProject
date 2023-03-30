@@ -33,7 +33,12 @@ public abstract class TaskOLD : MonoBehaviour
     protected List<TaskElementOLD> elements;
     protected List<MathOperatorOLD> operators;
     protected AnswerVariantOLD correctVariant;
-    public Stats stats { get; set; }
+
+    [Header("PARAMETERS:")]
+    public int ElementsAmount;
+    public int VariantsAmount;
+    public int MaxNumber;
+
     public virtual TaskType TaskType { get; } = TaskType.Addition;   
     public int Answer { get; protected set; }
     public virtual string answerText { get; protected set; }
@@ -78,7 +83,7 @@ public abstract class TaskOLD : MonoBehaviour
 
     protected virtual void InstantiateElements()
     {
-        for (int i = 0; i < stats.ElementsAmount; i++)
+        for (int i = 0; i < ElementsAmount; i++)
         {
             var elementInstance = Instantiate(elementPrefab, TaskPanel);
             elements.Add(elementInstance.GetComponent<MathElementOLD>());
@@ -92,7 +97,7 @@ public abstract class TaskOLD : MonoBehaviour
     {
         foreach (MathElementOLD element in elements)
         {
-            element.SetRandom(1, stats.MaxNumber);
+            element.SetRandom(1, MaxNumber);
         }
     }
 
@@ -116,7 +121,7 @@ public abstract class TaskOLD : MonoBehaviour
         string expression = Expression();
         Answer = (int)Evaluate(expression);
 
-        if (Answer > stats.MaxNumber || (onlyPositive && Answer < 0))
+        if (Answer > MaxNumber || (onlyPositive && Answer < 0))
         {
             GenerateElements();
             CalculateExpression();
@@ -135,7 +140,7 @@ public abstract class TaskOLD : MonoBehaviour
 
     protected virtual void InstantiateVariants()
     {
-        for (int i = 0; i < stats.VariantsAmount; i++)
+        for (int i = 0; i < VariantsAmount; i++)
         {
             var variantInstance = Instantiate(variantPrefab, VariantsPanel);
             var variant = variantInstance.GetComponent<AnswerVariantOLD>();
@@ -158,7 +163,7 @@ public abstract class TaskOLD : MonoBehaviour
         {
             if (variant != correctVariant)
             {
-                int randomInt = variantsValues.UniqueRandom(0, stats.MaxNumber);
+                int randomInt = variantsValues.UniqueRandom(0, MaxNumber);
                 variantsValues.Add(randomInt);
                 variant.SetText(randomInt.ToString());
                 variant.gameObject.GetComponent<Button>().onClick.AddListener(delegate { StartCoroutine(WrongVariant(variant.index)); });

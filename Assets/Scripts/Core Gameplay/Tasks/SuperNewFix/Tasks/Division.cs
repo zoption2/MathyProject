@@ -22,7 +22,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         protected override async System.Threading.Tasks.Task CreateOperators()
         {
             int oprIndex = 0;
-            while (oprIndex < TaskSettings.BaseStats.OperatorsAmount - 1)
+            while (oprIndex < TaskSettings.ElementsAmount - 1)
             {
                 this.operators.Add(new Operator(ArithmeticSigns.Divide));
                 oprIndex++;

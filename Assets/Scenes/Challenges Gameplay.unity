@@ -298,6 +298,22 @@ MonoBehaviour:
   headerImage: {fileID: 355404439}
   headerTitle: {fileID: 528232553}
   resultWindow: {fileID: 537319796}
+  bgImages:
+  - {fileID: 21300000, guid: 1a9fb6125c8271749afa7b7c870422c6, type: 3}
+  - {fileID: 21300000, guid: 122637228a29c8c41bf913aee7e92e41, type: 3}
+  - {fileID: 21300000, guid: d9dd308d4e3f580479ccc5d5d712c383, type: 3}
+  - {fileID: 21300000, guid: 2caceca15169df341817765412a57bab, type: 3}
+  - {fileID: 21300000, guid: 7f6d0e9645b7de34c86b299ed2b96abc, type: 3}
+  - {fileID: 21300000, guid: c6d136194910992488c4e446a92823db, type: 3}
+  - {fileID: 21300000, guid: fe27ddfd4d3fe2f438ab858c6f525b96, type: 3}
+  headerColors:
+  - {r: 0.8, g: 0.27450982, b: 0.33333334, a: 1}
+  - {r: 0, g: 0.47058824, b: 1, a: 1}
+  - {r: 0.93333334, g: 0.5882353, b: 0, a: 1}
+  - {r: 0.7058824, g: 0.23529412, b: 0.9019608, a: 1}
+  - {r: 0.14117648, g: 0.58431375, b: 0.15294118, a: 1}
+  - {r: 0.93333334, g: 0.5882353, b: 0, a: 1}
+  - {r: 0, g: 0.47058824, b: 1, a: 1}
 --- !u!1 &128974498
 GameObject:
   m_ObjectHideFlags: 0
@@ -3401,7 +3417,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6975232287196967962, guid: 359f07c91358b3845ae6b33f6a8cd36e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6975232287196967962, guid: 359f07c91358b3845ae6b33f6a8cd36e, type: 3}
       propertyPath: m_SizeDelta.y
@@ -5448,6 +5464,9 @@ MonoBehaviour:
   operatorPrefab: {fileID: 47987773306105344, guid: 04b9774c27466e14080545cc3bbd334d, type: 3}
   variantPrefab: {fileID: 7360503300691103378, guid: e81ca5eae35b49745a5a446dcd7a9ba1, type: 3}
   variants: []
+  ElementsAmount: 0
+  VariantsAmount: 0
+  MaxNumber: 0
   RightPanel: {fileID: 8940153181073356906}
   LeftPanel: {fileID: 8940153182388677228}
   TimerPanel: {fileID: 840134774}
@@ -5475,6 +5494,9 @@ MonoBehaviour:
   operatorPrefab: {fileID: 47987773306105344, guid: b7e92e405f1668140b4257bcf126c946, type: 3}
   variantPrefab: {fileID: 7360503300691103378, guid: e81ca5eae35b49745a5a446dcd7a9ba1, type: 3}
   variants: []
+  ElementsAmount: 0
+  VariantsAmount: 0
+  MaxNumber: 0
   RightPanel: {fileID: 8940153181073356906}
   LeftPanel: {fileID: 8940153182388677228}
   TimerPanel: {fileID: 840134774}
@@ -5502,6 +5524,9 @@ MonoBehaviour:
   operatorPrefab: {fileID: 47987773306105344, guid: b7e92e405f1668140b4257bcf126c946, type: 3}
   variantPrefab: {fileID: 7360503300691103378, guid: 55bc365101c429743a6cbc4bccc9b0ba, type: 3}
   variants: []
+  ElementsAmount: 0
+  VariantsAmount: 0
+  MaxNumber: 0
   RightPanel: {fileID: 8940153181073356906}
   LeftPanel: {fileID: 8940153182388677228}
   TimerPanel: {fileID: 840134774}
@@ -5529,6 +5554,9 @@ MonoBehaviour:
   operatorPrefab: {fileID: 47987773306105344, guid: b7e92e405f1668140b4257bcf126c946, type: 3}
   variantPrefab: {fileID: 7360503300691103378, guid: 92d5ffb415d121b4cbde7bfdac074557, type: 3}
   variants: []
+  ElementsAmount: 0
+  VariantsAmount: 0
+  MaxNumber: 0
   RightPanel: {fileID: 8940153181073356906}
   LeftPanel: {fileID: 8940153182388677228}
   TimerPanel: {fileID: 840134774}

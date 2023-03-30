@@ -23,9 +23,9 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         protected override async System.Threading.Tasks.Task CreateElements()
         {
-            for (int i = 0; i < TaskSettings.BaseStats.ElementsAmount; i++)
+            for (int i = 0; i < TaskSettings.ElementsAmount; i++)
             {
-                this.Elements.Add(new TaskElement(this.Random.Range(TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber)));
+                this.Elements.Add(new TaskElement(this.Random.Range(TaskSettings.MinNumber, TaskSettings.MaxNumber)));
             }
         }
 

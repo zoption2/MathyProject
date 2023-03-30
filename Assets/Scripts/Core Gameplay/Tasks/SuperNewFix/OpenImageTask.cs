@@ -67,11 +67,11 @@ namespace Mathy.Core.Tasks
             CorrectVariantIndexes.Add(answerIndex);
 
             int index = 0;
-            while (index < this.TaskSettings.BaseStats.VariantsAmount)
+            while (index < this.TaskSettings.VariantsAmount)
             {
                 if(this.availableIndexes.IndexOf(index) != -1)
                 {
-                    int value = Random.Range(TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber);
+                    int value = Random.Range(TaskSettings.MinNumber, TaskSettings.MaxNumber);
                     if (index == answerIndex)
                     {
                         this.variants.Add(new Variant(answer, true));

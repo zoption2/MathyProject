@@ -30,7 +30,7 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         protected override async System.Threading.Tasks.Task CreateElements()
         {
-            for (int i = 0; i < TaskSettings.BaseStats.ElementsAmount; i++)
+            for (int i = 0; i < TaskSettings.ElementsAmount; i++)
             {
                 this.Elements.Add(new TaskElement(ArithmeticSigns.QuestionMark));
             }
@@ -51,8 +51,8 @@ namespace Mathy.Core.Tasks.DailyTasks
             {
                 if(variants.Count == 0) 
                 {
-                    List<int> variantsTemp = await Random.ExclusiveNumericRange(TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber, TaskSettings.BaseStats.VariantsAmount, -1);
-                    for (int i = 0; i < TaskSettings.BaseStats.VariantsAmount; i++)
+                    List<int> variantsTemp = await Random.ExclusiveNumericRange(TaskSettings.MinNumber, TaskSettings.MaxNumber, TaskSettings.VariantsAmount, -1);
+                    for (int i = 0; i < TaskSettings.VariantsAmount; i++)
                     {
                         this.variants.Add(new Variant(variantsTemp[i], true));
                     }
@@ -60,12 +60,12 @@ namespace Mathy.Core.Tasks.DailyTasks
             }
             else
             {
-                List<int> variantsTemp = await Random.ExclusiveNumericRange(TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber, TaskSettings.BaseStats.VariantsAmount, -1);
+                List<int> variantsTemp = await Random.ExclusiveNumericRange(TaskSettings.MinNumber, TaskSettings.MaxNumber, TaskSettings.VariantsAmount, -1);
                 bool isCorrectAnswExists = false;
-                for (int i = 0; i < TaskSettings.BaseStats.VariantsAmount; i++)
+                for (int i = 0; i < TaskSettings.VariantsAmount; i++)
                 {
                     //if last and still no correct - set it
-                    if (i == (TaskSettings.BaseStats.VariantsAmount - 1))
+                    if (i == (TaskSettings.VariantsAmount - 1))
                     {
                         if (!isCorrectAnswExists)
                         {
@@ -75,11 +75,11 @@ namespace Mathy.Core.Tasks.DailyTasks
                             }
                             else if (sign == ArithmeticSigns.LessThan)
                             {
-                                this.variants.Add(new Variant(Random.Range(firstElement, TaskSettings.BaseStats.MaxNumber+1), true));
+                                this.variants.Add(new Variant(Random.Range(firstElement, TaskSettings.MaxNumber+1), true));
                             }
                             else if (sign == ArithmeticSigns.GreaterThan)
                             {
-                                this.variants.Add(new Variant(Random.Range(TaskSettings.BaseStats.MinNumber, firstElement), true));
+                                this.variants.Add(new Variant(Random.Range(TaskSettings.MinNumber, firstElement), true));
                             }
                         }
                         else

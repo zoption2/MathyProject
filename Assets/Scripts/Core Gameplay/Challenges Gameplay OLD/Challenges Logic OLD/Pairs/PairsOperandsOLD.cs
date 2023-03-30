@@ -64,7 +64,7 @@ public class PairsOperandsOLD : ChallengeOLD
         operandsVariants = Enumerable.Range(0, variants.Count)
        .OrderBy(i => Random.value)
        .Select(i => variants[i])
-       .Take(stats.ElementsAmount).ToList();
+       .Take(ElementsAmount).ToList();
         SetOperatorsValues();
     }
 
@@ -80,7 +80,7 @@ public class PairsOperandsOLD : ChallengeOLD
         string expression = Expression(operandsVariants);
         Answer = (int)Evaluate(expression);
 
-        if (Answer > stats.MaxNumber || (onlyPositive && Answer < 0))
+        if (Answer > MaxNumber || (onlyPositive && Answer < 0))
         {
             ResetGoal();
         }
@@ -174,7 +174,7 @@ public class PairsOperandsOLD : ChallengeOLD
 
         foreach (AnswerVariantOLD variant in variants)
         {
-            int randomInt = Random.Range(0, stats.MaxNumber);
+            int randomInt = Random.Range(0, MaxNumber);
             variantsValues.Add(randomInt);
             variant.SetText(randomInt.ToString());
         }
@@ -193,7 +193,7 @@ public class PairsOperandsOLD : ChallengeOLD
         TaskElementOLD target = elements[selectedVariants.Count];
         selectedVariant.SelectToTask(target);
 
-        if (selectedVariants.Count == stats.ElementsAmount-1)
+        if (selectedVariants.Count == ElementsAmount-1)
         {
             selectedVariants.Add(selectedVariant);
 

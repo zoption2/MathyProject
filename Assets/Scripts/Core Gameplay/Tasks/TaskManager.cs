@@ -372,7 +372,7 @@ namespace Mathy.Core.Tasks
 
         public async void StartTaskPractice(ScriptableTask taskParam, int amount)
         {  
-            currentTaskType = taskParam.TaskType.ToString() + taskParam.BaseStats.MaxNumber.ToString();
+            currentTaskType = taskParam.TaskType.ToString() + taskParam.MaxNumber.ToString();
 
             using (TaskGenerator taskGenerator = new TaskGenerator())
             {
@@ -391,7 +391,7 @@ namespace Mathy.Core.Tasks
             {
                 ScriptableTask tast = taskParams[UnityEngine.Random.Range(0, taskParams.Count)];
 
-                currentTaskType = tast.TaskType.ToString() + tast.BaseStats.MaxNumber.ToString();
+                currentTaskType = tast.TaskType.ToString() + tast.MaxNumber.ToString();
 
                 using (TaskGenerator taskGenerator = new TaskGenerator())
                 {
@@ -503,8 +503,6 @@ namespace Mathy.Core.Tasks
         private void UpdateSceneVisual()
         {
             int index = UnityEngine.Random.Range(0, bgImages.Count);
-
-            //headerTitle.text = activeTask.TaskSettings.Title;
             headerImage.color = headerColors[index];
             bgImage.sprite = bgImages[index];
         }
