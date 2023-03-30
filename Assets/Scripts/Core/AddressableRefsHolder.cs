@@ -4,7 +4,7 @@ using UnityEngine.AddressableAssets;
 using Cysharp.Threading.Tasks;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Zenject;
-
+using Mathy.Core.Tasks.DailyTasks;
 
 namespace Mathy
 {
@@ -102,31 +102,28 @@ namespace Mathy
     {
         [SerializeField] private ReferenceData[] references;
 
-        public async UniTask<BackgroundData> GetRandomData()
+        public async UniTask<TDecor> GetRandomData<TDecor>() where TDecor : ITaskViewDecorData
         {
             var random = new System.Random();
             var values = Enum.GetValues(typeof(BackgroundType));
             var back = (BackgroundType)values.GetValue(random.Next(values.Length));
-            return await GetData(back);
+            return await GetData<TDecor>(back);
         }
 
-        public async UniTask<BackgroundData> GetData(BackgroundType type)
+        public async UniTask<TDecor> GetData<TDecor>(BackgroundType type) where TDecor : ITaskViewDecorData
         {
             var referenceData = GetReference(type);
-            var data = new BackgroundData();
-            data.Color = referenceData.Color;
+
             try
             {
-                AsyncOperationHandle<Sprite> handler = Addressables.LoadAssetAsync<Sprite>(referenceData.Reference.RuntimeKey);
+                AsyncOperationHandle<TDecor> handler = Addressables.LoadAssetAsync<TDecor>(referenceData.Reference.RuntimeKey);
                 await handler;
-                Sprite sprite = handler.Result;
-                data.Sprite = sprite;
-                return data;
+                return handler.Result;
             }
             catch (Exception)
             {
                 throw new ArgumentNullException(
-                    string.Format("Can't load sprite from addressable reference for >>{0}<<", type)
+                    string.Format("Can't load ScriptableObject from addressable reference for >>{0}<<", type)
                     );
             }
         }
@@ -149,10 +146,17 @@ namespace Mathy
         private class ReferenceData
         {
             [field: SerializeField] public BackgroundType Type { get; private set; }
-            [field: SerializeField] public AssetReferenceSprite Reference { get; private set; }
-            [field: SerializeField] public Color Color { get; private set; }
+            [field: SerializeField] public AssetReference Reference { get; private set; }
         }
     }
+
+    public class AssetReferenceTaskViewDecor : AssetReferenceT<BaseTaskViewDecorData>
+    {
+        public AssetReferenceTaskViewDecor(string guid) : base(guid)
+        {
+        }
+    }
+
 
     [Serializable]
     public class BackgroundData

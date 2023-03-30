@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
     public interface ITaskBackgroundSevice
     {
-        UniTask<BackgroundData> GetData<TEnum>(ITaskView view) where TEnum : Enum;
+        UniTask<TDecorData> GetData<TEnum, TDecorData>(ITaskView view) where TEnum : Enum where TDecorData : ITaskViewDecorData;
         void Reset();
     }
 
@@ -17,39 +16,40 @@ namespace Mathy.Core.Tasks.DailyTasks
     {
         private IAddressableRefsHolder refsHolder;
         private System.Random random;
-        private Dictionary<Type, BackgroundData> taskBackgrounds;
+        private Dictionary<Type, ITaskViewDecorData> decors;
 
         public TaskBackgroundService(IAddressableRefsHolder refsHolder)
         {
             this.refsHolder = refsHolder;
-            taskBackgrounds = new();
+            decors = new();
             random = new System.Random();
         }
 
-        public async UniTask<BackgroundData> GetData<TEnum>(ITaskView view) where TEnum : Enum
+        public async UniTask<TDecorData> GetData<TEnum, TDecorData>(ITaskView view)
+            where TEnum : Enum
+            where TDecorData : ITaskViewDecorData 
         {
             var viewType = view.GetType();
-            if (!taskBackgrounds.ContainsKey(viewType))
+
+            if (!decors.TryGetValue(viewType, out var decorData))
             {
                 var values = Enum.GetValues(typeof(TEnum));
                 var selected = (TEnum)values.GetValue(random.Next(values.Length));
                 var convertedValue = (BackgroundType)Convert.ToInt32(selected);
-                var backgroundData = await refsHolder.BackgroundProvider.GetData(convertedValue);
-                if (!taskBackgrounds.ContainsKey(viewType))
-                {
-                    taskBackgrounds.Add(viewType, backgroundData);
-                }
+                decorData = await refsHolder.BackgroundProvider.GetData<TDecorData>(convertedValue);
+                decors[viewType] = decorData;
             }
-            return taskBackgrounds[viewType];
+
+            return (TDecorData)decors[viewType];
         }
 
         public void Reset()
         {
-            foreach (var data in taskBackgrounds.Values)
+            foreach (var data in decors.Values)
             {
-                Addressables.Release<Sprite>(data.Sprite);
+                Addressables.Release(data);
             }
-            taskBackgrounds = new Dictionary<Type, BackgroundData>();
+            decors = new Dictionary<Type, ITaskViewDecorData>();
         }
     }
 }

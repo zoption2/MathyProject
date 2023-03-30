@@ -76,57 +76,50 @@ MonoBehaviour:
     references:
     - <Type>k__BackingField: 1
       <Reference>k__BackingField:
-        m_AssetGUID: 1a9fb6125c8271749afa7b7c870422c6
-        m_SubObjectName: bg_coliseum
+        m_AssetGUID: 60709594143e4994ab725d5502b4628c
+        m_SubObjectName: 
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-      <Color>k__BackingField: {r: 0.8000001, g: 0.27450982, b: 0.33333334, a: 1}
     - <Type>k__BackingField: 2
       <Reference>k__BackingField:
-        m_AssetGUID: 122637228a29c8c41bf913aee7e92e41
-        m_SubObjectName: bg_chichen_itza
+        m_AssetGUID: 74c14a4d6b32d89489b2622c1d3394f8
+        m_SubObjectName: 
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-      <Color>k__BackingField: {r: 0, g: 0.47058827, b: 1, a: 1}
     - <Type>k__BackingField: 3
       <Reference>k__BackingField:
-        m_AssetGUID: 2caceca15169df341817765412a57bab
-        m_SubObjectName: bg_golden_gates
+        m_AssetGUID: ea04fd57b1c424a4e8fdfa8fefb9e2e1
+        m_SubObjectName: 
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-      <Color>k__BackingField: {r: 0.7058824, g: 0.23529413, b: 0.90196085, a: 1}
     - <Type>k__BackingField: 4
       <Reference>k__BackingField:
-        m_AssetGUID: 7f6d0e9645b7de34c86b299ed2b96abc
-        m_SubObjectName: bg_pantheon
+        m_AssetGUID: 16c5f6cd5793e2b43a0a5e6a6e0983da
+        m_SubObjectName: 
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-      <Color>k__BackingField: {r: 0.14117648, g: 0.58431375, b: 0.15294118, a: 1}
     - <Type>k__BackingField: 5
       <Reference>k__BackingField:
-        m_AssetGUID: c6d136194910992488c4e446a92823db
-        m_SubObjectName: bg_pyramids
+        m_AssetGUID: 78f990a5487724b4a9c2d7a82abdf3b1
+        m_SubObjectName: 
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-      <Color>k__BackingField: {r: 0.9333334, g: 0.5882353, b: 0, a: 1}
     - <Type>k__BackingField: 6
       <Reference>k__BackingField:
-        m_AssetGUID: fe27ddfd4d3fe2f438ab858c6f525b96
-        m_SubObjectName: bg_stonehenge
+        m_AssetGUID: 04142870d80f66b4a8fcc79b6a4b6c41
+        m_SubObjectName: 
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-      <Color>k__BackingField: {r: 0, g: 0.47058827, b: 1, a: 1}
     - <Type>k__BackingField: 7
       <Reference>k__BackingField:
-        m_AssetGUID: d9dd308d4e3f580479ccc5d5d712c383
-        m_SubObjectName: bg_daily_rewards
+        m_AssetGUID: 1c3ea7dcce490aa4fa95b55af10ccd1c
+        m_SubObjectName: 
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-      <Color>k__BackingField: {r: 0.9333334, g: 0.5882353, b: 0, a: 1}

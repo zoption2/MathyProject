@@ -27,9 +27,9 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         protected override async UniTask DoOnInit()
         {
-            var backgroundData = await backgroundSevice.GetData<StandardBackgroundType>(View);
-            View.SetBackground(backgroundData.Sprite);
-            View.SetHeaderColor(backgroundData.Color);
+            var backgroundData = await backgroundSevice.GetData<StandardBackgroundType, DefaultTaskViewDecorData>(View);
+            View.SetBackground(backgroundData.BackgroundSprite);
+            View.SetHeaderColor(backgroundData.HeaderColor);
 
             var questionSign = ((char)ArithmeticSigns.QuestionMark).ToString();
             var expression = Model.Expression;
