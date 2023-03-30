@@ -12,7 +12,8 @@
 
     public enum GameplayScenePopup
     {
-        DefaultCounter
+        DefaultCounter,
+        CounterVariantOne,
     }
 
     public enum TaskElementType

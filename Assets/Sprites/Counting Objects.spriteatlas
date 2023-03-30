@@ -54,9 +54,11 @@ SpriteAtlas:
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 2b7fa940ce66458449fbe98aed0560df, type: 3}
+  - {fileID: 21300000, guid: f9a08050ad6a59740b50e2cd833cc803, type: 3}
   - {fileID: 21300000, guid: 9e14c7a1cb1df1348a10c48def7825b7, type: 3}
   - {fileID: 21300000, guid: 72700372e9270254c97521e2e5a13c26, type: 3}
   - {fileID: 21300000, guid: 384f47230a0d26449924c6f7b447bdb7, type: 3}
+  - {fileID: 21300000, guid: 8fbadc5319051c240908ad38cf176c6b, type: 3}
   - {fileID: 21300000, guid: 7e33ff537b9565f46939ed6451dee044, type: 3}
   - {fileID: 21300000, guid: 590100b3d3ffe4d479eec5c374d7ca85, type: 3}
   - {fileID: 21300000, guid: 4896ac040b6d870458875f96bc859699, type: 3}
@@ -75,6 +77,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 9f4592c8c9e841f43b06b3af37432b36, type: 3}
   - {fileID: 21300000, guid: 1118dd194f3c04b43bde653d4e6d4f72, type: 3}
   - {fileID: 21300000, guid: 60bedcd93c273db40a2f81c7866d26f4, type: 3}
+  - {fileID: 21300000, guid: 3cf6560a625ff9e448af0c893699c8c8, type: 3}
   - {fileID: 21300000, guid: 803d921a121ca214b94002912c6d4be5, type: 3}
   - {fileID: 21300000, guid: b848518a0c1eb03498aea6aa34b1bfb3, type: 3}
   - {fileID: 21300000, guid: 70edd1aa219abbb4fab3806d0afcee42, type: 3}
@@ -83,6 +86,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b616e1ab66bc8944cafac45dcc77dcc7, type: 3}
   - {fileID: 21300000, guid: bc0993cbb5bf2c54c95f28b096ebfd8f, type: 3}
   - {fileID: 21300000, guid: 59103e4cab6c4cd44b01546fc21c90fb, type: 3}
+  - {fileID: 21300000, guid: a6e2166ca49514a42a9535a21b54ac5a, type: 3}
   - {fileID: 21300000, guid: 2a2675cc9b6c4df4b826cf24ee758e47, type: 3}
   - {fileID: 21300000, guid: 25192acc354f6404f89d50e44f1a8608, type: 3}
   - {fileID: 21300000, guid: 82788a4d076bbfe40906f41150b4e390, type: 3}
@@ -91,9 +95,11 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 4c838abfa2d69ca4cb6448b7d461b104, type: 3}
   m_PackedSpriteNamesToIndex:
   - Arrow
+  - Empty indicator
   - Top panel green
   - CyanHolder
   - Round Candy blue countable object
+  - Green indicator
   - Strawberry countable object
   - Backward arrow icon
   - Toolbar Button base
@@ -112,6 +118,7 @@ SpriteAtlas:
   - Round Candy violet countable object
   - Bean Candy green countable object
   - Variant Button Correct
+  - Blue indicator
   - Bean Candy orange countable object
   - Round Candy red countable object
   - Separator line
@@ -120,6 +127,7 @@ SpriteAtlas:
   - VioletHolder
   - Variant Button base
   - Top panel blue
+  - Red indicator
   - Leaf countable object
   - RedHolder
   - GreenHolder
