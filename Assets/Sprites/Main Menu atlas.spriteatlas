@@ -92,6 +92,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 8a3f0205a0e97eb4c995d770cbfe125f, type: 3}
   - {fileID: 21300000, guid: 4f16d8255a860474fbc70ca0371539b7, type: 3}
   - {fileID: 21300000, guid: b38c0255f1c43924386c25f359c83079, type: 3}
+  - {fileID: 21300000, guid: 54d7b2f539578dc439d7b4faaef084c9, type: 3}
   - {fileID: 21300000, guid: c66443f59bc493c4c8115c6bfe72f32d, type: 3}
   - {fileID: 21300000, guid: 4580e606336eb774780702ab2b1d2c22, type: 3}
   - {fileID: 21300000, guid: bd4a3616c021cc04ebc5dc3642920173, type: 3}
@@ -178,6 +179,7 @@ SpriteAtlas:
   - Play btn bg
   - Text area bg
   - Toolbar btn 01-2 red
+  - Skill Plan button
   - Tab button 01-1 blue
   - Continue text - ru
   - Header texture 01
