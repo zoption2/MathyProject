@@ -19,7 +19,59 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 29550182400
-    m_Localized: How many objects are here?
+    m_Localized: How many {0} are here?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241049839861760
+    m_Localized: beans
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241662686396416
+    m_Localized: cheeses
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241710002339840
+    m_Localized: coins
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241735344324608
+    m_Localized: flowers
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241767455916032
+    m_Localized: leaves
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241797831065600
+    m_Localized: candies
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241834506059776
+    m_Localized: strawberries
+    m_Metadata:
+      m_Items: []
+  - m_Id: 244151468949504
+    m_Localized: beans
+    m_Metadata:
+      m_Items: []
+  - m_Id: 244208284991488
+    m_Localized: beans
+    m_Metadata:
+      m_Items: []
+  - m_Id: 244232721006592
+    m_Localized: candies
+    m_Metadata:
+      m_Items: []
+  - m_Id: 244312693800960
+    m_Localized: candies
+    m_Metadata:
+      m_Items: []
+  - m_Id: 276488189640704
+    m_Localized: back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 276604732571648
+    m_Localized: help
     m_Metadata:
       m_Items: []
   references:

@@ -19,6 +19,58 @@ MonoBehaviour:
     m_Key: CountToTenImagesTitle
     m_Metadata:
       m_Items: []
+  - m_Id: 241049839861760
+    m_Key: GreenBean
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241662686396416
+    m_Key: Cheese
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241710002339840
+    m_Key: Coin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241735344324608
+    m_Key: Flower
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241767455916032
+    m_Key: Leaf
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241797831065600
+    m_Key: BlueCandy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241834506059776
+    m_Key: Strawberry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 244151468949504
+    m_Key: OrangeBean
+    m_Metadata:
+      m_Items: []
+  - m_Id: 244208284991488
+    m_Key: VioletBean
+    m_Metadata:
+      m_Items: []
+  - m_Id: 244232721006592
+    m_Key: RedCandy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 244312693800960
+    m_Key: VioletCandy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 276488189640704
+    m_Key: backKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 276604732571648
+    m_Key: helpKey
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

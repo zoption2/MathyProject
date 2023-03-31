@@ -80,8 +80,8 @@ namespace Mathy.Core.Tasks
             controller.ON_FORCE_EXIT -= ClickOnExitFromGameplay;
             var result = controller.GetResults();
             result.Mode = TaskMode;
-            result.TaskModeIndex = taskIndexer;
             taskIndexer++;
+            result.TaskModeIndex = taskIndexer;
             dataManager.SaveTaskData(result);
 
             if (result.IsAnswerCorrect)

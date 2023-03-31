@@ -14,7 +14,6 @@ namespace Mathy
         UIComponentAddressableRef UIComponentProvider { get; }
         BackgroundAddressableRef BackgroundProvider { get; }
         GameplayScenePopupAddressableRef GameplayScenePopupsProvider { get; }
-        TaskCountedImageAdressableRef TaskCountedImageProvider { get; }
     }
 
 
@@ -25,7 +24,6 @@ namespace Mathy
         [field: SerializeField] public UIComponentAddressableRef UIComponentProvider { get; private set; }
         [field: SerializeField] public GameplayScenePopupAddressableRef GameplayScenePopupsProvider { get; private set; }
         [field: SerializeField] public BackgroundAddressableRef BackgroundProvider { get; private set; }
-        [field: SerializeField] public TaskCountedImageAdressableRef TaskCountedImageProvider { get; private set; }
     }
 
     public abstract class AddressableRefsProvider<TType, TRef> where TType : Enum where TRef : AssetReference
@@ -47,7 +45,7 @@ namespace Mathy
                 }
                 var viewGO = container.InstantiatePrefab(viewPrefab, parent);
                 
-                //Addressables.Release(handler);
+                //Addressables.ReleaseInstance(handler);
                 var view = viewGO.GetComponent<T>();
                 return view;
             }
@@ -114,18 +112,6 @@ namespace Mathy
     public class GameplayScenePopupAddressableRef : AddressableRefsProvider<GameplayScenePopup, AssetReferenceGameObject>
     {
 
-    }
-
-    [Serializable]
-    public class TaskCountedImageAdressableRef : AddressableRefsProvider<TaskCountedImageElementType, AssetReferenceSprite>
-    { 
-        public async UniTask<Sprite> GetRandomSprite()
-        {
-            var random = new System.Random();
-            var values = Enum.GetValues(typeof(TaskCountedImageElementType));
-            var type = (TaskCountedImageElementType)values.GetValue(random.Next(values.Length));
-            return await LoadAsync<Sprite>(type);
-        }
     }
 
 

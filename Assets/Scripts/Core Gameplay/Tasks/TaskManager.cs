@@ -428,7 +428,6 @@ namespace Mathy.Core.Tasks
         public void CorrectAnswer()
         {
             CorrectAnswers++;
-            currenTaskData.EndTime = DateTime.UtcNow;
             VibrationManager.Instance.TapPeekVibrate();
 
             RunNextTask();
@@ -436,7 +435,6 @@ namespace Mathy.Core.Tasks
 
         public void WrongAnswer()
         {
-            currenTaskData.EndTime = DateTime.UtcNow;
             VibrationManager.Instance.TapNopeVibrate();
 
             if (isPractice)
@@ -466,7 +464,7 @@ namespace Mathy.Core.Tasks
                 //previousTask.TaskBehaviour.SetActiveViewPanels(false);
 
 
-                currenTaskData.StartTime = DateTime.UtcNow;
+
             }
             else
             {
@@ -475,7 +473,7 @@ namespace Mathy.Core.Tasks
                     await activeTask.CreateTaskView(GameplayPanel);
                 activeTask.TaskBehaviour.SetActiveViewPanels(true);
 
-                currenTaskData.StartTime = DateTime.UtcNow;
+
             }
             if (isPractice)
             {

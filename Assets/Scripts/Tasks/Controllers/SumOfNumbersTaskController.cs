@@ -15,14 +15,12 @@ namespace Mathy.Core.Tasks.DailyTasks
         private List<string> userAnswers;
         private List<string> correctAnswers;
 
+        protected override bool IsAnswerCorrect { get; set; }
+        protected override List<int> SelectedAnswerIndexes { get; set; }
+
         public SumOfNumbersTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice) 
             : base(refsHolder, backgroundSevice)
         {
-        }
-
-        public override TaskData GetResults()
-        {
-            return taskData;
         }
 
         protected override async UniTask DoOnInit()
@@ -82,11 +80,11 @@ namespace Mathy.Core.Tasks.DailyTasks
             userAnswers.Add(selectedAnswerValue);
             bool isAnswerCorrect = correctAnswers.Contains(selectedAnswerValue); 
 
-            taskData.IsAnswerCorrect = isAnswerCorrect;
-            taskData.TaskPlayDuration = TotalPlayingTime;
-            if (taskData.SelectedAnswerIndexes == null) taskData.SelectedAnswerIndexes = new List<int>();
-            taskData.SelectedAnswerIndexes.Add(view.Index);
-            int unknownElementIndex = taskData.SelectedAnswerIndexes.IndexOf(view.Index);
+            IsAnswerCorrect = isAnswerCorrect;
+
+            if (SelectedAnswerIndexes == null) SelectedAnswerIndexes = new List<int>();
+            SelectedAnswerIndexes.Add(view.Index);
+            int unknownElementIndex = SelectedAnswerIndexes.IndexOf(view.Index);
 
             if (isAnswerCorrect)
             {
@@ -104,25 +102,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             if (userAnswers.Count >= Model.UnknowntElementsAmount || !isAnswerCorrect)
             {
                 foreach (var variant in taskVariants) variant.IsInteractable = false;
-                StopTimer();
                 CompleteTask();
-            }
-        }
-
-        private UIComponentType GetElementViewByType(TaskElementType type)
-        {
-            switch (type)
-            {
-                case TaskElementType.Value:
-                    return UIComponentType.DefaultElement;
-
-                case TaskElementType.Operator:
-                    return UIComponentType.DefaultOperator;
-
-                default:
-                    throw new ArgumentException(
-                        string.Format("{0} type of element not found", type)
-                        );
             }
         }
 

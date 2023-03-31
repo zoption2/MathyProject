@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using Mathy.UI.Tasks;
 using Mathy.Data;
+using System;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
@@ -9,7 +10,12 @@ namespace Mathy.Core.Tasks.DailyTasks
     {
         private List<ITaskElementImageWithCollider> elements;
         private ITaskViewComponentClickable[] variantsInputs;
+        private TaskCountedImageElementType selectedImageType;
         private string correctAnswer;
+
+        protected override string LocalizationTableKey => "VariantOneTaskView";
+        protected override bool IsAnswerCorrect {get; set;}
+        protected override List<int> SelectedAnswerIndexes { get; set; }
 
         public CountToTenImagesTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice) 
             : base(refsHolder, backgroundSevice)
@@ -32,12 +38,15 @@ namespace Mathy.Core.Tasks.DailyTasks
 
             elements = new List<ITaskElementImageWithCollider>(10);
 
-            var sprite = await refsHolder.TaskCountedImageProvider.GetRandomSprite();
+            var imageValues = Enum.GetValues(typeof(TaskCountedImageElementType));
+            selectedImageType = (TaskCountedImageElementType)imageValues.GetValue(random.Next(imageValues.Length));
+
+
             for (int i = 0; i < countOfElements; i++)
             {
                 var component = await refsHolder.UIComponentProvider
                     .InstantiateFromReference<ITaskElementImageWithCollider>(UIComponentType.ImageWithColliderElement, elementsHolder);
-                component.Init(i, sprite);
+                component.Init(i, selectedImageType);
                 var randomPosition = View.GetRandomPositionAtHolder();
                 component.SetPosition(randomPosition);
                 elements.Add(component);
@@ -50,6 +59,14 @@ namespace Mathy.Core.Tasks.DailyTasks
                 variantsInputs[i].Init(i, value);
                 variantsInputs[i].ON_CLICK += DoOnVariantClick;
             }
+        }
+
+        protected override string GetLocalizedTitle()
+        {
+            var localizedTitleFormat = LocalizationManager.GetLocalizedString(LocalizationTableKey, Model.TitleKey);
+            string imageKey = selectedImageType.ToString();
+            var countedObject = LocalizationManager.GetLocalizedString(LocalizationTableKey, imageKey);
+            return string.Format(localizedTitleFormat, countedObject);
         }
 
         protected override void OnTaskShowed()
@@ -70,10 +87,8 @@ namespace Mathy.Core.Tasks.DailyTasks
             TaskElementState state = isCorrect ? TaskElementState.Correct : TaskElementState.Wrong;
             input.ChangeState(state);
 
-            taskData.TaskPlayDuration = TotalPlayingTime;
-            taskData.IsAnswerCorrect = isCorrect;
-            taskData.SelectedAnswerIndexes = new List<int>(1);
-            taskData.SelectedAnswerIndexes.Add(input.Index);
+            IsAnswerCorrect = isCorrect;
+            SelectedAnswerIndexes.Add(input.Index);
 
             CompleteTask();
         }

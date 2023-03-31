@@ -15,14 +15,12 @@ namespace Mathy.Core.Tasks.DailyTasks
         private string userAnswer;
         private string correctAnswer;
 
+        protected override bool IsAnswerCorrect { get; set; }
+        protected override List<int> SelectedAnswerIndexes { get; set; }
+
         public DefaultTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice) 
             : base(refsHolder, backgroundSevice)
         {
-        }
-
-        public override TaskData GetResults()
-        {
-            return taskData;
         }
 
         protected override async UniTask DoOnInit()
@@ -75,7 +73,6 @@ namespace Mathy.Core.Tasks.DailyTasks
         private void DoOnClick(ITaskViewComponent view)
         {
             bool isAnswerCorrect;
-            StopTimer();
             userAnswer = view.Value;
             if (userAnswer.Equals(correctAnswer))
             {
@@ -92,29 +89,10 @@ namespace Mathy.Core.Tasks.DailyTasks
                 isAnswerCorrect = false;
             }
 
-            taskData.TaskPlayDuration = TotalPlayingTime;
-            taskData.IsAnswerCorrect = isAnswerCorrect;
-            taskData.SelectedAnswerIndexes = new List<int>(1);
-            taskData.SelectedAnswerIndexes.Add(view.Index);
+            IsAnswerCorrect = isAnswerCorrect;
+            SelectedAnswerIndexes.Add(view.Index);
 
             CompleteTask();
-        }
-
-        private UIComponentType GetElementViewByType(TaskElementType type)
-        {
-            switch (type)
-            {
-                case TaskElementType.Value:
-                    return UIComponentType.DefaultElement;
-
-                case TaskElementType.Operator:
-                    return UIComponentType.DefaultOperator;
-
-                default:
-                    throw new ArgumentException(
-                        string.Format("{0} type of element not found", type)
-                        );
-            }
         }
 
         protected override void DoOnRelease()
