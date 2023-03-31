@@ -26,6 +26,7 @@ public class ProjectContextInstaller : MonoInstaller
     {
         Container.Bind<DefaultTaskController>().To<DefaultTaskController>().AsTransient();
         Container.Bind<SumOfNumbersTaskController>().To<SumOfNumbersTaskController>().AsTransient();
+        Container.Bind<CountToTenImagesTaskController>().To<CountToTenImagesTaskController>().AsTransient();
     }
 
     private void BindScenarious()

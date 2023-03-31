@@ -4,6 +4,8 @@ using System;
 using TASK = Mathy.Core.Tasks.Task;
 using ValueTask = System.Threading.Tasks.ValueTask;
 using Mathy.Data;
+using Random = System.Random;
+using System.Collections.Generic;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
@@ -12,7 +14,8 @@ namespace Mathy.Core.Tasks.DailyTasks
         public event Action<ITaskController> ON_COMPLETE;
         public event Action ON_FORCE_EXIT;
         public Transform ViewParent { get; set; }
-        public void Init(IModel model, IView view);
+        public UniTask Init(IModel model, IView view);
+        void Prepare();
         void StartTask();
         TaskData GetResults();
         void HideAndRelease(Action callback);
@@ -24,51 +27,84 @@ namespace Mathy.Core.Tasks.DailyTasks
         public event Action<ITaskController> ON_COMPLETE;
         public event Action ON_FORCE_EXIT;
 
-        protected ITaskViewComponentsProvider componentsFactory;
         protected ITaskBackgroundSevice backgroundSevice;
-        protected TaskData taskData;
+        protected IAddressableRefsHolder refsHolder;
+        protected Random random;
         private DateTime timer;
+        private TaskData taskData;
+        private double totalPlayingTime;
+
+        protected abstract bool IsAnswerCorrect { get; set; }
+        protected abstract List<int> SelectedAnswerIndexes { get; set; }
 
         protected virtual string LocalizationTableKey { get; } = "Game Names";
         protected virtual bool UseRandomBackground { get; } = false;
         public TModel Model { get; private set; }
         public TView View { get; private set; }
         public Transform ViewParent { get; set; }
-        protected double TotalPlayingTime { get; private set; }
 
 
-        public BaseTaskController(ITaskViewComponentsProvider componentsFactory
+        public BaseTaskController(IAddressableRefsHolder refsHolder
             , ITaskBackgroundSevice backgroundSevice)
         {
-            this.componentsFactory = componentsFactory;
             this.backgroundSevice = backgroundSevice;
+            this.refsHolder = refsHolder;
+            random = new Random();
+            SelectedAnswerIndexes = new List<int>();
+        }
+
+        public void Prepare()
+        {
+            DoOnTaskPrepare();
         }
 
         public void StartTask()
         {
             View.Show(() =>
             {
+                OnTaskShowed();
                 StartTimer();
             });
         }
 
-        public void Init(IModel model, IView view)
+        protected virtual void OnTaskShowed()
+        {
+
+        }
+
+        protected virtual void DoOnTaskPrepare()
+        {
+
+        }
+
+        public async UniTask Init(IModel model, IView view)
         {
             Model = (TModel)model;
             View = (TView)view;
 
-            _ = DoOnInit();
+            await DoOnInit();
 
             taskData = Model.GetResult();
-            var title = LocalizationManager.GetLocalizedString(LocalizationTableKey, Model.TitleKey);
+            var title = GetLocalizedTitle();
             View.SetTitle(title);
 
             View.ON_EXIT_CLICK += ExitButtonClick;
         }
 
+        protected virtual string GetLocalizedTitle()
+        {
+            return LocalizationManager.GetLocalizedString(LocalizationTableKey, Model.TitleKey);
+        }
+
         protected abstract UniTask DoOnInit();
 
-        public abstract TaskData GetResults();
+        public TaskData GetResults()
+        {
+            taskData.Duration = totalPlayingTime;
+            taskData.IsAnswerCorrect = IsAnswerCorrect;
+            taskData.SelectedAnswerIndexes = SelectedAnswerIndexes;
+            return taskData;
+        }
 
         public void HideAndRelease(Action callback)
         {
@@ -92,14 +128,15 @@ namespace Mathy.Core.Tasks.DailyTasks
             timer = DateTime.UtcNow;
         }
 
-        protected void StopTimer()
+        private void StopTimer()
         {
             var difference = DateTime.UtcNow - timer;
-            TotalPlayingTime += difference.TotalMilliseconds;
+            totalPlayingTime += difference.TotalMilliseconds;
         }
 
         protected void CompleteTask()
         {
+            StopTimer();
             ON_COMPLETE?.Invoke(this);
         }
 
@@ -107,6 +144,23 @@ namespace Mathy.Core.Tasks.DailyTasks
         {
             OnExitButtonClick();
             ON_FORCE_EXIT?.Invoke();
+        }
+
+        protected virtual UIComponentType GetElementViewByType(TaskElementType type)
+        {
+            switch (type)
+            {
+                case TaskElementType.Value:
+                    return UIComponentType.DefaultElement;
+
+                case TaskElementType.Operator:
+                    return UIComponentType.DefaultOperator;
+
+                default:
+                    throw new ArgumentException(
+                        string.Format("{0} type of element not found", type)
+                        );
+            }
         }
 
         protected virtual void OnExitButtonClick()

@@ -15,34 +15,19 @@ MonoBehaviour:
   SkillSettings:
   - SkillType: 0
     TaskSettings:
-    - {fileID: 11400000, guid: 8850c5e20e627da4c801854bb0c913c1, type: 2}
-    - {fileID: 11400000, guid: c89826a5d5c34e347b8b7fa27fc8c2a5, type: 2}
-    - {fileID: 11400000, guid: a81466db038e87141a8953fb520b5792, type: 2}
-    - {fileID: 11400000, guid: 56e74f704fd3f194da9a158df594ef1a, type: 2}
+    - {fileID: 11400000, guid: 9727750381ff83840bf347512274da18, type: 2}
   - SkillType: 1
     TaskSettings:
-    - {fileID: 11400000, guid: b301c86b800e44542b8eff6217823fea, type: 2}
-    - {fileID: 11400000, guid: a47b32fa2b0f39a48a79dc0a8922974a, type: 2}
-    - {fileID: 11400000, guid: 415e3eb996489184c91da444be6d67cc, type: 2}
-    - {fileID: 11400000, guid: 5adcaa54b44293d4c8d5ecf2a94c1db8, type: 2}
-    - {fileID: 11400000, guid: 5bcfa61e2388bc84ea4f4023547300dc, type: 2}
-    - {fileID: 11400000, guid: 2b88189fab8b27740ba7ea2a780f91f5, type: 2}
+    - {fileID: 11400000, guid: 9d7d946ddea969140a84d41d3ec7a30a, type: 2}
+    - {fileID: 11400000, guid: 5a4f346341f352a4699a945c056384d4, type: 2}
   - SkillType: 2
     TaskSettings:
-    - {fileID: 11400000, guid: 4a56d2fdd028ff44090680e3ae22f5d2, type: 2}
-    - {fileID: 11400000, guid: 52c49c38941216149bc3ca86d2bb852e, type: 2}
-    - {fileID: 11400000, guid: 37fb16c2e6efc4343b6bc8942bb43f58, type: 2}
-    - {fileID: 11400000, guid: e0c16495c8a5ecb42ba8daef750e5f2c, type: 2}
+    - {fileID: 11400000, guid: aa890cdd48ab992438fc56ae82e1556b, type: 2}
   - SkillType: 3
     TaskSettings:
-    - {fileID: 11400000, guid: b4e9b08775cd7e64aa2b3c344cb09b33, type: 2}
-    - {fileID: 11400000, guid: 5d51b51a2cdb51741803880fec8594fa, type: 2}
+    - {fileID: 11400000, guid: 9d979ac76a8c123489053697c6f896a9, type: 2}
   - SkillType: 6
     TaskSettings:
     - {fileID: 11400000, guid: 3dd878ac5a7803d4ea79945eb5298f70, type: 2}
-    - {fileID: 11400000, guid: 8cab8f92bd904be4cb17fbc9abec303f, type: 2}
-    - {fileID: 11400000, guid: bc87db2e5f59284488de5afa65d9cc30, type: 2}
     - {fileID: 11400000, guid: 514625ebf3517fe47bcaa0a1d636e6c5, type: 2}
-    - {fileID: 11400000, guid: 1f16ee1281597254389859f08c686cc4, type: 2}
     - {fileID: 11400000, guid: 3c55859f7cf7b3c42bf1667c21ccd959, type: 2}
-    - {fileID: 11400000, guid: f48d197b9af10ec4ca05a5f6423d34bd, type: 2}

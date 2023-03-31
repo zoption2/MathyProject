@@ -29,13 +29,13 @@ namespace Mathy.Core.Tasks
 
         protected override async System.Threading.Tasks.Task CreateElements()
         {
-            for (int i = 0; i < TaskSettings.BaseStats.ElementsAmount; i++)
+            for (int i = 0; i < TaskSettings.ElementsAmount; i++)
             {
                 this.Elements.Add(new TaskElement(ArithmeticSigns.QuestionMark));
             }
-            int answer = this.Random.Range(TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber);
+            int answer = this.Random.Range(TaskSettings.MinNumber, TaskSettings.MaxNumber);
             this.Elements.Add(new TaskElement(answer));
-            CorrectVariantsValues = MathOperations.SplitNumberIntoAddends(answer, TaskSettings.BaseStats.ElementsAmount).ToList();
+            CorrectVariantsValues = MathOperations.SplitNumberIntoAddends(answer, TaskSettings.ElementsAmount).ToList();
         }
 
         protected override async System.Threading.Tasks.Task CreateOperators()
@@ -44,7 +44,7 @@ namespace Mathy.Core.Tasks
             List<ArithmeticSigns> signs = new List<ArithmeticSigns>()
             { ArithmeticSigns.Plus };
 
-            while (oprIndex < TaskSettings.BaseStats.OperatorsAmount - 1)
+            while (oprIndex < TaskSettings.ElementsAmount - 1)
             {
                 this.operators.Add(new Operator(signs[Random.Range(0, signs.Count)]));
                 oprIndex++;
@@ -55,18 +55,18 @@ namespace Mathy.Core.Tasks
 
         protected override async System.Threading.Tasks.Task CreateVariants()
         {
-            var randomizedVariantIndexes = Enumerable.Range(0, TaskSettings.BaseStats.VariantsAmount - 1).ToList().
+            var randomizedVariantIndexes = Enumerable.Range(0, TaskSettings.VariantsAmount - 1).ToList().
                 OrderBy(x => Guid.NewGuid()).ToList();
-            var answerIndexes = randomizedVariantIndexes.Take(TaskSettings.BaseStats.ElementsAmount).ToList();
+            var answerIndexes = randomizedVariantIndexes.Take(TaskSettings.ElementsAmount).ToList();
 
             CorrectVariantIndexes = answerIndexes;
 
             List<int> variantsValues = Random.ExclusiveNumericRange(
-                TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber,
-                TaskSettings.BaseStats.VariantsAmount, CorrectVariantsValues);
+                TaskSettings.MinNumber, TaskSettings.MaxNumber,
+                TaskSettings.VariantsAmount, CorrectVariantsValues);
             var correctValues = CorrectVariantsValues;
 
-            for (int i = 0; i < TaskSettings.BaseStats.VariantsAmount; i++)
+            for (int i = 0; i < TaskSettings.VariantsAmount; i++)
             {
                 if (CorrectVariantIndexes.Contains(i))
                 {
@@ -97,7 +97,7 @@ namespace Mathy.Core.Tasks
             int index = SelectedVariants.IndexOf(variant);
             SelectedVariantIndexes.Add(variants.FindIndex(v => v == variant));
 
-            if (SelectedVariants.Count < TaskSettings.BaseStats.ElementsAmount)
+            if (SelectedVariants.Count < TaskSettings.ElementsAmount)
             {
                 SetViewElementAnswer(Elements[index].ElementView, variant.Value);
 

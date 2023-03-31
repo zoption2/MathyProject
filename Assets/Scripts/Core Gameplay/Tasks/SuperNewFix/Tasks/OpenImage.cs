@@ -29,7 +29,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             int oprIndex = 0;
             List<ArithmeticSigns> signs = new List<ArithmeticSigns>() { ArithmeticSigns.Plus, ArithmeticSigns.Minus };
 
-            while (oprIndex < TaskSettings.BaseStats.OperatorsAmount - 1)
+            while (oprIndex < TaskSettings.ElementsAmount - 1)
             {
                 this.operators.Add(new Operator(signs[Random.Range(0, 1)]));
                 oprIndex++;

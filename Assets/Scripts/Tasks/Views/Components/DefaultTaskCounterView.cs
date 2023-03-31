@@ -1,46 +1,25 @@
 ﻿using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
-using TMPro;
 using DG.Tweening;
-using UnityEditor.Tilemaps;
 
 
 namespace Mathy.UI
 {
-    public interface ITaskCounter
+    public class DefaultTaskCounterView : BaseCounterView, ITaskCounter
     {
-        GameObject gameObject { get; }
-        void Init(int total, List<bool> existingAnswers = null);
-        void ChangeStatusByIndex(int index, TaskStatus status);
-        void SetCurrentCount(int currentIndex);
-    }
-
-
-    public class DefaultTaskCounterView : MonoBehaviour, ITaskCounter
-    {
-        private const int kPendingSpriteIndex = 0;
-        private const int kInProgressSpriteIndex = 1;
-        private const int kCorrectSpriteIndex = 2;
-        private const int kWrongSpriteIndex = 3;
-        private const string kCounterFormat = "{0}/{1}";
         private const float kTweenDuration = 0.5f;
         private const float kSmallOffset = 160;
         private const float kMediumOffset = 250;
         private const float kLargeOffset = 340;
         private readonly Vector3 scaleTo = new Vector3(0.05f, 0.1f, 0);
 
-        [SerializeField] private TMP_Text counterText;
         [SerializeField] private Button button;
         [SerializeField] private RectTransform movableRect;
         [SerializeField] private FlexibleGridLayout indicatorPanel;
         [SerializeField] private List<AudioClip> panelSounds;
-        [SerializeField] private Image[] indicators;
-        [SerializeField] private Sprite[] statusSprites;
 
-        private bool isInited;
         private bool isOpened;
-        private int totalIndicators;
         private float offsetY;
 
         private Transform TweenID => transform;
@@ -57,63 +36,10 @@ namespace Mathy.UI
             DOTween.Kill(TweenID);
         }
 
-        public void Init(int total, List<bool> existingAnswers = null)
+        public override void Init(int total, List<bool> existingAnswers = null)
         {
-            totalIndicators = total;
-            for (int i = 0, j = indicators.Length; i < j; i++)
-            {
-                bool isActive = i < total;
-                indicators[i].gameObject.SetActive(isActive);
-                if (isActive)
-                {
-                    indicators[i].sprite = statusSprites[kPendingSpriteIndex];
-                }
-            }
-
-            for (int i = 0, j = existingAnswers.Count; i < j; i++)
-            {
-                bool isCorrect = existingAnswers[i];
-                indicators[i].sprite = isCorrect
-                    ? statusSprites[kCorrectSpriteIndex]
-                    : statusSprites[kWrongSpriteIndex];
-            }
-
+            base.Init(total, existingAnswers);
             offsetY = GetOffsetForMode(total);
-            isInited = true;
-        }
-
-        public void SetCurrentCount(int currentIndex)
-        {
-            if (isInited)
-            {
-                counterText.text = string.Format(kCounterFormat, currentIndex, totalIndicators);
-            }
-        }
-
-        public void ChangeStatusByIndex(int index, TaskStatus status)
-        {
-            if (isInited)
-            {
-                indicators[index].sprite = GetStatusSprite(status);
-            }
-        }
-
-        private Sprite GetStatusSprite(TaskStatus status)
-        {
-            Sprite selectedSprite;
-            switch (status)
-            {
-                case TaskStatus.Pending: return selectedSprite = statusSprites[kPendingSpriteIndex];
-                case TaskStatus.InProgress: return selectedSprite = statusSprites[kInProgressSpriteIndex];
-                case TaskStatus.Right: return selectedSprite = statusSprites[kCorrectSpriteIndex];
-                case TaskStatus.Wrong: return selectedSprite = statusSprites[kWrongSpriteIndex];
-
-                default:
-                    throw new System.ArgumentException(
-                        string.Format("There is no implementation of CounterStatus for {0} status, at {1}"
-                        , status, typeof(DefaultTaskCounterView))
-                        );
-            }
         }
 
         private void OnButtonClick()

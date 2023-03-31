@@ -84,6 +84,8 @@ public class CalendarManager : StaticInstance<CalendarManager>
 
 	private List<CalendarDayCell> calendarCellButtons;
 
+	private CalendarDayCell selectedCalendarCell;
+
 	private int sModeCorrectAnswers;
 	private int mModeCorrectAnswers;
 	private int lModeCorrectAnswers;
@@ -425,28 +427,28 @@ public class CalendarManager : StaticInstance<CalendarManager>
 				}
 			}
 
-			calendarCell.UpdateVisual();
+			calendarCell.Init(SelectedDate);
 		}
 	}
 
 	public void PreviousMonth()
 	{
-		SelectedDate = new DateTime(SelectedDate.Year, SelectedDate.AddMonths(-1).Month, 1);//SelectedDate.AddMonths(-1);
+		SelectedDate = new DateTime(SelectedDate.AddYears(SelectedDate.Month == 1 ? -1 : 0).Year, SelectedDate.AddMonths(-1).Month, 1);//SelectedDate.AddMonths(-1);
 
         calendarPanel.UpdateSelectedDayTitle($"{cultureInfo.DateTimeFormat.GetMonthName(SelectedDate.Month)} {1}");
         calendarPanel.UpdateViewButtons();
-
-        UpdateCalendar();
+		SelectDay(1);
+		UpdateCalendar();
 	}
 
 	public void NextMonth()
 	{
-		SelectedDate = new DateTime(SelectedDate.Year, SelectedDate.AddMonths(1).Month, 1);
+		SelectedDate = new DateTime(SelectedDate.AddYears(SelectedDate.Month == 12 ? 1 : 0).Year, SelectedDate.AddMonths(1).Month, 1);
         
         calendarPanel.UpdateSelectedDayTitle($"{cultureInfo.DateTimeFormat.GetMonthName(SelectedDate.Month)} {1}");
         calendarPanel.UpdateViewButtons();
-
-        UpdateCalendar();
+		SelectDay(1);
+		UpdateCalendar();
 	}
 
 	//Returns day of the week for the first day of the month. Sunday starts at 1 - Saturday is 7
@@ -462,24 +464,27 @@ public class CalendarManager : StaticInstance<CalendarManager>
 		return selectedDate;
 	}
 
-	public void OnDayButtonClicked(int selectedDay)
+	private void SelectDay(int selectedDay)
     {
-		SelectedDate = ReturnDate(selectedDay);		
-		SelectedCalendarData = calendarCellButtons.
-			FirstOrDefault(d => d.CurrentNumber == selectedDay).CalendarData;
+		if (selectedCalendarCell != null) selectedCalendarCell.IsSelected = false;
+		SelectedDate = ReturnDate(selectedDay);
+		selectedCalendarCell = calendarCellButtons.FirstOrDefault(d => d.CurrentNumber == selectedDay);
+		SelectedCalendarData = selectedCalendarCell.CalendarData;
+		selectedCalendarCell.IsSelected = true;
 		calendarPanel.UpdateViewButtons();
 		calendarPanel.UpdateSelectedDayTitle($"{cultureInfo.DateTimeFormat.GetMonthName(SelectedDate.Month)} {SelectedDate.Day}");
 	}
 
+	public void OnDayButtonClicked(int selectedDay)
+    {
+		SelectDay(selectedDay);
+	}
+
 	public void SelectToday()
     {
-		//Debug.LogError("Select today");
-		SelectedDate = DateTime.Now;
-		SelectedCalendarData = calendarCellButtons.
-			FirstOrDefault(d => d.CurrentNumber == SelectedDate.Day).CalendarData;
-		calendarPanel.UpdateViewButtons();
-		calendarPanel.UpdateSelectedDayTitle($"{cultureInfo.DateTimeFormat.GetMonthName(SelectedDate.Month)} {SelectedDate.Day}");
-        
+		var today = DateTime.Now;
+		SelectedDate = today;
+		SelectDay(today.Day);
 		UpdateCalendar();
     }
 

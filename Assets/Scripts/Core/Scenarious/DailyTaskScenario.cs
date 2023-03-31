@@ -26,12 +26,12 @@ namespace Mathy.Core.Tasks
         {
             remainingTasksCount = TotalTasks;
             var counterParent = scenePointer.CounterParent;
-            counterView = await addressableRefs.GameplayScenePopupsProvider.InstantiateFromReference<ITaskCounter>(GameplayScenePopup.DefaultCounter, counterParent);
+            counterView = await addressableRefs.GameplayScenePopupsProvider.InstantiateFromReference<ITaskCounter>(GameplayScenePopup.CounterVariantOne, counterParent);
             bool isTodayDateExists = await dataManager.IsTodayModeExist(TaskMode);
             if (isTodayDateExists)
             {
                 int taskIndex = await dataManager.GetLastTaskIndexOfMode(TaskMode);
-                taskIndexer = taskIndex + 1;
+                taskIndexer = taskIndex;
                 remainingTasksCount -= taskIndexer;
             }
 
@@ -40,8 +40,9 @@ namespace Mathy.Core.Tasks
 
         protected override void OnTaskComplete(ITaskController controller)
         {
-            var isAnswerCorrect = controller.GetResults().IsAnswerCorrect;
-            TaskStatus status = isAnswerCorrect ? TaskStatus.Right : TaskStatus.Wrong;
+            var results = controller.GetResults();
+            results.IsModeDone = (remainingTasksCount == 0 && TasksInQueue == 0);
+            TaskStatus status = results.IsAnswerCorrect ? TaskStatus.Right : TaskStatus.Wrong;
             counterView.ChangeStatusByIndex(taskIndexer, status);
             base.OnTaskComplete(controller);
         }

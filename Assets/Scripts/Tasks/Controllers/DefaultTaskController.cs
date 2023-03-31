@@ -15,21 +15,19 @@ namespace Mathy.Core.Tasks.DailyTasks
         private string userAnswer;
         private string correctAnswer;
 
-        public DefaultTaskController(ITaskViewComponentsProvider componentsFactory, ITaskBackgroundSevice backgroundSevice)
-            : base(componentsFactory, backgroundSevice)
-        {
-        }
+        protected override bool IsAnswerCorrect { get; set; }
+        protected override List<int> SelectedAnswerIndexes { get; set; }
 
-        public override TaskData GetResults()
+        public DefaultTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice) 
+            : base(refsHolder, backgroundSevice)
         {
-            return taskData;
         }
 
         protected override async UniTask DoOnInit()
         {
-            var backgroundData = await backgroundSevice.GetData<StandardBackgroundType>(View);
-            View.SetBackground(backgroundData.Sprite);
-            View.SetHeaderColor(backgroundData.Color);
+            var backgroundData = await backgroundSevice.GetData<StandardBackgroundType, DefaultTaskViewDecorData>(View);
+            View.SetBackground(backgroundData.BackgroundSprite);
+            View.SetHeaderColor(backgroundData.HeaderColor);
 
             var questionSign = ((char)ArithmeticSigns.QuestionMark).ToString();
 
@@ -43,7 +41,8 @@ namespace Mathy.Core.Tasks.DailyTasks
                 var isUnknown = expression[i].IsUnknown;
                 UIComponentType elementView = GetElementViewByType(elementType);
 
-                var component = await componentsFactory.GetUIComponentAsync(elementView, elementsParent);
+                var component = await refsHolder.UIComponentProvider
+                    .InstantiateFromReference<ITaskViewComponent>(elementView, elementsParent);
 
                 TaskElementState state = TaskElementState.Default;
                 if (isUnknown)
@@ -63,7 +62,8 @@ namespace Mathy.Core.Tasks.DailyTasks
             for (int i = 0; i < variants.Count; i++)
             {
                 var variantValue = variants[i];
-                var component = await componentsFactory.GetUIComponentAsync<ITaskViewComponentClickable>(UIComponentType.DefaultVariant, variantsParent);
+                var component = await refsHolder.UIComponentProvider
+                    .InstantiateFromReference<ITaskViewComponentClickable>(UIComponentType.DefaultVariant, variantsParent);
                 component.Init(i, variantValue);
                 component.ON_CLICK += DoOnClick;
                 taskVariants.Add(component);
@@ -73,7 +73,6 @@ namespace Mathy.Core.Tasks.DailyTasks
         private void DoOnClick(ITaskViewComponent view)
         {
             bool isAnswerCorrect;
-            StopTimer();
             userAnswer = view.Value;
             if (userAnswer.Equals(correctAnswer))
             {
@@ -90,29 +89,10 @@ namespace Mathy.Core.Tasks.DailyTasks
                 isAnswerCorrect = false;
             }
 
-            taskData.TaskPlayDuration = TotalPlayingTime;
-            taskData.IsAnswerCorrect = isAnswerCorrect;
-            taskData.SelectedAnswerIndexes = new List<int>(1);
-            taskData.SelectedAnswerIndexes.Add(view.Index);
+            IsAnswerCorrect = isAnswerCorrect;
+            SelectedAnswerIndexes.Add(view.Index);
 
             CompleteTask();
-        }
-
-        private UIComponentType GetElementViewByType(TaskElementType type)
-        {
-            switch (type)
-            {
-                case TaskElementType.Value:
-                    return UIComponentType.DefaultElement;
-
-                case TaskElementType.Operator:
-                    return UIComponentType.DefaultOperator;
-
-                default:
-                    throw new ArgumentException(
-                        string.Format("{0} type of element not found", type)
-                        );
-            }
         }
 
         protected override void DoOnRelease()

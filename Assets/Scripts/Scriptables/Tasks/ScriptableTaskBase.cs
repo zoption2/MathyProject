@@ -37,58 +37,16 @@ public enum TaskType
     AddSubMissingNumber = 17,
     ComparisonExpressions = 18,
     SumOfNumbers = 19,
-    MissingExpression = 20
-}
-
-[Serializable]
-public struct Stats
-{
-    // The amount of task operators
-    public int OperatorsAmount;
-    // The amount of task Elements
-    public int ElementsAmount;
-    // The amount of task answer variants
-    public int VariantsAmount;
-    public int MinNumber;
-    public int MaxNumber;
-
-    public Stats(int operatorsAmount, int elementsAmount, int variantsAmount, int minNumber, int maxNumber)
-    {
-        this.OperatorsAmount = operatorsAmount;
-        this.ElementsAmount = elementsAmount;
-        this.VariantsAmount = variantsAmount;
-        this.MinNumber = minNumber;
-        this.MaxNumber = maxNumber;
-    }
+    MissingExpression = 20,
+    CountTo10Images = 22,
 }
 
 public abstract class ScriptableTaskBase : ScriptableObject
 {
-    [SerializeField] private Stats _stats;
-    public Stats BaseStats
-    {
-        get
-        {
-            if (!TaskManager.Instance.IsPractice)
-            {
-                return _stats;
-            }
-            else
-            {
-                Stats settingsStats = new Stats(
-                    _stats.OperatorsAmount,
-                    _stats.ElementsAmount,
-                    _stats.VariantsAmount,
-                    _stats.MinNumber,
-                    GameSettingsManager.Instance.MaxNumber);
-                return settingsStats;
-            }
-        }
-    }
-
+    public int ElementsAmount;
+    public int VariantsAmount;
+    public int MinNumber;
+    public int MaxNumber;
     public string Title = "Title";
     public string Description = "Description of the task should be here";
-    public Sprite bgImage;
-    public Color operatorColor = Color.blue;
-    public Color panelColor = Color.yellow;
 }

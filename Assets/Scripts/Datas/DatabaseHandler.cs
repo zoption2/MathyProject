@@ -24,7 +24,7 @@ namespace Mathy.Data
     public class DatabaseHandler
     {
         private const string fileName = "SaveGame.db";
-        private const string actualDatabaseVersion = "2.1.1";
+        private const string actualDatabaseVersion = "2.1.2";
         private const string correctResultColor = "#15c00f";
         private const string wrongResultColor = "#f94934";
         //The path to the database file specified in DataManager
@@ -56,7 +56,8 @@ namespace Mathy.Data
             { TaskType.AddSubMissingNumber, "AddSubMissingNumber" },
             { TaskType.ComparisonExpressions, "ExpressionsComparison" },
             { TaskType.SumOfNumbers, "SumOfNumbers" },
-            { TaskType.MissingExpression, "MissingExpression" }
+            { TaskType.MissingExpression, "MissingExpression" },
+            { TaskType.CountTo10Images, "CountTo10Images" }
         };
 
         Dictionary<string, string> operatorChars = new Dictionary<string, string>()
@@ -204,7 +205,7 @@ namespace Mathy.Data
                 
                 using (SqliteCommand command = connection.CreateCommand())
                 {
-                    
+
                     string query = "SELECT MAX(ID) FROM ( SELECT MAX(Id) as ID FROM Addition " +
                     "UNION SELECT MAX(Id) as ID FROM Subtraction " +
                     "UNION SELECT MAX(Id) as ID FROM AddSubMissingNumber " +
@@ -216,7 +217,8 @@ namespace Mathy.Data
                     "UNION SELECT MAX(Id) as ID FROM MissingExpression " +
                     "UNION SELECT MAX(Id) as ID FROM MissingNumber " +
                     "UNION SELECT MAX(Id) as ID FROM MissingSign " +
-                    "UNION SELECT MAX(Id) as ID FROM SumOfNumbers ) ";
+                    "UNION SELECT MAX(Id) as ID FROM SumOfNumbers " +
+                    "UNION SELECT MAX(Id) as ID FROM CountTo10Images ) ";
 
                     command.CommandText = query;
 
@@ -368,9 +370,9 @@ namespace Mathy.Data
                 SqliteConnection connection = new SqliteConnection(databasePath);
                 connection.Open();
 
-                string query = "CREATE TABLE Addition (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," + 
+                string query = "CREATE TABLE Addition (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
                     "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode)," +
-                    "Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Elements STRING NOT NULL," + 
+                    "Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Elements STRING NOT NULL," +
                     "Operators STRING NOT NULL, Variants STRING NOT NULL," +
                     "SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL, " +
                     "MaxNumber INTEGER NOT NULL);" +
@@ -393,13 +395,13 @@ namespace Mathy.Data
                     "CorrectAnswers INTEGER NOT NULL, WrongAnswers INTEGER NOT NULL, CorrectRate DOUBLE NOT NULL," +
                     "TotalPlayed INTEGER NOT NULL, AverageTime DOUBLE NOT NULL, PracticBestTime DOUBLE NOT NULL);" +
 
-                    "CREATE TABLE ChallengeTypes (TypeCode INTEGER PRIMARY KEY UNIQUE NOT NULL, Name STRING NOT NULL);"+
+                    "CREATE TABLE ChallengeTypes (TypeCode INTEGER PRIMARY KEY UNIQUE NOT NULL, Name STRING NOT NULL);" +
 
                     "CREATE TABLE Comparison (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
                     "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode), Duration DOUBLE NOT NULL," +
                     "Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Elements STRING NOT NULL, Operators STRING NOT NULL," +
                     "Variants STRING NOT NULL, SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL," +
-                    " MaxNumber INTEGER NOT NULL);"+
+                    " MaxNumber INTEGER NOT NULL);" +
 
                     "CREATE TABLE ComparisonWithMissingNumber (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
                     "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode), Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id)," +
@@ -457,6 +459,13 @@ namespace Mathy.Data
                     "Variants STRING NOT NULL, SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL," +
                     "MaxNumber INTEGER NOT NULL);" +
 
+                    "CREATE TABLE CountTo10Images (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
+                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode)," +
+                    "Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Elements STRING NOT NULL," +
+                    "Operators STRING NOT NULL, Variants STRING NOT NULL," +
+                    "SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL, " +
+                    "MaxNumber INTEGER NOT NULL);" +
+
                     "CREATE TABLE SystemInfo(DatabaseVersion STRING NOT NULL UNIQUE,GameVersion STRING NOT NULL UNIQUE);" +
 
                     "CREATE TABLE TaskMode(Id INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT, Name STRING NOT NULL, ModeCode INTEGER NOT NULL," +
@@ -473,6 +482,8 @@ namespace Mathy.Data
                     "CREATE TABLE UserSettings (MaxNumber INTEGER NOT NULL, Language INTEGER NOT NULL, IsMusicOn BOOLEAN NOT NULL, IsSoundsOn BOOLEAN NOT NULL," +
                     "IsVibrationOn BOOLEAN NOT NULL, IsHelpTextOn BOOLEAN NOT NULL, IsHelpVoiceOn BOOLEAN NOT NULL, IsNotificationsOn BOOLEAN NOT NULL," +
                     "DailyRewardLastTime DOUBLE, DailyRewardCurrentDay DATE);";
+
+;
 
                 SqliteCommand createTablesCommand = new SqliteCommand(query, connection);
                 await createTablesCommand.ExecuteNonQueryAsync();
@@ -693,7 +704,7 @@ namespace Mathy.Data
                                 AdditionCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
                                 AdditionCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 AdditionCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                AdditionCommand.Parameters.AddWithValue("@duration", DataToSave.Duration.TotalMilliseconds);
+                                AdditionCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 AdditionCommand.Parameters.AddWithValue("@mode", modeId);
                                 AdditionCommand.Parameters.AddWithValue("@elements", elements);
                                 AdditionCommand.Parameters.AddWithValue("@operators", operators);
@@ -717,7 +728,7 @@ namespace Mathy.Data
                                 AddSubCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
                                 AddSubCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 AddSubCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                AddSubCommand.Parameters.AddWithValue("@duration", DataToSave.Duration.TotalMilliseconds);
+                                AddSubCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 AddSubCommand.Parameters.AddWithValue("@mode", modeId);
                                 AddSubCommand.Parameters.AddWithValue("@elements", elements);
                                 AddSubCommand.Parameters.AddWithValue("@operators", operators);
@@ -742,7 +753,7 @@ namespace Mathy.Data
                                 AddSubMissingCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
                                 AddSubMissingCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 AddSubMissingCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                AddSubMissingCommand.Parameters.AddWithValue("@duration", DataToSave.Duration.TotalMilliseconds);
+                                AddSubMissingCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 AddSubMissingCommand.Parameters.AddWithValue("@mode", modeId);
                                 AddSubMissingCommand.Parameters.AddWithValue("@elements", elements);
                                 AddSubMissingCommand.Parameters.AddWithValue("@operators", operators);
@@ -765,7 +776,7 @@ namespace Mathy.Data
                                 ComparisonCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
                                 ComparisonCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 ComparisonCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                ComparisonCommand.Parameters.AddWithValue("@duration", DataToSave.Duration.TotalMilliseconds);
+                                ComparisonCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 ComparisonCommand.Parameters.AddWithValue("@mode", modeId);
                                 ComparisonCommand.Parameters.AddWithValue("@elements", elements);
                                 ComparisonCommand.Parameters.AddWithValue("@operators", operators);
@@ -788,7 +799,7 @@ namespace Mathy.Data
                                 ExpressionsComparisonCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
                                 ExpressionsComparisonCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 ExpressionsComparisonCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                ExpressionsComparisonCommand.Parameters.AddWithValue("@duration", DataToSave.Duration.TotalMilliseconds);
+                                ExpressionsComparisonCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 ExpressionsComparisonCommand.Parameters.AddWithValue("@mode", modeId);
                                 ExpressionsComparisonCommand.Parameters.AddWithValue("@elements", elements);
                                 ExpressionsComparisonCommand.Parameters.AddWithValue("@operators", operators);
@@ -811,7 +822,7 @@ namespace Mathy.Data
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@duration", DataToSave.Duration.TotalMilliseconds);
+                                ComparisonMissingNumCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@mode", modeId);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@elements", elements);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@operators", operators);
@@ -839,7 +850,7 @@ namespace Mathy.Data
                                 MissingExpCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
                                 MissingExpCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 MissingExpCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                MissingExpCommand.Parameters.AddWithValue("@duration", DataToSave.Duration.TotalMilliseconds);
+                                MissingExpCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 MissingExpCommand.Parameters.AddWithValue("@mode", modeId);
                                 MissingExpCommand.Parameters.AddWithValue("@elements", elements);
                                 MissingExpCommand.Parameters.AddWithValue("@operators", operators);
@@ -862,7 +873,7 @@ namespace Mathy.Data
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@duration", DataToSave.Duration.TotalMilliseconds);
+                                ComparisonMissingNumCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@mode", modeId);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@elements", elements);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@operators", operators);
@@ -885,7 +896,7 @@ namespace Mathy.Data
                                 IsThatTrueCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
                                 IsThatTrueCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 IsThatTrueCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                IsThatTrueCommand.Parameters.AddWithValue("@duration", DataToSave.Duration.TotalMilliseconds);
+                                IsThatTrueCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 IsThatTrueCommand.Parameters.AddWithValue("@mode", modeId);
                                 IsThatTrueCommand.Parameters.AddWithValue("@elements", elements);
                                 IsThatTrueCommand.Parameters.AddWithValue("@operators", operators);
@@ -908,7 +919,7 @@ namespace Mathy.Data
                                 MissingSignCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
                                 MissingSignCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 MissingSignCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                MissingSignCommand.Parameters.AddWithValue("@duration", DataToSave.Duration.TotalMilliseconds);
+                                MissingSignCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 MissingSignCommand.Parameters.AddWithValue("@mode", modeId);
                                 MissingSignCommand.Parameters.AddWithValue("@elements", elements);
                                 MissingSignCommand.Parameters.AddWithValue("@operators", operators);
@@ -931,7 +942,7 @@ namespace Mathy.Data
                                 SumOfNumbersCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
                                 SumOfNumbersCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 SumOfNumbersCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                SumOfNumbersCommand.Parameters.AddWithValue("@duration", DataToSave.Duration.TotalMilliseconds);
+                                SumOfNumbersCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 SumOfNumbersCommand.Parameters.AddWithValue("@mode", modeId);
                                 SumOfNumbersCommand.Parameters.AddWithValue("@elements", elements);
                                 SumOfNumbersCommand.Parameters.AddWithValue("@operators", operators);
@@ -942,6 +953,30 @@ namespace Mathy.Data
                                 SumOfNumbersCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
 
                                 await SumOfNumbersCommand.ExecuteNonQueryAsync();
+                                break;
+                            }
+                        case TaskType.CountTo10Images:
+                            {
+                                string query = "INSERT INTO CountTo10Images (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+
+                                SqliteCommand command = new SqliteCommand(query, connection);
+                                command.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+                                command.Parameters.AddWithValue("@seed", DataToSave.Seed);
+                                command.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+                                command.Parameters.AddWithValue("@duration", DataToSave.Duration);
+                                command.Parameters.AddWithValue("@mode", modeId);
+                                command.Parameters.AddWithValue("@elements", elements);
+                                command.Parameters.AddWithValue("@operators", operators);
+                                command.Parameters.AddWithValue("@variants", variants);
+                                command.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+                                command.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+                                command.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+                                command.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+
+                                await command.ExecuteNonQueryAsync();
+
                                 break;
                             }
 
@@ -1024,7 +1059,7 @@ namespace Mathy.Data
                         }
 
                         AddCommand.Parameters.AddWithValue("@totalPlayed", 1);
-                        AddCommand.Parameters.AddWithValue("@time", DataToSave.Duration.TotalMilliseconds);
+                        AddCommand.Parameters.AddWithValue("@time", DataToSave.Duration);
                         AddCommand.Parameters.AddWithValue("@endlesScore", 0);
                         AddCommand.Parameters.AddWithValue("@easyScore", 0);
                         AddCommand.Parameters.AddWithValue("@mediumScore", 0);

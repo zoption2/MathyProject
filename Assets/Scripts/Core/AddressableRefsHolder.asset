@@ -44,6 +44,12 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 22
+      <Reference>k__BackingField:
+        m_AssetGUID: 6b3cc2c3ce225d94d8173a5ae4236104
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
   <UIComponentProvider>k__BackingField:
     references:
     - <Type>k__BackingField: 0
@@ -64,6 +70,12 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 1
+      <Reference>k__BackingField:
+        m_AssetGUID: 197d1267638ca8542ac6fc58a2ec6fa4
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
   <GameplayScenePopupsProvider>k__BackingField:
     references:
     - <Type>k__BackingField: 0
@@ -72,61 +84,335 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 1
+      <Reference>k__BackingField:
+        m_AssetGUID: e8571ef541df5b74385e23a1f32918de
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
   <BackgroundProvider>k__BackingField:
     references:
     - <Type>k__BackingField: 1
       <Reference>k__BackingField:
-        m_AssetGUID: 1a9fb6125c8271749afa7b7c870422c6
-        m_SubObjectName: bg_coliseum
+        m_AssetGUID: 60709594143e4994ab725d5502b4628c
+        m_SubObjectName: 
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-      <Color>k__BackingField: {r: 0.8000001, g: 0.27450982, b: 0.33333334, a: 1}
     - <Type>k__BackingField: 2
       <Reference>k__BackingField:
-        m_AssetGUID: 122637228a29c8c41bf913aee7e92e41
-        m_SubObjectName: bg_chichen_itza
+        m_AssetGUID: 74c14a4d6b32d89489b2622c1d3394f8
+        m_SubObjectName: 
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-      <Color>k__BackingField: {r: 0, g: 0.47058827, b: 1, a: 1}
     - <Type>k__BackingField: 3
       <Reference>k__BackingField:
-        m_AssetGUID: 2caceca15169df341817765412a57bab
-        m_SubObjectName: bg_golden_gates
+        m_AssetGUID: ea04fd57b1c424a4e8fdfa8fefb9e2e1
+        m_SubObjectName: 
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-      <Color>k__BackingField: {r: 0.7058824, g: 0.23529413, b: 0.90196085, a: 1}
     - <Type>k__BackingField: 4
       <Reference>k__BackingField:
-        m_AssetGUID: 7f6d0e9645b7de34c86b299ed2b96abc
-        m_SubObjectName: bg_pantheon
+        m_AssetGUID: 16c5f6cd5793e2b43a0a5e6a6e0983da
+        m_SubObjectName: 
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-      <Color>k__BackingField: {r: 0.14117648, g: 0.58431375, b: 0.15294118, a: 1}
     - <Type>k__BackingField: 5
       <Reference>k__BackingField:
-        m_AssetGUID: c6d136194910992488c4e446a92823db
-        m_SubObjectName: bg_pyramids
+        m_AssetGUID: 78f990a5487724b4a9c2d7a82abdf3b1
+        m_SubObjectName: 
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-      <Color>k__BackingField: {r: 0.9333334, g: 0.5882353, b: 0, a: 1}
     - <Type>k__BackingField: 6
       <Reference>k__BackingField:
-        m_AssetGUID: fe27ddfd4d3fe2f438ab858c6f525b96
-        m_SubObjectName: bg_stonehenge
+        m_AssetGUID: 04142870d80f66b4a8fcc79b6a4b6c41
+        m_SubObjectName: 
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-      <Color>k__BackingField: {r: 0, g: 0.47058827, b: 1, a: 1}
     - <Type>k__BackingField: 7
       <Reference>k__BackingField:
-        m_AssetGUID: d9dd308d4e3f580479ccc5d5d712c383
-        m_SubObjectName: bg_daily_rewards
+        m_AssetGUID: 1c3ea7dcce490aa4fa95b55af10ccd1c
+        m_SubObjectName: 
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-      <Color>k__BackingField: {r: 0.9333334, g: 0.5882353, b: 0, a: 1}
+    - <Type>k__BackingField: 100
+      <Reference>k__BackingField:
+        m_AssetGUID: d9fc1316f307f6f47b7f3bf4b1955687
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 101
+      <Reference>k__BackingField:
+        m_AssetGUID: d963e904aa61e5f4886512b10c0bf337
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 102
+      <Reference>k__BackingField:
+        m_AssetGUID: 2026bd9719a198f4aa921dd678f93fad
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 103
+      <Reference>k__BackingField:
+        m_AssetGUID: eaa6481dcd126fe4ea0c629160856775
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 110
+      <Reference>k__BackingField:
+        m_AssetGUID: 96a376d953e1a1f4783f9364301dcae3
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 111
+      <Reference>k__BackingField:
+        m_AssetGUID: 66912a61b56344b468ee327f75c7c779
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 112
+      <Reference>k__BackingField:
+        m_AssetGUID: 2e2f20c59fae79648abdf75081c040ea
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 113
+      <Reference>k__BackingField:
+        m_AssetGUID: 1ccba52a38af81e489306b7b2f91b79f
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 120
+      <Reference>k__BackingField:
+        m_AssetGUID: d94de538ea984104282e5375c711b370
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 121
+      <Reference>k__BackingField:
+        m_AssetGUID: b3279636c338b434694fd8e82d5144b3
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 122
+      <Reference>k__BackingField:
+        m_AssetGUID: 84b8670019b987e4ab65d03f3029cca7
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 123
+      <Reference>k__BackingField:
+        m_AssetGUID: da6baab407bd7b248b4ba92f9643c737
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 130
+      <Reference>k__BackingField:
+        m_AssetGUID: c3185cdbe55ea214184d35049ca727d8
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 131
+      <Reference>k__BackingField:
+        m_AssetGUID: 3236c64ccec4f7449ab56a757fbe98d9
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 132
+      <Reference>k__BackingField:
+        m_AssetGUID: 635ffc6d9a98d0d4183c8a389623e6e0
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 133
+      <Reference>k__BackingField:
+        m_AssetGUID: 3c012ee6ceb790043b27f8e0673c371d
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 140
+      <Reference>k__BackingField:
+        m_AssetGUID: 9b403e933d995d04d91ea9b0f727dad6
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 141
+      <Reference>k__BackingField:
+        m_AssetGUID: f0d403a4fadfa4d4fa9c337d78d69f0d
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 142
+      <Reference>k__BackingField:
+        m_AssetGUID: 9308159808bfe424981c7f246621b0d1
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 143
+      <Reference>k__BackingField:
+        m_AssetGUID: 6f0f3e5522936f646afea932a9cd6c66
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 150
+      <Reference>k__BackingField:
+        m_AssetGUID: 6f0f3e5522936f646afea932a9cd6c66
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 151
+      <Reference>k__BackingField:
+        m_AssetGUID: 30c7a018388111444b7bba2238e6c91e
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 152
+      <Reference>k__BackingField:
+        m_AssetGUID: 1f6228ff9794e4a48b483904ac85fde5
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 153
+      <Reference>k__BackingField:
+        m_AssetGUID: fc6946256154f12458bfca68772dd361
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 160
+      <Reference>k__BackingField:
+        m_AssetGUID: 3b3fb363508534d4d92b2f9bf0d7ca60
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 161
+      <Reference>k__BackingField:
+        m_AssetGUID: ecf44e36d96dc2a47a1729e2ec947eb4
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 162
+      <Reference>k__BackingField:
+        m_AssetGUID: e68909136e76f424589259bb52f3dfe0
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 163
+      <Reference>k__BackingField:
+        m_AssetGUID: 936b6a4a799948044b3036c9161fcd97
+        m_SubObjectName: 
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+  <TaskCountedImageProvider>k__BackingField:
+    references:
+    - <Type>k__BackingField: 0
+      <Reference>k__BackingField:
+        m_AssetGUID: 1118dd194f3c04b43bde653d4e6d4f72
+        m_SubObjectName: Bean Candy green countable object
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 1
+      <Reference>k__BackingField:
+        m_AssetGUID: 803d921a121ca214b94002912c6d4be5
+        m_SubObjectName: Bean Candy orange countable object
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 2
+      <Reference>k__BackingField:
+        m_AssetGUID: 3aeb41b67d220984694998741993c287
+        m_SubObjectName: Bean Candy violet countable object
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 3
+      <Reference>k__BackingField:
+        m_AssetGUID: 04b73f7d53b96a44ca7f812da93cfe1f
+        m_SubObjectName: Cheese countable object
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 4
+      <Reference>k__BackingField:
+        m_AssetGUID: 90f8ac77dd55bbf4cbbb2e79821c21ef
+        m_SubObjectName: Coin countable object
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 5
+      <Reference>k__BackingField:
+        m_AssetGUID: 7ef10a1b0d8f9244ca73f2246746c6b2
+        m_SubObjectName: Flower pot countable object
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 6
+      <Reference>k__BackingField:
+        m_AssetGUID: 2a2675cc9b6c4df4b826cf24ee758e47
+        m_SubObjectName: Leaf countable object
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 7
+      <Reference>k__BackingField:
+        m_AssetGUID: 384f47230a0d26449924c6f7b447bdb7
+        m_SubObjectName: Round Candy blue countable object
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 8
+      <Reference>k__BackingField:
+        m_AssetGUID: b848518a0c1eb03498aea6aa34b1bfb3
+        m_SubObjectName: Round Candy red countable object
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 9
+      <Reference>k__BackingField:
+        m_AssetGUID: 9f4592c8c9e841f43b06b3af37432b36
+        m_SubObjectName: Round Candy violet countable object
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 10
+      <Reference>k__BackingField:
+        m_AssetGUID: 7e33ff537b9565f46939ed6451dee044
+        m_SubObjectName: Strawberry countable object
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0

@@ -26,7 +26,7 @@ namespace Mathy.Core.Tasks
             int oprIndex = 0;
             List<ArithmeticSigns> signs = new List<ArithmeticSigns>() { ArithmeticSigns.Plus, ArithmeticSigns.Minus };
 
-            while (oprIndex < TaskSettings.BaseStats.OperatorsAmount - 1)
+            while (oprIndex < TaskSettings.ElementsAmount - 1)
             {
                 this.operators.Add(new Operator(signs[Random.Range(0, signs.Count)]));
                 oprIndex++;
@@ -48,7 +48,7 @@ namespace Mathy.Core.Tasks
             }
             else
             {
-                taskAnswer = this.Random.Range(TaskSettings.BaseStats.MinNumber, TaskSettings.BaseStats.MaxNumber);
+                taskAnswer = this.Random.Range(TaskSettings.MinNumber, TaskSettings.MaxNumber);
             }
             this.Elements[Elements.Count - 1] = new TaskElement(taskAnswer);
 

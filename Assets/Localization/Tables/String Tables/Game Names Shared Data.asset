@@ -67,18 +67,6 @@ MonoBehaviour:
     m_Key: Pracrice_All
     m_Metadata:
       m_Items: []
-  - m_Id: 67689458561507328
-    m_Key: Pracrice_Count
-    m_Metadata:
-      m_Items: []
-  - m_Id: 67689576002019328
-    m_Key: Practice_AddSub
-    m_Metadata:
-      m_Items: []
-  - m_Id: 67689646093033472
-    m_Key: Practice_Comparison
-    m_Metadata:
-      m_Items: []
   - m_Id: 67689714682486784
     m_Key: Practice_Challenges
     m_Metadata:

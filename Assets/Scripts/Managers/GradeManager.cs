@@ -48,14 +48,26 @@ public class GradeManager : StaticInstance<GradeManager>
         List<ScriptableTask> taskSettings = new List<ScriptableTask>();
 
         taskSettings = gradeDatas
-        .Where(g => g.IsActive)
-        .SelectMany(g => g.SkillDatas)
-        .Where(s => s.IsActive)
-        .SelectMany(s => s.TaskSettings.Where(t => t.BaseStats.MaxNumber <= s.MaxNumber))
-        .ToList();
-        //Debug.Log($"taskSettings.Count = {taskSettings.Count}");
+            .Where(g => g.IsActive)
+            .SelectMany(g => g.SkillDatas)
+            .Where(s => s.IsActive)
+            .SelectMany(s => s.TaskSettings)
+            .ToList();
         return taskSettings;
     }
+
+    //public List<ScriptableTask> AvailableTaskSettings()
+    //{
+    //    List<ScriptableTask> taskSettings = new List<ScriptableTask>();
+
+    //    taskSettings = gradeDatas
+    //    .Where(g => g.IsActive)
+    //    .SelectMany(g => g.SkillDatas)
+    //    .Where(s => s.IsActive)
+    //    .SelectMany(s => s.TaskSettings.Where(t => t.BaseStats.MaxNumber <= s.MaxNumber))
+    //    .ToList();
+    //    return taskSettings;
+    //}
 
     public void SetSkillIsActive(int gradeIndex, int skillIndex, bool isActive)
     {
@@ -70,6 +82,7 @@ public class GradeManager : StaticInstance<GradeManager>
         var gradeData = gradeDatas.FirstOrDefault(g => g.GradeIndex == gradeIndex);
         var skillData = gradeData.SkillDatas[skillIndex];
         skillData.MaxNumber = maxNumber;
+        skillData.TaskSettings.ForEach(task => task.MaxNumber = skillData.MaxNumber);
         gradeData.SkillDatas[skillIndex] = skillData;
         _ = DataManager.Instance.SaveGradeDatas(gradeDatas);
     }

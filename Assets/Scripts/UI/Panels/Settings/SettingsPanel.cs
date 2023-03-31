@@ -24,7 +24,7 @@ public class SettingsPanel : PopupPanel
     [SerializeField] private Button languageButton;
     [SerializeField] private Button resetProgressButton;
     [SerializeField] private Button setMaxNumberButton;
-    [SerializeField] private Button skillPlanButton;
+    //[SerializeField] private Button skillPlanButton;
 
     [Header("TOGGLES:")]
     public Toggle soundsToggle;
@@ -45,7 +45,6 @@ public class SettingsPanel : PopupPanel
     {
         base.OpenPanel();
         Subscribe(true);
-        //UpdateFlagIcon();
     }
 
     public override void ClosePanel()
@@ -64,7 +63,6 @@ public class SettingsPanel : PopupPanel
         if (isSubscribed)
         {
             languageWindow.OnPanelClosed.AddListener(OnModalWindowClose);
-            //languageWindow.OnPanelClosed.AddListener(UpdateFlagIcon);
             LanguageButton.OnLanguageButtonPressed.AddListener(languageWindow.ClosePanel);
             languageButton.onClick.AddListener(() => OpenModalWindow(0));
 
@@ -75,8 +73,8 @@ public class SettingsPanel : PopupPanel
             setMaxNumberButton.onClick.AddListener(SetMaxNumber);
             maxNumberWindow.OnPanelClosed.AddListener(OnModalWindowClose);
 
-            skillPlanButton.onClick.AddListener(() => OpenModalWindow(3));
-            skillPlanWindow.OnPanelClosed.AddListener(OnModalWindowClose);
+            //skillPlanButton.onClick.AddListener(() => OpenModalWindow(3));
+            //skillPlanWindow.OnPanelClosed.AddListener(OnModalWindowClose);
         }
         else
         {
@@ -93,8 +91,8 @@ public class SettingsPanel : PopupPanel
             setMaxNumberButton.onClick.RemoveListener(SetMaxNumber);
             maxNumberWindow.OnPanelClosed.RemoveListener(OnModalWindowClose);
 
-            skillPlanButton.onClick.RemoveListener(() => OpenModalWindow(3));
-            skillPlanWindow.OnPanelClosed.RemoveListener(OnModalWindowClose);
+            //skillPlanButton.onClick.RemoveListener(() => OpenModalWindow(3));
+            //skillPlanWindow.OnPanelClosed.RemoveListener(OnModalWindowClose);
         }
     }
 
@@ -136,9 +134,9 @@ public class SettingsPanel : PopupPanel
             case 2:
                 modalWindow = maxNumberWindow.gameObject;
                 break;
-            case 3:
-                modalWindow = skillPlanWindow.gameObject;
-                break;
+            //case 3:
+            //    modalWindow = skillPlanWindow.gameObject;
+            //    break;
             default:
                 goto case 0;
         }

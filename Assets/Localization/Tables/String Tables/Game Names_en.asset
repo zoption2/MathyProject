@@ -78,18 +78,6 @@ MonoBehaviour:
     m_Localized: Challenges
     m_Metadata:
       m_Items: []
-  - m_Id: 67689646093033472
-    m_Localized: Comparison
-    m_Metadata:
-      m_Items: []
-  - m_Id: 67689576002019328
-    m_Localized: Addition and Subtraction
-    m_Metadata:
-      m_Items: []
-  - m_Id: 67689458561507328
-    m_Localized: Count
-    m_Metadata:
-      m_Items: []
   - m_Id: 71803635941040128
     m_Localized: Missing Sign
     m_Metadata:

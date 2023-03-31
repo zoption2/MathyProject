@@ -61,6 +61,13 @@ namespace Mathy.Core.Tasks
             backgroundService.Reset();
             await UpdateTasksQueue();
 
+            if (tasks.TryPeek(out var task))
+            {
+                task.Prepare();
+            }
+
+            await UniTask.Delay(500);
+
             if (!TryStartTask())
             {
                 EndGameplay();
@@ -73,8 +80,8 @@ namespace Mathy.Core.Tasks
             controller.ON_FORCE_EXIT -= ClickOnExitFromGameplay;
             var result = controller.GetResults();
             result.Mode = TaskMode;
-            result.TaskModeIndex = taskIndexer;
             taskIndexer++;
+            result.TaskModeIndex = taskIndexer;
             dataManager.SaveTaskData(result);
 
             if (result.IsAnswerCorrect)
@@ -83,6 +90,11 @@ namespace Mathy.Core.Tasks
             }
 
             await UpdateTasksQueue();
+
+            if(tasks.TryPeek(out var task))
+            {
+                task.Prepare();
+            }
 
             await UniTask.Delay(kTaskEndDelayMS);
 
