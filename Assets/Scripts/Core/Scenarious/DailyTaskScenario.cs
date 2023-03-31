@@ -31,7 +31,7 @@ namespace Mathy.Core.Tasks
             if (isTodayDateExists)
             {
                 int taskIndex = await dataManager.GetLastTaskIndexOfMode(TaskMode);
-                taskIndexer = taskIndex + 1;
+                taskIndexer = taskIndex;
                 remainingTasksCount -= taskIndexer;
             }
 
@@ -41,7 +41,7 @@ namespace Mathy.Core.Tasks
         protected override void OnTaskComplete(ITaskController controller)
         {
             var results = controller.GetResults();
-            results.IsModeDone = (remainingTasksCount == 0 && currentTask == controller);
+            results.IsModeDone = (remainingTasksCount == 0 && TasksInQueue == 0);
             TaskStatus status = results.IsAnswerCorrect ? TaskStatus.Right : TaskStatus.Wrong;
             counterView.ChangeStatusByIndex(taskIndexer, status);
             base.OnTaskComplete(controller);
