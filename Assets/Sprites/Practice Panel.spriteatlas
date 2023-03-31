@@ -69,6 +69,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 1cf3f5239e1c18642bb1e9b9b5189213, type: 3}
   - {fileID: 21300000, guid: 51ad27b3aa32a044dbadaf3d7b81e2ff, type: 3}
   - {fileID: 21300000, guid: b77049b33a66a6d408d97942123512d5, type: 3}
+  - {fileID: 21300000, guid: c0402134a40a42f468c280a6c9dcce9e, type: 3}
   - {fileID: 21300000, guid: a73f67543eedd6c4c8151f01ef78a574, type: 3}
   - {fileID: 21300000, guid: eb391a95886814b439bd704c1086c34c, type: 3}
   - {fileID: 21300000, guid: 269c5d062b81b4142989f414acd202d3, type: 3}
@@ -78,8 +79,12 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 5ada593a0d895e741857f9a3d0c97a44, type: 3}
   - {fileID: 21300000, guid: ace3ed7a57154cc4782b4d3598789ac1, type: 3}
   - {fileID: 21300000, guid: 57b06caaf303c634b8237d1da0bd96b6, type: 3}
+  - {fileID: 21300000, guid: ced8921be08fca84cac115af6a607d64, type: 3}
   - {fileID: 21300000, guid: 856b281be289bf34aa95ecf2e9fe0d28, type: 3}
+  - {fileID: 21300000, guid: c36d4f8c9d6d9d645a65e3bf942f36ec, type: 3}
+  - {fileID: 21300000, guid: dad3ff8cf032f0044a2316a555e76e34, type: 3}
   - {fileID: 21300000, guid: 449fbdac1a097f6489d379dff3cdcdd6, type: 3}
+  - {fileID: 21300000, guid: 999e4ddc761770144817e5665f6db495, type: 3}
   - {fileID: 21300000, guid: 68b3392d0e39e264280f190f70a2bc6d, type: 3}
   - {fileID: 21300000, guid: 5f45e5ed7dcd50545a69bd9bf49796f6, type: 3}
   - {fileID: 21300000, guid: f1acf23ecb6253441b3e8d8b0570a36e, type: 3}
@@ -95,6 +100,7 @@ SpriteAtlas:
   - Missing Number practice icon
   - Sum of Numbers practice icon
   - Practice page arrow
+  - Subtraction practice icon
   - Comparison Elements practice icon
   - Missing Expressions practice icon
   - Practice page corner
@@ -104,8 +110,12 @@ SpriteAtlas:
   - practice label green
   - Practice panel book front
   - practice label pink
+  - practice label orange
   - True or False practice icon
+  - practice label turquoise
+  - Addition practice icon
   - Pairs Numbers practice icon
+  - practice label dark-green
   - Comparison practice icon
   - Comparison One Element practice icon
   - practice label yellow

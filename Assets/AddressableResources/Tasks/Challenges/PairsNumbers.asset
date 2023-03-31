@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PairsNumbers
   m_EditorClassIdentifier: 
   ElementsAmount: 0
-  VariantsAmount: 9
+  VariantsAmount: 12
   MinNumber: 0
   MaxNumber: 10
   Title: Pairs_numbers
