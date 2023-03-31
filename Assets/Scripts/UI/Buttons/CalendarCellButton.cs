@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -28,17 +29,10 @@ namespace Mathy.UI
 
         #region INITIALIZATION
 
-        //private async void Awake()
-        //{
-        //    await UniTask.WaitUntil(() => CalendarManager.Instance != null);
-        //    Initialize();
-        //    UpdateVisual();
-        //}
-
         public virtual void Initialize()
         {
             calendarManager = CalendarManager.Instance;
-            UpdateVisual();
+            //Init();
         }
 
         #endregion
@@ -47,7 +41,7 @@ namespace Mathy.UI
 
         //Change the text in the button to the day of selected month
         //Blank out buttons that are not numbered
-        public virtual void UpdateVisual()
+        public virtual void Init(DateTime date)
         {
             if (CurrentNumber <= 0 || CurrentNumber > calendarManager.DaysInMonth)
             {

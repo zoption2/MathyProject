@@ -107,6 +107,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: c54e8ad9d831f904cbd9719bff7c2794, type: 3}
   - {fileID: 21300000, guid: 86124c0a9e7f97847a93e5e2402bf34e, type: 3}
   - {fileID: 21300000, guid: 5522285a8a8ef3d4fb692fa07e21daf3, type: 3}
+  - {fileID: 21300000, guid: d0621ada3d762c94f923c8e73337deb3, type: 3}
   - {fileID: 21300000, guid: 47d6d3fab16dbb543a483e544e6adb6f, type: 3}
   - {fileID: 21300000, guid: 7d8960bbb7ab6b14d9699708b3ec56ce, type: 3}
   - {fileID: 21300000, guid: 1cdcf6bb9a73a3f4f88a1a8ecb7b9fd2, type: 3}
@@ -173,6 +174,7 @@ SpriteAtlas:
   - histogram icon
   - top tab inactive
   - skills slider red
+  - calendar empty inactive mode indicator
   - progress_bar_red
   - mode S btn
   - skills active icon
