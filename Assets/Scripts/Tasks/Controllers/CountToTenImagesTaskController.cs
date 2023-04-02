@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using Mathy.UI.Tasks;
 using Mathy.Data;
 using System;
+using UnityEngine;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
@@ -46,7 +47,12 @@ namespace Mathy.Core.Tasks.DailyTasks
             {
                 var component = await refsHolder.UIComponentProvider
                     .InstantiateFromReference<ITaskElementImageWithCollider>(UIComponentType.ImageWithColliderElement, elementsHolder);
-                component.Init(i, selectedImageType);
+                Sprite sprite = await refsHolder.TaskCountedImageProvider.GetSpriteByType(selectedImageType);
+                if (sprite == null)
+                {
+                    Debug.LogFormat("Sprite from addresables is null");
+                }
+                component.Init(i, sprite);
                 var randomPosition = View.GetRandomPositionAtHolder();
                 component.SetPosition(randomPosition);
                 elements.Add(component);

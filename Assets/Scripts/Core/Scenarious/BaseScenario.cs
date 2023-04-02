@@ -66,7 +66,7 @@ namespace Mathy.Core.Tasks
                 task.Prepare();
             }
 
-            await UniTask.Delay(500);
+            await UniTask.Delay(kTaskEndDelayMS);
 
             if (!TryStartTask())
             {

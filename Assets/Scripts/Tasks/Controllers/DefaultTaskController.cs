@@ -72,6 +72,7 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         private void DoOnClick(ITaskViewComponent view)
         {
+            UnsubscribeInputs();
             bool isAnswerCorrect;
             userAnswer = view.Value;
             if (userAnswer.Equals(correctAnswer))
@@ -95,7 +96,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             CompleteTask();
         }
 
-        protected override void DoOnRelease()
+        private void UnsubscribeInputs()
         {
             foreach (var variant in taskVariants)
             {

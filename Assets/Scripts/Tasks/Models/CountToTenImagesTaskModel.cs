@@ -26,7 +26,7 @@ namespace Mathy.Core.Tasks
         public CountToTenImagesTaskModel(ScriptableTask taskSettings) : base(taskSettings)
         {
             var random = new System.Random();
-            countToShow = random.Next(1 , kMaxValueLimit);
+            countToShow = random.Next(1 , kMaxValueLimit + 1);
 
             elements = new List<string>() 
             { 
