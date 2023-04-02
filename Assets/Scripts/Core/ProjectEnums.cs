@@ -116,16 +116,12 @@
 
     public enum TaskCountedImageElementType
     {
-        GreenBean,
-        OrangeBean,
-        VioletBean,
+        Bean,
         Cheese,
         Coin,
         Flower,
         Leaf,
-        BlueCandy,
-        RedCandy,
-        VioletCandy,
+        Candy,
         Strawberry,
     }
 }

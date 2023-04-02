@@ -20,7 +20,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 241049839861760
-    m_Key: GreenBean
+    m_Key: Bean
     m_Metadata:
       m_Items: []
   - m_Id: 241662686396416
@@ -40,27 +40,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 241797831065600
-    m_Key: BlueCandy
+    m_Key: Candy
     m_Metadata:
       m_Items: []
   - m_Id: 241834506059776
     m_Key: Strawberry
-    m_Metadata:
-      m_Items: []
-  - m_Id: 244151468949504
-    m_Key: OrangeBean
-    m_Metadata:
-      m_Items: []
-  - m_Id: 244208284991488
-    m_Key: VioletBean
-    m_Metadata:
-      m_Items: []
-  - m_Id: 244232721006592
-    m_Key: RedCandy
-    m_Metadata:
-      m_Items: []
-  - m_Id: 244312693800960
-    m_Key: VioletCandy
     m_Metadata:
       m_Items: []
   - m_Id: 276488189640704

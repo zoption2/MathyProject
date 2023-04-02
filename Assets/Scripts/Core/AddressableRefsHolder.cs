@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Zenject;
 using Mathy.Core.Tasks.DailyTasks;
+using System.Linq;
 
 namespace Mathy
 {
@@ -14,6 +15,7 @@ namespace Mathy
         UIComponentAddressableRef UIComponentProvider { get; }
         BackgroundAddressableRef BackgroundProvider { get; }
         GameplayScenePopupAddressableRef GameplayScenePopupsProvider { get; }
+        TaskCountedImageAdressableRef TaskCountedImageProvider { get; }
     }
 
 
@@ -24,11 +26,12 @@ namespace Mathy
         [field: SerializeField] public UIComponentAddressableRef UIComponentProvider { get; private set; }
         [field: SerializeField] public GameplayScenePopupAddressableRef GameplayScenePopupsProvider { get; private set; }
         [field: SerializeField] public BackgroundAddressableRef BackgroundProvider { get; private set; }
+        [field: SerializeField] public TaskCountedImageAdressableRef TaskCountedImageProvider { get; private set; }
     }
 
     public abstract class AddressableRefsProvider<TType, TRef> where TType : Enum where TRef : AssetReference
     {
-        [SerializeField] private RefPair[] references;
+        [SerializeField] protected RefPair[] references;
         protected DiContainer container;
 
         public async UniTask<T> InstantiateFromReference<T>(TType type, Transform parent)
@@ -38,6 +41,14 @@ namespace Mathy
             {
                 AsyncOperationHandle<GameObject> handler = Addressables.LoadAssetAsync<GameObject>(reference.RuntimeKey);
                 await handler;
+                int attempts = 0;
+                while (handler.Status != AsyncOperationStatus.Succeeded && attempts < 5)
+                {
+                    handler = Addressables.LoadAssetAsync<GameObject>(reference.RuntimeKey);
+                    await handler;
+                    attempts++;
+                    Debug.LogFormat("Invoked attempt № {0} for {1}", attempts, type);
+                }
                 GameObject viewPrefab = handler.Result;
                 if(container == null)
                 {
@@ -45,7 +56,7 @@ namespace Mathy
                 }
                 var viewGO = container.InstantiatePrefab(viewPrefab, parent);
                 
-                //Addressables.ReleaseInstance(handler);
+                Addressables.Release(handler);
                 var view = viewGO.GetComponent<T>();
                 return view;
             }
@@ -64,12 +75,44 @@ namespace Mathy
             {
                 AsyncOperationHandle<T> handler = Addressables.LoadAssetAsync<T>(reference.RuntimeKey);
                 await handler;
+                int attempts = 0;
+                while (handler.Status != AsyncOperationStatus.Succeeded && attempts < 5)
+                {
+                    handler = Addressables.LoadAssetAsync<T>(reference.RuntimeKey);
+                    await handler;
+                    attempts++;
+                    Debug.LogFormat("Invoked attempt № {0} for {1}", attempts, type);
+                }
                 return handler.Result;
             }
             catch (Exception)
             {
                 throw new ArgumentNullException(
                     string.Format("Can't Load async by addressable reference for >>{0}<<", type)
+                    );
+            }
+        }
+
+        protected async UniTask<T> LoadByRefAsync<T>(TRef reference)
+        {
+            try
+            {
+                AsyncOperationHandle<T> handler = Addressables.LoadAssetAsync<T>(reference.RuntimeKey);
+                await handler;
+                int attempts = 0;
+                while (handler.Status != AsyncOperationStatus.Succeeded && attempts < 5)
+                {
+                    handler = Addressables.LoadAssetAsync<T>(reference.RuntimeKey);
+                    await handler;
+                    attempts++;
+                    Debug.LogFormat("Invoked attempt № {0} for {1}", attempts, typeof(T));
+                }
+                return handler.Result;
+            }
+            catch (Exception)
+            {
+                throw new ArgumentNullException(
+                    string.Format("Can't LoadByRefAsync")
                     );
             }
         }
@@ -113,6 +156,27 @@ namespace Mathy
     {
 
     }
+
+    [Serializable]
+    public class TaskCountedImageAdressableRef : AddressableRefsProvider<TaskCountedImageElementType, AssetReferenceSprite>
+    {
+        public async UniTask<Sprite> GetRandomSprite()
+        {
+            var random = new System.Random();
+            var values = Enum.GetValues(typeof(TaskCountedImageElementType));
+            var type = (TaskCountedImageElementType)values.GetValue(random.Next(values.Length));
+            return await LoadAsync<Sprite>(type);
+        }
+
+        public async UniTask<Sprite> GetSpriteByType(TaskCountedImageElementType type)
+        {
+            var random = new System.Random();
+            var availableRefs = references.Where(x => x.Type == type).Select(x => x.Reference).ToArray();
+            var persistRef = availableRefs[random.Next(0, availableRefs.Length)];
+            return await LoadByRefAsync<Sprite>(persistRef);
+        }
+    }
+
 
 
     [Serializable]

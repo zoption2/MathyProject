@@ -32,7 +32,7 @@ namespace Mathy.UI
 
         public void ChangeStatusByIndex(int index, TaskStatus status)
         {
-            if (isInited)
+            if (isInited && index < totalIndicators)
             {
                 indicators[index].sprite = GetStatusSprite(status);
             }
