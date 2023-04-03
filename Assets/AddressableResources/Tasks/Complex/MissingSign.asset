@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ElementsAmount: 2
   VariantsAmount: 4
-  MinNumber: 0
+  MinNumber: 1
   MaxNumber: 20
   Title: Missing_Sign
   Description: Task description here
