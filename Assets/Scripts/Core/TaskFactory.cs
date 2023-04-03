@@ -99,6 +99,13 @@ namespace Mathy
                     await controller.Init(model, view);
                     return controller;
 
+                case TaskType.ComparisonWithMissingNumber:
+                    model = new ComparisonWithMissingElementTaskModel(taskSettings);
+                    controller = container.Resolve<MultipleVariantsTaskController>();
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.ComparisonWithMissingNumber, viewParent);
+                    await controller.Init(model, view);
+                    return controller;
+
                 case TaskType.Multiplication:
 
                 case TaskType.Division:
@@ -120,8 +127,6 @@ namespace Mathy
                 case TaskType.MissingMultipleSigns:
 
                 case TaskType.IsThatTrue:
-
-                case TaskType.ComparisonWithMissingNumber:
 
                 case TaskType.ComparisonMissingElements:
 

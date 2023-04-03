@@ -34,6 +34,7 @@ namespace Mathy.Core.Tasks
         protected int minValue;
         protected int maxValue;
         protected int amountOfVariants;
+        protected Random random;
 
         protected const string kUnknownElement = "?";
 
@@ -44,6 +45,7 @@ namespace Mathy.Core.Tasks
             minValue = taskSettings.MinNumber;
             maxValue = taskSettings.MaxNumber;
             amountOfVariants = taskSettings.VariantsAmount;
+            random = new Random();
         }
 
         public abstract TaskData GetResult();
