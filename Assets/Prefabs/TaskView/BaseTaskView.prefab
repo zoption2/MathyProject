@@ -1519,6 +1519,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fx Dust
       objectReference: {fileID: 0}
+    - target: {fileID: 8231010828821229296, guid: 750990e90431f499487035e155ff4b93, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8231010828821229302, guid: 750990e90431f499487035e155ff4b93, type: 3}
       propertyPath: m_Material
       value: 

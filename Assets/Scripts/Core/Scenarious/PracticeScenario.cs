@@ -55,6 +55,7 @@ namespace Mathy.Core.Tasks
 
         protected override void EndGameplay()
         {
+            base.EndGameplay();
             var resultsView = scenePointer.ResultsWindow;
             resultsView.gameObject.SetActive(true);
             float correctRate = correctAnswers / (float)(taskIndexer) * 100f;

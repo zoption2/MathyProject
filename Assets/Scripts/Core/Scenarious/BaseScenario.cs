@@ -43,7 +43,7 @@ namespace Mathy.Core.Tasks
 
         protected abstract UniTask DoOnStart();
         protected abstract UniTask UpdateTasksQueue();
-        protected abstract void EndGameplay();
+
 
         public async virtual void StartScenario(List<ScriptableTask> availableTasks)
         {
@@ -133,10 +133,16 @@ namespace Mathy.Core.Tasks
         protected virtual void ClickOnExitFromGameplay()
         {
             ClearTasks();
+            ClearAddressablesCache();
             TaskManager.Instance.ResetToDefault();
             GameManager.Instance.ChangeState(GameState.MainMenu);
             AdManager.Instance.ShowAdWithProbability(AdManager.Instance.ShowInterstitialAd, 10);
             Debug.Log("Request to TaskService to Exit from gameplay");
+        }
+
+        protected virtual void EndGameplay()
+        {
+            ClearAddressablesCache();
         }
 
         protected virtual void ClearTasks()
@@ -153,6 +159,13 @@ namespace Mathy.Core.Tasks
                 GameObject.Destroy(currentTask.ViewParent.gameObject);
             }
             tasks.Clear();
+        }
+
+        protected virtual void ClearAddressablesCache()
+        {
+            addressableRefs.TaskViewProvider.ClearCache();
+            addressableRefs.UIComponentProvider.ClearCache();
+            addressableRefs.GameplayScenePopupsProvider.ClearCache();
         }
     }
 }
