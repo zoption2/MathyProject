@@ -92,6 +92,13 @@ namespace Mathy
                     await controller.Init(model, view);
                     return controller;
 
+                case TaskType.MissingSign:
+                    model = new MissingSignTaskModel(taskSettings);
+                    controller = container.Resolve<DefaultTaskController>();
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.MissingSign, viewParent);
+                    await controller.Init(model, view);
+                    return controller;
+
                 case TaskType.Multiplication:
 
                 case TaskType.Division:
@@ -109,8 +116,6 @@ namespace Mathy
                 case TaskType.PairsOperands:
 
                 case TaskType.ShapeGuessing:
-
-                case TaskType.MissingSign:
 
                 case TaskType.MissingMultipleSigns:
 
