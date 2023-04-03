@@ -2,6 +2,7 @@ using Mathy.Core.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using UnityEngine;
 
 namespace Mathy.Core
@@ -198,5 +199,123 @@ namespace Mathy.Core
             return randomNumbers;
         }
 
+        public static List<string> GetComparableVariants(
+              int firstValue
+            , int secondValue
+            , int amountOfVariants
+            , int minValue
+            , int maxValue
+            , out List<int> correctIndexes
+            , ComparisonType type)
+        {
+            var variants = GenerateVariants(firstValue, amountOfVariants, minValue, maxValue);
+            var resultsInt = new List<int>(variants);
+
+            ShakeResults(resultsInt);
+
+            correctIndexes = GetCorrectIndexes(firstValue, secondValue, resultsInt, type);
+
+            return ConvertListToStrings(resultsInt);
+        }
+
+        #region InternalCalculationsHelpers
+        private static SortedSet<int> GenerateVariants(int firstValue, int amountOfVariants, int minValue, int maxValue)
+        {
+            var random = new System.Random();
+            var variants = new SortedSet<int> { firstValue };
+            while (variants.Count < amountOfVariants)
+            {
+                int variant = random.Next(minValue, maxValue + 1);
+                if (!variants.Contains(variant))
+                {
+                    variants.Add(variant);
+                }
+            }
+            if (variants.Count < amountOfVariants)
+            {
+                throw new Exception($"Could not generate enough unique variants for {firstValue}. " +
+                                    $"Generated {variants.Count} unique variants, but needed {amountOfVariants}.");
+            }
+            return variants;
+        }
+
+        private static List<int> GetCorrectIndexes(int firstValue, int secondValue, List<int> resultsInt, ComparisonType type)
+        {
+            switch (type)
+            {
+                case ComparisonType.Equal:
+                    return GetCorrectIndexesWithEqualTo(firstValue, resultsInt);
+                case ComparisonType.GreaterThen:
+                    return GetCorrectIndexesWithGreaterThen(secondValue, resultsInt);
+                case ComparisonType.LessThen:
+                    return GetCorrectIndexesWithLessThen(secondValue, resultsInt);
+                default:
+                    throw new ArgumentException($"Invalid ComparisonType value: {type}", nameof(type));
+            }
+        }
+
+        private static List<int> GetCorrectIndexesWithEqualTo(int firstValue, List<int> resultsInt)
+        {
+            var correctIndexes = new List<int>();
+            for (int i = 0; i < resultsInt.Count; i++)
+            {
+                if (resultsInt[i] == firstValue)
+                {
+                    correctIndexes.Add(i);
+                }
+            }
+            return correctIndexes;
+        }
+
+        private static List<int> GetCorrectIndexesWithGreaterThen(int secondValue, List<int> resultsInt)
+        {
+            var correctIndexes = new List<int>();
+            for (int i = 0; i < resultsInt.Count; i++)
+            {
+                if (resultsInt[i] > secondValue)
+                {
+                    correctIndexes.Add(i);
+                }
+            }
+            return correctIndexes;
+        }
+
+        private static List<int> GetCorrectIndexesWithLessThen(int secondValue, List<int> resultsInt)
+        {
+            var correctIndexes = new List<int>();
+            for (int i = 0; i < resultsInt.Count; i++)
+            {
+                if (resultsInt[i] < secondValue)
+                {
+                    correctIndexes.Add(i);
+                }
+            }
+            return correctIndexes;
+        }
+
+        private static List<string> ConvertListToStrings(List<int> resultsInt)
+        {
+            return resultsInt.Select(v => v.ToString()).ToList();
+        }
+
+        private static void ShakeResults(List<int> resultsInt)
+        {
+            var random = new System.Random();
+            for (int i = resultsInt.Count - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                int temp = resultsInt[i];
+                resultsInt[i] = resultsInt[j];
+                resultsInt[j] = temp;
+            }
+        }
+        #endregion
+    }
+
+    public enum ComparisonType
+    {
+        Equal,
+        GreaterThen,
+        LessThen
     }
 }

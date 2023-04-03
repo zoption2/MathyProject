@@ -1,25 +1,21 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Mathy.UI.Tasks;
-using Mathy.Data;
-using System;
-using Mathy;
-using System.Linq;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
-    public class DefaultTaskController : BaseTaskController<IStandardTaskView, IDefaultTaskModel>
+    public class MultipleVariantsTaskController : BaseTaskController<IStandardTaskView, IComparisonWithMissingElementTaskModel>
     {
         private List<ITaskViewComponent> taskElements;
         private List<ITaskViewComponentClickable> taskVariants;
-        private ITaskViewComponent correctVariant;
+        private List<ITaskViewComponent> correctVariants;
+        private ITaskViewComponent unknownElement;
         private string userAnswer;
-        private string correctAnswer;
 
         protected override bool IsAnswerCorrect { get; set; }
         protected override List<int> SelectedAnswerIndexes { get; set; }
 
-        public DefaultTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice) 
+        public MultipleVariantsTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice)
             : base(refsHolder, backgroundSevice)
         {
         }
@@ -48,8 +44,7 @@ namespace Mathy.Core.Tasks.DailyTasks
                 TaskElementState state = TaskElementState.Default;
                 if (isUnknown)
                 {
-                    correctVariant = component;
-                    correctAnswer = elementValue;
+                    unknownElement = component;
                     elementValue = questionSign;
                     state = TaskElementState.Unknown;
                 }
@@ -58,7 +53,9 @@ namespace Mathy.Core.Tasks.DailyTasks
             }
 
             var variants = Model.Variants;
+            var modelsCorrectVariants = Model.CorrectVariants;
             var variantsParent = View.VariantsParent;
+            correctVariants = new List<ITaskViewComponent>();
             taskVariants = new List<ITaskViewComponentClickable>(variants.Count);
             for (int i = 0; i < variants.Count; i++)
             {
@@ -68,27 +65,29 @@ namespace Mathy.Core.Tasks.DailyTasks
                 component.Init(i, variantValue);
                 component.ON_CLICK += DoOnClick;
                 taskVariants.Add(component);
+                if (modelsCorrectVariants.Exists(x => x == variants[i]))
+                {
+                    correctVariants.Add(component);
+                }
             }
         }
 
         private void DoOnClick(ITaskViewComponent view)
         {
             UnsubscribeInputs();
-            bool isAnswerCorrect;
+            bool isAnswerCorrect = correctVariants.Contains(view);
             userAnswer = view.Value;
-            if (userAnswer.Equals(correctAnswer))
+            if (isAnswerCorrect)
             {
                 view.ChangeState(TaskElementState.Correct);
-                correctVariant.ChangeState(TaskElementState.Correct);
-                correctVariant.ChangeValue(correctAnswer);
-                isAnswerCorrect = true;
+                unknownElement.ChangeState(TaskElementState.Correct);
+                unknownElement.ChangeValue(userAnswer);
             }
             else
             {
                 view.ChangeState(TaskElementState.Wrong);
-                correctVariant.ChangeState(TaskElementState.Wrong);
-                correctVariant.ChangeValue(correctAnswer);
-                isAnswerCorrect = false;
+                unknownElement.ChangeState(TaskElementState.Wrong);
+                unknownElement.ChangeValue(userAnswer);
             }
 
             IsAnswerCorrect = isAnswerCorrect;

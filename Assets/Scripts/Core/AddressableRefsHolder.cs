@@ -6,6 +6,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using Zenject;
 using Mathy.Core.Tasks.DailyTasks;
 using System.Linq;
+using System.Collections.Concurrent;
 
 namespace Mathy
 {
@@ -33,39 +34,60 @@ namespace Mathy
     {
         [SerializeField] protected RefPair[] references;
         protected DiContainer container;
+        private ConcurrentDictionary<string, AsyncOperationHandle<GameObject>> cache = new();
 
         public async UniTask<T> InstantiateFromReference<T>(TType type, Transform parent)
         {
             TRef reference = GetReference(type);
-            try
+            string key = reference.RuntimeKey.ToString();
+            GameObject viewPrefab = null;
+            if (cache.TryGetValue(key, out AsyncOperationHandle<GameObject> handle))
             {
-                AsyncOperationHandle<GameObject> handler = Addressables.LoadAssetAsync<GameObject>(reference.RuntimeKey);
-                await handler;
-                int attempts = 0;
-                while (handler.Status != AsyncOperationStatus.Succeeded && attempts < 5)
+                viewPrefab = handle.Result;
+                cache.TryUpdate(key, handle, handle);
+            }
+            else
+            {
+                try
                 {
-                    handler = Addressables.LoadAssetAsync<GameObject>(reference.RuntimeKey);
+                    AsyncOperationHandle<GameObject> handler = Addressables.LoadAssetAsync<GameObject>(reference.RuntimeKey);
                     await handler;
-                    attempts++;
-                    Debug.LogFormat("Invoked attempt № {0} for {1}", attempts, type);
+                    int attempts = 0;
+                    while (handler.Status != AsyncOperationStatus.Succeeded && attempts < 5)
+                    {
+                        handler = Addressables.LoadAssetAsync<GameObject>(reference.RuntimeKey);
+                        await handler;
+                        attempts++;
+                        Debug.LogFormat("Invoked attempt № {0} for {1}", attempts, type);
+                    }
+                    cache.TryAdd(key, handler);
+                    viewPrefab = handler.Result;
+                    UnityEngine.Debug.LogFormat("Cache contains {0} references", cache.Count);
                 }
-                GameObject viewPrefab = handler.Result;
-                if(container == null)
+                catch (Exception e)
                 {
-                    container = ProjectContext.Instance.Container;
+                    throw new ArgumentNullException(
+                    string.Format("Can't instantiate gameobject by addressable reference for >>{0}<<", type)
+                    );
                 }
-                var viewGO = container.InstantiatePrefab(viewPrefab, parent);
-                
-                Addressables.Release(handler);
-                var view = viewGO.GetComponent<T>();
-                return view;
             }
-            catch (Exception e)
+
+            if (container == null)
             {
-                throw new ArgumentNullException(
-                string.Format("Can't instantiate gameobject by addressable reference for >>{0}<<", type)
-                );
+                container = ProjectContext.Instance.Container;
             }
+            var viewGO = container.InstantiatePrefab(viewPrefab, parent);
+            var view = viewGO.GetComponent<T>();
+            return view;
+        }
+
+        public void ClearCache()
+        {
+            foreach (var reference in cache.Values)
+            {
+                Addressables.Release(reference);
+            }
+            cache.Clear();
         }
 
         public async UniTask<T> LoadAsync<T>(TType type)

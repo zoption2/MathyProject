@@ -69,6 +69,7 @@ namespace Mathy.Core.Tasks
 
         protected override void EndGameplay()
         {
+            base.EndGameplay();
             GameObject.Destroy(counterView.gameObject);
             var resultsView = scenePointer.ResultsWindow;
             resultsView.gameObject.SetActive(true);
