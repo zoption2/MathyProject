@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using CustomRandom;
 using System.Linq;
-using Mathy.Data;
 
 namespace Mathy.Core.Tasks
 {
