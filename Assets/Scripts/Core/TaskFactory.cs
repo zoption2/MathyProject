@@ -126,6 +126,14 @@ namespace Mathy
                     view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.IsThatTrue, viewParent);
                     await controller.Init(model, view);
                     return controller;
+
+                case TaskType.MissingExpression:
+                    model = new MissingExpressionTaskModel(taskSettings);
+                    controller = container.Resolve<DefaultTaskController>();
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.MissingExpression, viewParent);
+                    await controller.Init(model, view);
+                    return controller;
+
                 case TaskType.Multiplication:
 
                 case TaskType.Division:
@@ -147,8 +155,6 @@ namespace Mathy
                 case TaskType.MissingMultipleSigns:
 
                 case TaskType.ComparisonExpressions:
-
-                case TaskType.MissingExpression:
 
                 default:
                     throw new ArgumentException(
