@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ComparisonMissingElements
   m_EditorClassIdentifier: 
   ElementsAmount: 2
-  VariantsAmount: 4
+  VariantsAmount: 5
   MinNumber: 0
   MaxNumber: 20
   Title: Comparison_Missing_Elements

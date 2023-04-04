@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Mathy.Data;
 
 namespace Mathy.Core.Tasks
 {
@@ -59,25 +58,6 @@ namespace Mathy.Core.Tasks
             };
 
             GetExpressionValues(expression, out elements, out operators);
-        }
-    }
-
-
-    public class ComparisonBothMissingElementsTaskModel : BaseTaskModel, IComparisonMissingElementTaskModel
-    {
-        public List<ExpressionElement> Expression => throw new System.NotImplementedException();
-        public List<string> Variants => throw new System.NotImplementedException();
-        public List<string> CorrectVariants => throw new System.NotImplementedException();
-
-        public ComparisonBothMissingElementsTaskModel(ScriptableTask taskSettings) : base(taskSettings)
-        {
-        }
-
-
-
-        public override TaskData GetResult()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
