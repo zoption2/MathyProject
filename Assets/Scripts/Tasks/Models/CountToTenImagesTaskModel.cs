@@ -1,6 +1,4 @@
-﻿using Mathy.Data;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Mathy.Core.Tasks
 {
@@ -15,10 +13,6 @@ namespace Mathy.Core.Tasks
         private const int kMaxValueLimit = 10;
 
         private int countToShow;
-        private List<string> variants;
-        private List<string> operators;
-        private List<string> elements;
-        private List<int> correctIndexes;
 
         public int CountToShow => countToShow;
 
@@ -33,7 +27,7 @@ namespace Mathy.Core.Tasks
                 countToShow.ToString() 
             };
 
-            correctIndexes = new List<int>()
+            correctAnswersIndexes = new List<int>()
             {
                 countToShow - 1
             };
@@ -47,17 +41,6 @@ namespace Mathy.Core.Tasks
             {
                 "1","2","3","4","5","6","7","8","9","10"
             };
-        }
-
-        public override TaskData GetResult()
-        {
-            var result = new TaskData();
-            result.TaskType = TaskType;
-            result.ElementValues = elements;
-            result.OperatorValues = operators;
-            result.VariantValues = variants;
-            result.CorrectAnswerIndexes = correctIndexes;
-            return result;
         }
     }
 }

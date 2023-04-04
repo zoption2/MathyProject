@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb5c23fd834c21743bf7677711b06d5e, type: 3}
   m_Name: Addition
   m_EditorClassIdentifier: 
-  ElementsAmount: 3
+  ElementsAmount: 2
   VariantsAmount: 4
   MinNumber: 0
   MaxNumber: 80

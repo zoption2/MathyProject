@@ -3,26 +3,21 @@ using Mathy.Data;
 
 namespace Mathy.Core.Tasks
 {
-    public interface IComparisonWithMissingElementTaskModel : IDefaultTaskModel
+    public interface IComparisonMissingElementTaskModel : ITaskModel
     {
+        List<ExpressionElement> Expression { get; }
+        List<string> Variants { get; }
         List<string> CorrectVariants { get; }
     }
 
 
-    public class ComparisonWithMissingElementTaskModel : BaseTaskModel, IComparisonWithMissingElementTaskModel
+    public class ComparisonWithMissingElementTaskModel : BaseTaskModel, IComparisonMissingElementTaskModel
     {
-        private List<ExpressionElement> expression;
-        private List<string> elements;
-        private List<string> operators;
-        private List<string> variants;
         private List<string> correctVariants;
-        private List<int> correctIndexes;
-        private ExpressionElement correctElement;
 
         public List<ExpressionElement> Expression => expression;
         public List<string> Variants => variants;
         public List<string> CorrectVariants => correctVariants;
-        public ExpressionElement CorrectElement => correctElement;
 
 
         public ComparisonWithMissingElementTaskModel(ScriptableTask taskSettings) : base(taskSettings)
@@ -35,25 +30,25 @@ namespace Mathy.Core.Tasks
             {
                 operatorSign = ((char)ArithmeticSigns.LessThan).ToString();
                 variants = MathOperations.GetComparableVariants(firstValue, secondValue, amountOfVariants, minValue, maxValue, out List<int> indexesOfCorrect, ComparisonType.LessThen);
-                correctIndexes = indexesOfCorrect;
+                correctAnswersIndexes = indexesOfCorrect;
             }
             else if (firstValue.CompareTo(secondValue) > 0)
             {
                 operatorSign = ((char)ArithmeticSigns.GreaterThan).ToString();
                 variants = MathOperations.GetComparableVariants(firstValue, secondValue, amountOfVariants, minValue, maxValue, out List<int> indexesOfCorrect, ComparisonType.GreaterThen);
-                correctIndexes = indexesOfCorrect;
+                correctAnswersIndexes = indexesOfCorrect;
             }
             else
             {
                 operatorSign = ((char)ArithmeticSigns.Equal).ToString();
                 variants = MathOperations.GetComparableVariants(firstValue, secondValue, amountOfVariants, minValue, maxValue, out List<int> indexesOfCorrect, ComparisonType.Equal);
-                correctIndexes = indexesOfCorrect;
+                correctAnswersIndexes = indexesOfCorrect;
             }
 
             correctVariants = new List<string>();
-            for (int i = 0, j = correctIndexes.Count; i < j; i++)
+            for (int i = 0, j = correctAnswersIndexes.Count; i < j; i++)
             {
-                correctVariants.Add(variants[correctIndexes[i]]);
+                correctVariants.Add(variants[correctAnswersIndexes[i]]);
             }
 
             expression = new List<ExpressionElement>()
@@ -65,17 +60,24 @@ namespace Mathy.Core.Tasks
 
             GetExpressionValues(expression, out elements, out operators);
         }
+    }
+
+
+    public class ComparisonBothMissingElementsTaskModel : BaseTaskModel, IComparisonMissingElementTaskModel
+    {
+        public List<ExpressionElement> Expression => throw new System.NotImplementedException();
+        public List<string> Variants => throw new System.NotImplementedException();
+        public List<string> CorrectVariants => throw new System.NotImplementedException();
+
+        public ComparisonBothMissingElementsTaskModel(ScriptableTask taskSettings) : base(taskSettings)
+        {
+        }
+
 
 
         public override TaskData GetResult()
         {
-            var result = new TaskData();
-            result.TaskType = TaskType;
-            result.ElementValues = elements;
-            result.OperatorValues = operators;
-            result.VariantValues = variants;
-            result.CorrectAnswerIndexes = correctIndexes;
-            return result;
+            throw new System.NotImplementedException();
         }
     }
 }
