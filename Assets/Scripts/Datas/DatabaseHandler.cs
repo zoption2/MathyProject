@@ -27,6 +27,7 @@ namespace Mathy.Data
         private const string actualDatabaseVersion = "2.1.2";
         private const string correctResultColor = "#15c00f";
         private const string wrongResultColor = "#f94934";
+        private const string kUnknownElementValue = "?";
         //The path to the database file specified in DataManager
         private string databasePath;
         private string saveDirectoryPath;
@@ -2025,7 +2026,7 @@ namespace Mathy.Data
                             int variantIndex = 0;
                             for (int i = 0; i < elementList.Length; i++)
                             {
-                                if (elementList[i] == ArithmeticSigns.QuestionMark.ToString())
+                                if (elementList[i] == kUnknownElementValue)
                                 {
                                     if (variantIndex >= selectedAnswersList.Length)
                                     {
@@ -2043,7 +2044,7 @@ namespace Mathy.Data
 
                             var coloredOperatorList = operatorList.Select(o =>
                             {
-                                if (o == ArithmeticSigns.QuestionMark.ToString())
+                                if (o == kUnknownElementValue)
                                 {
                                     return $"<color={(isCorrect ? correctResultColor : wrongResultColor)}>" +
                                     $"{variantsList[Int32.Parse(selectedAnswersList[0])]}</color>";
