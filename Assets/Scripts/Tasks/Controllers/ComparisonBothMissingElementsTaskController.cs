@@ -4,23 +4,26 @@ using Mathy.UI.Tasks;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
-    public class MultipleVariantsTaskController : BaseTaskController<IStandardTaskView, IComparisonMissingElementTaskModel>
+    public class ComparisonBothMissingElementsTaskController : BaseTaskController<IStandardTaskView, IComparisonBothMissingElementsTaskModel>
     {
         private List<ITaskViewComponent> taskElements;
         private List<ITaskViewComponentClickable> taskVariants;
         private List<ITaskViewComponent> correctVariants;
-        private ITaskViewComponent unknownElement;
+        private List<ITaskViewComponent> unknownElements;
+        private ITaskViewComponent firstComponent;
         private string userAnswer;
+        private bool isFirstElementSelected;
 
-        protected override bool IsAnswerCorrect { get; set; }
+        protected override bool IsAnswerCorrect {get; set;}
         protected override List<int> SelectedAnswerIndexes { get; set; }
 
-        public MultipleVariantsTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice)
-            : base(refsHolder, backgroundSevice)
+        public ComparisonBothMissingElementsTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice) : base(refsHolder, backgroundSevice)
         {
         }
 
-        protected override async UniTask DoOnInit()
+
+
+        protected async override UniTask DoOnInit()
         {
             var backgroundData = await backgroundSevice.GetData<StandardBackgroundType, DefaultTaskViewDecorData>(View);
             View.SetBackground(backgroundData.BackgroundSprite);
@@ -31,6 +34,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             var expression = Model.Expression;
             var elementsParent = View.ElementsParent;
             taskElements = new List<ITaskViewComponent>(expression.Count);
+            unknownElements = new List<ITaskViewComponent>(2);
             for (int i = 0; i < expression.Count; i++)
             {
                 var elementType = expression[i].Type;
@@ -44,7 +48,7 @@ namespace Mathy.Core.Tasks.DailyTasks
                 TaskElementState state = TaskElementState.Default;
                 if (isUnknown)
                 {
-                    unknownElement = component;
+                    unknownElements.Add(component);
                     elementValue = questionSign;
                     state = TaskElementState.Unknown;
                 }
@@ -53,9 +57,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             }
 
             var variants = Model.Variants;
-            var modelsCorrectVariants = Model.CorrectVariants;
             var variantsParent = View.VariantsParent;
-            correctVariants = new List<ITaskViewComponent>();
             taskVariants = new List<ITaskViewComponentClickable>(variants.Count);
             for (int i = 0; i < variants.Count; i++)
             {
@@ -65,35 +67,58 @@ namespace Mathy.Core.Tasks.DailyTasks
                 component.Init(i, variantValue);
                 component.ON_CLICK += DoOnClick;
                 taskVariants.Add(component);
-                if (modelsCorrectVariants.Exists(x => x == variants[i]))
-                {
-                    correctVariants.Add(component);
-                }
             }
         }
 
         private void DoOnClick(ITaskViewComponent view)
         {
-            UnsubscribeInputs();
-            bool isAnswerCorrect = correctVariants.Contains(view);
-            userAnswer = view.Value;
-            if (isAnswerCorrect)
+            DiscardVariant(view);
+            var value = view.Value;
+            if (!isFirstElementSelected)
             {
-                view.ChangeState(TaskElementState.Correct);
-                unknownElement.ChangeState(TaskElementState.Correct);
-                unknownElement.ChangeValue(userAnswer);
+                firstComponent = view;
+                firstComponent.ChangeState(TaskElementState.Correct);
+                unknownElements[0].ChangeValue(value);
+                unknownElements[0].ChangeState(TaskElementState.Default);
+                taskData = Model.UpdateModelBasedOnPlayerChoice(value);
+                SelectedAnswerIndexes.Add(view.Index);
+                isFirstElementSelected = true;
             }
             else
             {
-                view.ChangeState(TaskElementState.Wrong);
-                unknownElement.ChangeState(TaskElementState.Wrong);
-                unknownElement.ChangeValue(userAnswer);
+                UnsubscribeInputs();
+                var correctVariants = Model.CorrectVariants;
+                bool isAnswerCorrect = correctVariants.Contains(value);
+
+                if (isAnswerCorrect)
+                {
+                    view.ChangeState(TaskElementState.Correct);
+                    unknownElements[1].ChangeState(TaskElementState.Correct);
+                    unknownElements[1].ChangeValue(value);
+                }
+                else
+                {
+                    view.ChangeState(TaskElementState.Wrong);
+                    unknownElements[0].ChangeState(TaskElementState.Wrong);
+                    unknownElements[1].ChangeState(TaskElementState.Wrong);
+                    unknownElements[1].ChangeValue(value);
+                }
+
+                IsAnswerCorrect = isAnswerCorrect;
+                SelectedAnswerIndexes.Add(view.Index);
+
+                CompleteTask();
             }
+        }
 
-            IsAnswerCorrect = isAnswerCorrect;
-            SelectedAnswerIndexes.Add(view.Index);
-
-            CompleteTask();
+        private void DiscardVariant(ITaskViewComponent component)
+        {
+            var clickable = (ITaskViewComponentClickable)component;
+            if (taskVariants.Contains(clickable))
+            {
+                clickable.ON_CLICK -= DoOnClick;
+                taskVariants.Remove(clickable);
+            }
         }
 
         private void UnsubscribeInputs()

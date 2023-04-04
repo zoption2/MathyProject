@@ -7,15 +7,9 @@ namespace Mathy.Core.Tasks
 {
     public sealed class AdditionTaskModel : BaseTaskModel, IDefaultTaskModel
     {
-        private List<ExpressionElement> expression;
-        private List<string> elements;
-        private List<string> operators;
-        private List<string> variants;
-        private int correctAnswerIndex;
-
         public List<ExpressionElement> Expression => expression;
         public List<string> Variants => variants;
-        public ExpressionElement CorrectElement => throw new System.NotImplementedException();
+
 
         public AdditionTaskModel(ScriptableTask taskSettings) : base(taskSettings)
         {
@@ -37,19 +31,11 @@ namespace Mathy.Core.Tasks
 
             GetExpressionValues(expression, out elements, out operators);
             variants = GetVariants(result, amountOfVariants, minValue, maxValue, out int indexOfCorrect);
-            correctAnswerIndex = indexOfCorrect;
-        }
 
-        public override TaskData GetResult()
-        {
-            var result = new TaskData();
-            result.TaskType = TaskType;
-            result.ElementValues = elements;
-            result.OperatorValues = operators;
-            result.VariantValues = variants;
-            result.CorrectAnswerIndexes = new List<int>(1);
-            result.CorrectAnswerIndexes.Add(correctAnswerIndex);
-            return result;
+            correctAnswersIndexes = new List<int>()
+            {
+                indexOfCorrect
+            };
         }
     }
 }

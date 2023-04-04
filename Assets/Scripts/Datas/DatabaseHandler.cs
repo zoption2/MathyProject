@@ -837,7 +837,26 @@ namespace Mathy.Data
                             }
                         case TaskType.ComparisonMissingElements:
                             {
-                                
+                                string ComparisonMissingNumQuery = "INSERT INTO ComparisonMissingElements (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+                                "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+
+                                SqliteCommand ComparisonMissingNumCommand = new SqliteCommand(ComparisonMissingNumQuery, connection);
+                                ComparisonMissingNumCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+                                ComparisonMissingNumCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
+                                ComparisonMissingNumCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+                                ComparisonMissingNumCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
+                                ComparisonMissingNumCommand.Parameters.AddWithValue("@mode", modeId);
+                                ComparisonMissingNumCommand.Parameters.AddWithValue("@elements", elements);
+                                ComparisonMissingNumCommand.Parameters.AddWithValue("@operators", operators);
+                                ComparisonMissingNumCommand.Parameters.AddWithValue("@variants", variants);
+                                ComparisonMissingNumCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+                                ComparisonMissingNumCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+                                ComparisonMissingNumCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+                                ComparisonMissingNumCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+
+                                await ComparisonMissingNumCommand.ExecuteNonQueryAsync();
+                                break;
                                 break;
                             }
                         case TaskType.MissingExpression:

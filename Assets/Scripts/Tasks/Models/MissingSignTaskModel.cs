@@ -9,17 +9,10 @@ namespace Mathy.Core.Tasks
         private const int kPlusVariantIndex = 0;
         private const int kMinusVariantIndex = 1;
 
-        private List<ExpressionElement> expression;
-        private List<string> elements;
-        private List<string> variants;
-        private List<string> operators;
-        private List<int> correctAnswerIndexes;
-        private ExpressionElement correctAnswer;
         private int correctVariantIndex;
 
         public List<ExpressionElement> Expression => expression;
         public List<string> Variants => variants;
-        public ExpressionElement CorrectElement => correctAnswer;
 
 
         public MissingSignTaskModel(ScriptableTask taskSettings) : base(taskSettings)
@@ -44,7 +37,7 @@ namespace Mathy.Core.Tasks
                 correctVariantIndex = kMinusVariantIndex;
             }
 
-            correctAnswerIndexes = new List<int>()
+            correctAnswersIndexes = new List<int>()
             {
                 correctVariantIndex
             };
@@ -76,17 +69,6 @@ namespace Mathy.Core.Tasks
                 expression[1].Value,
                 expression[3].Value
             };
-        }
-
-        public override TaskData GetResult()
-        {
-            var result = new TaskData();
-            result.TaskType = TaskType;
-            result.ElementValues = elements;
-            result.OperatorValues = operators;
-            result.VariantValues = variants;
-            result.CorrectAnswerIndexes = correctAnswerIndexes;
-            return result;
         }
     }
 }
