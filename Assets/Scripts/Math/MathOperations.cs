@@ -199,22 +199,35 @@ namespace Mathy.Core
             return randomNumbers;
         }
 
-        //public static string BuildExpressionFromValue(int value, int minLimit, int maxLimit)
-        //{
-        //    var random = new System.Random();
+        public static string BuildExpressionFromValue(int value, int minLimit, int maxLimit)
+        {
+            var random = new System.Random();
+            var randomValue = random.Next(minLimit, maxLimit + 1);
+            while (randomValue == value)
+            {
+                randomValue = random.Next(minLimit, maxLimit + 1);
+            }
 
-        //    string sign = "";
-        //    int randomValue = random.Next(minLimit, maxLimit + 1); //4
-        //    int difference = randomValue - value; // 0 = 10 - 10
+            int firstValue;
+            int secondValue;
+            string sign;
 
-        //    switch (difference)
-        //    {
-        //        case int x when (x == value):
-        //            sign = "+";
-        //            break;
-                
-        //    }
-        //}
+            if (randomValue < value)
+            {
+                firstValue = randomValue;
+                secondValue = value - firstValue;
+                sign = "+";
+            }
+            else
+            {
+                firstValue = randomValue;
+                secondValue = firstValue - value;
+                sign = "-";
+            }
+
+            var result = string.Format($"{firstValue}{sign}{secondValue}");
+            return result;
+        }
 
         public static List<string> GetRandomVariants(int minValue, int maxValue, int countOfVariants)
         {
