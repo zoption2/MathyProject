@@ -30,8 +30,8 @@ namespace Mathy.Core.Tasks.DailyTasks
         protected ITaskBackgroundSevice backgroundSevice;
         protected IAddressableRefsHolder refsHolder;
         protected Random random;
+        protected TaskData taskData;
         private DateTime timer;
-        private TaskData taskData;
         private double totalPlayingTime;
 
         protected abstract bool IsAnswerCorrect { get; set; }
