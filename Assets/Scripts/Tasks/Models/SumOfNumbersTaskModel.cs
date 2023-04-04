@@ -1,9 +1,5 @@
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
-using Mathy.UI.Tasks;
-using Mathy.Data;
 using System;
-using Mathy;
 using System.Linq;
 using CustomRandom;
 
@@ -19,12 +15,6 @@ namespace Mathy.Core.Tasks
 
     public class SumOfNumbersTaskModel : BaseTaskModel, ISumOfNumbersTaskModel
     {
-        private List<ExpressionElement> expression;
-        private List<string> variants;
-        private List<string> elements;
-        private List<string> operators;
-        private List<int> correctAnswerIndexes;
-
         public List<ExpressionElement> Expression => expression;
         public List<string> Elements => elements;
         public List<string> Variants => variants;
@@ -54,7 +44,7 @@ namespace Mathy.Core.Tasks
                 OrderBy(x => Guid.NewGuid()).ToList();
             var answerIndexes = randomizedVariantIndexes.Take(TaskSettings.ElementsAmount).ToList();
 
-            correctAnswerIndexes = answerIndexes;
+            correctAnswersIndexes = answerIndexes;
 
             var fastFandom = new FastRandom();
             List<int> variantsValues = fastFandom.ExclusiveNumericRange(
@@ -65,7 +55,7 @@ namespace Mathy.Core.Tasks
 
             for (int i = 0; i < TaskSettings.VariantsAmount; i++)
             {
-                if (correctAnswerIndexes.Contains(i))
+                if (correctAnswersIndexes.Contains(i))
                 {
                     this.variants.Add(correctValues.First().ToString());
                     correctValues.RemoveAt(0);
@@ -75,17 +65,6 @@ namespace Mathy.Core.Tasks
                     this.variants.Add(variantsValues[i].ToString());
                 }
             }
-        }
-
-        public override TaskData GetResult()
-        {
-            var result = new TaskData();
-            result.TaskType = TaskType;
-            result.ElementValues = elements;
-            result.OperatorValues = operators;
-            result.VariantValues = variants;
-            result.CorrectAnswerIndexes = correctAnswerIndexes;
-            return result;
         }
     }
 }

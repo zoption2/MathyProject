@@ -4,7 +4,7 @@ using Mathy.UI.Tasks;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
-    public class MultipleVariantsTaskController : BaseTaskController<IStandardTaskView, IComparisonWithMissingElementTaskModel>
+    public class MultipleVariantsTaskController : BaseTaskController<IStandardTaskView, IComparisonMissingElementTaskModel>
     {
         private List<ITaskViewComponent> taskElements;
         private List<ITaskViewComponentClickable> taskVariants;

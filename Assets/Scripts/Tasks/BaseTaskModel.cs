@@ -18,7 +18,6 @@ namespace Mathy.Core.Tasks
     {
         List<ExpressionElement> Expression { get; }
         List<string> Variants { get; }
-        ExpressionElement CorrectElement { get; }
     }
 
 
@@ -27,6 +26,12 @@ namespace Mathy.Core.Tasks
         public virtual string TitleKey => TaskSettings.Title;
         public virtual string DescriptionKey => TaskSettings.Description;
         public TaskType TaskType => TaskSettings.TaskType;
+
+        protected List<ExpressionElement> expression;
+        protected List<string> elements;
+        protected List<string> operators;
+        protected List<string> variants;
+        protected List<int> correctAnswersIndexes;
 
         protected readonly ScriptableTask TaskSettings;
         protected int totalValues;
@@ -48,27 +53,16 @@ namespace Mathy.Core.Tasks
             random = new Random();
         }
 
-        public abstract TaskData GetResult();
-
-        //protected virtual List<string> GetVariants(int correctValue, int amountOfVariants, int minValue, int maxValue, out int correctValueIndex)
-        //{
-        //    var random = new System.Random();
-        //    var results = new List<string>(amountOfVariants);
-        //    results.Add(correctValue.ToString());
-
-        //    for (int i = 1; i < amountOfVariants; i++)
-        //    {
-        //        var variant = random.Next(minValue, maxValue);
-        //        while (variant == correctValue)
-        //        {
-        //            variant = random.Next(minValue, maxValue);
-        //        }
-        //        results.Add(variant.ToString());
-        //    }
-        //    ShakeResults(results);
-        //    correctValueIndex = GetIndexOfValueFromList(correctValue.ToString(), results);
-        //    return results;
-        //}
+        public virtual TaskData GetResult()
+        {
+            var result = new TaskData();
+            result.TaskType = TaskType;
+            result.ElementValues = elements;
+            result.OperatorValues = operators;
+            result.VariantValues = variants;
+            result.CorrectAnswerIndexes = correctAnswersIndexes;
+            return result;
+        }
 
         protected virtual List<string> GetVariants(int correctValue, int amountOfVariants, int minValue, int maxValue, out int correctValueIndex)
         {
