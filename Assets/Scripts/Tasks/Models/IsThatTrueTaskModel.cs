@@ -5,18 +5,27 @@ using Mathy.Data;
 
 namespace Mathy.Core.Tasks
 {
-    public sealed class AddSubMissingNumberTaskModel : BaseTaskModel, IDefaultTaskModel
+    public interface IIsThatTrueTaskModel : ITaskModel
+    {
+        List<ExpressionElement> Expression { get; }
+        List<string> Variants { get; }
+        int CorrectVariantIndex { get; }
+    }
+
+    public sealed class IsThatTrueTaskModel : BaseTaskModel, IIsThatTrueTaskModel
     {
         public List<ExpressionElement> Expression => expression;
         public List<string> Variants => variants;
+        private const string kTrueKey = "True";
+        private const string kFalseKey = "False";
+        public int CorrectVariantIndex { get; }
 
-        public AddSubMissingNumberTaskModel(ScriptableTask taskSettings) : base(taskSettings)
+        public IsThatTrueTaskModel(ScriptableTask taskSettings) : base(taskSettings)
         {
             var fastRandom = new FastRandom();
             var random = new System.Random();
             var elementValues = fastRandom.GetRandomElementValues(totalValues, maxValue);
             int result;
-            int unknownIndex = random.Next(0, totalValues);
             bool isAddition = fastRandom.TossACoin();
 
             elements = new List<string>();
@@ -28,11 +37,10 @@ namespace Mathy.Core.Tasks
                 result = elementValues.Sum();
                 for (int i = 0; i < elementValues.Count; i++)
                 {
-                    expression.Add(new ExpressionElement(TaskElementType.Value, elementValues[i], i == unknownIndex));
+                    expression.Add(new ExpressionElement(TaskElementType.Value, elementValues[i]));
                     expression.Add(new ExpressionElement(TaskElementType.Operator,
                         i == totalValues - 1 ? (char)ArithmeticSigns.Equal : (char)ArithmeticSigns.Plus));
                 }
-                expression.Add(new ExpressionElement(TaskElementType.Value, result));
             }
             else
             {
@@ -43,18 +51,33 @@ namespace Mathy.Core.Tasks
 
                 for (int i = 0; i < 2; i++)
                 {
-                    expression.Add(new ExpressionElement(TaskElementType.Value, elementValues[i], i == unknownIndex));
+                    expression.Add(new ExpressionElement(TaskElementType.Value, elementValues[i]));
                     expression.Add(new ExpressionElement(TaskElementType.Operator,
                         i == totalValues - 1 ? (char)ArithmeticSigns.Equal : (char)ArithmeticSigns.Minus));
                 }
-                expression.Add(new ExpressionElement(TaskElementType.Value, result));
             }
 
+            int taskAnswer;
+            if (fastRandom.TossACoin())
+            {
+                taskAnswer = result;
+                CorrectVariantIndex = 0;
+            }
+            else
+            {
+                taskAnswer = random.Next(minValue, maxValue);
+                CorrectVariantIndex = 1;
+            }
+
+            expression.Add(new ExpressionElement(TaskElementType.Value, taskAnswer));
             GetExpressionValues(expression, out elements, out operators);
-            variants = GetVariants(elementValues[unknownIndex], amountOfVariants, minValue, maxValue, out int indexOfCorrect);
+            variants = new List<string>(2)
+            {
+                kTrueKey, kFalseKey
+            };
             correctAnswersIndexes = new List<int>()
             {
-                indexOfCorrect
+                CorrectVariantIndex
             };
         }
     }
