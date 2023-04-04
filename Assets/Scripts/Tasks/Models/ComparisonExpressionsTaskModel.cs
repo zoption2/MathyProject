@@ -1,45 +1,49 @@
-using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
-using Mathy.UI.Tasks;
-using Mathy.Data;
-using System;
-using Mathy;
+﻿using System.Collections.Generic;
 
 namespace Mathy.Core.Tasks
 {
-    public class ComparisonTaskModel : BaseTaskModel, IDefaultTaskModel
+    public class ComparisonExpressionsTaskModel : BaseTaskModel, IDefaultTaskModel
     {
         public List<ExpressionElement> Expression => expression;
         public List<string> Variants => variants;
 
-        public List<ArithmeticSigns> Signs =
-                new List<ArithmeticSigns>() { ArithmeticSigns.LessThan, ArithmeticSigns.Equal, ArithmeticSigns.GreaterThan };
+        private List<ArithmeticSigns> signs;
 
-        public ComparisonTaskModel(ScriptableTask taskSettings) : base(taskSettings)
+        public ComparisonExpressionsTaskModel(ScriptableTask taskSettings) : base(taskSettings)
         {
             var elementOne = random.Next(minValue, maxValue);
             var elementTwo = random.Next(minValue, maxValue);
             var result = ((char)MathOperations.Compare(elementOne, elementTwo)).ToString();
 
+            string expressionOne = MathOperations.BuildExpressionFromValue(elementOne, minValue, maxValue);
+            string expressionTwo = MathOperations.BuildExpressionFromValue(elementTwo, minValue, maxValue);
+            
+            signs = new List<ArithmeticSigns>()
+            {
+                ArithmeticSigns.LessThan,
+                ArithmeticSigns.Equal,
+                ArithmeticSigns.GreaterThan
+            };
+
             expression = new List<ExpressionElement>
             {
-                new ExpressionElement(TaskElementType.Value, elementOne),
+                new ExpressionElement(TaskElementType.Value, expressionOne),
                 new ExpressionElement(TaskElementType.Operator, result, true),
-                new ExpressionElement(TaskElementType.Value, elementTwo)
+                new ExpressionElement(TaskElementType.Value, expressionTwo)
             };
 
             elements = new List<string>()
             {
-                expression[0].Value,
-                expression[2].Value
+                expressionOne,
+                expressionTwo
             };
 
             operators = new List<string>()
             {
-                expression[1].Value
+                result
             };
 
-            variants = GetVariants(result, Signs.Count, out int indexOfCorrect);
+            variants = GetVariants(result, signs.Count, out int indexOfCorrect);
 
             correctAnswersIndexes = new List<int>()
             {
@@ -52,7 +56,7 @@ namespace Mathy.Core.Tasks
             var results = new List<string>(amountOfVariants);
             for (int i = 0; i < amountOfVariants; i++)
             {
-                var variant = Signs[i];
+                var variant = signs[i];
                 results.Add(((char)variant).ToString());
             }
             correctValueIndex = GetIndexOfValueFromList(correctValue, results);

@@ -113,6 +113,13 @@ namespace Mathy
                     await controller.Init(model, view);
                     return controller;
 
+                case TaskType.ComparisonExpressions:
+                    model = new ComparisonExpressionsTaskModel(taskSettings);
+                    controller = container.Resolve<DefaultTaskController>();
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.ComparisonExpressions, viewParent);
+                    await controller.Init(model, view);
+                    return controller;
+
                 case TaskType.Multiplication:
 
                 case TaskType.Division:
@@ -136,8 +143,6 @@ namespace Mathy
                 case TaskType.IsThatTrue:
 
                 case TaskType.AddSubMissingNumber:
-
-                case TaskType.ComparisonExpressions:
 
                 case TaskType.MissingExpression:
 

@@ -199,6 +199,23 @@ namespace Mathy.Core
             return randomNumbers;
         }
 
+        //public static string BuildExpressionFromValue(int value, int minLimit, int maxLimit)
+        //{
+        //    var random = new System.Random();
+
+        //    string sign = "";
+        //    int randomValue = random.Next(minLimit, maxLimit + 1); //4
+        //    int difference = randomValue - value; // 0 = 10 - 10
+
+        //    switch (difference)
+        //    {
+        //        case int x when (x == value):
+        //            sign = "+";
+        //            break;
+                
+        //    }
+        //}
+
         public static List<string> GetRandomVariants(int minValue, int maxValue, int countOfVariants)
         {
             var random = new System.Random();
