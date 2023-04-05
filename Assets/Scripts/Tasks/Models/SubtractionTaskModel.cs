@@ -29,14 +29,18 @@ namespace Mathy.Core.Tasks
                 new ExpressionElement(TaskElementType.Value, result, true)
             };
 
-            elements = new List<string>(3);
-            elements.Add(expression[0].Value);
-            elements.Add(expression[2].Value);
-            elements.Add(expression[4].Value);
+            elements = new List<string>()
+            {
+                expression[0].Value,
+                expression[2].Value,
+                "?"
+            };
 
-            operators = new List<string>(2);
-            operators.Add(expression[1].Value);
-            operators.Add(expression[3].Value);
+            operators = new List<string>()
+            {
+                expression[1].Value,
+                expression[3].Value
+            };
 
             variants = GetVariants(result, amountOfVariants, minValue, maxValue, out int indexOfCorrect);
             correctAnswersIndexes = new List<int>()
