@@ -155,6 +155,68 @@ namespace Mathy.Core
             return (x, y, expression);
         }
 
+        public static string GetSumDiffPair(int numToSplit, int maxNumber)
+        {
+            System.Random random = new System.Random();
+            int x, y;
+            string expression;
+
+            if (random.Next(2) == 0)
+            {
+                // Return a pair that gives numToSplit when x + y is calculated
+                if (numToSplit >= 0)
+                {
+                    x = random.Next(numToSplit + 1);
+                    y = numToSplit - x;
+                    while (x > maxNumber || y > maxNumber)
+                    {
+                        x = random.Next(numToSplit + 1);
+                        y = numToSplit - x;
+                    }
+                    expression = $"{x} + {y}";
+                }
+                else
+                {
+                    x = random.Next(-numToSplit + 1);
+                    y = x - numToSplit;
+                    while (x > maxNumber || y > maxNumber)
+                    {
+                        x = random.Next(-numToSplit + 1);
+                        y = x - numToSplit;
+                    }
+                    expression = $"{x} + {y}";
+                }
+            }
+            else
+            {
+                // Return a pair that gives numToSplit when x - y is calculated
+                if (numToSplit >= 0)
+                {
+                    y = random.Next(numToSplit + 1);
+                    x = numToSplit + y;
+                    while (x > maxNumber || y > maxNumber)
+                    {
+                        y = random.Next(numToSplit + 1);
+                        x = numToSplit + y;
+                    }
+                    expression = $"{x} - {y}";
+                }
+                else
+                {
+                    y = random.Next(-numToSplit + 1);
+                    x = y - numToSplit;
+                    while (x > maxNumber || y > maxNumber)
+                    {
+                        y = random.Next(-numToSplit + 1);
+                        x = y - numToSplit;
+                    }
+                    expression = $"{x} - {y}";
+                }
+            }
+
+            return expression;
+        }
+
         #endregion
 
         //Generate a List of random integers, where their values and sum are less than or equal to maxNumber

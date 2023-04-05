@@ -68,7 +68,19 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    - <Type>k__BackingField: 18
+    - <Type>k__BackingField: 17
+      <Reference>k__BackingField:
+        m_AssetGUID: ce245589fefd3594f981cd9289075e8d
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 14
+      <Reference>k__BackingField:
+        m_AssetGUID: ce245589fefd3594f981cd9289075e8d
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 20
       <Reference>k__BackingField:
         m_AssetGUID: ce245589fefd3594f981cd9289075e8d
         m_SubObjectName: 

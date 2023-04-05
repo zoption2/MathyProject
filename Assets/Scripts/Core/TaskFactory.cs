@@ -113,10 +113,24 @@ namespace Mathy
                     await controller.Init(model, view);
                     return controller;
 
-                case TaskType.ComparisonExpressions:
-                    model = new ComparisonExpressionsTaskModel(taskSettings);
+                case TaskType.AddSubMissingNumber:
+                    model = new AddSubMissingNumberTaskModel(taskSettings);
                     controller = container.Resolve<DefaultTaskController>();
-                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.ComparisonExpressions, viewParent);
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.AddSubMissingNumber, viewParent);
+                    await controller.Init(model, view);
+                    return controller;
+
+                case TaskType.IsThatTrue:
+                    model = new IsThatTrueTaskModel(taskSettings);
+                    controller = container.Resolve<IsThatTrueTaskController>();
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.IsThatTrue, viewParent);
+                    await controller.Init(model, view);
+                    return controller;
+
+                case TaskType.MissingExpression:
+                    model = new MissingExpressionTaskModel(taskSettings);
+                    controller = container.Resolve<DefaultTaskController>();
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.MissingExpression, viewParent);
                     await controller.Init(model, view);
                     return controller;
 
@@ -140,11 +154,7 @@ namespace Mathy
 
                 case TaskType.MissingMultipleSigns:
 
-                case TaskType.IsThatTrue:
-
-                case TaskType.AddSubMissingNumber:
-
-                case TaskType.MissingExpression:
+                case TaskType.ComparisonExpressions:
 
                 default:
                     throw new ArgumentException(

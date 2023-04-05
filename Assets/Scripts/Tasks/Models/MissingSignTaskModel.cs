@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Mathy.Data;
 
 namespace Mathy.Core.Tasks
 {
@@ -72,4 +71,3 @@ namespace Mathy.Core.Tasks
         }
     }
 }
-
