@@ -2149,6 +2149,7 @@ namespace Mathy.Data
                     " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM MissingNumber WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
                     " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM MissingSign WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
                     " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM SumOfNumbers WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM CountTo10Images WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
                     " ) ORDER BY ID ASC;";
 
                     SqliteCommand GetCorrectTaskAmountCommand = new SqliteCommand(GetCorrectTaskAmountQuery, connection);
@@ -2196,6 +2197,7 @@ namespace Mathy.Data
                     " UNION SELECT Id as ID, Duration FROM MissingNumber WHERE Mode = @mode " +
                     " UNION SELECT Id as ID, Duration FROM MissingSign WHERE Mode = @mode " +
                     " UNION SELECT Id as ID, Duration FROM SumOfNumbers WHERE Mode = @mode " +
+                    " UNION SELECT Id as ID, Duration FROM CountTo10Images WHERE Mode = @mode " +
                     " ) ORDER BY ID ASC;";
 
                     SqliteCommand GetDurationCommand = new SqliteCommand(GetDurationQuery, connection);
