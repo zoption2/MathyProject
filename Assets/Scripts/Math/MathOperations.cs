@@ -261,6 +261,36 @@ namespace Mathy.Core
             return randomNumbers;
         }
 
+        public static string BuildExpressionFromValue(int value, int minLimit, int maxLimit)
+        {
+            var random = new System.Random();
+            var randomValue = random.Next(minLimit, maxLimit + 1);
+            while (randomValue == value)
+            {
+                randomValue = random.Next(minLimit, maxLimit + 1);
+            }
+
+            int firstValue;
+            int secondValue;
+            string sign;
+
+            if (randomValue < value)
+            {
+                firstValue = randomValue;
+                secondValue = value - firstValue;
+                sign = "+";
+            }
+            else
+            {
+                firstValue = randomValue;
+                secondValue = firstValue - value;
+                sign = "-";
+            }
+
+            var result = string.Format($"{firstValue}{sign}{secondValue}");
+            return result;
+        }
+
         public static List<string> GetRandomVariants(int minValue, int maxValue, int countOfVariants)
         {
             var random = new System.Random();
