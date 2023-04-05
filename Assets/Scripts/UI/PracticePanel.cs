@@ -27,8 +27,8 @@ public class PracticePanel : MonoBehaviour
 
     private void Initialize()
     {
-        nextPageButton.onClick.AddListener(NextAllGamesPage);
-        prevPageButton.onClick.AddListener(PrevAllGamesPage);
+        //nextPageButton.onClick.AddListener(NextAllGamesPage);
+        //prevPageButton.onClick.AddListener(PrevAllGamesPage);
 
         foreach (Button button in gameButtons)
         {
@@ -56,21 +56,21 @@ public class PracticePanel : MonoBehaviour
 
     public void NextAllGamesPage()
     {
-        nextPageButton.gameObject.SetActive(false);
-        prevPageButton.gameObject.SetActive(true);
+        //nextPageButton.gameObject.SetActive(false);
+        //prevPageButton.gameObject.SetActive(true);
         allGamesPages[0].SetActive(false);
         allGamesPages[1].SetActive(true);
-        leftPageText.text = "3/4";
-        rightPageText.text = "4/4";
+        //leftPageText.text = "3/4";
+        //rightPageText.text = "4/4";
     }
 
     public void PrevAllGamesPage()
     {
-        prevPageButton.gameObject.SetActive(false);
-        nextPageButton.gameObject.SetActive(true);
+        //prevPageButton.gameObject.SetActive(false);
+        //nextPageButton.gameObject.SetActive(true);
         allGamesPages[0].SetActive(true);
         allGamesPages[1].SetActive(false);
-        leftPageText.text = "1/4";
-        rightPageText.text = "2/4";
+        //leftPageText.text = "1/4";
+        //rightPageText.text = "2/4";
     }
 }
