@@ -30,6 +30,7 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<MultipleVariantsTaskController>().To<MultipleVariantsTaskController>().AsTransient();
         Container.Bind<ComparisonBothMissingElementsTaskController>().To<ComparisonBothMissingElementsTaskController>().AsTransient();
         Container.Bind<IsThatTrueTaskController>().To<IsThatTrueTaskController>().AsTransient();
+        Container.Bind<WideElementsTaskController>().To<WideElementsTaskController>().AsTransient();
     }
 
     private void BindScenarious()

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 831522676975205354}
   - component: {fileID: 3786758110515766385}
   m_Layer: 5
-  m_Name: BaseTaskView
+  m_Name: DefaultTaskView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

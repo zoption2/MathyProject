@@ -1949,6 +1949,7 @@ namespace Mathy.Data
                     " UNION SELECT Id as ID, Duration FROM MissingNumber WHERE Mode = @mode " +
                     " UNION SELECT Id as ID, Duration FROM MissingSign WHERE Mode = @mode " +
                     " UNION SELECT Id as ID, Duration FROM SumOfNumbers WHERE Mode = @mode " +
+                    " UNION SELECT Id as ID, Duration FROM CountTo10Images WHERE Mode = @mode " +
                     " ) ORDER BY ID ASC;";
 
                     SqliteCommand GetDurationCommand = new SqliteCommand(GetDurationQuery, connection);
@@ -2123,110 +2124,6 @@ namespace Mathy.Data
             return answers;
         }
 
-        public async Task<List<int>> GetCorrectAnswerIds(TaskMode mode, DateTime date)
-        {
-            List<int> answers = new List<int>();
-
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try
-                {
-                    connection.Open();
-
-                    int modeId = await GetTaskModeId(mode, date);
-
-                    string GetCorrectListQuery = "SELECT CorrectAnswer FROM( " +
-                    " SELECT Id as ID, CorrectAnswer FROM Addition WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, CorrectAnswer FROM Subtraction WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, CorrectAnswer FROM AddSubMissingNumber WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, CorrectAnswer FROM Comparison WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, CorrectAnswer FROM ComparisonWithMissingNumber WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, CorrectAnswer FROM ExpressionsComparison WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, CorrectAnswer FROM IsThatTrue WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, CorrectAnswer FROM ComparisonMissingElements WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, CorrectAnswer FROM MissingExpression WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, CorrectAnswer FROM MissingNumber WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, CorrectAnswer FROM MissingSign WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, CorrectAnswer FROM SumOfNumbers WHERE Mode = @mode " + 
-                    " ) ORDER BY ID ASC; ";
-
-                    SqliteCommand GetCorrectListCommand = new SqliteCommand(GetCorrectListQuery, connection);
-                    GetCorrectListCommand.Parameters.AddWithValue("@mode", modeId);
-
-                    int? temp = null;
-                    using (var reader = await GetCorrectListCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection))
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            temp = Convert.ToInt32(reader[0]);
-                            if (temp.HasValue)
-                            {
-                                answers.Add(Convert.ToInt32(temp));
-                            }
-                        }
-                    }
-
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError("Some UpdateData error: " + e.ToString());
-                }
-            }
-            return answers;
-        }
-
-        public async System.Threading.Tasks.Task<List<int>> GetSeedsByModeAndDate(TaskMode mode, DateTime date)
-        {
-            List<int> seeds = new List<int>();
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try
-                {
-                    int modeId = await GetTaskModeId(mode, date);
-
-                    connection.Open();
-
-                    string GetSeedsQuery = "SELECT Seed FROM ( " +
-                    " SELECT Id as ID, Seed FROM Addition WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Seed FROM Subtraction WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Seed FROM AddSubMissingNumber WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Seed FROM Comparison WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Seed FROM ComparisonWithMissingNumber WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Seed FROM ExpressionsComparison WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Seed FROM IsThatTrue WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Seed FROM ComparisonMissingElements WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Seed FROM MissingExpression WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Seed FROM MissingNumber WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Seed FROM MissingSign WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Seed FROM SumOfNumbers WHERE Mode = @mode " +
-                    " ) ORDER BY ID ASC;";
-                    SqliteCommand GetSeedsCommand = new SqliteCommand(GetSeedsQuery, connection);
-                    GetSeedsCommand.Parameters.AddWithValue("@mode", modeId);
-
-                    int? temp = null;
-                    using (var reader = await GetSeedsCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection))
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            temp = Convert.ToInt32(reader[0]);
-                            if (temp.HasValue)
-                            {
-                                seeds.Add(temp.Value);
-                            }
-                        }
-                    }
-
-                    connection.Close();
-                }
-                catch (Exception e)
-                {
-                    //Todo: process the error
-                    Debug.Log("Some error: " + e.ToString());
-                }
-            }
-            return seeds;
-        }
-
         public async System.Threading.Tasks.Task<int> GetCorrectAnswersOfModeByDate(TaskMode mode, DateTime date)
         {
             int correctAnswersCount = 0;
@@ -2252,6 +2149,7 @@ namespace Mathy.Data
                     " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM MissingNumber WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
                     " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM MissingSign WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
                     " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM SumOfNumbers WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM CountTo10Images WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
                     " ) ORDER BY ID ASC;";
 
                     SqliteCommand GetCorrectTaskAmountCommand = new SqliteCommand(GetCorrectTaskAmountQuery, connection);
@@ -2299,6 +2197,7 @@ namespace Mathy.Data
                     " UNION SELECT Id as ID, Duration FROM MissingNumber WHERE Mode = @mode " +
                     " UNION SELECT Id as ID, Duration FROM MissingSign WHERE Mode = @mode " +
                     " UNION SELECT Id as ID, Duration FROM SumOfNumbers WHERE Mode = @mode " +
+                    " UNION SELECT Id as ID, Duration FROM CountTo10Images WHERE Mode = @mode " +
                     " ) ORDER BY ID ASC;";
 
                     SqliteCommand GetDurationCommand = new SqliteCommand(GetDurationQuery, connection);

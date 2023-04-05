@@ -26,7 +26,7 @@ namespace Mathy.Core.Tasks
         {
             remainingTasksCount = TotalTasks;
             var counterParent = scenePointer.CounterParent;
-            counterView = await addressableRefs.GameplayScenePopupsProvider.InstantiateFromReference<ITaskCounter>(GameplayScenePopup.CounterVariantOne, counterParent);
+            counterView = await addressableRefs.GameplayScenePopupsProvider.InstantiateFromReference<ITaskCounter>(GameplayCounters.CounterVariantOne, counterParent);
             bool isTodayDateExists = await dataManager.IsTodayModeExist(TaskMode);
             if (isTodayDateExists)
             {

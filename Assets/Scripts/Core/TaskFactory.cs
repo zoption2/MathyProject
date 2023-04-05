@@ -129,14 +129,14 @@ namespace Mathy
 
                 case TaskType.MissingExpression:
                     model = new MissingExpressionTaskModel(taskSettings);
-                    controller = container.Resolve<DefaultTaskController>();
+                    controller = container.Resolve<WideElementsTaskController>();
                     view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.MissingExpression, viewParent);
                     await controller.Init(model, view);
                     return controller;
 
                 case TaskType.ComparisonExpressions:
                     model = new ComparisonExpressionsTaskModel(taskSettings);
-                    controller = container.Resolve<DefaultTaskController>();
+                    controller = container.Resolve<WideElementsTaskController>();
                     view = await refsHolder.TaskViewProvider.InstantiateFromReference<IStandardTaskView>(TaskType.ComparisonExpressions, viewParent);
                     await controller.Init(model, view);
                     return controller;

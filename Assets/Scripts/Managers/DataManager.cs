@@ -246,11 +246,6 @@ namespace Mathy.Data
             return await DbHandler.GetCorrectRateOfTaskType(type);
         }
 
-        public async System.Threading.Tasks.Task<List<int>> GetSeedsByModeAndDate(TaskMode mode, DateTime date)
-        {
-            return await DbHandler.GetSeedsByModeAndDate(mode, date);
-        }
-
         public async Task<List<string>> GetTaskResults(TaskMode mode, DateTime date)
         {
             return await this.DbHandler.GetTaskResults(mode, date);
@@ -258,11 +253,6 @@ namespace Mathy.Data
         public async Task<List<bool>> GetAnswers(TaskMode mode, DateTime date)
         {
             return await this.DbHandler.GetAnswers(mode, date);
-        }
-
-        public async Task<List<int>> GetCorrectAnswerIds(TaskMode mode, DateTime date)
-        {
-            return await this.DbHandler.GetCorrectAnswerIds(mode, date);
         }
 
         public async Task<List<TimeSpan>> GetTimeSpansByModeAndDate(TaskMode mode, DateTime date)

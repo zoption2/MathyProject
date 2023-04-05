@@ -267,7 +267,7 @@ public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
         _ = ScenesManager.Instance.SetGameplaySceneActive();
         var settings = GradeManager.Instance.AvailableTaskSettings();
         gameplayService.StartGame(SelectedTaskMode, settings);
-        await UniTask.Delay(1000);
+        await UniTask.Delay(2000);
         LoadingManager.Instance.ClosePanel();
     }
 }
