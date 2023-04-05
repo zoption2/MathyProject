@@ -75,6 +75,13 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         private void DoOnClick(ITaskViewComponent view)
         {
+            var clickable = (ITaskViewComponentClickable)view;
+            if (taskVariants.Contains(clickable))
+            {
+                clickable.ON_CLICK -= DoOnClick;
+                taskVariants.Remove(clickable);
+            }
+
             var selectedAnswerValue = view.Value;
             if (userAnswers == null) userAnswers = new List<string>();
             userAnswers.Add(selectedAnswerValue);
@@ -101,17 +108,22 @@ namespace Mathy.Core.Tasks.DailyTasks
 
             if (userAnswers.Count >= Model.UnknowntElementsAmount || !isAnswerCorrect)
             {
-                foreach (var variant in taskVariants) variant.IsInteractable = false;
+                UnsubscribeVariants();
                 CompleteTask();
             }
         }
 
-        protected override void DoOnRelease()
+        private void UnsubscribeVariants()
         {
             foreach (var variant in taskVariants)
             {
                 variant.ON_CLICK -= DoOnClick;
             }
+        }
+
+        protected override void DoOnRelease()
+        {
+            UnsubscribeVariants();
         }
     }
 }

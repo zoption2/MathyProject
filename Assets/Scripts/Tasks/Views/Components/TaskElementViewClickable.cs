@@ -8,7 +8,6 @@ namespace Mathy.Core.Tasks.DailyTasks
     public interface ITaskViewComponentClickable : ITaskViewComponent
     {
         event Action<ITaskViewComponent> ON_CLICK;
-        bool IsInteractable { get; set; }
     }
 
 

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Mathy.Data
 {
-    public class DataManager : PersistentSingleton<DataManager>
+    public class DataManager : StaticInstance<DataManager>
     {
         #region FIELDS
 
