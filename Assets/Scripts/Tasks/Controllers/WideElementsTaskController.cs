@@ -1,13 +1,11 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Mathy.UI.Tasks;
-using Mathy.Data;
-using Mathy;
-using System.Linq;
+using System;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
-    public class DefaultTaskController : BaseTaskController<IStandardTaskView, IDefaultTaskModel>
+    public class WideElementsTaskController : BaseTaskController<IStandardTaskView, IDefaultTaskModel>
     {
         private List<ITaskViewComponent> taskElements;
         private List<ITaskViewComponentClickable> taskVariants;
@@ -18,7 +16,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         protected override bool IsAnswerCorrect { get; set; }
         protected override List<int> SelectedAnswerIndexes { get; set; }
 
-        public DefaultTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice) 
+        public WideElementsTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice)
             : base(refsHolder, backgroundSevice)
         {
         }
@@ -39,7 +37,7 @@ namespace Mathy.Core.Tasks.DailyTasks
                 var elementType = expression[i].Type;
                 var elementValue = expression[i].Value;
                 var isUnknown = expression[i].IsUnknown;
-                UIComponentType elementView = GetElementViewByType(elementType);
+                UIComponentType elementView = GetElementViewByTypeAndValue(elementType, elementValue);
 
                 var component = await refsHolder.UIComponentProvider
                     .InstantiateFromReference<ITaskViewComponent>(elementView, elementsParent);
@@ -62,8 +60,11 @@ namespace Mathy.Core.Tasks.DailyTasks
             for (int i = 0; i < variants.Count; i++)
             {
                 var variantValue = variants[i];
+
+                UIComponentType elementView = GetVariantViewByValue(variantValue);
+
                 var component = await refsHolder.UIComponentProvider
-                    .InstantiateFromReference<ITaskViewComponentClickable>(UIComponentType.DefaultVariant, variantsParent);
+                    .InstantiateFromReference<ITaskViewComponentClickable>(elementView, variantsParent);
                 component.Init(i, variantValue);
                 component.ON_CLICK += DoOnClick;
                 taskVariants.Add(component);
@@ -94,6 +95,38 @@ namespace Mathy.Core.Tasks.DailyTasks
             SelectedAnswerIndexes.Add(view.Index);
 
             CompleteTask();
+        }
+
+        private UIComponentType GetElementViewByTypeAndValue(TaskElementType type, string displayedValue)
+        {
+            switch (type)
+            {
+                case TaskElementType.Value when (displayedValue.Length > 2):
+                    return UIComponentType.WideDefaultElement;
+
+                case TaskElementType.Value:
+                    return UIComponentType.DefaultElement;
+
+                case TaskElementType.Operator:
+                    return UIComponentType.DefaultOperator;
+
+                default:
+                    throw new ArgumentException(
+                        string.Format("{0} type of element not found", type)
+                        );
+            }
+        }
+
+        private UIComponentType GetVariantViewByValue(string displayedValue)
+        {
+            if (displayedValue.Length > 2)
+            {
+                return UIComponentType.WideDefaultVariant;
+            }
+            else
+            {
+                return UIComponentType.DefaultVariant;
+            }
         }
 
         private void UnsubscribeInputs()

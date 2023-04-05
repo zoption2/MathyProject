@@ -118,6 +118,18 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 2
+      <Reference>k__BackingField:
+        m_AssetGUID: dee50397b53fc3d418a37da76a8b58b2
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 11
+      <Reference>k__BackingField:
+        m_AssetGUID: 1ab36f9b04a37694399233f6f33fddb0
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
   <GameplayScenePopupsProvider>k__BackingField:
     references:
     - <Type>k__BackingField: 0

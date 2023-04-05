@@ -40,7 +40,7 @@ namespace Mathy.Core.Tasks
 
             operators = new List<string>()
             {
-                result
+                "?"
             };
 
             variants = GetVariants(result, signs.Count, out int indexOfCorrect);

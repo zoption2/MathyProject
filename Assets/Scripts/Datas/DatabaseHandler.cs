@@ -1949,6 +1949,7 @@ namespace Mathy.Data
                     " UNION SELECT Id as ID, Duration FROM MissingNumber WHERE Mode = @mode " +
                     " UNION SELECT Id as ID, Duration FROM MissingSign WHERE Mode = @mode " +
                     " UNION SELECT Id as ID, Duration FROM SumOfNumbers WHERE Mode = @mode " +
+                    " UNION SELECT Id as ID, Duration FROM CountTo10Images WHERE Mode = @mode " +
                     " ) ORDER BY ID ASC;";
 
                     SqliteCommand GetDurationCommand = new SqliteCommand(GetDurationQuery, connection);

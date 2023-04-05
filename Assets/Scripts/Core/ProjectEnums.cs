@@ -4,13 +4,15 @@
     {
         DefaultElement = 0,
         ImageWithColliderElement = 1,
+        WideDefaultElement = 2,
 
         DefaultVariant = 10,
+        WideDefaultVariant = 11,
 
         DefaultOperator = 20,
     }
 
-    public enum GameplayScenePopup
+    public enum GameplayCounters
     {
         DefaultCounter,
         CounterVariantOne,

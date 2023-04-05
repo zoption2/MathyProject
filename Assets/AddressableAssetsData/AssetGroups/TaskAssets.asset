@@ -121,6 +121,14 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/TaskElements/CounterVariantTwo.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: dee50397b53fc3d418a37da76a8b58b2
+    m_Address: Assets/Prefabs/TaskElements/NewElements/WideDefaultElementView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1ab36f9b04a37694399233f6f33fddb0
+    m_Address: Assets/Prefabs/TaskElements/NewVariants/WideDefaultVariantView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 76746eb55ddbd544c89bef47883242cf, type: 2}
   m_SchemaSet:

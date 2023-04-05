@@ -174,7 +174,7 @@ namespace Mathy
     }
 
     [Serializable]
-    public class GameplayScenePopupAddressableRef : AddressableRefsProvider<GameplayScenePopup, AssetReferenceGameObject>
+    public class GameplayScenePopupAddressableRef : AddressableRefsProvider<GameplayCounters, AssetReferenceGameObject>
     {
 
     }

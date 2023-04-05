@@ -22,9 +22,10 @@ namespace Mathy.Core.Tasks
             var random = new System.Random();
             countToShow = random.Next(1 , kMaxValueLimit + 1);
 
-            elements = new List<string>() 
-            { 
-                countToShow.ToString() 
+            elements = new List<string>()
+            {
+                "?",
+                countToShow.ToString(),
             };
 
             correctAnswersIndexes = new List<int>()
