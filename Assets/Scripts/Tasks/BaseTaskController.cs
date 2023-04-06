@@ -165,7 +165,8 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         protected virtual void OnExitButtonClick()
         {
-
+            VibrationManager.Instance.TapVibrateCustom();
+            AudioManager.Instance.ButtonClickSound();
         }
 
         protected virtual void DoOnRelease()

@@ -32,6 +32,7 @@
         Wrong = 3
     }
 
+    #region Backgrounds
     public enum BackgroundType
     {
         none = 0,
@@ -115,16 +116,41 @@
         YellowStars = 162,
         YellowZigzag = 163,
     }
+    #endregion
+
+    #region CountedImageTypes
+    public enum CountedImageType
+    {
+        Bean = 1,
+        Cheese = 2,
+        Coin = 3,
+        Flower = 4,
+        Leaf = 5,
+        Candy = 6,
+        Strawberry = 7,
+
+        BottleVariant_1 = 10,
+        BottleVariant_2 = 11,
+        BottleVariant_3 = 12,
+    }
 
     public enum TaskCountedImageElementType
     {
-        Bean,
-        Cheese,
-        Coin,
-        Flower,
-        Leaf,
-        Candy,
-        Strawberry,
+        Bean = 1,
+        Cheese = 2,
+        Coin = 3,
+        Flower = 4,
+        Leaf = 5,
+        Candy = 6,
+        Strawberry = 7,
     }
+
+    public enum SelectFromThreeImageType
+    {
+        BottleVariant_1 = 10,
+        BottleVariant_2 = 11,
+        BottleVariant_3 = 12,
+    }
+    #endregion
 }
 

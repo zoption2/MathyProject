@@ -129,6 +129,22 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/TaskElements/NewVariants/WideDefaultVariantView.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: a844ebbad68d6c348a78f1ad3e9c9502
+    m_Address: Assets/Sprites/Counting Objects/Bottles/Bottle_1_CountedObject.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c659134925ef68f48b86a9ffabca0a3b
+    m_Address: Assets/Sprites/Counting Objects/Bottles/Bottle_2_CountedObject.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7c370f7b1b75def41a108cf2fcd0df7f
+    m_Address: Assets/Sprites/Counting Objects/Bottles/Bottle_3_CountedObject.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e4598cdb1fe9e354696c2b58d231ead2
+    m_Address: Assets/Prefabs/TaskView/3.Select3ImagesTaskView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 76746eb55ddbd544c89bef47883242cf, type: 2}
   m_SchemaSet:

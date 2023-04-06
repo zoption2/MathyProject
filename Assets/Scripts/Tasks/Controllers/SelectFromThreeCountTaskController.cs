@@ -1,68 +1,73 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Mathy.UI.Tasks;
-using Mathy.Data;
 using System;
+using Mathy.UI.Tasks;
 using UnityEngine;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
-    public class CountToTenImagesTaskController : BaseTaskController<ICountingToTenTaskView, ICountToTenImagesTaskModel>
+    public class SelectFromThreeCountTaskController : BaseTaskController<ISelectFromThreeCountTaskView, ISelectFromThreeCountTaskModel>
     {
+        private const int kMaxElementsCount = 30;
+        private const float kElementSize = 200;
+        protected override string LocalizationTableKey => "VariantOneTaskView";
+
         private List<ITaskElementImageWithCollider> elements;
         private ITaskViewComponentClickable[] variantsInputs;
         private CountedImageType selectedImageType;
         private string correctAnswer;
 
-        protected override string LocalizationTableKey => "VariantOneTaskView";
-        protected override bool IsAnswerCorrect {get; set;}
+        protected override bool IsAnswerCorrect { get; set; }
         protected override List<int> SelectedAnswerIndexes { get; set; }
 
-        public CountToTenImagesTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice) 
-            : base(refsHolder, backgroundSevice)
+
+        public SelectFromThreeCountTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice) : base(refsHolder, backgroundSevice)
         {
         }
+
 
         protected override async UniTask DoOnInit()
         {
             var backgroundData = await backgroundSevice.GetData<VariantOneBackgroundType, VariantOneTaskViewDecorData>(View);
             View.SetBackground(backgroundData.BackgroundSprite);
             View.SetHeaderImage(backgroundData.HeaderSprite);
-            View.SetInputsHolderImage(backgroundData.HolderSprite);
 
             var questionSign = ((char)ArithmeticSigns.QuestionMark).ToString();
 
-            var countOfElements = Model.CountToShow;
-            correctAnswer = countOfElements.ToString();
-
-            var elementsHolder = View.ElementsHolder;
-
-            elements = new List<ITaskElementImageWithCollider>(10);
-
-            var imageValues = Enum.GetValues(typeof(TaskCountedImageElementType));
-            selectedImageType = (CountedImageType)imageValues.GetValue(random.Next(imageValues.Length));
-
-
-
-            for (int i = 0; i < countOfElements; i++)
-            {
-                var component = await refsHolder.UIComponentProvider
-                    .InstantiateFromReference<ITaskElementImageWithCollider>(UIComponentType.ImageWithColliderElement, elementsHolder);
-                Sprite sprite = await refsHolder.TaskCountedImageProvider.GetSpriteByType(selectedImageType);
-                if (sprite == null)
-                {
-                    Debug.LogFormat("Sprite from addresables is null");
-                }
-                component.Init(i, sprite);
-                var randomPosition = View.GetRandomPositionAtHolder();
-                component.SetPosition(randomPosition);
-                elements.Add(component);
-            }
-
+            var values = Model.Values;
+            var correctValue = Model.CorrectValue;
+            var parents = View.GroupParents;
             variantsInputs = View.Inputs;
-            for (int i = 0, j = variantsInputs.Length; i < j; i++)
+
+            correctAnswer = correctValue.ToString();
+
+            elements = new List<ITaskElementImageWithCollider>(kMaxElementsCount);
+
+            for (int i = 0, j = values.Count; i < j; i++)
             {
-                string value = (i + 1).ToString();
+                var imageValues = Enum.GetValues(typeof(SelectFromThreeImageType));
+                selectedImageType = (CountedImageType)imageValues.GetValue(random.Next(imageValues.Length));
+
+                var groupValue = values[i];
+                var groupParent = parents[i];
+
+                for (int g = 0; j < groupValue; i++)
+                {
+                    var component = await refsHolder.UIComponentProvider
+                        .InstantiateFromReference<ITaskElementImageWithCollider>(UIComponentType.ImageWithColliderElement, groupParent);
+                    Sprite sprite = await refsHolder.TaskCountedImageProvider.GetSpriteByType(selectedImageType);
+                    if (sprite == null)
+                    {
+                        Debug.LogFormat("Sprite from addresables is null");
+                    }
+                    component.Init(i, sprite);
+                    var randomPosition = View.GetRandomPositionAtGroup(i);
+                    component.SetPosition(randomPosition);
+                    component.SetSize(kElementSize);
+                    elements.Add(component);
+                }
+
+                string value = groupValue.ToString();
                 variantsInputs[i].Init(i, value);
                 variantsInputs[i].ON_CLICK += DoOnVariantClick;
             }
@@ -71,9 +76,8 @@ namespace Mathy.Core.Tasks.DailyTasks
         protected override string GetLocalizedTitle()
         {
             var localizedTitleFormat = LocalizationManager.GetLocalizedString(LocalizationTableKey, Model.TitleKey);
-            string imageKey = selectedImageType.ToString();
-            var countedObject = LocalizationManager.GetLocalizedString(LocalizationTableKey, imageKey);
-            return string.Format(localizedTitleFormat, countedObject);
+            string searchingCount = correctAnswer;
+            return string.Format(localizedTitleFormat, searchingCount);
         }
 
         protected override void OnTaskShowed()
