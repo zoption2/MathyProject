@@ -15,7 +15,7 @@ namespace Mathy.Core.Tasks
 
             int startValue = random.Next(minValue, maxValue + 1);
             bool isPositive = startValue + (totalValues - 1) < maxValue;
-            int unknownIndex = random.Next(0, totalValues + 1);
+            int unknownIndex = random.Next(0, totalValues);
             int correctValue = 0;
 
             expression = new List<ExpressionElement>(totalValues);
@@ -26,29 +26,30 @@ namespace Mathy.Core.Tasks
             {
                 for (int i = 0; i < totalValues; i++)
                 {
-                    var expressionValue = startValue + i;
                     bool isUnknown = i == unknownIndex;
                     if (isUnknown)
                     {
-                        correctValue = expressionValue;
+                        correctValue = startValue + i;
                     }
-                    expression.Add(new ExpressionElement(TaskElementType.Value, expressionValue, isUnknown));
+                    expression.Add(new ExpressionElement(TaskElementType.Value, startValue + i, isUnknown));
                 }
             }
             else
             {
-                for (int i = totalValues; i > 0; i--)
+                for (int i = 0; i < totalValues; i++)
                 {
-                    var expressionValue = startValue + i;
                     bool isUnknown = i == unknownIndex;
                     if (isUnknown)
                     {
-                        correctValue = expressionValue;
+                        correctValue = startValue - i;
                     }
-                    expression.Add(new ExpressionElement(TaskElementType.Value, expressionValue, isUnknown));
+                    expression.Add(new ExpressionElement(TaskElementType.Value, startValue - i, isUnknown));
                 }
             }
-
+            UnityEngine.Debug.Log("Start value: " + startValue.ToString());
+            UnityEngine.Debug.Log("Correct value: " + correctValue.ToString());
+            UnityEngine.Debug.Log("Unknown index: " + unknownIndex.ToString());
+            UnityEngine.Debug.Log("Is positive: " + isPositive.ToString());
 
             GetExpressionValues(expression, out elements, out operators);
 

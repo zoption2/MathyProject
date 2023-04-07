@@ -15,7 +15,7 @@ MonoBehaviour:
   ElementsAmount: 5
   VariantsAmount: 4
   MinNumber: 0
-  MaxNumber: 50
+  MaxNumber: 20
   Title: Missing_number
   Description: Here
   TaskType: 6

@@ -84,10 +84,6 @@ namespace Mathy.Core.Tasks
         #endregion
         [SerializeField] private Transform taskParent;
 
-        private void OnEnable()
-        {
-            UpdateSceneVisual();
-        }
 
         private string GetLocalizedTaskTitle()
         {
@@ -496,13 +492,6 @@ namespace Mathy.Core.Tasks
 
             headerTitle.text = GetLocalizedTaskTitle();
             currentTaskIndex = taskIndex;
-        }
-
-        private void UpdateSceneVisual()
-        {
-            int index = UnityEngine.Random.Range(0, bgImages.Count);
-            headerImage.color = headerColors[index];
-            bgImage.sprite = bgImages[index];
         }
 
         public void ActivatePracticeMode(bool isChallenge)

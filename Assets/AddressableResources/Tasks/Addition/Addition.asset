@@ -15,7 +15,7 @@ MonoBehaviour:
   ElementsAmount: 2
   VariantsAmount: 4
   MinNumber: 0
-  MaxNumber: 80
+  MaxNumber: 20
   Title: Addition
   Description: Task description here
   TaskType: 0
