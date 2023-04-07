@@ -122,6 +122,10 @@ MonoBehaviour:
     m_Localized: Subtraction
     m_Metadata:
       m_Items: []
+  - m_Id: 114854502021521408
+    m_Localized: Counting objects up to 10
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
