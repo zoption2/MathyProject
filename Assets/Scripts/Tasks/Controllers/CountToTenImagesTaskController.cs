@@ -9,12 +9,13 @@ namespace Mathy.Core.Tasks.DailyTasks
 {
     public class CountToTenImagesTaskController : BaseTaskController<ICountingToTenTaskView, ICountToTenImagesTaskModel>
     {
+        private const string kSpritesTableKey = "VariantOneTaskView";
         private List<ITaskElementImageWithCollider> elements;
         private ITaskViewComponentClickable[] variantsInputs;
         private CountedImageType selectedImageType;
         private string correctAnswer;
 
-        protected override string LocalizationTableKey => "VariantOneTaskView";
+        protected override string LocalizationTableKey => "TaskTitles";
         protected override bool IsAnswerCorrect {get; set;}
         protected override List<int> SelectedAnswerIndexes { get; set; }
 
@@ -72,7 +73,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         {
             var localizedTitleFormat = LocalizationManager.GetLocalizedString(LocalizationTableKey, Model.TitleKey);
             string imageKey = selectedImageType.ToString();
-            var countedObject = LocalizationManager.GetLocalizedString(LocalizationTableKey, imageKey);
+            var countedObject = LocalizationManager.GetLocalizedString(kSpritesTableKey, imageKey);
             return string.Format(localizedTitleFormat, countedObject);
         }
 

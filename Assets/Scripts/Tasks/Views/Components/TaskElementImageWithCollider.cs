@@ -39,6 +39,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             var size = rectTransform.sizeDelta;
             size.x = sizePixels;
             size.y = sizePixels;
+            rectTransform.sizeDelta = size;
             elementCollider.radius = sizePixels / 2;
         }
 

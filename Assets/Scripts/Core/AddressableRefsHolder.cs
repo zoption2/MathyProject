@@ -194,7 +194,8 @@ namespace Mathy
         {
             var random = new System.Random();
             var availableRefs = references.Where(x => x.Type == type).Select(x => x.Reference).ToArray();
-            var persistRef = availableRefs[random.Next(0, availableRefs.Length)];
+            var randomIndex = random.Next(0, availableRefs.Length);
+            var persistRef = availableRefs[randomIndex];
             return await LoadByRefAsync<Sprite>(persistRef);
         }
     }

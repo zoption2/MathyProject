@@ -12,6 +12,7 @@ namespace Mathy.Core.Tasks
     public class SelectFromThreeCountTaskModel : BaseTaskModel, ISelectFromThreeCountTaskModel
     {
         private const int kMaxValueLimit = 10;
+        private const int kMinValueLimit = 1;
         private const int kAmountOfVariants = 3;
         private const string kQuestionSign = "?";
 
@@ -21,12 +22,12 @@ namespace Mathy.Core.Tasks
 
         public SelectFromThreeCountTaskModel(ScriptableTask taskSettings) : base(taskSettings)
         {
-            var selectedValue = random.Next(1, kMaxValueLimit + 1);
+            var selectedValue = random.Next(kMinValueLimit, kMaxValueLimit + 1);
             var selecterStringValue = selectedValue.ToString();
 
             CorrectValue = selectedValue;
 
-            variants = GetVariants(selectedValue, kAmountOfVariants, minValue, kMaxValueLimit, out int correctVariantIndex);
+            variants = GetVariants(selectedValue, kAmountOfVariants, kMinValueLimit, kMaxValueLimit, out int correctVariantIndex);
             Values = MathOperations.ConvertStringsToInt(variants);
 
             correctAnswersIndexes = new List<int>()

@@ -19,21 +19,38 @@ namespace Mathy.Core.Tasks
             int correctValue = 0;
 
             expression = new List<ExpressionElement>(totalValues);
-            elements = new List<string>(totalValues);
+            elements = new List<string>();
+            operators = new List<string>();
 
-            for (int i = 0; i < totalValues; )
+            if (isPositive)
             {
-                bool isUnknown = i == unknownIndex;
-                if (isUnknown)
+                for (int i = 0; i < totalValues; i++)
                 {
-                    correctValue = startValue + i;
+                    var expressionValue = startValue + i;
+                    bool isUnknown = i == unknownIndex;
+                    if (isUnknown)
+                    {
+                        correctValue = expressionValue;
+                    }
+                    expression.Add(new ExpressionElement(TaskElementType.Value, expressionValue, isUnknown));
                 }
-                expression.Add(new ExpressionElement(TaskElementType.Value, startValue + i, isUnknown));
-                elements.Add((startValue + i).ToString());
-                i = isPositive ? i + 1 : i - 1;
+            }
+            else
+            {
+                for (int i = totalValues; i > 0; i--)
+                {
+                    var expressionValue = startValue + i;
+                    bool isUnknown = i == unknownIndex;
+                    if (isUnknown)
+                    {
+                        correctValue = expressionValue;
+                    }
+                    expression.Add(new ExpressionElement(TaskElementType.Value, expressionValue, isUnknown));
+                }
             }
 
-            operators = new List<string>();
+
+            GetExpressionValues(expression, out elements, out operators);
 
             variants = GetVariants(correctValue, amountOfVariants, minValue, maxValue, out int indexOfCorrect);
 

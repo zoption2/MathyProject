@@ -3,18 +3,23 @@ using Cysharp.Threading.Tasks;
 using System;
 using Mathy.UI.Tasks;
 using UnityEngine;
+using System.Linq;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
     public class SelectFromThreeCountTaskController : BaseTaskController<ISelectFromThreeCountTaskView, ISelectFromThreeCountTaskModel>
     {
         private const int kMaxElementsCount = 30;
-        private const float kElementSize = 200;
-        protected override string LocalizationTableKey => "VariantOneTaskView";
+        private const int kMaxImagesVariants = 3;
+        private const float kElementSize = 250;
+        private const float kScalingCoef = 10f;
+        private const string kGreenTextFormat = "<color=#00ff00>{0}</color>";
+
+        protected override string LocalizationTableKey => "TaskTitles";
 
         private List<ITaskElementImageWithCollider> elements;
         private ITaskViewComponentClickable[] variantsInputs;
-        private CountedImageType selectedImageType;
+        private List<object> presentImages;
         private string correctAnswer;
 
         protected override bool IsAnswerCorrect { get; set; }
@@ -41,21 +46,30 @@ namespace Mathy.Core.Tasks.DailyTasks
 
             correctAnswer = correctValue.ToString();
 
+            presentImages = new List<object>(kMaxImagesVariants);
+
             elements = new List<ITaskElementImageWithCollider>(kMaxElementsCount);
 
             for (int i = 0, j = values.Count; i < j; i++)
             {
                 var imageValues = Enum.GetValues(typeof(SelectFromThreeImageType));
-                selectedImageType = (CountedImageType)imageValues.GetValue(random.Next(imageValues.Length));
+                imageValues = imageValues.Cast<object>()
+                    .Except(presentImages)
+                    .ToArray();
+
+                var selectedValue = imageValues.GetValue(random.Next(imageValues.Length));
+                presentImages.Add(selectedValue);
+                var castedImageType = (CountedImageType)selectedValue;
 
                 var groupValue = values[i];
                 var groupParent = parents[i];
+                var size = CalculateImageSize(kElementSize, groupValue);
 
-                for (int g = 0; j < groupValue; i++)
+                for (int g = 0; g < groupValue; g++)
                 {
                     var component = await refsHolder.UIComponentProvider
                         .InstantiateFromReference<ITaskElementImageWithCollider>(UIComponentType.ImageWithColliderElement, groupParent);
-                    Sprite sprite = await refsHolder.TaskCountedImageProvider.GetSpriteByType(selectedImageType);
+                    Sprite sprite = await refsHolder.TaskCountedImageProvider.GetSpriteByType(castedImageType);
                     if (sprite == null)
                     {
                         Debug.LogFormat("Sprite from addresables is null");
@@ -63,7 +77,7 @@ namespace Mathy.Core.Tasks.DailyTasks
                     component.Init(i, sprite);
                     var randomPosition = View.GetRandomPositionAtGroup(i);
                     component.SetPosition(randomPosition);
-                    component.SetSize(kElementSize);
+                    component.SetSize(size);
                     elements.Add(component);
                 }
 
@@ -76,7 +90,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         protected override string GetLocalizedTitle()
         {
             var localizedTitleFormat = LocalizationManager.GetLocalizedString(LocalizationTableKey, Model.TitleKey);
-            string searchingCount = correctAnswer;
+            string searchingCount = string.Format(kGreenTextFormat, correctAnswer);
             return string.Format(localizedTitleFormat, searchingCount);
         }
 
@@ -102,6 +116,13 @@ namespace Mathy.Core.Tasks.DailyTasks
             SelectedAnswerIndexes.Add(input.Index);
 
             CompleteTask();
+        }
+
+        private float CalculateImageSize(float baseSize, int amountOfImages)
+        {
+            var scaling = amountOfImages * kScalingCoef;
+            var result = baseSize - scaling;
+            return result;
         }
 
         private void EnableColliders(bool isEnable)
