@@ -93,8 +93,6 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         private void DoOnExitButtonClick()
         {
-            VibrationManager.Instance.TapVibrateCustom();
-            AudioManager.Instance.ButtonClickSound();
             ON_EXIT_CLICK?.Invoke();
         }
     }

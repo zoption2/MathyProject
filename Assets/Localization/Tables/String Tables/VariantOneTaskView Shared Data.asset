@@ -15,10 +15,6 @@ MonoBehaviour:
   m_TableCollectionName: VariantOneTaskView
   m_TableCollectionNameGuidString: 10a1e28d83578ee478ceb13bf44f91ac
   m_Entries:
-  - m_Id: 29550182400
-    m_Key: CountToTenImagesTitle
-    m_Metadata:
-      m_Items: []
   - m_Id: 241049839861760
     m_Key: Bean
     m_Metadata:

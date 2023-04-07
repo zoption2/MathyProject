@@ -9,6 +9,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         void Init(int index, Sprite sprite);
         void SetPosition(Vector2 position);
         void EnableColliders(bool isEnable = true);
+        void SetSize(float sizePixels);
         void Release();
     }
 
@@ -16,7 +17,7 @@ namespace Mathy.Core.Tasks.DailyTasks
     {
         [SerializeField] private Image image;
         [SerializeField] private RectTransform rectTransform;
-        [SerializeField] private Collider2D elementCollider;
+        [SerializeField] private CircleCollider2D elementCollider;
 
         private int index;
         public int Index => index;
@@ -31,6 +32,15 @@ namespace Mathy.Core.Tasks.DailyTasks
         public void EnableColliders(bool isEnable = true)
         {
             elementCollider.enabled = isEnable;
+        }
+
+        public void SetSize(float sizePixels)
+        {
+            var size = rectTransform.sizeDelta;
+            size.x = sizePixels;
+            size.y = sizePixels;
+            rectTransform.sizeDelta = size;
+            elementCollider.radius = sizePixels / 2;
         }
 
         public void SetPosition(Vector2 position)

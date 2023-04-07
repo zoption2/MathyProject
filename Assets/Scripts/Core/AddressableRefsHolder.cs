@@ -180,21 +180,22 @@ namespace Mathy
     }
 
     [Serializable]
-    public class TaskCountedImageAdressableRef : AddressableRefsProvider<TaskCountedImageElementType, AssetReferenceSprite>
+    public class TaskCountedImageAdressableRef : AddressableRefsProvider<CountedImageType, AssetReferenceSprite>
     {
         public async UniTask<Sprite> GetRandomSprite()
         {
             var random = new System.Random();
             var values = Enum.GetValues(typeof(TaskCountedImageElementType));
-            var type = (TaskCountedImageElementType)values.GetValue(random.Next(values.Length));
+            var type = (CountedImageType)values.GetValue(random.Next(values.Length));
             return await LoadAsync<Sprite>(type);
         }
 
-        public async UniTask<Sprite> GetSpriteByType(TaskCountedImageElementType type)
+        public async UniTask<Sprite> GetSpriteByType(CountedImageType type)
         {
             var random = new System.Random();
             var availableRefs = references.Where(x => x.Type == type).Select(x => x.Reference).ToArray();
-            var persistRef = availableRefs[random.Next(0, availableRefs.Length)];
+            var randomIndex = random.Next(0, availableRefs.Length);
+            var persistRef = availableRefs[randomIndex];
             return await LoadByRefAsync<Sprite>(persistRef);
         }
     }

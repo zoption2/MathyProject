@@ -92,6 +92,12 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 23
+      <Reference>k__BackingField:
+        m_AssetGUID: e4598cdb1fe9e354696c2b58d231ead2
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
   <UIComponentProvider>k__BackingField:
     references:
     - <Type>k__BackingField: 0
@@ -393,80 +399,101 @@ MonoBehaviour:
         m_EditorAssetChanged: 0
   <TaskCountedImageProvider>k__BackingField:
     references:
-    - <Type>k__BackingField: 0
+    - <Type>k__BackingField: 1
       <Reference>k__BackingField:
         m_AssetGUID: 1118dd194f3c04b43bde653d4e6d4f72
         m_SubObjectName: Bean Candy green countable object
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-    - <Type>k__BackingField: 0
+    - <Type>k__BackingField: 1
       <Reference>k__BackingField:
         m_AssetGUID: 803d921a121ca214b94002912c6d4be5
         m_SubObjectName: Bean Candy orange countable object
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-    - <Type>k__BackingField: 0
+    - <Type>k__BackingField: 1
       <Reference>k__BackingField:
         m_AssetGUID: 3aeb41b67d220984694998741993c287
         m_SubObjectName: Bean Candy violet countable object
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-    - <Type>k__BackingField: 1
+    - <Type>k__BackingField: 2
       <Reference>k__BackingField:
         m_AssetGUID: 04b73f7d53b96a44ca7f812da93cfe1f
         m_SubObjectName: Cheese countable object
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-    - <Type>k__BackingField: 2
+    - <Type>k__BackingField: 3
       <Reference>k__BackingField:
         m_AssetGUID: 90f8ac77dd55bbf4cbbb2e79821c21ef
         m_SubObjectName: Coin countable object
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-    - <Type>k__BackingField: 3
+    - <Type>k__BackingField: 4
       <Reference>k__BackingField:
         m_AssetGUID: 7ef10a1b0d8f9244ca73f2246746c6b2
         m_SubObjectName: Flower pot countable object
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-    - <Type>k__BackingField: 4
+    - <Type>k__BackingField: 5
       <Reference>k__BackingField:
         m_AssetGUID: 2a2675cc9b6c4df4b826cf24ee758e47
         m_SubObjectName: Leaf countable object
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-    - <Type>k__BackingField: 5
+    - <Type>k__BackingField: 6
       <Reference>k__BackingField:
         m_AssetGUID: 384f47230a0d26449924c6f7b447bdb7
         m_SubObjectName: Round Candy blue countable object
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-    - <Type>k__BackingField: 5
+    - <Type>k__BackingField: 6
       <Reference>k__BackingField:
         m_AssetGUID: b848518a0c1eb03498aea6aa34b1bfb3
         m_SubObjectName: Round Candy red countable object
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-    - <Type>k__BackingField: 5
+    - <Type>k__BackingField: 6
       <Reference>k__BackingField:
         m_AssetGUID: 9f4592c8c9e841f43b06b3af37432b36
         m_SubObjectName: Round Candy violet countable object
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
-    - <Type>k__BackingField: 6
+    - <Type>k__BackingField: 7
       <Reference>k__BackingField:
         m_AssetGUID: 7e33ff537b9565f46939ed6451dee044
         m_SubObjectName: Strawberry countable object
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 10
+      <Reference>k__BackingField:
+        m_AssetGUID: a844ebbad68d6c348a78f1ad3e9c9502
+        m_SubObjectName: Bottle_1_CountedObject
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 11
+      <Reference>k__BackingField:
+        m_AssetGUID: c659134925ef68f48b86a9ffabca0a3b
+        m_SubObjectName: Bottle_2_CountedObject
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 12
+      <Reference>k__BackingField:
+        m_AssetGUID: 7c370f7b1b75def41a108cf2fcd0df7f
+        m_SubObjectName: Bottle_3_CountedObject
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0

@@ -11,6 +11,7 @@ using System.IO;
 using Mathy.Core.Tasks.DailyTasks;
 using Mathy.Core.Tasks;
 using System.Text;
+using ModestTree;
 #if UNITY_EDITOR
 using UnityEngine.Localization.SmartFormat.Core.Parsing;
 using UnityEditor.Search;
@@ -24,7 +25,7 @@ namespace Mathy.Data
     public class DatabaseHandler
     {
         private const string fileName = "SaveGame.db";
-        private const string actualDatabaseVersion = "2.1.2";
+        private const string actualDatabaseVersion = "2.1.3";
         private const string correctResultColor = "#15c00f";
         private const string wrongResultColor = "#f94934";
         private const string kUnknownElementValue = "?";
@@ -58,7 +59,8 @@ namespace Mathy.Data
             { TaskType.ComparisonExpressions, "ExpressionsComparison" },
             { TaskType.SumOfNumbers, "SumOfNumbers" },
             { TaskType.MissingExpression, "MissingExpression" },
-            { TaskType.CountTo10Images, "CountTo10Images" }
+            { TaskType.CountTo10Images, "CountTo10Images" },
+            { TaskType.SelectFromThreeCount, "SelectFromThreeCount" }
         };
 
         Dictionary<string, string> operatorChars = new Dictionary<string, string>()
@@ -219,6 +221,7 @@ namespace Mathy.Data
                     "UNION SELECT MAX(Id) as ID FROM MissingNumber " +
                     "UNION SELECT MAX(Id) as ID FROM MissingSign " +
                     "UNION SELECT MAX(Id) as ID FROM SumOfNumbers " +
+                    "UNION SELECT MAX(Id) as ID FROM SelectFromThreeCount " +
                     "UNION SELECT MAX(Id) as ID FROM CountTo10Images ) ";
 
                     command.CommandText = query;
@@ -461,6 +464,13 @@ namespace Mathy.Data
                     "MaxNumber INTEGER NOT NULL);" +
 
                     "CREATE TABLE CountTo10Images (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
+                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode)," +
+                    "Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Elements STRING NOT NULL," +
+                    "Operators STRING NOT NULL, Variants STRING NOT NULL," +
+                    "SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL, " +
+                    "MaxNumber INTEGER NOT NULL);" +
+
+                    "CREATE TABLE SelectFromThreeCount (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
                     "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode)," +
                     "Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Elements STRING NOT NULL," +
                     "Operators STRING NOT NULL, Variants STRING NOT NULL," +
@@ -996,7 +1006,29 @@ namespace Mathy.Data
                                 command.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
 
                                 await command.ExecuteNonQueryAsync();
+                                break;
+                            }
+                        case TaskType.SelectFromThreeCount:
+                            {
+                                string query = "INSERT INTO SelectFromThreeCount (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
+                                SqliteCommand command = new SqliteCommand(query, connection);
+                                command.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+                                command.Parameters.AddWithValue("@seed", DataToSave.Seed);
+                                command.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+                                command.Parameters.AddWithValue("@duration", DataToSave.Duration);
+                                command.Parameters.AddWithValue("@mode", modeId);
+                                command.Parameters.AddWithValue("@elements", elements);
+                                command.Parameters.AddWithValue("@operators", operators);
+                                command.Parameters.AddWithValue("@variants", variants);
+                                command.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+                                command.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+                                command.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+                                command.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+
+                                await command.ExecuteNonQueryAsync();
                                 break;
                             }
 
@@ -1950,6 +1982,7 @@ namespace Mathy.Data
                     " UNION SELECT Id as ID, Duration FROM MissingSign WHERE Mode = @mode " +
                     " UNION SELECT Id as ID, Duration FROM SumOfNumbers WHERE Mode = @mode " +
                     " UNION SELECT Id as ID, Duration FROM CountTo10Images WHERE Mode = @mode " +
+                    " UNION SELECT Id as ID, Duration FROM SelectFromThreeCount WHERE Mode = @mode " +
                     " ) ORDER BY ID ASC;";
 
                     SqliteCommand GetDurationCommand = new SqliteCommand(GetDurationQuery, connection);
@@ -2060,7 +2093,10 @@ namespace Mathy.Data
                                 sbResult.Append($"{elementList.ElementAt(i)} ");
                                 if (i < coloredOperatorList.Count())
                                 {
-                                    sbResult.Append($"{coloredOperatorList.ElementAt(i)} ");
+                                    if (!coloredOperatorList[i].IsEmpty())
+                                    {
+                                        sbResult.Append($"{coloredOperatorList.ElementAt(i)} ");
+                                    }
                                 }
                             }
                             if (!isCorrect)
@@ -2150,6 +2186,7 @@ namespace Mathy.Data
                     " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM MissingSign WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
                     " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM SumOfNumbers WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
                     " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM CountTo10Images WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM SelectFromThreeCount WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
                     " ) ORDER BY ID ASC;";
 
                     SqliteCommand GetCorrectTaskAmountCommand = new SqliteCommand(GetCorrectTaskAmountQuery, connection);
@@ -2198,6 +2235,7 @@ namespace Mathy.Data
                     " UNION SELECT Id as ID, Duration FROM MissingSign WHERE Mode = @mode " +
                     " UNION SELECT Id as ID, Duration FROM SumOfNumbers WHERE Mode = @mode " +
                     " UNION SELECT Id as ID, Duration FROM CountTo10Images WHERE Mode = @mode " +
+                    " UNION SELECT Id as ID, Duration FROM SelectFromThreeCount WHERE Mode = @mode " +
                     " ) ORDER BY ID ASC;";
 
                     SqliteCommand GetDurationCommand = new SqliteCommand(GetDurationQuery, connection);

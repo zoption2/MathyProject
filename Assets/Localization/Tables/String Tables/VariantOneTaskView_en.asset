@@ -18,10 +18,6 @@ MonoBehaviour:
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 29550182400
-    m_Localized: How many {0} are here?
-    m_Metadata:
-      m_Items: []
   - m_Id: 241049839861760
     m_Localized: beans
     m_Metadata:

@@ -64,18 +64,6 @@ MonoBehaviour:
   image: {fileID: 7756412605871122646}
   rectTransform: {fileID: 7756412605871122643}
   elementCollider: {fileID: 7756412605871122645}
-  sprites:
-  - {fileID: 21300000, guid: 1118dd194f3c04b43bde653d4e6d4f72, type: 3}
-  - {fileID: 21300000, guid: 803d921a121ca214b94002912c6d4be5, type: 3}
-  - {fileID: 21300000, guid: 3aeb41b67d220984694998741993c287, type: 3}
-  - {fileID: 21300000, guid: 04b73f7d53b96a44ca7f812da93cfe1f, type: 3}
-  - {fileID: 21300000, guid: 90f8ac77dd55bbf4cbbb2e79821c21ef, type: 3}
-  - {fileID: 21300000, guid: 7ef10a1b0d8f9244ca73f2246746c6b2, type: 3}
-  - {fileID: 21300000, guid: 2a2675cc9b6c4df4b826cf24ee758e47, type: 3}
-  - {fileID: 21300000, guid: 384f47230a0d26449924c6f7b447bdb7, type: 3}
-  - {fileID: 21300000, guid: b848518a0c1eb03498aea6aa34b1bfb3, type: 3}
-  - {fileID: 21300000, guid: 9f4592c8c9e841f43b06b3af37432b36, type: 3}
-  - {fileID: 21300000, guid: 7e33ff537b9565f46939ed6451dee044, type: 3}
 --- !u!114 &7756412605871122646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,7 +122,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
