@@ -62,6 +62,7 @@ SpriteAtlas:
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: 5b885940fc36aa2449c2fa271e58953c, type: 3}
   - {fileID: 21300000, guid: bbd047d036ef8e84da70a07e53fe1fbf, type: 3}
   - {fileID: 21300000, guid: ec879b5151609a94abc3eb6d5d83afb1, type: 3}
   - {fileID: 21300000, guid: 74e307b1eae737447b9b5dd7a535148c, type: 3}
@@ -93,6 +94,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 3977594f690a52445957493760c00b93, type: 3}
   - {fileID: 21300000, guid: c56a2edf7e3a749428a86a4329d838ac, type: 3}
   m_PackedSpriteNamesToIndex:
+  - Count to 10 images practice icon
   - Comparison Expressions practice icon
   - Missing Signs practice icon
   - Add-Sub practice icon
