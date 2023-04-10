@@ -148,6 +148,13 @@ namespace Mathy
                     await controller.Init(model, view);
                     return controller;
 
+                case TaskType.CountTo10Frames:
+                    model = new FramesCountToTenTaskModel(taskSettings);
+                    controller = container.Resolve<FramesCountToTenTaskController>();
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IFramesCountToTenTaskView>(TaskType.CountTo10Frames, viewParent);
+                    await controller.Init(model, view);
+                    return controller;
+
                 case TaskType.Multiplication:
 
                 case TaskType.Division:

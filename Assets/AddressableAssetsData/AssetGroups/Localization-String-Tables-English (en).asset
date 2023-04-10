@@ -70,13 +70,19 @@ MonoBehaviour:
     - Locale-en
     - Preload
   - m_GUID: 0a495a3c4549b9d4ba67f0a51f5182f9
-    m_Address: VariantOneTaskView_en
+    m_Address: CountedImages_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en
     - Preload
   - m_GUID: ca587d65812665e4ead81101b5a99944
     m_Address: TaskTitles_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    - Preload
+  - m_GUID: bf5d331ffac5aa743b950a26a4a3fa62
+    m_Address: TaskViewComponents_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en

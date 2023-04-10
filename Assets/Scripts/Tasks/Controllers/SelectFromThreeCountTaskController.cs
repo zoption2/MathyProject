@@ -141,5 +141,4 @@ namespace Mathy.Core.Tasks.DailyTasks
             }
         }
     }
-
 }

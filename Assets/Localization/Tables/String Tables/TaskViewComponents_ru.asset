@@ -10,27 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: TaskTitles_ru
+  m_Name: TaskViewComponents_ru
   m_EditorClassIdentifier: 
   m_LocaleId:
     m_Code: ru
-  m_SharedData: {fileID: 11400000, guid: e28709e8323ea3948863877d7c975f77, type: 2}
+  m_SharedData: {fileID: 11400000, guid: 2eeed5eb30b4cdc45b9d7e8fbe65ea85, type: 2}
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 178808684544
-    m_Localized: "\u0413\u0434\u0435 \u043F\u043E\u043A\u0430\u0437\u0430\u043D\u043E
-      {0}?"
+  - m_Id: 85917433856
+    m_Localized: "\u043D\u0430\u0437\u0430\u0434"
     m_Metadata:
       m_Items: []
-  - m_Id: 1516699385856
-    m_Localized: "\u0421\u043A\u043E\u043B\u044C\u043A\u043E \u0437\u0434\u0435\u0441\u044C
-      {0}?"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1136609207779328
-    m_Localized: "\u0421\u043A\u043E\u043B\u044C\u043A\u043E {0} \u043D\u0435 \u0445\u0432\u0430\u0442\u0430\u0435\u0442
-      \u0434\u043E 10?"
+  - m_Id: 137117302784
+    m_Localized: "\u043F\u043E\u043C\u043E\u0449\u044C"
     m_Metadata:
       m_Items: []
   references:

@@ -40,6 +40,7 @@ public enum TaskType
     MissingExpression = 20,
     CountTo10Images = 22,
     SelectFromThreeCount = 23,
+    CountTo10Frames = 24,
 }
 
 public abstract class ScriptableTaskBase : ScriptableObject

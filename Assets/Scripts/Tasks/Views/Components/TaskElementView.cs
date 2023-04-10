@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using TMPro;
 using Mathy.UI.Tasks;
 using DG.Tweening;
-using System;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
@@ -70,7 +69,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             Destroy(gameObject);
         }
 
-        private void AnimateText()
+        protected virtual void AnimateText()
         {
             DOTween.Complete(tweenID);
             valueText.transform.DOShakeRotation(UnityEngine.Random.Range(0.5f, 1f), new Vector2(20, 60))
@@ -82,7 +81,7 @@ namespace Mathy.Core.Tasks.DailyTasks
                 });
         }
 
-        private void AnimatePress()
+        protected virtual void AnimatePress()
         {
             DOTween.Complete(tweenID);
             stateImage.transform.DOPunchScale(new Vector2(-0.1f, 0.1f), 0.5f)

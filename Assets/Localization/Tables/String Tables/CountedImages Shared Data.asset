@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
-  m_Name: VariantOneTaskView Shared Data
+  m_Name: CountedImages Shared Data
   m_EditorClassIdentifier: 
-  m_TableCollectionName: VariantOneTaskView
+  m_TableCollectionName: CountedImages
   m_TableCollectionNameGuidString: 10a1e28d83578ee478ceb13bf44f91ac
   m_Entries:
   - m_Id: 241049839861760
@@ -43,12 +43,8 @@ MonoBehaviour:
     m_Key: Strawberry
     m_Metadata:
       m_Items: []
-  - m_Id: 276488189640704
-    m_Key: backKey
-    m_Metadata:
-      m_Items: []
-  - m_Id: 276604732571648
-    m_Key: helpKey
+  - m_Id: 3937845053227008
+    m_Key: Carrot
     m_Metadata:
       m_Items: []
   m_Metadata:

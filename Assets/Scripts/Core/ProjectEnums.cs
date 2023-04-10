@@ -132,9 +132,11 @@
         BottleVariant_1 = 10,
         BottleVariant_2 = 11,
         BottleVariant_3 = 12,
+
+        Carrot = 20,
     }
 
-    public enum TaskCountedImageElementType
+    public enum CountedElementImageType
     {
         Bean = 1,
         Cheese = 2,
@@ -151,6 +153,12 @@
         BottleVariant_2 = 11,
         BottleVariant_3 = 12,
     }
+
+    public enum CountedElementFrameType
+    { 
+        Carrot = 20,
+    }
+
     #endregion
 }
 

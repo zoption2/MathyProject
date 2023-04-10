@@ -1,29 +1,31 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Mathy.UI.Tasks;
-using Mathy.Data;
 using System;
 using UnityEngine;
+using Mathy.UI.Tasks;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
-    public class CountToTenImagesTaskController : BaseTaskController<ICountingToTenTaskView, ICountToTenImagesTaskModel>
+    public class FramesCountToTenTaskController : BaseTaskController<IFramesCountToTenTaskView, IFramesCountToTenTaskModel>
     {
         private const string kSpritesTableKey = "CountedImages";
+        private const int kMaxFrames = 10; 
+        private const int kAnswersDelayMS = 50;
 
-        private List<ITaskElementImageWithCollider> elements;
+        private ITaskElementFrame[] allFrames;
+        private List<ITaskElementFrame> unknownFrames;
         private ITaskViewComponentClickable[] variantsInputs;
         private CountedImageType selectedImageType;
-        private string correctAnswer;
+        private string correctValueText;
 
         protected override string LocalizationTableKey => "TaskTitles";
-        protected override bool IsAnswerCorrect {get; set;}
-        protected override List<int> SelectedAnswerIndexes { get; set; }
 
-        public CountToTenImagesTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice) 
-            : base(refsHolder, backgroundSevice)
+        public FramesCountToTenTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice) : base(refsHolder, backgroundSevice)
         {
         }
+
+        protected override bool IsAnswerCorrect { get; set; }
+        protected override List<int> SelectedAnswerIndexes { get; set; }
 
         protected override async UniTask DoOnInit()
         {
@@ -32,33 +34,31 @@ namespace Mathy.Core.Tasks.DailyTasks
             View.SetHeaderImage(backgroundData.HeaderSprite);
             View.SetInputsHolderImage(backgroundData.HolderSprite);
 
-            var questionSign = ((char)ArithmeticSigns.QuestionMark).ToString();
+            var correctValue = Model.CorrectValue;
+            correctValueText = correctValue.ToString();
+            var visibleFrames = Model.FramesToShow;
+            var correctIndex = Model.CorrectIndex;
+            allFrames = View.Frames;
 
-            var countOfElements = Model.CountToShow;
-            correctAnswer = countOfElements.ToString();
-
-            var elementsHolder = View.ElementsHolder;
-
-            elements = new List<ITaskElementImageWithCollider>(10);
-
-            var imageValues = Enum.GetValues(typeof(CountedElementImageType));
+            var imageValues = Enum.GetValues(typeof(CountedElementFrameType));
             selectedImageType = (CountedImageType)imageValues.GetValue(random.Next(imageValues.Length));
-
-
-
-            for (int i = 0; i < countOfElements; i++)
+            Sprite sprite = await refsHolder.TaskCountedImageProvider.GetSpriteByType(selectedImageType);
+            if (sprite == null)
             {
-                var component = await refsHolder.UIComponentProvider
-                    .InstantiateFromReference<ITaskElementImageWithCollider>(UIComponentType.ImageWithColliderElement, elementsHolder);
-                Sprite sprite = await refsHolder.TaskCountedImageProvider.GetSpriteByType(selectedImageType);
-                if (sprite == null)
+                Debug.LogFormat("Sprite from addresables is null");
+            }
+
+            unknownFrames = new List<ITaskElementFrame>(kMaxFrames);
+            for (int i = 0; i < kMaxFrames; i++)
+            {
+                var value = (i + 1).ToString();
+                TaskElementState frameState = TaskElementState.Default;
+                if (i > visibleFrames - 1)
                 {
-                    Debug.LogFormat("Sprite from addresables is null");
+                    frameState = TaskElementState.Unknown;
+                    unknownFrames.Add(allFrames[i]);
                 }
-                component.Init(i, sprite);
-                var randomPosition = View.GetRandomPositionAtHolder();
-                component.SetPosition(randomPosition);
-                elements.Add(component);
+                allFrames[i].Init(i, value, sprite, frameState);
             }
 
             variantsInputs = View.Inputs;
@@ -78,36 +78,27 @@ namespace Mathy.Core.Tasks.DailyTasks
             return string.Format(localizedTitleFormat, countedObject);
         }
 
-        protected override void OnTaskShowed()
-        {
-            EnableColliders(false);
-        }
-
-        protected override void DoOnTaskPrepare()
-        {
-            EnableColliders(true);
-        }
-
-        private void DoOnVariantClick(ITaskViewComponent input)
+        private async void DoOnVariantClick(ITaskViewComponent input)
         {
             UnsubscribeInputs();
-
-            var isCorrect = input.Value == correctAnswer;
+            var isCorrect = input.Value == correctValueText;
             TaskElementState state = isCorrect ? TaskElementState.Correct : TaskElementState.Wrong;
             input.ChangeState(state);
+
+            for (int i = 0, j = unknownFrames.Count; i < j; i++)
+            {
+                var value = (i + 1).ToString();
+                var frame = unknownFrames[i];
+                bool isLastValue = (i + 1) == j;
+                frame.ChangeValue(value, isLastValue);
+                frame.ChangeState(state);
+                await UniTask.Delay(kAnswersDelayMS);
+            }
 
             IsAnswerCorrect = isCorrect;
             SelectedAnswerIndexes.Add(input.Index);
 
             CompleteTask();
-        }
-
-        private void EnableColliders(bool isEnable)
-        {
-            foreach (var element in elements)
-            {
-                element.EnableColliders(isEnable);
-            }
         }
 
         private void UnsubscribeInputs()
@@ -118,5 +109,4 @@ namespace Mathy.Core.Tasks.DailyTasks
             }
         }
     }
-
 }

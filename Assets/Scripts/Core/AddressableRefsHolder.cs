@@ -185,7 +185,7 @@ namespace Mathy
         public async UniTask<Sprite> GetRandomSprite()
         {
             var random = new System.Random();
-            var values = Enum.GetValues(typeof(TaskCountedImageElementType));
+            var values = Enum.GetValues(typeof(CountedElementImageType));
             var type = (CountedImageType)values.GetValue(random.Next(values.Length));
             return await LoadAsync<Sprite>(type);
         }

@@ -10,24 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: TaskTitles_en
+  m_Name: TaskViewComponents_en
   m_EditorClassIdentifier: 
   m_LocaleId:
     m_Code: en
-  m_SharedData: {fileID: 11400000, guid: e28709e8323ea3948863877d7c975f77, type: 2}
+  m_SharedData: {fileID: 11400000, guid: 2eeed5eb30b4cdc45b9d7e8fbe65ea85, type: 2}
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 178808684544
-    m_Localized: Which shows {0}?
+  - m_Id: 85917433856
+    m_Localized: back
     m_Metadata:
       m_Items: []
-  - m_Id: 1516699385856
-    m_Localized: How many {0} are here?
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1136609207779328
-    m_Localized: How many {0} are missing for 10?
+  - m_Id: 137117302784
+    m_Localized: help
     m_Metadata:
       m_Items: []
   references:

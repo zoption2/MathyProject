@@ -98,6 +98,12 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 24
+      <Reference>k__BackingField:
+        m_AssetGUID: 3d42396bdaac1ea40be0e43d77f5bf03
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
   <UIComponentProvider>k__BackingField:
     references:
     - <Type>k__BackingField: 0
@@ -494,6 +500,13 @@ MonoBehaviour:
       <Reference>k__BackingField:
         m_AssetGUID: 7c370f7b1b75def41a108cf2fcd0df7f
         m_SubObjectName: Bottle_3_CountedObject
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 20
+      <Reference>k__BackingField:
+        m_AssetGUID: d9daf8d1339ecc947a3c3d78e65f03a8
+        m_SubObjectName: Carrot
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0

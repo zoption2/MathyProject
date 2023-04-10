@@ -3,7 +3,7 @@ using Zenject;
 using Mathy;
 using Mathy.Core.Tasks.DailyTasks;
 using Mathy.Core.Tasks;
-using Mathy.Data;
+
 
 public class ProjectContextInstaller : MonoInstaller
 {
@@ -33,6 +33,7 @@ public class ProjectContextInstaller : MonoInstaller
 
         Container.Bind<CountToTenImagesTaskController>().To<CountToTenImagesTaskController>().AsTransient();
         Container.Bind<SelectFromThreeCountTaskController>().To<SelectFromThreeCountTaskController>().AsTransient();
+        Container.Bind<FramesCountToTenTaskController>().To<FramesCountToTenTaskController>().AsTransient();
     }
 
     private void BindScenarious()

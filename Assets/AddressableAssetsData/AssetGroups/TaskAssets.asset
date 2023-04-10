@@ -145,6 +145,14 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/TaskView/3.Select3ImagesTaskView.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 3d42396bdaac1ea40be0e43d77f5bf03
+    m_Address: Assets/Prefabs/TaskView/4.CountingFrames10TaskView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d9daf8d1339ecc947a3c3d78e65f03a8
+    m_Address: Assets/Sprites/Counting Objects/Frame/Carrot.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 76746eb55ddbd544c89bef47883242cf, type: 2}
   m_SchemaSet:

@@ -7,11 +7,9 @@ namespace Mathy.Core.Tasks
 {
     public class SubtractionTaskModel : BaseTaskModel, IDefaultTaskModel
     {
-        private int correctAnswerIndex;
-
         public List<ExpressionElement> Expression => expression;
         public List<string> Variants => variants;
-        public ExpressionElement CorrectElement => throw new System.NotImplementedException();
+
 
         public SubtractionTaskModel(ScriptableTask taskSettings) : base(taskSettings)
         {
