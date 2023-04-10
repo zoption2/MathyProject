@@ -126,6 +126,14 @@ MonoBehaviour:
     m_Localized: Counting objects up to 10
     m_Metadata:
       m_Items: []
+  - m_Id: 115983937613070336
+    m_Localized: Counting frames up to 10
+    m_Metadata:
+      m_Items: []
+  - m_Id: 115984299338235904
+    m_Localized: which shows "number"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

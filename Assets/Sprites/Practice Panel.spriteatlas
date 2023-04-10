@@ -72,6 +72,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b77049b33a66a6d408d97942123512d5, type: 3}
   - {fileID: 21300000, guid: c0402134a40a42f468c280a6c9dcce9e, type: 3}
   - {fileID: 21300000, guid: a73f67543eedd6c4c8151f01ef78a574, type: 3}
+  - {fileID: 21300000, guid: 0d8c39f4e2bb04649920f26012f4401f, type: 3}
   - {fileID: 21300000, guid: eb391a95886814b439bd704c1086c34c, type: 3}
   - {fileID: 21300000, guid: 269c5d062b81b4142989f414acd202d3, type: 3}
   - {fileID: 21300000, guid: 4525ad5755c533144aaf01928f76fe5f, type: 3}
@@ -104,6 +105,7 @@ SpriteAtlas:
   - Practice page arrow
   - Subtraction practice icon
   - Comparison Elements practice icon
+  - TempPracticeIcon
   - Missing Expressions practice icon
   - Practice page corner
   - practice label violet
