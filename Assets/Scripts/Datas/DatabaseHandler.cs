@@ -2143,9 +2143,10 @@ namespace Mathy.Data
                             if (!isCorrect)
                             {
                                 var correctAnswersValues = correctAnswersList.Select(i => int.Parse(i))
-                                           .Where(i => i >= 0 && i < variantsList.Length)
-                                           .Select(i => variantsList[i]);
+                                            .Where(i => i >= 0 && i < variantsList.Length)
+                                            .Select(i => variantsList[i]);
                                 sbResult.Append($" ({string.Join(", ", correctAnswersValues)})");
+                                
                             }
                             results.Add(sbResult.ToString());
                         }

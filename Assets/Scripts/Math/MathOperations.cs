@@ -299,25 +299,36 @@ namespace Mathy.Core
             for (int i = 0; i < countOfVariants; i++)
             {
                 var value = random.Next(minValue, maxValue + 1);
-                result.Add(value.ToString());
+                var valueText = value.ToString();
+                int attempts = 5;
+                while (result.Contains(valueText) && attempts > 0)
+                {
+                    value = random.Next(minValue, maxValue + 1);
+                    valueText = value.ToString();
+                    attempts--;
+                }
+                result.Add(valueText);
             }
 
             return result;
         }
 
-        public static List<string> DublicateRandomValueAndShake(List<string> input)
+        public static List<string> DublicateRandomValueAndShake(List<string> input, out string dublicatedValue, out int dublicatedIndex)
         {
             var random = new System.Random();
             var randomValue = input[random.Next(input.Count)];
+            int inputIndex = 0;
             for (int i = 0, j = input.Count; i < j; i++)
             {
                 if (input[i] != randomValue)
                 {
                     input[i] = randomValue;
+                    inputIndex = i;
                     break;
                 }
             }
-            ShakeResults(input);
+            dublicatedValue = randomValue;
+            ShakeResults(input, inputIndex, out dublicatedIndex);
             return input;
         }
 
@@ -363,33 +374,40 @@ namespace Mathy.Core
 
         private static List<int> GetCorrectIndexes(int firstValue, int secondValue, List<int> resultsInt, ComparisonType type)
         {
+            List<int> correctIndexes;
             switch (type)
             {
                 case ComparisonType.Equal:
-                    return GetCorrectIndexesWithEqualTo(firstValue, resultsInt);
+                    TryGetCorrectIndexesWithEqualTo(firstValue, resultsInt, -1, out correctIndexes);
+                    break;
                 case ComparisonType.GreaterThen:
-                    return GetCorrectIndexesWithGreaterThen(secondValue, resultsInt);
+                    TryGetCorrectIndexesWithGreaterThen(secondValue, resultsInt, out correctIndexes);
+                    break;
                 case ComparisonType.LessThen:
-                    return GetCorrectIndexesWithLessThen(secondValue, resultsInt);
+                    TryGetCorrectIndexesWithLessThen(secondValue, resultsInt, out correctIndexes);
+                    break;
                 default:
                     throw new ArgumentException($"Invalid ComparisonType value: {type}", nameof(type));
             }
+
+            return correctIndexes;
         }
 
-        public static List<int> GetCorrectIndexesWithEqualTo(int firstValue, List<int> resultsInt)
+        public static bool TryGetCorrectIndexesWithEqualTo(int firstValue, List<int> resultsInt, int ignorIndex, out List<int> indexes)
         {
             var correctIndexes = new List<int>();
             for (int i = 0; i < resultsInt.Count; i++)
             {
-                if (resultsInt[i] == firstValue)
+                if (resultsInt[i] == firstValue && i != ignorIndex)
                 {
                     correctIndexes.Add(i);
                 }
             }
-            return correctIndexes;
+            indexes = correctIndexes;
+            return correctIndexes.Count > 0;
         }
 
-        public static List<int> GetCorrectIndexesWithGreaterThen(int secondValue, List<int> resultsInt)
+        public static bool TryGetCorrectIndexesWithGreaterThen(int secondValue, List<int> resultsInt, out List<int> indexes)
         {
             var correctIndexes = new List<int>();
             for (int i = 0; i < resultsInt.Count; i++)
@@ -399,10 +417,11 @@ namespace Mathy.Core
                     correctIndexes.Add(i);
                 }
             }
-            return correctIndexes;
+            indexes = correctIndexes;
+            return correctIndexes.Count > 0;
         }
 
-        public static List<int> GetCorrectIndexesWithLessThen(int secondValue, List<int> resultsInt)
+        public static bool TryGetCorrectIndexesWithLessThen(int secondValue, List<int> resultsInt, out List<int> indexes)
         {
             var correctIndexes = new List<int>();
             for (int i = 0; i < resultsInt.Count; i++)
@@ -412,7 +431,23 @@ namespace Mathy.Core
                     correctIndexes.Add(i);
                 }
             }
-            return correctIndexes;
+            indexes = correctIndexes;
+            return correctIndexes.Count > 0;
+        }
+
+        public static bool GetRandomCorrectIndexesWithGreaterThen(List<int> resultsInt, out List<int> indexes)
+        {
+            var correctIndexes = new List<int>();
+            var smallest = resultsInt.Min();
+            for (int i = 0; i < resultsInt.Count; i++)
+            {
+                if (resultsInt[i] > smallest)
+                {
+                    correctIndexes.Add(i);
+                }
+            }
+            indexes = correctIndexes;
+            return correctIndexes.Count > 0;
         }
 
         public static List<string> ConvertIntToStrings(List<int> resultsInt)
@@ -437,9 +472,10 @@ namespace Mathy.Core
             }
         }
 
-        private static void ShakeResults(List<string> resultsInt)
+        private static void ShakeResults(List<string> resultsInt, int inputCorrectIndex, out int outCorrectIndex)
         {
             var random = new System.Random();
+            string correctValue = resultsInt[inputCorrectIndex];
             for (int i = resultsInt.Count - 1; i > 0; i--)
             {
                 int j = random.Next(i + 1);
@@ -447,6 +483,7 @@ namespace Mathy.Core
                 resultsInt[i] = resultsInt[j];
                 resultsInt[j] = temp;
             }
+            outCorrectIndex = resultsInt.IndexOf(correctValue);
         }
         #endregion
     }
