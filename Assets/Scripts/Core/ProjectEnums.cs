@@ -133,10 +133,23 @@
         BottleVariant_1 = 10,
         BottleVariant_2 = 11,
         BottleVariant_3 = 12,
+        Apple = 13,
+        RoundCandy = 14,
+        Carom = 15,
+        EsterEgg = 16,
+        Ellipse = 17,
+        Grape = 18,
+        IceCream = 19,
+        Lemon = 20,
+        Square = 21,
+        Star = 22,
+        Starfish = 23,
+        Triangle = 24,
+        Pie = 25,
 
-        Carrot = 20,
+        Carrot = 30,
 
-        Watermelon = 30,
+        Watermelon = 40,
     }
 
     public enum CountedElementImageType
@@ -155,16 +168,29 @@
         BottleVariant_1 = 10,
         BottleVariant_2 = 11,
         BottleVariant_3 = 12,
+        Apple = 13,
+        RoundCandy = 14,
+        Carom = 15,
+        EsterEgg = 16,
+        Ellipse = 17,
+        Grape = 18,
+        IceCream = 19,
+        Lemon = 20,
+        Square =21,
+        Star = 22,
+        Starfish = 23,
+        Triangle = 24,
+        Pie = 25
     }
 
     public enum CountedElementFrame10Type
     { 
-        Carrot = 20,
+        Carrot = 30,
     }
 
     public enum CountedElementFrame20Type
     {
-        Watermelon = 30,
+        Watermelon = 40,
     }
 
     #endregion

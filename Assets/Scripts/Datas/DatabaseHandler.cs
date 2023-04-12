@@ -12,6 +12,7 @@ using Mathy.Core.Tasks.DailyTasks;
 using Mathy.Core.Tasks;
 using System.Text;
 using ModestTree;
+using System.Runtime.CompilerServices;
 #if UNITY_EDITOR
 using UnityEngine.Localization.SmartFormat.Core.Parsing;
 using UnityEditor.Search;
@@ -2179,7 +2180,7 @@ namespace Mathy.Data
                             {
                                 var correctAnswersValues = correctAnswersList.Select(i => int.Parse(i))
                                             .Where(i => i >= 0 && i < variantsList.Length)
-                                            .Select(i => variantsList[i]);
+                                            .Select(i => variantsList[i].TryLocalizeTaskVariant());
                                 sbResult.Append($" ({string.Join(", ", correctAnswersValues)})");
                                 
                             }

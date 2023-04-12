@@ -14,11 +14,8 @@ namespace Mathy.Core.Tasks
 
     public sealed class IsThatTrueTaskModel : BaseTaskModel, IIsThatTrueTaskModel
     {
-        private const string kTableLocalize = "GUI Elements";
         public List<ExpressionElement> Expression => expression;
         public List<string> Variants => variants;
-        private const string kTrueKey = "True";
-        private const string kFalseKey = "False";
         public int CorrectVariantIndex { get; }
 
         public IsThatTrueTaskModel(ScriptableTask taskSettings) : base(taskSettings)
@@ -74,8 +71,8 @@ namespace Mathy.Core.Tasks
             GetExpressionValues(expression, out elements, out operators);
             variants = new List<string>()
             {
-                LocalizationManager.GetLocalizedString(kTableLocalize, kTrueKey),
-                LocalizationManager.GetLocalizedString(kTableLocalize, kFalseKey),
+                "True",
+                "False"
             };
 
             correctAnswersIndexes = new List<int>()
