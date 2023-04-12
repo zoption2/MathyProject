@@ -134,6 +134,10 @@ MonoBehaviour:
     m_Localized: which shows "number"
     m_Metadata:
       m_Items: []
+  - m_Id: 116622016187203584
+    m_Localized: Counting frames up to 20
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

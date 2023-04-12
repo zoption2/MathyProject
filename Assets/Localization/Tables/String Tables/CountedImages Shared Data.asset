@@ -47,6 +47,10 @@ MonoBehaviour:
     m_Key: Carrot
     m_Metadata:
       m_Items: []
+  - m_Id: 4602105731219456
+    m_Key: Watermelon
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

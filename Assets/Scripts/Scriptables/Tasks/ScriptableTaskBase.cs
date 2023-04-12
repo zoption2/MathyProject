@@ -41,6 +41,7 @@ public enum TaskType
     CountTo10Images = 22,
     SelectFromThreeCount = 23,
     CountTo10Frames = 24,
+    CountTo20Frames = 25,
 }
 
 public abstract class ScriptableTaskBase : ScriptableObject
@@ -49,6 +50,8 @@ public abstract class ScriptableTaskBase : ScriptableObject
     public int VariantsAmount;
     public int MinNumber;
     public int MaxNumber;
+    public int MinLimit = 0;
+    public int MaxLimit = 100;
     public string Title = "Title";
     public string Description = "Description of the task should be here";
 }

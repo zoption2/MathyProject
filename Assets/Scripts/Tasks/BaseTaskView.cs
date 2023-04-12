@@ -9,6 +9,7 @@ namespace Mathy.Core.Tasks.DailyTasks
     public interface ITaskView : IView
     {
         event Action ON_EXIT_CLICK;
+        event Action ON_HELP_CLICK;
         public void SetTitle(string title);
         public void SetDescription(string description);
         public void SetBackground(Sprite image);
@@ -24,7 +25,6 @@ namespace Mathy.Core.Tasks.DailyTasks
         [SerializeField] protected Button exitButton;
         [SerializeField] protected Button helpButton;
         [SerializeField] protected Image backgroundImage;
-        [SerializeField] protected Image headerImage;
         [SerializeField] protected BaseViewAnimator animator;
 
         public virtual void Show(Action onShow)

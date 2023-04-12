@@ -40,6 +40,8 @@ namespace Mathy.Core.Tasks
         protected int totalOperators;
         protected int minValue;
         protected int maxValue;
+        protected int minLimit;
+        protected int maxLimit;
         protected int amountOfVariants;
         protected Random random;
 
@@ -51,6 +53,8 @@ namespace Mathy.Core.Tasks
             totalValues = taskSettings.ElementsAmount;
             minValue = taskSettings.MinNumber;
             maxValue = taskSettings.MaxNumber;
+            minLimit = taskSettings.MinLimit;
+            maxLimit = taskSettings.MaxLimit;
             amountOfVariants = taskSettings.VariantsAmount;
             random = new Random();
         }

@@ -107,6 +107,14 @@ PrefabInstance:
       propertyPath: m_text
       value: which shows "number"
       objectReference: {fileID: 0}
+    - target: {fileID: 5474860891468988653, guid: 652074f1858932549ab07460efc37581, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474860891468988653, guid: 652074f1858932549ab07460efc37581, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5474860891468988654, guid: 652074f1858932549ab07460efc37581, type: 3}
       propertyPath: m_Sprite
       value: 

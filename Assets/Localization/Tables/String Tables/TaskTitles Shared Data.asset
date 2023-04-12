@@ -27,6 +27,10 @@ MonoBehaviour:
     m_Key: CountTo10FramesTitle
     m_Metadata:
       m_Items: []
+  - m_Id: 1806693261639680
+    m_Key: CountTo20FramesTitle
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

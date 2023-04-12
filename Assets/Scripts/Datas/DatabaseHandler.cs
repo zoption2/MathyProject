@@ -25,7 +25,7 @@ namespace Mathy.Data
     public class DatabaseHandler
     {
         private const string fileName = "SaveGame.db";
-        private const string actualDatabaseVersion = "2.1.4";
+        private const string actualDatabaseVersion = "2.1.5";
         private const string correctResultColor = "#15c00f";
         private const string wrongResultColor = "#f94934";
         private const string kUnknownElementValue = "?";
@@ -62,6 +62,7 @@ namespace Mathy.Data
             { TaskType.CountTo10Images, "CountTo10Images" },
             { TaskType.SelectFromThreeCount, "SelectFromThreeCount" },
             { TaskType.CountTo10Frames, "CountTo10Frames" },
+            { TaskType.CountTo20Frames,  "CountTo20Frames"}
         };
 
         Dictionary<string, string> operatorChars = new Dictionary<string, string>()
@@ -224,6 +225,7 @@ namespace Mathy.Data
                     "UNION SELECT MAX(Id) as ID FROM SumOfNumbers " +
                     "UNION SELECT MAX(Id) as ID FROM SelectFromThreeCount " +
                     "UNION SELECT MAX(Id) as ID FROM CountTo10Frames " +
+                    "UNION SELECT MAX(Id) as ID FROM CountTo20Frames " +
                     "UNION SELECT MAX(Id) as ID FROM CountTo10Images ) ";
 
                     command.CommandText = query;
@@ -480,6 +482,13 @@ namespace Mathy.Data
                     "MaxNumber INTEGER NOT NULL);" +
 
                     "CREATE TABLE CountTo10Frames (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
+                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode)," +
+                    "Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Elements STRING NOT NULL," +
+                    "Operators STRING NOT NULL, Variants STRING NOT NULL," +
+                    "SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL, " +
+                    "MaxNumber INTEGER NOT NULL);" +
+
+                    "CREATE TABLE CountTo20Frames (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
                     "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode)," +
                     "Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Elements STRING NOT NULL," +
                     "Operators STRING NOT NULL, Variants STRING NOT NULL," +
@@ -1064,6 +1073,29 @@ namespace Mathy.Data
                                 await command.ExecuteNonQueryAsync();
                                 break;
                             }
+                        case TaskType.CountTo20Frames:
+                            {
+                                string query = "INSERT INTO CountTo20Frames (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+
+                                SqliteCommand command = new SqliteCommand(query, connection);
+                                command.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+                                command.Parameters.AddWithValue("@seed", DataToSave.Seed);
+                                command.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+                                command.Parameters.AddWithValue("@duration", DataToSave.Duration);
+                                command.Parameters.AddWithValue("@mode", modeId);
+                                command.Parameters.AddWithValue("@elements", elements);
+                                command.Parameters.AddWithValue("@operators", operators);
+                                command.Parameters.AddWithValue("@variants", variants);
+                                command.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+                                command.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+                                command.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+                                command.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+
+                                await command.ExecuteNonQueryAsync();
+                                break;
+                            }
                     }
                     connection.Close();
                 }
@@ -1586,6 +1618,7 @@ namespace Mathy.Data
                     " UNION SELECT Id FROM SelectFromThreeCount WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
                     " UNION SELECT Id FROM CountTo10Images WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
                     " UNION SELECT Id FROM CountTo10Frames WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+                    " UNION SELECT Id FROM CountTo20Frames WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
                     " UNION SELECT Id FROM SumOfNumbers WHERE Mode = @mode AND IsUserAnswerCorrect = '1' );";
 
                     SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
@@ -1612,6 +1645,7 @@ namespace Mathy.Data
                     " UNION SELECT Id FROM SelectFromThreeCount WHERE Mode = @mode " +
                     " UNION SELECT Id FROM CountTo10Images WHERE Mode = @mode " +
                     " UNION SELECT Id FROM CountTo10Frames WHERE Mode = @mode " +
+                    " UNION SELECT Id FROM CountTo20Frames WHERE Mode = @mode " +
                     " UNION SELECT Id FROM SumOfNumbers WHERE Mode = @mode );";
 
                     SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
@@ -2024,6 +2058,7 @@ namespace Mathy.Data
                     " UNION SELECT Id as ID, Duration FROM CountTo10Images WHERE Mode = @mode " +
                     " UNION SELECT Id as ID, Duration FROM SelectFromThreeCount WHERE Mode = @mode " +
                     " UNION SELECT Id as ID, Duration FROM CountTo10Frames WHERE Mode = @mode " +
+                    " UNION SELECT Id as ID, Duration FROM CountTo20Frames WHERE Mode = @mode " +
                     " ) ORDER BY ID ASC;";
 
                     SqliteCommand GetDurationCommand = new SqliteCommand(GetDurationQuery, connection);
@@ -2230,6 +2265,7 @@ namespace Mathy.Data
                     " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM CountTo10Images WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
                     " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM SelectFromThreeCount WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
                     " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM CountTo10Frames WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM CountTo20Frames WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
                     " ) ORDER BY ID ASC;";
 
                     SqliteCommand GetCorrectTaskAmountCommand = new SqliteCommand(GetCorrectTaskAmountQuery, connection);
@@ -2280,6 +2316,7 @@ namespace Mathy.Data
                     " UNION SELECT Id as ID, Duration FROM CountTo10Images WHERE Mode = @mode " +
                     " UNION SELECT Id as ID, Duration FROM SelectFromThreeCount WHERE Mode = @mode " +
                     " UNION SELECT Id as ID, Duration FROM CountTo10Frames WHERE Mode = @mode " +
+                    " UNION SELECT Id as ID, Duration FROM CountTo20Frames WHERE Mode = @mode " +
                     " ) ORDER BY ID ASC;";
 
                     SqliteCommand GetDurationCommand = new SqliteCommand(GetDurationQuery, connection);

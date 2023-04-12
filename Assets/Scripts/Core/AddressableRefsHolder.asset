@@ -104,6 +104,12 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 25
+      <Reference>k__BackingField:
+        m_AssetGUID: 506b5fc15b9e3b14992645f49f16571e
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
   <UIComponentProvider>k__BackingField:
     references:
     - <Type>k__BackingField: 0
@@ -139,6 +145,12 @@ MonoBehaviour:
     - <Type>k__BackingField: 11
       <Reference>k__BackingField:
         m_AssetGUID: 1ab36f9b04a37694399233f6f33fddb0
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 3
+      <Reference>k__BackingField:
+        m_AssetGUID: 06d95a3146369294c92ebaf11923abb7
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
@@ -507,6 +519,13 @@ MonoBehaviour:
       <Reference>k__BackingField:
         m_AssetGUID: d9daf8d1339ecc947a3c3d78e65f03a8
         m_SubObjectName: Carrot
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 30
+      <Reference>k__BackingField:
+        m_AssetGUID: 7074a085692ef1842a56e6fd2bc72633
+        m_SubObjectName: Watermelon
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0

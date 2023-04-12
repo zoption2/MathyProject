@@ -5,6 +5,7 @@
         DefaultElement = 0,
         ImageWithColliderElement = 1,
         WideDefaultElement = 2,
+        SimpleImageElement = 3,
 
         DefaultVariant = 10,
         WideDefaultVariant = 11,
@@ -134,6 +135,8 @@
         BottleVariant_3 = 12,
 
         Carrot = 20,
+
+        Watermelon = 30,
     }
 
     public enum CountedElementImageType
@@ -154,9 +157,14 @@
         BottleVariant_3 = 12,
     }
 
-    public enum CountedElementFrameType
+    public enum CountedElementFrame10Type
     { 
         Carrot = 20,
+    }
+
+    public enum CountedElementFrame20Type
+    {
+        Watermelon = 30,
     }
 
     #endregion

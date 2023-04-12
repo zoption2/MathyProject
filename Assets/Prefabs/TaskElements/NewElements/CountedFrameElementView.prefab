@@ -51,7 +51,7 @@ GameObject:
   - component: {fileID: 8170428231591840182}
   - component: {fileID: 8915062267505251013}
   m_Layer: 5
-  m_Name: CountedImageElementView
+  m_Name: CountedFrameElementView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

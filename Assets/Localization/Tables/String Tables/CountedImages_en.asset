@@ -50,6 +50,10 @@ MonoBehaviour:
     m_Localized: carrots
     m_Metadata:
       m_Items: []
+  - m_Id: 4602105731219456
+    m_Localized: watermelons
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

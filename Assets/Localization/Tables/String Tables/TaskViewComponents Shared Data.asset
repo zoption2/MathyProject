@@ -23,6 +23,10 @@ MonoBehaviour:
     m_Key: helpKey
     m_Metadata:
       m_Items: []
+  - m_Id: 666288130359296
+    m_Key: thereAreKey
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

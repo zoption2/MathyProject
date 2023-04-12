@@ -7,12 +7,12 @@ using UnityEngine;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
-    public class CountToTenImagesTaskController : BaseTaskController<ICountingToTenTaskView, ICountToTenImagesTaskModel>
+    public class CountToTenImagesTaskController : BaseTaskController<ICountingToTenTaskView, ICountToAmountTaskModel>
     {
         private const string kSpritesTableKey = "CountedImages";
 
         private List<ITaskElementImageWithCollider> elements;
-        private ITaskViewComponentClickable[] variantsInputs;
+        private ITaskViewComponentClickable[] variantInputs;
         private CountedImageType selectedImageType;
         private string correctAnswer;
 
@@ -61,12 +61,12 @@ namespace Mathy.Core.Tasks.DailyTasks
                 elements.Add(component);
             }
 
-            variantsInputs = View.Inputs;
-            for (int i = 0, j = variantsInputs.Length; i < j; i++)
+            variantInputs = View.Inputs;
+            for (int i = 0, j = variantInputs.Length; i < j; i++)
             {
                 string value = (i + 1).ToString();
-                variantsInputs[i].Init(i, value);
-                variantsInputs[i].ON_CLICK += DoOnVariantClick;
+                variantInputs[i].Init(i, value);
+                variantInputs[i].ON_CLICK += DoOnVariantClick;
             }
         }
 
@@ -112,7 +112,7 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         private void UnsubscribeInputs()
         {
-            foreach (var variant in variantsInputs)
+            foreach (var variant in variantInputs)
             {
                 variant.ON_CLICK -= DoOnVariantClick;
             }
