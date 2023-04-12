@@ -121,7 +121,7 @@ namespace Mathy.Core.Tasks
                     fakeValue = int.Parse(dublicatedValue);
                     if (!isCorrectIndexesAvailable)
                     {
-                        MathOperations.TryGetCorrectIndexesWithEqualTo(fakeValue, integerVariants, inputedIndex, out correctAnswersIndexes);
+                        MathOperations.TryGetCorrectIndexesWithEqualTo(fakeValue, integerVariants, dublicatedIndex, out correctAnswersIndexes);
                     }
                     break;
             }

@@ -48,7 +48,7 @@ public class GradeManager : StaticInstance<GradeManager>
             .Where(g => g.IsActive)
             .SelectMany(g => g.SkillDatas)
             .Where(s => s.IsActive)
-            .SelectMany(s => s.TaskSettings.Where(t => t.MaxLimit <= s.MaxNumber))
+            .SelectMany(s => s.TaskSettings.Where(t => t.MaxLimit >= t.MaxNumber))
             .ToList();
         return taskSettings;
     }
@@ -70,5 +70,13 @@ public class GradeManager : StaticInstance<GradeManager>
         skillData.TaskSettings.ForEach(task => task.MaxNumber = skillData.MaxNumber);
         gradeData.SkillDatas[skillIndex] = skillData;
         _ = DataManager.Instance.SaveGradeDatas(gradeDatas);
+    }
+
+    [ContextMenu("SetMaxNumbersTo20")]
+    private void SetAllSettingsMaxValueTo20()
+    {
+        gradeSettings.ForEach(grade => grade.SkillSettings
+                     .ForEach(data => data.TaskSettings
+                     .ForEach(x => x.MaxNumber = 20)));
     }
 }
