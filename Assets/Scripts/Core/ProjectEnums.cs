@@ -13,10 +13,15 @@
         DefaultOperator = 20,
     }
 
-    public enum GameplayCounters
+    public enum TaskFeatures
     {
         DefaultCounter,
         CounterVariantOne,
+    }
+
+    public enum Popups
+    {
+        ParentGate = 1,
     }
 
     public enum TaskElementType

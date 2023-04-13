@@ -23,7 +23,7 @@ namespace Mathy.Core.Tasks
 
         public FramesCountToTenTaskModel(ScriptableTask taskSettings) : base(taskSettings)
         {
-            CorrectValue = random.Next(kMinValueLimit, kMaxValueLimit);
+            CorrectValue = random.Next(kMinValueLimit, kMaxValueLimit + 1);
             FramesToShow = kMaxValueLimit - CorrectValue;
 
             CorrectIndex = CorrectValue - 1;

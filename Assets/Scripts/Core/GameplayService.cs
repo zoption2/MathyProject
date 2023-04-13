@@ -1,6 +1,7 @@
+using Mathy.Core.Tasks;
 using System.Collections.Generic;
 
-namespace Mathy.Core.Tasks
+namespace Mathy.Services
 {
     public interface IGameplayService
     {

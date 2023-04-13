@@ -122,6 +122,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 464ed717f66b1204986c79e807728e1a, type: 3}
   - {fileID: 21300000, guid: 63a2c0279b4155d4eb50c6fc8bba3ecb, type: 3}
   - {fileID: 21300000, guid: 37d46337ef843574cbfb5de39371ceaf, type: 3}
+  - {fileID: 21300000, guid: fe3c36870755b7245bd63eec55435b0a, type: 3}
   - {fileID: 21300000, guid: ee2d888772ef0a94c998a88e0f41563a, type: 3}
   - {fileID: 21300000, guid: 3e9ef997889453b4e8b6469657acb846, type: 3}
   - {fileID: 21300000, guid: c6c0e2c7876625a488ffa07e5a9b8eb7, type: 3}
@@ -239,6 +240,7 @@ SpriteAtlas:
   - Gradient 01-4 orange
   - Close btn 01-1 circle base
   - Octahedron
+  - ParentGate_panel
   - Answer Variant default blue
   - Frame 01 Purple
   - Gradient 01-3 red
