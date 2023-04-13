@@ -7,7 +7,7 @@ namespace Mathy.Core.Tasks.DailyTasks
 {
     public interface IFramesCountToTwentyTaskView : ITaskView
     {
-        Transform[] ElementsHolder { get; }
+        ITaskElementHolderView[] ElementsHolder { get; }
         ITaskViewComponentClickable[] InputButtons { get; }
         ITaskViewComponentClickable InputFieldElement { get; }
         void SetHeaderImage(Sprite sprite);
@@ -20,14 +20,14 @@ namespace Mathy.Core.Tasks.DailyTasks
     public sealed class FramesCountToTwentyTaskView : BaseTaskView, IFramesCountToTwentyTaskView
     {
         [SerializeField] private TaskElementViewClickable inputField;
-        [SerializeField] private Transform[] holders;
+        [SerializeField] private TaskElementHolderView[] holders;
         [SerializeField] private Image[] inputsHolderImages;
         [SerializeField] private Image headerImage;
         [SerializeField] private TMP_Text thereAreText;
         [SerializeField] private TMP_Text objectNameText;
         [SerializeField] private TaskElementViewClickable[] inputButtons;
 
-        public Transform[] ElementsHolder => holders;
+        public ITaskElementHolderView[] ElementsHolder => holders;
         public ITaskViewComponentClickable InputFieldElement => inputField;
         public ITaskViewComponentClickable[] InputButtons => inputButtons;  
 

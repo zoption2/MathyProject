@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Mathy.UI.Tasks;
-using Mathy.Data;
 using System;
 using UnityEngine;
 
@@ -14,6 +13,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         private List<ITaskElementImageWithCollider> elements;
         private ITaskViewComponentClickable[] variantInputs;
         private CountedImageType selectedImageType;
+        private ITaskElementHolderView holderView;
         private string correctAnswer;
 
         protected override string LocalizationTableKey => "TaskTitles";
@@ -37,7 +37,8 @@ namespace Mathy.Core.Tasks.DailyTasks
             var countOfElements = Model.CountToShow;
             correctAnswer = countOfElements.ToString();
 
-            var elementsHolder = View.ElementsHolder;
+            holderView = View.ElementsHolder;
+            holderView.Init(0);
 
             elements = new List<ITaskElementImageWithCollider>(10);
 
@@ -49,7 +50,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             for (int i = 0; i < countOfElements; i++)
             {
                 var component = await refsHolder.UIComponentProvider
-                    .InstantiateFromReference<ITaskElementImageWithCollider>(UIComponentType.ImageWithColliderElement, elementsHolder);
+                    .InstantiateFromReference<ITaskElementImageWithCollider>(UIComponentType.ImageWithColliderElement, holderView.Parent);
                 Sprite sprite = await refsHolder.TaskCountedImageProvider.GetSpriteByType(selectedImageType);
                 if (sprite == null)
                 {
@@ -95,7 +96,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             var isCorrect = input.Value == correctAnswer;
             TaskElementState state = isCorrect ? TaskElementState.Correct : TaskElementState.Wrong;
             input.ChangeState(state);
-
+            holderView.ChangeState(state);
             IsAnswerCorrect = isCorrect;
             SelectedAnswerIndexes.Add(input.Index);
 
@@ -118,5 +119,4 @@ namespace Mathy.Core.Tasks.DailyTasks
             }
         }
     }
-
 }

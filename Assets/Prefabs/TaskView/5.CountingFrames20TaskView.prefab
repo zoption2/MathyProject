@@ -483,6 +483,7 @@ GameObject:
   - component: {fileID: 5105398941225564014}
   - component: {fileID: 5105398941225564015}
   - component: {fileID: 2759409659800858612}
+  - component: {fileID: 7452257383323465934}
   m_Layer: 5
   m_Name: TaskHolder2
   m_TagString: Untagged
@@ -572,6 +573,25 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 45}
   m_Constraint: 1
   m_ConstraintCount: 5
+--- !u!114 &7452257383323465934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5105398941225563985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab32821dcdab85440aa85eba9b8381dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateImage: {fileID: 5105398941225564015}
+  shakePower: 0.01
+  stateSprites:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &5105398941872009068
 GameObject:
   m_ObjectHideFlags: 0
@@ -1144,8 +1164,8 @@ MonoBehaviour:
   animator: {fileID: 5354760768549924821}
   inputField: {fileID: 7488332751219591249}
   holders:
-  - {fileID: 8894611692152719636}
-  - {fileID: 5105398941225563984}
+  - {fileID: 7164209007099401564}
+  - {fileID: 7452257383323465934}
   inputsHolderImages:
   - {fileID: 5105398941060066972}
   - {fileID: 7279275073115502683}
@@ -1175,6 +1195,7 @@ GameObject:
   - component: {fileID: 3090753847443905684}
   - component: {fileID: 880487194040061650}
   - component: {fileID: 696071955965441378}
+  - component: {fileID: 7164209007099401564}
   m_Layer: 5
   m_Name: TaskHolder1
   m_TagString: Untagged
@@ -1264,6 +1285,25 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 45}
   m_Constraint: 1
   m_ConstraintCount: 5
+--- !u!114 &7164209007099401564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6731917319409997994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab32821dcdab85440aa85eba9b8381dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateImage: {fileID: 880487194040061650}
+  shakePower: 0.01
+  stateSprites:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &7279275073115502681
 GameObject:
   m_ObjectHideFlags: 0

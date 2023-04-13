@@ -648,6 +648,7 @@ GameObject:
   - component: {fileID: 2194708950907443525}
   - component: {fileID: 5756090857713896645}
   - component: {fileID: 7583270591867657859}
+  - component: {fileID: 7920040223217600872}
   m_Layer: 5
   m_Name: TaskHolder
   m_TagString: Untagged
@@ -714,6 +715,25 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7920040223217600872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4064988214698592507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab32821dcdab85440aa85eba9b8381dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateImage: {fileID: 7583270591867657859}
+  shakePower: 0.01
+  stateSprites:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &4158500030242291383
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,7 +810,8 @@ MonoBehaviour:
   backgroundImage: {fileID: 241082214137773389}
   headerImage: {fileID: 3510588452505390439}
   inputsHolderImage: {fileID: 1654548490}
-  elementsHolder: {fileID: 2194708950907443525}
+  holder: {fileID: 7920040223217600872}
+  holderRect: {fileID: 2194708950907443525}
   animator: {fileID: 3407747795508297604}
   inputs:
   - {fileID: 5545584099818565174}

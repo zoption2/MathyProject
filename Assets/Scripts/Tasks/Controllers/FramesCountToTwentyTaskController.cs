@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using Mathy.UI.Tasks;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         private ITaskViewComponentClickable inputFieldElement;
         private List<ITaskSimpleImageElement> elements;
         private ITaskViewComponentClickable[] variantInputs;
+        private ITaskElementHolderView[] frames;
         private string localizedObjectName;
         private int inputs = 0;
 
@@ -52,7 +54,12 @@ namespace Mathy.Core.Tasks.DailyTasks
             inputFieldElement = View.InputFieldElement;
             inputFieldElement.Init(0, "");
             inputFieldElement.ON_CLICK += DeleteInputedValue;
-            var elementsHolders = View.ElementsHolder;
+
+            frames = View.ElementsHolder;
+            for (int i = 0, j = frames.Length; i < j; i++)
+            {
+                frames[i].Init(i);
+            }
 
             var imageValues = Enum.GetValues(typeof(CountedElementFrame20Type));
             var selectedImageType = (CountedImageType)imageValues.GetValue(random.Next(imageValues.Length));
@@ -71,7 +78,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             for (int i = 0; i < kHolderCapacity && remainingValue > 0; i++)
             {
                 var element = await refsHolder.UIComponentProvider
-                    .InstantiateFromReference<ITaskSimpleImageElement>(UIComponentType.SimpleImageElement, elementsHolders[0]);
+                    .InstantiateFromReference<ITaskSimpleImageElement>(UIComponentType.SimpleImageElement, frames[0].Parent);
                 element.Init(i, i.ToString(), sprite);
                 elements.Add(element);
                 remainingValue--;
@@ -81,7 +88,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             for (int i = 0; i < kHolderCapacity && remainingValue > 0; i++)
             {
                 var element = await refsHolder.UIComponentProvider
-                    .InstantiateFromReference<ITaskSimpleImageElement>(UIComponentType.SimpleImageElement, elementsHolders[1]);
+                    .InstantiateFromReference<ITaskSimpleImageElement>(UIComponentType.SimpleImageElement, frames[1].Parent);
                 element.Init(i, i.ToString(), sprite);
                 elements.Add(element);
                 remainingValue--;
@@ -140,6 +147,7 @@ namespace Mathy.Core.Tasks.DailyTasks
                 IsAnswerCorrect = false;
                 taskData.VariantValues.Add(totalValueString);
                 SelectedAnswerIndexes.Add(kWrongAnswerIndex);
+                UpdateHolders(TaskElementState.Wrong);
                 CompleteTask();
             }
 
@@ -150,6 +158,7 @@ namespace Mathy.Core.Tasks.DailyTasks
                 IsAnswerCorrect = true;
                 taskData.VariantValues.Add(totalValueString);
                 SelectedAnswerIndexes.Add(kCorrectAnswerIndex);
+                UpdateHolders(TaskElementState.Correct);
                 CompleteTask();
             }
         }
@@ -164,6 +173,14 @@ namespace Mathy.Core.Tasks.DailyTasks
         {
             inputFieldElement.ChangeValue("");
             inputs = 0;
+        }
+
+        private void UpdateHolders(TaskElementState state)
+        {
+            for (int i = 0, j = frames.Length; i < j; i++)
+            {
+                frames[i].ChangeState(state);
+            }
         }
 
         private void UnsubscribeInputs()
