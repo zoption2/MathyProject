@@ -27,7 +27,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1136609207779328
-    m_Localized: How many {0} are <color=#00ff00>missing</color> for 10?
+    m_Localized: How many {0} are missing for 10?
     m_Metadata:
       m_Items: []
   - m_Id: 1806693261639680

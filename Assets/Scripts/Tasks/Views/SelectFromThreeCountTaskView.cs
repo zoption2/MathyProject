@@ -50,7 +50,6 @@ namespace Mathy.Core.Tasks.DailyTasks
             float yPos = UnityEngine.Random.Range(-(size.y / 2) + 50, size.y / 2 - 50);
             size.x = xPos;
             size.y = yPos;
-            Debug.LogFormat("Position of Image selected as {0}", size);
             return size;
         }
 

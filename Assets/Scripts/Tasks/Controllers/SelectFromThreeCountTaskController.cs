@@ -90,8 +90,8 @@ namespace Mathy.Core.Tasks.DailyTasks
         protected override string GetLocalizedTitle()
         {
             var localizedTitleFormat = LocalizationManager.GetLocalizedString(LocalizationTableKey, Model.TitleKey);
-            string searchingCount = string.Format(kGreenTextFormat, correctAnswer);
-            return string.Format(localizedTitleFormat, searchingCount);
+            //string searchingCount = string.Format(kGreenTextFormat, correctAnswer);
+            return string.Format(localizedTitleFormat, correctAnswer);
         }
 
         protected override void OnTaskShowed()
