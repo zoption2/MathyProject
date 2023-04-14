@@ -4,6 +4,7 @@ using Mathy;
 using Mathy.Core.Tasks.DailyTasks;
 using Mathy.Core.Tasks;
 using Mathy.Services;
+using Mathy.UI;
 
 public class ProjectContextInstaller : MonoInstaller
 {
@@ -17,9 +18,11 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<IScenarioFactory>().To<ScenarioFactory>().AsSingle();
         Container.Bind<ITaskViewComponentsProvider>().To<TaskViewComponentsProvider>().AsSingle();
         Container.Bind<ITaskBackgroundSevice>().To<TaskBackgroundService>().AsSingle();
+        Container.Bind<IParentGateService>().To<ParentGateService>().AsSingle();
 
         BindTaskControllers();
         BindScenarious();
+        BindPopupsControllers();
     }
 
     private void BindTaskControllers()
@@ -43,6 +46,11 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<SmallScenario>().To<SmallScenario>().AsSingle();
         Container.Bind<MediumScenario>().To<MediumScenario>().AsSingle();
         Container.Bind<LargeScenario>().To<LargeScenario>().AsSingle();
+    }
+
+    private void BindPopupsControllers()
+    {
+        Container.Bind<ParentGatePopupController>().To<ParentGatePopupController>().AsTransient();
     }
 }
 

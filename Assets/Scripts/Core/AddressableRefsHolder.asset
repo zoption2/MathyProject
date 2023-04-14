@@ -753,3 +753,11 @@ MonoBehaviour:
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0
+  <PopupsProvider>k__BackingField:
+    references:
+    - <Type>k__BackingField: 1
+      <Reference>k__BackingField:
+        m_AssetGUID: 5f1867ed3a70ad246b4b0672d3ab6bb8
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0

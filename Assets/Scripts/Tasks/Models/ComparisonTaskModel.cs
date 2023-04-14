@@ -36,7 +36,7 @@ namespace Mathy.Core.Tasks
 
             operators = new List<string>()
             {
-                expression[1].Value
+                "?"
             };
 
             variants = GetVariants(result, Signs.Count, out int indexOfCorrect);

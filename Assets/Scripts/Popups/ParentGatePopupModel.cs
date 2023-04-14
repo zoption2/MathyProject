@@ -5,9 +5,9 @@ namespace Mathy.UI
 {
     public class ParentGatePopupModel : IModel
     {
-        private const string kLabelKey = "";
-        private const string kOkKey = "";
-        private const string kCancelKey = "";
+        private const string kLabelKey = "LabelKey";
+        private const string kOkKey = "OkKey";
+        private const string kCancelKey = "CancelKey";
         private const int kMinCapchaValue = 21;
         private const int kMaxCapchaValue = 99;
 

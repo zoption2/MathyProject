@@ -77,6 +77,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-uk
     - Preload
+  - m_GUID: f9093863539e57a44963481bc1e5e453
+    m_Address: ParentGateTable_uk
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-uk
+    - Preload
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 76746eb55ddbd544c89bef47883242cf, type: 2}
   m_SchemaSet:

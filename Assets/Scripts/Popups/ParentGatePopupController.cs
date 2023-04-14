@@ -1,14 +1,24 @@
 ﻿using UnityEngine;
 using Cysharp.Threading.Tasks;
+using Mathy.Services;
 
 namespace Mathy.UI
 {
     public class ParentGatePopupController : BaseController<IParentGatePopupView, ParentGatePopupModel>
     {
-        private const string kTableKey = "";
+        private const string kTableKey = "ParentGateTable";
         private const string kCapchaFormat = "{0} {1}";
+        private const string kTensSuffix = "tens";
+        private const string kUnitsSuffix = "units";
 
+        private IParentGateService parentGateService;
         private string capchaValue;
+
+        public ParentGatePopupController(IParentGateService parentGateService)
+        {
+            this.parentGateService = parentGateService;
+        }
+
 
         protected override async UniTask DoOnInit()
         {
@@ -36,6 +46,13 @@ namespace Mathy.UI
             await completionSource.Task;
         }
 
+        public override void Release()
+        {
+            View.ON_OK_CLICK -= DoOnOkButtonClick;
+            View.ON_CANCEL_CLICK -= DoOnCancelButtonClick;
+            base.Release();
+        }
+
         private void DoOnOkButtonClick(string value)
         {
             if (!value.Equals(capchaValue))
@@ -44,20 +61,20 @@ namespace Mathy.UI
                 return;
             }
 
-            //send approve to service
+            parentGateService.Complete();
         }
 
         private void DoOnCancelButtonClick()
         {
-            Application.Quit();
+            parentGateService.Cancel();
         }
 
         private string BuildLocalizedCapcha(string capchaKey)
         {
             var chars = capchaKey.ToCharArray();
             var numberKeys = new string[chars.Length];
-            numberKeys[0] = (chars[0] + "tens").ToString();
-            numberKeys[1] = (chars[0] + "units").ToString();
+            numberKeys[0] = (chars[0] + kTensSuffix).ToString();
+            numberKeys[1] = (chars[1] + kUnitsSuffix).ToString();
 
             var localizedTens = LocalizationManager.GetLocalizedString(kTableKey, numberKeys[0]);
             var localizedUnits = LocalizationManager.GetLocalizedString(kTableKey, numberKeys[1]);

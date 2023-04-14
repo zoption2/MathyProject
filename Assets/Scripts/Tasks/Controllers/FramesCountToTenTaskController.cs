@@ -40,7 +40,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             var correctIndex = Model.CorrectIndex;
             allFrames = View.Frames;
 
-            var imageValues = Enum.GetValues(typeof(CountedElementFrame10Type));
+            var imageValues = Enum.GetValues(typeof(CountedImageType));
             selectedImageType = (CountedImageType)imageValues.GetValue(random.Next(imageValues.Length));
             Sprite sprite = await refsHolder.TaskCountedImageProvider.GetSpriteByType(selectedImageType);
             if (sprite == null)

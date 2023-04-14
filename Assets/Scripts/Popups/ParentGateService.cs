@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Security;
 using System.Text;
+using Zenject;
 
 namespace Mathy.Services
 {
@@ -18,17 +19,18 @@ namespace Mathy.Services
         public void Cancel();
     }
 
-    public class ParentGateService
+    public class ParentGateService : IParentGateService
     {
         private const string kAccessKey = "ParentGateAccess";
-        private ParentGatePopupController controller;
+        private DiContainer container;
         private UniTaskCompletionSource tcs = new();
         private CancellationTokenSource cancelTokenSource = new();
         private IAddressableRefsHolder refsHolder;
+        private ParentGatePopupController controller;
 
-        public ParentGateService(ParentGatePopupController controller, IAddressableRefsHolder refsHolder)
+        public ParentGateService(DiContainer container, IAddressableRefsHolder refsHolder)
         {
-            this.controller = controller;
+            this.container = container;
             this.refsHolder = refsHolder;
         }
 
@@ -44,6 +46,7 @@ namespace Mathy.Services
             {
                 var model = new ParentGatePopupModel();
                 var view = await refsHolder.PopupsProvider.InstantiateFromReference<IParentGatePopupView>(Popups.ParentGate, null);
+                controller = container.Resolve<ParentGatePopupController>();
                 await controller.Init(model, view);
             }
 
@@ -53,12 +56,18 @@ namespace Mathy.Services
         public void Complete()
         {
             PlayerPrefs.SetInt(kAccessKey, 1);
+            controller.Hide(() =>
+            {
+                controller.Release();
+            });
             tcs.TrySetResult();
         }
 
         public void Cancel()
         {
             cancelTokenSource.Cancel();
+            controller.Release();
+            Application.Quit();
         }
     }
 
