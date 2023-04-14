@@ -9,6 +9,7 @@ namespace Mathy.Core.Tasks
     {
         string TitleKey { get; }
         string DescriptionKey { get;}
+        ScriptableTask TaskSettings { get; }
         TaskType TaskType { get;}
         TaskData GetResult();
         void Release();
@@ -21,11 +22,12 @@ namespace Mathy.Core.Tasks
     }
 
 
-    public abstract class BaseTaskModel : IModel
+    public abstract class BaseTaskModel : ITaskModel
     {
-        public virtual string TitleKey => TaskSettings.Title;
-        public virtual string DescriptionKey => TaskSettings.Description;
-        public TaskType TaskType => TaskSettings.TaskType;
+        public virtual string TitleKey => taskSettings.Title;
+        public virtual string DescriptionKey => taskSettings.Description;
+        public TaskType TaskType => taskSettings.TaskType;
+        public ScriptableTask TaskSettings => taskSettings;
 
         protected List<ExpressionElement> expression;
         protected List<string> elements;
@@ -33,11 +35,13 @@ namespace Mathy.Core.Tasks
         protected List<string> variants;
         protected List<int> correctAnswersIndexes;
 
-        protected readonly ScriptableTask TaskSettings;
+        protected readonly ScriptableTask taskSettings;
         protected int totalValues;
         protected int totalOperators;
         protected int minValue;
         protected int maxValue;
+        protected int minLimit;
+        protected int maxLimit;
         protected int amountOfVariants;
         protected Random random;
 
@@ -45,10 +49,12 @@ namespace Mathy.Core.Tasks
 
         public BaseTaskModel(ScriptableTask taskSettings)
         {
-            TaskSettings = taskSettings;
+            this.taskSettings = taskSettings;
             totalValues = taskSettings.ElementsAmount;
             minValue = taskSettings.MinNumber;
             maxValue = taskSettings.MaxNumber;
+            minLimit = taskSettings.MinLimit;
+            maxLimit = taskSettings.MaxLimit;
             amountOfVariants = taskSettings.VariantsAmount;
             random = new Random();
         }

@@ -26,6 +26,14 @@ MonoBehaviour:
     m_Localized: How many {0} are here?
     m_Metadata:
       m_Items: []
+  - m_Id: 1136609207779328
+    m_Localized: How many {0} are missing for 10?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1806693261639680
+    m_Localized: How many {0} are on the frames?
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

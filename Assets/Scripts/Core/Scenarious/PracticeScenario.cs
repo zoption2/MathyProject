@@ -18,18 +18,19 @@ namespace Mathy.Core.Tasks
 
         protected override UniTask DoOnStart()
         {
-            isFailed = false;
-            return UniTask.FromResult(isFailed);
+            //isFailed = false;
+            //return UniTask.FromResult(isFailed);
+            return UniTask.CompletedTask;
         }
 
         protected override async UniTask UpdateTasksQueue()
         {
             for (int i = 0; i < kMaxTasksLoadedAtOnce; i++)
             {
-                if (isFailed)
-                {
-                    return;
-                }
+                //if (isFailed)
+                //{
+                //    return;
+                //}
                 if (TasksInQueue < 2)
                 {
                     await EnqueueNewTask();
@@ -37,15 +38,15 @@ namespace Mathy.Core.Tasks
             }
         }
 
-        protected override void OnTaskComplete(ITaskController controller)
-        {
-            if (!controller.GetResults().IsAnswerCorrect)
-            {
-                isFailed = true;
-                ClearQueue();
-            }
-            base.OnTaskComplete(controller);
-        }
+        //protected override void OnTaskComplete(ITaskController controller)
+        //{
+        //    if (!controller.GetResults().IsAnswerCorrect)
+        //    {
+        //        isFailed = true;
+        //        ClearQueue();
+        //    }
+        //    base.OnTaskComplete(controller);
+        //}
 
         protected override void ClickOnExitFromGameplay()
         {

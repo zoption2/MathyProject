@@ -2,13 +2,13 @@
 
 namespace Mathy.Core.Tasks
 {
-    public interface ICountToTenImagesTaskModel : ITaskModel
+    public interface ICountToAmountTaskModel : ITaskModel
     {
         int CountToShow { get; }
     }
 
 
-    public class CountToTenImagesTaskModel : BaseTaskModel, ICountToTenImagesTaskModel
+    public class CountToTenImagesTaskModel : BaseTaskModel, ICountToAmountTaskModel
     {
         private const int kMaxValueLimit = 10;
 

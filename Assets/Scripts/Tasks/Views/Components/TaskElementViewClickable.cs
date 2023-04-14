@@ -16,7 +16,6 @@ namespace Mathy.Core.Tasks.DailyTasks
         public event Action<ITaskViewComponent> ON_CLICK;
 
         [SerializeField] private Button button;
-        public bool IsInteractable { get => button.interactable; set => button.interactable = value; }
 
         public override void Init(int index, string value, TaskElementState initedState = TaskElementState.Default)
         {

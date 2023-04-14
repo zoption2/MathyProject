@@ -9,7 +9,7 @@ namespace Mathy.Core.Tasks.DailyTasks
     public interface ICountingToTenTaskView : ITaskView
     {
         event Action ON_HELP_CLICK;
-        Transform ElementsHolder { get; }
+        ITaskElementHolderView ElementsHolder { get; }
         void SetHeaderImage(Sprite sprite);
         void SetInputsHolderImage(Sprite sprite);
         Vector2 GetRandomPositionAtHolder();
@@ -27,12 +27,13 @@ namespace Mathy.Core.Tasks.DailyTasks
         [SerializeField] private Image backgroundImage;
         [SerializeField] private Image headerImage;
         [SerializeField] private Image inputsHolderImage;
-        [SerializeField] private RectTransform elementsHolder;
+        [SerializeField] private TaskElementHolderView holder;
+        [SerializeField] private RectTransform holderRect;
         [SerializeField] private BaseViewAnimator animator;
         [SerializeField] private TaskElementViewClickable[] inputs;
 
         public ITaskViewComponentClickable[] Inputs => inputs;
-        public Transform ElementsHolder => elementsHolder;
+        public ITaskElementHolderView ElementsHolder => holder;
 
         public void Show(Action onShow)
         {
@@ -68,7 +69,7 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         public Vector2 GetRandomPositionAtHolder()
         {
-            var size = elementsHolder.rect.size;
+            var size = holderRect.rect.size;
             float xPos = UnityEngine.Random.Range(-(size.x/2) + 50, size.x/2 - 50);
             float yPos = UnityEngine.Random.Range(-(size.y/2) + 50, size.y/2 - 50);
             size.x = xPos;

@@ -1,6 +1,4 @@
 using Mathy.Data;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -8,16 +6,15 @@ using Cysharp.Threading.Tasks;
 
 public class GradeManager : StaticInstance<GradeManager>
 {
-    #region FIELDS
-
     [Header("REFERENCES:")]
     [SerializeField] private List<GradeSettings> gradeSettings;
-
     [SerializeField] List<GradeData> gradeDatas;
+
     public List<GradeData> GradeDatas
     {
         get => gradeDatas;
     }
+
     public bool IsAnySkillActivated
     {
         get
@@ -51,23 +48,10 @@ public class GradeManager : StaticInstance<GradeManager>
             .Where(g => g.IsActive)
             .SelectMany(g => g.SkillDatas)
             .Where(s => s.IsActive)
-            .SelectMany(s => s.TaskSettings)
+            .SelectMany(s => s.TaskSettings.Where(t => t.MaxNumber >= t.MinLimit && t.MaxNumber <= t.MaxLimit))
             .ToList();
         return taskSettings;
     }
-
-    //public List<ScriptableTask> AvailableTaskSettings()
-    //{
-    //    List<ScriptableTask> taskSettings = new List<ScriptableTask>();
-
-    //    taskSettings = gradeDatas
-    //    .Where(g => g.IsActive)
-    //    .SelectMany(g => g.SkillDatas)
-    //    .Where(s => s.IsActive)
-    //    .SelectMany(s => s.TaskSettings.Where(t => t.BaseStats.MaxNumber <= s.MaxNumber))
-    //    .ToList();
-    //    return taskSettings;
-    //}
 
     public void SetSkillIsActive(int gradeIndex, int skillIndex, bool isActive)
     {
@@ -77,6 +61,7 @@ public class GradeManager : StaticInstance<GradeManager>
         gradeData.SkillDatas[skillIndex] = skillData;
         _ = DataManager.Instance.SaveGradeDatas(gradeDatas);
     }
+
     public void SetSkillMaxNumber(int gradeIndex, int skillIndex, int maxNumber)
     {
         var gradeData = gradeDatas.FirstOrDefault(g => g.GradeIndex == gradeIndex);
@@ -87,5 +72,11 @@ public class GradeManager : StaticInstance<GradeManager>
         _ = DataManager.Instance.SaveGradeDatas(gradeDatas);
     }
 
-    #endregion
+    [ContextMenu("SetMaxNumbersTo20")]
+    private void SetAllSettingsMaxValueTo20()
+    {
+        gradeSettings.ForEach(grade => grade.SkillSettings
+                     .ForEach(data => data.TaskSettings
+                     .ForEach(x => x.MaxNumber = 20)));
+    }
 }

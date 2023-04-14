@@ -145,6 +145,158 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/TaskView/3.Select3ImagesTaskView.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 3d42396bdaac1ea40be0e43d77f5bf03
+    m_Address: Assets/Prefabs/TaskView/4.CountingFrames10TaskView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d9daf8d1339ecc947a3c3d78e65f03a8
+    m_Address: Assets/Sprites/Counting Objects/Frame/Carrot.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 506b5fc15b9e3b14992645f49f16571e
+    m_Address: Assets/Prefabs/TaskView/5.CountingFrames20TaskView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7074a085692ef1842a56e6fd2bc72633
+    m_Address: Assets/Sprites/Counting Objects/CountFrames20/Watermelon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 06d95a3146369294c92ebaf11923abb7
+    m_Address: Assets/Prefabs/TaskElements/NewElements/SimpleImageElementView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a22d712797a6b0847bdfc7cb256477da
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Apple.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 025a5136f9b606944a8fb094db58ca1b
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Candy 1.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b8ea672c481806d4b84f206aba4c5608
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Candy 2.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b7d920754a342334c8af8dec8d1bd355
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Candy 3.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ec2ed0df56b1e9549ab991a8dcac20bd
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Candy 4.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bc8dfa049a54f644b8dbea052c47266f
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Candy 5.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: aedc97ff9058755459822d9de6ab21d0
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Candy 6.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ef0190d24c8252e4d8dda0ec38e1b892
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Candy 7.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c7719fbdb077e204c88a2a9d7654d282
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Candy 8.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9dc41378a6df85c42a85f9a144d6de9e
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Candy 9.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ba6d25c86c363cd41aae17db89b41a62
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Carom.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 862ee03e08a2d074186174a5c6857504
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Egg 1.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 82c537cde6f4c40419ac8689ee1c3e72
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Egg 2.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0a2b14952fb017e4581a8a5a7d33c189
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Egg 3.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: da521eb5ceb4e024dbb50481558b2188
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Ellipse.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7c933ae89666a5d47b90160ec7600cc6
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Grape.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 66bed9dbdccc0d349866cce08e4577ee
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Ice cream.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 119247067198a754f9717bb669a58ff5
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Lemon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e58516417b5ccf94ab57dc250ca22095
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Pie.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ba3ee79c39b293a4d926582f0a756cf9
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Square.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 403acb3d17d0a354dbe34adbcee61fa0
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Star.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 546ef85068d744b4db6ab6da6284ba01
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Starfish.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c9547b3741080504c951a3310244315e
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Triangle 1.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: db7ee87aa31a9eb478a0801bd85abe3d
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Triangle 2.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 42350cf94ac13164c885b1c96bd56f25
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Triangle 3.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8ce598e7f438cf443a7cefca2f430c28
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Triangle 4.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 39528f7fb112aae4aad9e0e71b84806c
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Triangle 5.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3c0dbd5e972d1664180674f0c6dcd3c7
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Triangle 6.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f5cde601d9d320b48985a5e2de29b42a
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Triangle 7.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2fda543590c80924b9e79d113a666a29
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Triangle 8.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 765c7495f75ca094b95dc1e020b0b2b1
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Triangle 9.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 78c508b03aea5e4459035015860a8ae5
+    m_Address: Assets/Sprites/Counting Objects/SelectImages10/Triangle.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5f1867ed3a70ad246b4b0672d3ab6bb8
+    m_Address: Assets/Prefabs/Popups/ParentGatePopup.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 76746eb55ddbd544c89bef47883242cf, type: 2}
   m_SchemaSet:

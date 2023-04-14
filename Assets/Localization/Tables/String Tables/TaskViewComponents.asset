@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be51871efa6c3e4eae1703925c8f5ac, type: 3}
+  m_Name: TaskViewComponents
+  m_EditorClassIdentifier: 
+  m_SharedTableData: {fileID: 11400000, guid: 2eeed5eb30b4cdc45b9d7e8fbe65ea85, type: 2}
+  m_Tables:
+  - {fileID: 11400000, guid: bf5d331ffac5aa743b950a26a4a3fa62, type: 2}
+  - {fileID: 11400000, guid: 43969bb9565f43945b49a5cf5c64a7cc, type: 2}
+  - {fileID: 11400000, guid: bd198b6ed495da647af8b60aab47c46b, type: 2}
+  m_Extensions: []
+  m_Group: String Table
+  references:
+    version: 2
+    RefIds: []

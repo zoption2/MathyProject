@@ -6,7 +6,7 @@ using System;
 using DG.Tweening;
 using System.Linq;
 using Zenject;
-using Mathy.Core.Tasks;
+using Mathy.Services;
 using Cysharp.Threading.Tasks;
 
 public class TaskPracriceButton : TweenedButton

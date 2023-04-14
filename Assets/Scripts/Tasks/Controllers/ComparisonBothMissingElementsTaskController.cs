@@ -76,13 +76,30 @@ namespace Mathy.Core.Tasks.DailyTasks
             var value = view.Value;
             if (!isFirstElementSelected)
             {
-                firstComponent = view;
-                firstComponent.ChangeState(TaskElementState.Correct);
-                unknownElements[0].ChangeValue(value);
-                unknownElements[0].ChangeState(TaskElementState.Default);
-                taskData = Model.UpdateModelBasedOnPlayerChoice(value);
-                SelectedAnswerIndexes.Add(view.Index);
-                isFirstElementSelected = true;
+                if (Model.TryUpdateModelBasedOnPlayerChoice(value, view.Index, out taskData))
+                {
+                    firstComponent = view;
+                    firstComponent.ChangeState(TaskElementState.Correct);
+                    unknownElements[0].ChangeValue(value);
+                    unknownElements[0].ChangeState(TaskElementState.Default);
+
+                    SelectedAnswerIndexes.Add(view.Index);
+                    isFirstElementSelected = true;
+                }
+                else
+                {
+                    UnsubscribeInputs();
+                    view.ChangeState(TaskElementState.Wrong);
+                    unknownElements[0].ChangeValue(value);
+                    unknownElements[0].ChangeState(TaskElementState.Wrong);
+
+                    MakeAllAnswerIndexesCorrect();
+                    SelectedAnswerIndexes.Add(view.Index);
+                    var randomWrongIndex = Model.GetWrongIndex();
+                    SelectedAnswerIndexes.Add(randomWrongIndex);
+                    IsAnswerCorrect = false;
+                    CompleteTask();
+                }
             }
             else
             {
@@ -102,6 +119,7 @@ namespace Mathy.Core.Tasks.DailyTasks
                     unknownElements[0].ChangeState(TaskElementState.Wrong);
                     unknownElements[1].ChangeState(TaskElementState.Wrong);
                     unknownElements[1].ChangeValue(value);
+                    MakeAllAnswerIndexesCorrect();
                 }
 
                 IsAnswerCorrect = isAnswerCorrect;
@@ -118,6 +136,17 @@ namespace Mathy.Core.Tasks.DailyTasks
             {
                 clickable.ON_CLICK -= DoOnClick;
                 taskVariants.Remove(clickable);
+            }
+        }
+
+        private void MakeAllAnswerIndexesCorrect()
+        {
+            var totalVariants = Model.TaskSettings.VariantsAmount;
+            var indexes = taskData.CorrectAnswerIndexes;
+            indexes.Clear();
+            for (int i = 0, j = totalVariants; i < j; i++)
+            {
+                indexes.Add(i);
             }
         }
 

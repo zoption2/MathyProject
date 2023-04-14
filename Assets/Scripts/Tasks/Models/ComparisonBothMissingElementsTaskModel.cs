@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Mathy.Data;
 
 namespace Mathy.Core.Tasks
@@ -8,7 +9,9 @@ namespace Mathy.Core.Tasks
         List<ExpressionElement> Expression { get; }
         List<string> Variants { get; }
         List<string> CorrectVariants { get; }
-        TaskData UpdateModelBasedOnPlayerChoice(string inputedValue);
+        bool TryUpdateModelBasedOnPlayerChoice(string inputedValue, int inputedIndex, out TaskData taskData);
+        int GetWrongIndex();
+        void SetAllIndexesCorrect();
     }
 
 
@@ -18,6 +21,8 @@ namespace Mathy.Core.Tasks
         private ArithmeticSigns selectedSign;
         private List<int> integerVariants;
         private TaskData taskData;
+        private string dublicatedValue;
+        private int dublicatedIndex;
 
         public List<ExpressionElement> Expression => expression;
         public List<string> Variants => variants;
@@ -37,7 +42,7 @@ namespace Mathy.Core.Tasks
             var selectedSignText = ((char)selectedSign).ToString();
 
             variants = MathOperations.GetRandomVariants(minValue, maxValue, amountOfVariants);
-            variants = MathOperations.DublicateRandomValueAndShake(variants);
+            variants = MathOperations.DublicateRandomValueAndShake(variants, out dublicatedValue, out dublicatedIndex);
             integerVariants = MathOperations.ConvertStringsToInt(variants);
 
             expression = new List<ExpressionElement>()
@@ -61,7 +66,7 @@ namespace Mathy.Core.Tasks
             return result;
         }
 
-        public TaskData UpdateModelBasedOnPlayerChoice(string inputedValue)
+        public bool TryUpdateModelBasedOnPlayerChoice(string inputedValue, int inputedIndex, out TaskData data)
         {
             var inputedValueIndex = -1;
             var intValue = int.Parse(inputedValue);
@@ -82,35 +87,82 @@ namespace Mathy.Core.Tasks
                     );
             }
 
+            bool isCorrectIndexesAvailable = false;
+            //if there is no correct value, equal to first value selected by user,
+            //we will use "fakeValue", that guaranteed us existing of correct variants
+            int fakeValue = 0;
             switch (selectedSign)
             {
                 case ArithmeticSigns.GreaterThan:
-                    correctAnswersIndexes = MathOperations.GetCorrectIndexesWithLessThen(intValue, integerVariants);
+                    isCorrectIndexesAvailable 
+                        = MathOperations.TryGetCorrectIndexesWithLessThen(intValue, integerVariants, out correctAnswersIndexes);
+                    fakeValue = integerVariants.Max();
+                    if (!isCorrectIndexesAvailable)
+                    {
+                        MathOperations.TryGetCorrectIndexesWithLessThen(fakeValue, integerVariants, out correctAnswersIndexes);
+                    }
+
                     break;
+
                 case ArithmeticSigns.LessThan:
-                    correctAnswersIndexes = MathOperations.GetCorrectIndexesWithGreaterThen(intValue, integerVariants);
+                    isCorrectIndexesAvailable 
+                        = MathOperations.TryGetCorrectIndexesWithGreaterThen(intValue, integerVariants, out correctAnswersIndexes);
+                    fakeValue = integerVariants.Min();
+                    if (!isCorrectIndexesAvailable)
+                    {
+                        MathOperations.TryGetCorrectIndexesWithGreaterThen(fakeValue, integerVariants, out correctAnswersIndexes);
+                    }
+
                     break;
+
                 case ArithmeticSigns.Equal:
-                    correctAnswersIndexes = MathOperations.GetCorrectIndexesWithEqualTo(intValue, integerVariants);
+                    isCorrectIndexesAvailable 
+                        = MathOperations.TryGetCorrectIndexesWithEqualTo(intValue, integerVariants, inputedIndex, out correctAnswersIndexes);
+                    fakeValue = int.Parse(dublicatedValue);
+                    if (!isCorrectIndexesAvailable)
+                    {
+                        MathOperations.TryGetCorrectIndexesWithEqualTo(fakeValue, integerVariants, dublicatedIndex, out correctAnswersIndexes);
+                    }
                     break;
             }
 
             correctVariants = new List<string>();
+
             for (int i = 0, j = correctAnswersIndexes.Count; i < j; i++)
             {
                 var index = correctAnswersIndexes[i];
                 correctVariants.Add(variants[index]);
             }
 
+            if (!isCorrectIndexesAvailable)
+            {
+                SetAllIndexesCorrect();
+            }
+
             UpdateTaskData();
-            return taskData;
+            data = taskData;
+            return isCorrectIndexesAvailable;
+        }
+
+        public void SetAllIndexesCorrect()
+        {
+            correctAnswersIndexes.Clear();
+            for (int i = 0; i < amountOfVariants; i++)
+            {
+                correctAnswersIndexes.Add(i);
+            }
+        }
+
+        public int GetWrongIndex()
+        {
+            var index = Enumerable.Range(0, integerVariants.Count).Except(correctAnswersIndexes).FirstOrDefault();
+            return index;
         }
 
         private void UpdateTaskData()
         {
             taskData.CorrectAnswerIndexes = correctAnswersIndexes;
         }
-
     }
 }
 

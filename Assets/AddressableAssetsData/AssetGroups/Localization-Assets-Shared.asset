@@ -76,6 +76,15 @@ MonoBehaviour:
     m_Address: Assets/Localization/Tables/String Tables/TaskTitles Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
+  - m_GUID: 2eeed5eb30b4cdc45b9d7e8fbe65ea85
+    m_Address: Assets/Localization/Tables/String Tables/TaskViewComponents Shared
+      Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: ee37e9d1a7685fc4a8591ad16c96894b
+    m_Address: Assets/Localization/Tables/String Tables/ParentGateTable Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 76746eb55ddbd544c89bef47883242cf, type: 2}
   m_SchemaSet:

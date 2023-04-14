@@ -63,19 +63,26 @@ SpriteAtlas:
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 5b885940fc36aa2449c2fa271e58953c, type: 3}
+  - {fileID: 21300000, guid: d393ee40d381fde4bb53c5583230c3ea, type: 3}
   - {fileID: 21300000, guid: bbd047d036ef8e84da70a07e53fe1fbf, type: 3}
   - {fileID: 21300000, guid: ec879b5151609a94abc3eb6d5d83afb1, type: 3}
   - {fileID: 21300000, guid: 74e307b1eae737447b9b5dd7a535148c, type: 3}
   - {fileID: 21300000, guid: 440d5af18b8d7464eb943d59c03e5ca2, type: 3}
   - {fileID: 21300000, guid: 1cf3f5239e1c18642bb1e9b9b5189213, type: 3}
+  - {fileID: 21300000, guid: 8f3dc1634ddce5d4a8cca5fe9ca910fc, type: 3}
   - {fileID: 21300000, guid: 51ad27b3aa32a044dbadaf3d7b81e2ff, type: 3}
   - {fileID: 21300000, guid: b77049b33a66a6d408d97942123512d5, type: 3}
   - {fileID: 21300000, guid: c0402134a40a42f468c280a6c9dcce9e, type: 3}
   - {fileID: 21300000, guid: a73f67543eedd6c4c8151f01ef78a574, type: 3}
+  - {fileID: 21300000, guid: 0d8c39f4e2bb04649920f26012f4401f, type: 3}
   - {fileID: 21300000, guid: eb391a95886814b439bd704c1086c34c, type: 3}
   - {fileID: 21300000, guid: 269c5d062b81b4142989f414acd202d3, type: 3}
+  - {fileID: 21300000, guid: ee1b51074c41dc148a4fffa4bda29c04, type: 3}
   - {fileID: 21300000, guid: 4525ad5755c533144aaf01928f76fe5f, type: 3}
   - {fileID: 21300000, guid: 0ca5b0d76deb95b48bbc233ff9ac2425, type: 3}
+  - {fileID: 21300000, guid: aec3a6e724d585b4981113c6f7532340, type: 3}
+  - {fileID: 21300000, guid: 6d58ca88e1d16a049a73dcea28acffc7, type: 3}
+  - {fileID: 21300000, guid: beaf1ea98c4c8be4486ee0dc38c5376f, type: 3}
   - {fileID: 21300000, guid: 08524d1a7a154564eabd2afeefc7ae8d, type: 3}
   - {fileID: 21300000, guid: 5ada593a0d895e741857f9a3d0c97a44, type: 3}
   - {fileID: 21300000, guid: ace3ed7a57154cc4782b4d3598789ac1, type: 3}
@@ -95,19 +102,26 @@ SpriteAtlas:
   - {fileID: 21300000, guid: c56a2edf7e3a749428a86a4329d838ac, type: 3}
   m_PackedSpriteNamesToIndex:
   - Count to 10 images practice icon
+  - counting_frame_up_to_10
   - Comparison Expressions practice icon
   - Missing Signs practice icon
   - Add-Sub practice icon
   - Missing Element practice icon
   - Missing Number practice icon
+  - coming_soon
   - Sum of Numbers practice icon
   - Practice page arrow
   - Subtraction practice icon
   - Comparison Elements practice icon
+  - TempPracticeIcon
   - Missing Expressions practice icon
   - Practice page corner
+  - counting_up_to_10
   - practice label violet
   - Practice panel book base
+  - counting blocks tens and ones
+  - counting_frame_up_to_20
+  - counting frame tens and ones
   - Missing Sign practice icon
   - practice label green
   - Practice panel book front

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be51871efa6c3e4eae1703925c8f5ac, type: 3}
+  m_Name: ParentGateTable
+  m_EditorClassIdentifier: 
+  m_SharedTableData: {fileID: 11400000, guid: ee37e9d1a7685fc4a8591ad16c96894b, type: 2}
+  m_Tables:
+  - {fileID: 11400000, guid: 30a3da105fd7aa743a1c164643b51fcd, type: 2}
+  - {fileID: 11400000, guid: e489c70a7395991418fa0ccfe9371ebf, type: 2}
+  - {fileID: 11400000, guid: f9093863539e57a44963481bc1e5e453, type: 2}
+  m_Extensions: []
+  m_Group: String Table
+  references:
+    version: 2
+    RefIds: []

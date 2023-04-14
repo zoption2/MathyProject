@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Mathy.UI.Tasks;
-using Mathy.Data;
 using System;
 using UnityEngine;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
-    public class CountToTenImagesTaskController : BaseTaskController<ICountingToTenTaskView, ICountToTenImagesTaskModel>
+    public class CountToTenImagesTaskController : BaseTaskController<ICountingToTenTaskView, ICountToAmountTaskModel>
     {
-        private const string kSpritesTableKey = "VariantOneTaskView";
+        private const string kSpritesTableKey = "CountedImages";
+
         private List<ITaskElementImageWithCollider> elements;
-        private ITaskViewComponentClickable[] variantsInputs;
+        private ITaskViewComponentClickable[] variantInputs;
         private CountedImageType selectedImageType;
+        private ITaskElementHolderView holderView;
         private string correctAnswer;
 
         protected override string LocalizationTableKey => "TaskTitles";
@@ -36,11 +37,12 @@ namespace Mathy.Core.Tasks.DailyTasks
             var countOfElements = Model.CountToShow;
             correctAnswer = countOfElements.ToString();
 
-            var elementsHolder = View.ElementsHolder;
+            holderView = View.ElementsHolder;
+            holderView.Init(0);
 
             elements = new List<ITaskElementImageWithCollider>(10);
 
-            var imageValues = Enum.GetValues(typeof(TaskCountedImageElementType));
+            var imageValues = Enum.GetValues(typeof(CountedImageType));
             selectedImageType = (CountedImageType)imageValues.GetValue(random.Next(imageValues.Length));
 
 
@@ -48,7 +50,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             for (int i = 0; i < countOfElements; i++)
             {
                 var component = await refsHolder.UIComponentProvider
-                    .InstantiateFromReference<ITaskElementImageWithCollider>(UIComponentType.ImageWithColliderElement, elementsHolder);
+                    .InstantiateFromReference<ITaskElementImageWithCollider>(UIComponentType.ImageWithColliderElement, holderView.Parent);
                 Sprite sprite = await refsHolder.TaskCountedImageProvider.GetSpriteByType(selectedImageType);
                 if (sprite == null)
                 {
@@ -60,12 +62,12 @@ namespace Mathy.Core.Tasks.DailyTasks
                 elements.Add(component);
             }
 
-            variantsInputs = View.Inputs;
-            for (int i = 0, j = variantsInputs.Length; i < j; i++)
+            variantInputs = View.Inputs;
+            for (int i = 0, j = variantInputs.Length; i < j; i++)
             {
                 string value = (i + 1).ToString();
-                variantsInputs[i].Init(i, value);
-                variantsInputs[i].ON_CLICK += DoOnVariantClick;
+                variantInputs[i].Init(i, value);
+                variantInputs[i].ON_CLICK += DoOnVariantClick;
             }
         }
 
@@ -94,7 +96,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             var isCorrect = input.Value == correctAnswer;
             TaskElementState state = isCorrect ? TaskElementState.Correct : TaskElementState.Wrong;
             input.ChangeState(state);
-
+            holderView.ChangeState(state);
             IsAnswerCorrect = isCorrect;
             SelectedAnswerIndexes.Add(input.Index);
 
@@ -111,11 +113,10 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         private void UnsubscribeInputs()
         {
-            foreach (var variant in variantsInputs)
+            foreach (var variant in variantInputs)
             {
                 variant.ON_CLICK -= DoOnVariantClick;
             }
         }
     }
-
 }

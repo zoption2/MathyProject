@@ -52,7 +52,7 @@ namespace Mathy.Core.Tasks.DailyTasks
 
             for (int i = 0, j = values.Count; i < j; i++)
             {
-                var imageValues = Enum.GetValues(typeof(SelectFromThreeImageType));
+                var imageValues = Enum.GetValues(typeof(CountedImageType));
                 imageValues = imageValues.Cast<object>()
                     .Except(presentImages)
                     .ToArray();
@@ -90,8 +90,8 @@ namespace Mathy.Core.Tasks.DailyTasks
         protected override string GetLocalizedTitle()
         {
             var localizedTitleFormat = LocalizationManager.GetLocalizedString(LocalizationTableKey, Model.TitleKey);
-            string searchingCount = string.Format(kGreenTextFormat, correctAnswer);
-            return string.Format(localizedTitleFormat, searchingCount);
+            //string searchingCount = string.Format(kGreenTextFormat, correctAnswer);
+            return string.Format(localizedTitleFormat, correctAnswer);
         }
 
         protected override void OnTaskShowed()
@@ -141,5 +141,4 @@ namespace Mathy.Core.Tasks.DailyTasks
             }
         }
     }
-
 }

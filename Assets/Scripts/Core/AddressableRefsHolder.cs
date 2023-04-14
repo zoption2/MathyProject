@@ -15,7 +15,8 @@ namespace Mathy
         TaskViewAddressableRef TaskViewProvider { get;}
         UIComponentAddressableRef UIComponentProvider { get; }
         BackgroundAddressableRef BackgroundProvider { get; }
-        GameplayScenePopupAddressableRef GameplayScenePopupsProvider { get; }
+        TaskFeaturesAddressableRef GameplayScenePopupsProvider { get; }
+        PopupsAddressableRef PopupsProvider { get; }
         TaskCountedImageAdressableRef TaskCountedImageProvider { get; }
     }
 
@@ -25,9 +26,10 @@ namespace Mathy
     {
         [field: SerializeField] public TaskViewAddressableRef TaskViewProvider { get; private set; }
         [field: SerializeField] public UIComponentAddressableRef UIComponentProvider { get; private set; }
-        [field: SerializeField] public GameplayScenePopupAddressableRef GameplayScenePopupsProvider { get; private set; }
+        [field: SerializeField] public TaskFeaturesAddressableRef GameplayScenePopupsProvider { get; private set; }
         [field: SerializeField] public BackgroundAddressableRef BackgroundProvider { get; private set; }
         [field: SerializeField] public TaskCountedImageAdressableRef TaskCountedImageProvider { get; private set; }
+        [field: SerializeField] public PopupsAddressableRef PopupsProvider { get; private set; }
     }
 
     public abstract class AddressableRefsProvider<TType, TRef> where TType : Enum where TRef : AssetReference
@@ -174,10 +176,17 @@ namespace Mathy
     }
 
     [Serializable]
-    public class GameplayScenePopupAddressableRef : AddressableRefsProvider<GameplayCounters, AssetReferenceGameObject>
+    public class TaskFeaturesAddressableRef : AddressableRefsProvider<TaskFeatures, AssetReferenceGameObject>
     {
 
     }
+
+    [Serializable]
+    public class PopupsAddressableRef : AddressableRefsProvider<Popups, AssetReferenceGameObject>
+    { 
+
+    }
+
 
     [Serializable]
     public class TaskCountedImageAdressableRef : AddressableRefsProvider<CountedImageType, AssetReferenceSprite>
@@ -185,7 +194,7 @@ namespace Mathy
         public async UniTask<Sprite> GetRandomSprite()
         {
             var random = new System.Random();
-            var values = Enum.GetValues(typeof(TaskCountedImageElementType));
+            var values = Enum.GetValues(typeof(CountedImageType));
             var type = (CountedImageType)values.GetValue(random.Next(values.Length));
             return await LoadAsync<Sprite>(type);
         }

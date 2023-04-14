@@ -40,9 +40,9 @@ namespace Mathy.Core.Tasks
 
             GetExpressionValues(expression, out elements, out operators);
 
-            var randomizedVariantIndexes = Enumerable.Range(0, TaskSettings.VariantsAmount - 1).ToList().
+            var randomizedVariantIndexes = Enumerable.Range(0, taskSettings.VariantsAmount - 1).ToList().
                 OrderBy(x => Guid.NewGuid()).ToList();
-            var answerIndexes = randomizedVariantIndexes.Take(TaskSettings.ElementsAmount).ToList();
+            var answerIndexes = randomizedVariantIndexes.Take(taskSettings.ElementsAmount).ToList();
 
             correctAnswersIndexes = answerIndexes;
 
@@ -53,7 +53,7 @@ namespace Mathy.Core.Tasks
 
             variants = new List<string>();
 
-            for (int i = 0; i < TaskSettings.VariantsAmount; i++)
+            for (int i = 0; i < base.taskSettings.VariantsAmount; i++)
             {
                 if (correctAnswersIndexes.Contains(i))
                 {

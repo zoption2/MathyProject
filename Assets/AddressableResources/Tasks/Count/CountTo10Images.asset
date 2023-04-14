@@ -16,6 +16,8 @@ MonoBehaviour:
   VariantsAmount: 0
   MinNumber: 0
   MaxNumber: 0
+  MinLimit: 10
+  MaxLimit: 100
   Title: CountToTenImagesTitle
   Description: Description of the task should be here
   TaskType: 22

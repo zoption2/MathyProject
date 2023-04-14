@@ -3,7 +3,8 @@ using Zenject;
 using Mathy;
 using Mathy.Core.Tasks.DailyTasks;
 using Mathy.Core.Tasks;
-using Mathy.Data;
+using Mathy.Services;
+using Mathy.UI;
 
 public class ProjectContextInstaller : MonoInstaller
 {
@@ -17,9 +18,11 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<IScenarioFactory>().To<ScenarioFactory>().AsSingle();
         Container.Bind<ITaskViewComponentsProvider>().To<TaskViewComponentsProvider>().AsSingle();
         Container.Bind<ITaskBackgroundSevice>().To<TaskBackgroundService>().AsSingle();
+        Container.Bind<IParentGateService>().To<ParentGateService>().AsSingle();
 
         BindTaskControllers();
         BindScenarious();
+        BindPopupsControllers();
     }
 
     private void BindTaskControllers()
@@ -33,6 +36,8 @@ public class ProjectContextInstaller : MonoInstaller
 
         Container.Bind<CountToTenImagesTaskController>().To<CountToTenImagesTaskController>().AsTransient();
         Container.Bind<SelectFromThreeCountTaskController>().To<SelectFromThreeCountTaskController>().AsTransient();
+        Container.Bind<FramesCountToTenTaskController>().To<FramesCountToTenTaskController>().AsTransient();
+        Container.Bind<FramesCountToTwentyTaskController>().To<FramesCountToTwentyTaskController>().AsTransient();
     }
 
     private void BindScenarious()
@@ -41,6 +46,11 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<SmallScenario>().To<SmallScenario>().AsSingle();
         Container.Bind<MediumScenario>().To<MediumScenario>().AsSingle();
         Container.Bind<LargeScenario>().To<LargeScenario>().AsSingle();
+    }
+
+    private void BindPopupsControllers()
+    {
+        Container.Bind<ParentGatePopupController>().To<ParentGatePopupController>().AsTransient();
     }
 }
 

@@ -5,6 +5,7 @@
         DefaultElement = 0,
         ImageWithColliderElement = 1,
         WideDefaultElement = 2,
+        SimpleImageElement = 3,
 
         DefaultVariant = 10,
         WideDefaultVariant = 11,
@@ -12,10 +13,15 @@
         DefaultOperator = 20,
     }
 
-    public enum GameplayCounters
+    public enum TaskFeatures
     {
         DefaultCounter,
         CounterVariantOne,
+    }
+
+    public enum Popups
+    {
+        ParentGate = 1,
     }
 
     public enum TaskElementType
@@ -132,9 +138,26 @@
         BottleVariant_1 = 10,
         BottleVariant_2 = 11,
         BottleVariant_3 = 12,
+        Apple = 13,
+        RoundCandy = 14,
+        Carom = 15,
+        EsterEgg = 16,
+        Ellipse = 17,
+        Grape = 18,
+        IceCream = 19,
+        Lemon = 20,
+        Square = 21,
+        Star = 22,
+        Starfish = 23,
+        Triangle = 24,
+        Pie = 25,
+
+        Carrot = 30,
+
+        Watermelon = 40,
     }
 
-    public enum TaskCountedImageElementType
+    public enum CountedElementImageType
     {
         Bean = 1,
         Cheese = 2,
@@ -150,7 +173,31 @@
         BottleVariant_1 = 10,
         BottleVariant_2 = 11,
         BottleVariant_3 = 12,
+        Apple = 13,
+        RoundCandy = 14,
+        Carom = 15,
+        EsterEgg = 16,
+        Ellipse = 17,
+        Grape = 18,
+        IceCream = 19,
+        Lemon = 20,
+        Square =21,
+        Star = 22,
+        Starfish = 23,
+        Triangle = 24,
+        Pie = 25
     }
+
+    public enum CountedElementFrame10Type
+    { 
+        Carrot = 30,
+    }
+
+    public enum CountedElementFrame20Type
+    {
+        Watermelon = 40,
+    }
+
     #endregion
 }
 

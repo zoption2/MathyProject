@@ -4,7 +4,7 @@ using TMPro;
 using Mathy.UI;
 using System;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
@@ -19,6 +19,7 @@ namespace Mathy.Core.Tasks.DailyTasks
     public class StandardTaskView: MonoBehaviour, IStandardTaskView
     {
         public event Action ON_EXIT_CLICK;
+        public event Action ON_HELP_CLICK;
 
         [SerializeField] private Image backgroundImage;
         [SerializeField] private Image headerImage;
