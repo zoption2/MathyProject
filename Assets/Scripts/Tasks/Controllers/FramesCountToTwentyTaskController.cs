@@ -61,7 +61,7 @@ namespace Mathy.Core.Tasks.DailyTasks
                 frames[i].Init(i);
             }
 
-            var imageValues = Enum.GetValues(typeof(CountedElementFrame20Type));
+            var imageValues = Enum.GetValues(typeof(CountedImageType));
             var selectedImageType = (CountedImageType)imageValues.GetValue(random.Next(imageValues.Length));
             localizedObjectName = GetLocalizedObjectName(selectedImageType.ToString());
             View.SetObjectNameText(localizedObjectName);

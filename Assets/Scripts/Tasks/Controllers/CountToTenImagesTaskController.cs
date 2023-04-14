@@ -42,7 +42,7 @@ namespace Mathy.Core.Tasks.DailyTasks
 
             elements = new List<ITaskElementImageWithCollider>(10);
 
-            var imageValues = Enum.GetValues(typeof(CountedElementImageType));
+            var imageValues = Enum.GetValues(typeof(CountedImageType));
             selectedImageType = (CountedImageType)imageValues.GetValue(random.Next(imageValues.Length));
 
 

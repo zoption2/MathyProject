@@ -13,7 +13,7 @@ namespace Mathy.Core.Tasks
 
         public FramesCountTaskModel(ScriptableTask taskSettings) : base(taskSettings)
         {
-            countToShow = random.Next(minLimit, maxLimit + 1);
+            countToShow = random.Next(minValue, minLimit + 1);
 
             elements = new List<string>()
             {

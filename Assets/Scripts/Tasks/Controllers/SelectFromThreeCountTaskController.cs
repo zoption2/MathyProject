@@ -52,7 +52,7 @@ namespace Mathy.Core.Tasks.DailyTasks
 
             for (int i = 0, j = values.Count; i < j; i++)
             {
-                var imageValues = Enum.GetValues(typeof(SelectFromThreeImageType));
+                var imageValues = Enum.GetValues(typeof(CountedImageType));
                 imageValues = imageValues.Cast<object>()
                     .Except(presentImages)
                     .ToArray();

@@ -16,8 +16,8 @@ MonoBehaviour:
   VariantsAmount: 10
   MinNumber: 0
   MaxNumber: 10
-  MinLimit: 1
-  MaxLimit: 20
+  MinLimit: 20
+  MaxLimit: 100
   Title: CountTo20FramesTitle
   Description: Description of the task should be here
   TaskType: 25

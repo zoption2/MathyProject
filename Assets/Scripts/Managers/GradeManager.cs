@@ -48,7 +48,7 @@ public class GradeManager : StaticInstance<GradeManager>
             .Where(g => g.IsActive)
             .SelectMany(g => g.SkillDatas)
             .Where(s => s.IsActive)
-            .SelectMany(s => s.TaskSettings.Where(t => t.MaxLimit >= t.MaxNumber))
+            .SelectMany(s => s.TaskSettings.Where(t => t.MaxNumber >= t.MinLimit && t.MaxNumber <= t.MaxLimit))
             .ToList();
         return taskSettings;
     }
