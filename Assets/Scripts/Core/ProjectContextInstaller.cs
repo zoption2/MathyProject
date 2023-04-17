@@ -19,6 +19,7 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<ITaskViewComponentsProvider>().To<TaskViewComponentsProvider>().AsSingle();
         Container.Bind<ITaskBackgroundSevice>().To<TaskBackgroundService>().AsSingle();
         Container.Bind<IParentGateService>().To<ParentGateService>().AsSingle();
+        Container.Bind<IDataService>().To<DataService>().AsSingle().NonLazy();
 
         BindTaskControllers();
         BindScenarious();

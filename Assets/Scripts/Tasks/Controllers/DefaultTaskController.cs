@@ -4,6 +4,7 @@ using Mathy.UI.Tasks;
 using Mathy.Data;
 using Mathy;
 using System.Linq;
+using Mathy.Services;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
@@ -14,6 +15,8 @@ namespace Mathy.Core.Tasks.DailyTasks
         private ITaskViewComponent correctVariant;
         private string userAnswer;
         private string correctAnswer;
+
+        [Zenject.Inject] private IDataService dataService;
 
         protected override bool IsAnswerCorrect { get; set; }
         protected override List<int> SelectedAnswerIndexes { get; set; }
@@ -92,6 +95,9 @@ namespace Mathy.Core.Tasks.DailyTasks
 
             IsAnswerCorrect = isAnswerCorrect;
             SelectedAnswerIndexes.Add(view.Index);
+
+            var newTask = Model.GetNewResult();
+            dataService.Task.InsertTask(newTask);
 
             CompleteTask();
         }

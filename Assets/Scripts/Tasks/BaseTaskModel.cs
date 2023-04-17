@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using Mathy.Data;
 using System.Linq;
+using Mathy.Services;
 
 namespace Mathy.Core.Tasks
 {
@@ -12,6 +13,7 @@ namespace Mathy.Core.Tasks
         ScriptableTask TaskSettings { get; }
         TaskType TaskType { get;}
         TaskData GetResult();
+        NewTaskData GetNewResult();
         void Release();
     }
 
@@ -67,6 +69,21 @@ namespace Mathy.Core.Tasks
             result.OperatorValues = operators;
             result.VariantValues = variants;
             result.CorrectAnswerIndexes = correctAnswersIndexes;
+            return result;
+        }
+
+        public virtual NewTaskData GetNewResult()
+        {
+            var result = new NewTaskData();
+            result.Date = DateTime.Now.ToString($"dd/MM/yyyy");
+            result.Mode = TaskMode.Small;
+            result.TaskModeIndex = (int)TaskMode.Small;
+            result.TaskType = TaskType.Addition;
+            result.TaskTypeIndex = (int)TaskType.Addition;
+            result.Answer = "1 + 4 = 5";
+            result.IsAnswerCorrect = true;
+            result.Duration = 0;
+
             return result;
         }
 
