@@ -56,36 +56,37 @@ namespace Mathy.Services
     {
         private string databasePath;
 
-        private static readonly IDbConnection _dbConnection;
+        private static IDbConnection _dbConnection;
 
 
         public TaskDataProvider(string databasePath)
         {
             this.databasePath = databasePath;
-            _dbConnection.ConnectionString = databasePath;
+            //_dbConnection.ConnectionString = databasePath;
             TryCreateTable();
         }
 
         public NewTaskData[] GetTasksByMode(TaskMode mode)
         {
-            using (_dbConnection)
+            using (_dbConnection = new SqliteConnection(databasePath))
             {
                 var query = TaskDataUtils.SelectByModeQuery;
                 return _dbConnection.Query<NewTaskData>(query, mode).ToArray();
             }
         }
 
-        public void InsertTask(NewTaskData task)
+        public async void InsertTask(NewTaskData task)
         {
-            using (_dbConnection)
+            using (_dbConnection = new SqliteConnection(databasePath))
             {
                 var query = TaskDataUtils.InsertQuery;
+                var id = await _dbConnection.QueryAsync<int>(query, task);
             }
         }
 
         private void TryCreateTable()
         {
-            using(_dbConnection)
+            using (_dbConnection = new SqliteConnection(databasePath))
             {
                 var query = TaskDataUtils.CreateTableQuery;
                 _dbConnection.Execute(query);

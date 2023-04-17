@@ -5,6 +5,7 @@ using Mathy.Data;
 using Mathy;
 using System.Linq;
 using Mathy.Services;
+using Zenject;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
@@ -16,14 +17,17 @@ namespace Mathy.Core.Tasks.DailyTasks
         private string userAnswer;
         private string correctAnswer;
 
-        [Zenject.Inject] private IDataService dataService;
+        private DiContainer container;
+        private IDataService dataService;
 
         protected override bool IsAnswerCorrect { get; set; }
         protected override List<int> SelectedAnswerIndexes { get; set; }
 
-        public DefaultTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice) 
+        public DefaultTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice, DiContainer container) 
             : base(refsHolder, backgroundSevice)
         {
+            this.container = container;
+            dataService = container.Resolve<IDataService>();
         }
 
         protected override async UniTask DoOnInit()

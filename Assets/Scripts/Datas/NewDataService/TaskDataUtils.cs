@@ -5,19 +5,19 @@
         private const string kTableName = "TasksData";
 
         public static readonly string SelectByModeQuery = $@"select
-            date as {nameof(NewTaskData.Date)}
-            mode as {nameof(NewTaskData.Mode)},
-            mode_index as {nameof(NewTaskData.TaskModeIndex)},
-            task_type as {nameof(NewTaskData.TaskType)},
-            task_index as {nameof(NewTaskData.TaskTypeIndex)},
-            answer as {nameof(NewTaskData.Answer)},
-            is_correct as {nameof(NewTaskData.IsAnswerCorrect)},
-            duration as {nameof(NewTaskData.Duration)}
-            from {nameof(kTableName)} 
-            where mode = @Mode";
+            Day as {nameof(NewTaskData.Date)},
+            Mode as {nameof(NewTaskData.Mode)},
+            ModeIndex as {nameof(NewTaskData.TaskModeIndex)},
+            TaskType as {nameof(NewTaskData.TaskType)},
+            TaskIndex as {nameof(NewTaskData.TaskTypeIndex)},
+            Answer as {nameof(NewTaskData.Answer)},
+            IsCorrect as {nameof(NewTaskData.IsAnswerCorrect)},
+            Duration as {nameof(NewTaskData.Duration)}
+            from {kTableName} 
+            where Mode = @Mode";
 
-        public static readonly string InsertQuery = $@"insert into {nameof(kTableName)}
-            (date, mode, mode_index, task_type, task_index, answer, is_correct, duration)
+        public static readonly string InsertQuery = $@"insert into {kTableName}
+            (Day, Mode, ModeIndex, TaskType, TaskIndex, Answer, IsCorrect, Duration)
             values
             @{nameof(NewTaskData.Date)},
             @{nameof(NewTaskData.Mode)},
@@ -26,19 +26,21 @@
             @{nameof(NewTaskData.TaskTypeIndex)},
             @{nameof(NewTaskData.Answer)},
             @{nameof(NewTaskData.IsAnswerCorrect)},
-            @{nameof(NewTaskData.Duration)}";
+            @{nameof(NewTaskData.Duration)}
+            returning Id";
 
-        public static readonly string CreateTableQuery = $@"create table if not exists {nameof(kTableName)}
+
+        public static readonly string CreateTableQuery = $@"create table if not exists {kTableName}
             (
             Id INTEGER PRIMARY KEY AUTOINCREMENT,
-            Date TEXT NOT NULL,
-            Mode INTEGER NOT NULL,
-            TaskModeIndex INTEGER NOT NULL,
-            TaskType INTEGER NOT NULL,
-            TaskTypeIndex INTEGER NOT NULL,
-            Answer TEXT NOT NULL,
-            IsAnswerCorrect INTEGER NOT NULL,
-            Duration REAL NOT NULL
+            Day STRING NOT NULL,
+            Mode STRING NOT NULL,
+            ModeIndex INTEGER NOT NULL,
+            TaskType STRING NOT NULL,
+            TaskIndex INTEGER NOT NULL,
+            Answer STRING NOT NULL,
+            IsCorrect BOOLEAN NOT NULL,
+            Duration DOUBLE NOT NULL
             );";
     }
 }

@@ -75,7 +75,7 @@ namespace Mathy.Core.Tasks
         public virtual NewTaskData GetNewResult()
         {
             var result = new NewTaskData();
-            result.Date = DateTime.Now.ToString($"dd/MM/yyyy");
+            result.Date = DateTime.Now.ToString("dd.MM.yyyy");
             result.Mode = TaskMode.Small;
             result.TaskModeIndex = (int)TaskMode.Small;
             result.TaskType = TaskType.Addition;
