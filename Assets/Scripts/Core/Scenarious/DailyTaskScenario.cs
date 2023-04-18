@@ -1,7 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
 using Mathy.Core.Tasks.DailyTasks;
 using Mathy.Data;
+using Mathy.Services;
 using Mathy.UI;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,10 +16,11 @@ namespace Mathy.Core.Tasks
 
         protected abstract int TotalTasks { get; }
 
-        protected DailyTaskScenario(ITaskFactory taskFactory,
-            ITaskBackgroundSevice backgroundHandler,
-            IAddressableRefsHolder addressableRefs) 
-            : base(taskFactory, backgroundHandler, addressableRefs)
+        protected DailyTaskScenario(ITaskFactory taskFactory
+            ,ITaskBackgroundSevice backgroundHandler
+            ,IAddressableRefsHolder addressableRefs
+            ,IDataService dataService) 
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService)
         {
         }
 
@@ -38,13 +41,32 @@ namespace Mathy.Core.Tasks
             InitCounter();
         }
 
-        protected override void OnTaskComplete(ITaskController controller)
+        protected override async UniTask UpdateResultAndSave(ITaskController controller)
         {
             var results = controller.GetResults();
-            results.IsModeDone = (remainingTasksCount == 0 && TasksInQueue == 0);
+            var isModeDone = (remainingTasksCount == 0 && TasksInQueue == 0);
             TaskStatus status = results.IsAnswerCorrect ? TaskStatus.Right : TaskStatus.Wrong;
             counterView.ChangeStatusByIndex(taskIndexer, status);
-            base.OnTaskComplete(controller);
+
+            results.Mode = TaskMode;
+            taskIndexer++;
+            results.TaskModeIndex = taskIndexer;
+
+            DailyModeData modeData = new DailyModeData()
+            {
+                Date = DateTime.UtcNow,
+                Mode = TaskMode,
+                IsComplete = isModeDone,
+                LastIndex = taskIndexer
+            };
+            //dataManager.SaveTaskData(result);
+            await dataService.Task.SaveTask(results);
+            await dataService.Task.UpdateDailyMode(modeData);
+
+            if (results.IsAnswerCorrect)
+            {
+                correctAnswers++;
+            }
         }
 
         protected override bool TryStartTask()
@@ -106,10 +128,11 @@ namespace Mathy.Core.Tasks
         protected override int TotalTasks => 10;
 
 
-        protected SmallScenario(ITaskFactory taskFactory,
-            ITaskBackgroundSevice backgroundHandler,
-            IAddressableRefsHolder addressableRefs)
-            : base(taskFactory, backgroundHandler, addressableRefs)
+        protected SmallScenario(ITaskFactory taskFactory
+            , ITaskBackgroundSevice backgroundHandler
+            , IAddressableRefsHolder addressableRefs
+            , IDataService dataService)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService)
         {
         }
     }
@@ -121,10 +144,11 @@ namespace Mathy.Core.Tasks
         protected override int TotalTasks => 20;
 
 
-        protected MediumScenario(ITaskFactory taskFactory,
-            ITaskBackgroundSevice backgroundHandler,
-            IAddressableRefsHolder addressableRefs)
-            : base(taskFactory, backgroundHandler, addressableRefs)
+        protected MediumScenario(ITaskFactory taskFactory
+            , ITaskBackgroundSevice backgroundHandler
+            , IAddressableRefsHolder addressableRefs
+            , IDataService dataService)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService)
         {
         }
     }
@@ -136,10 +160,11 @@ namespace Mathy.Core.Tasks
         protected override int TotalTasks => 30;
 
 
-        protected LargeScenario(ITaskFactory taskFactory,
-            ITaskBackgroundSevice backgroundHandler,
-            IAddressableRefsHolder addressableRefs)
-            : base(taskFactory, backgroundHandler, addressableRefs)
+        protected LargeScenario(ITaskFactory taskFactory
+            , ITaskBackgroundSevice backgroundHandler
+            , IAddressableRefsHolder addressableRefs
+            , IDataService dataService)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService)
         {
         }
     }

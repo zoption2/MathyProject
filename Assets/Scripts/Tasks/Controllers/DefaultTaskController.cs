@@ -1,11 +1,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Mathy.UI.Tasks;
-using Mathy.Data;
-using Mathy;
-using System.Linq;
-using Mathy.Services;
-using Zenject;
+
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
@@ -17,17 +13,13 @@ namespace Mathy.Core.Tasks.DailyTasks
         private string userAnswer;
         private string correctAnswer;
 
-        private DiContainer container;
-        private IDataService dataService;
 
         protected override bool IsAnswerCorrect { get; set; }
         protected override List<int> SelectedAnswerIndexes { get; set; }
 
-        public DefaultTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice, DiContainer container) 
+        public DefaultTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice) 
             : base(refsHolder, backgroundSevice)
         {
-            this.container = container;
-            dataService = container.Resolve<IDataService>();
         }
 
         protected override async UniTask DoOnInit()
@@ -99,9 +91,6 @@ namespace Mathy.Core.Tasks.DailyTasks
 
             IsAnswerCorrect = isAnswerCorrect;
             SelectedAnswerIndexes.Add(view.Index);
-
-            var newTask = Model.GetNewResult();
-            dataService.Task.InsertTask(newTask);
 
             CompleteTask();
         }

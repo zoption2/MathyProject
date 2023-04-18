@@ -13,7 +13,6 @@ namespace Mathy.Core.Tasks
         ScriptableTask TaskSettings { get; }
         TaskType TaskType { get;}
         TaskData GetResult();
-        NewTaskData GetNewResult();
         void Release();
     }
 
@@ -64,26 +63,13 @@ namespace Mathy.Core.Tasks
         public virtual TaskData GetResult()
         {
             var result = new TaskData();
+            result.Date = DateTime.Now;
             result.TaskType = TaskType;
             result.ElementValues = elements;
             result.OperatorValues = operators;
             result.VariantValues = variants;
             result.CorrectAnswerIndexes = correctAnswersIndexes;
-            return result;
-        }
-
-        public virtual NewTaskData GetNewResult()
-        {
-            var result = new NewTaskData();
-            result.Date = DateTime.Now.ToString("dd.MM.yyyy");
-            result.Mode = TaskMode.Small;
-            result.TaskModeIndex = (int)TaskMode.Small;
-            result.TaskType = TaskType.Addition;
-            result.TaskTypeIndex = (int)TaskType.Addition;
-            result.Answer = "1 + 4 = 5";
-            result.IsAnswerCorrect = true;
-            result.Duration = 0;
-
+            result.MaxValue = maxValue;
             return result;
         }
 

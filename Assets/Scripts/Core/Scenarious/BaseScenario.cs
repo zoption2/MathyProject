@@ -1,6 +1,8 @@
 ﻿using Cysharp.Threading.Tasks;
 using Mathy.Core.Tasks.DailyTasks;
 using Mathy.Data;
+using Mathy.Services;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +24,7 @@ namespace Mathy.Core.Tasks
         protected ITaskFactory taskFactory;
         protected ITaskBackgroundSevice backgroundService;
         protected IAddressableRefsHolder addressableRefs;
+        protected IDataService dataService;
         protected TaskManager taskManager;
         protected GameplayScenePointer scenePointer;
         protected DataManager dataManager;
@@ -34,11 +37,13 @@ namespace Mathy.Core.Tasks
 
         public BaseScenario(ITaskFactory taskFactory
             , ITaskBackgroundSevice backgroundHandler
-            , IAddressableRefsHolder addressableRefs)
+            , IAddressableRefsHolder addressableRefs
+            , IDataService dataService)
         {
             this.taskFactory = taskFactory;
             this.backgroundService = backgroundHandler;
             this.addressableRefs = addressableRefs;
+            this.dataService = dataService;
         }
 
         protected abstract UniTask DoOnStart();
@@ -78,16 +83,7 @@ namespace Mathy.Core.Tasks
         {
             controller.ON_COMPLETE -= OnTaskComplete;
             controller.ON_FORCE_EXIT -= ClickOnExitFromGameplay;
-            var result = controller.GetResults();
-            result.Mode = TaskMode;
-            taskIndexer++;
-            result.TaskModeIndex = taskIndexer;
-            dataManager.SaveTaskData(result);
-
-            if (result.IsAnswerCorrect)
-            {
-                correctAnswers++;
-            }
+            UpdateResultAndSave(controller);
 
             await UpdateTasksQueue();
 
@@ -107,6 +103,30 @@ namespace Mathy.Core.Tasks
                 }
                 GameObject.Destroy(controller.ViewParent.gameObject);
             });
+        }
+
+        protected virtual async UniTask UpdateResultAndSave(ITaskController controller)
+        {
+            var result = controller.GetResults();
+            result.Mode = TaskMode;
+            taskIndexer++;
+            result.TaskModeIndex = taskIndexer;
+
+            DailyModeData modeData = new DailyModeData()
+            {
+                Date = DateTime.UtcNow,
+                Mode = TaskMode,
+                IsComplete = false,
+                LastIndex = taskIndexer
+            };
+            //dataManager.SaveTaskData(result);
+            await dataService.Task.SaveTask(result);
+            await dataService.Task.UpdateDailyMode(modeData);
+
+            if (result.IsAnswerCorrect)
+            {
+                correctAnswers++;
+            }
         }
 
         protected virtual bool TryStartTask()

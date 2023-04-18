@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using Mathy.Core.Tasks.DailyTasks;
+using Mathy.Services;
 using UnityEngine;
 
 namespace Mathy.Core.Tasks
@@ -9,10 +10,11 @@ namespace Mathy.Core.Tasks
         private bool isFailed;
         public override TaskMode TaskMode => TaskMode.Practic;
 
-        protected PracticeScenario(ITaskFactory taskFactory,
-            ITaskBackgroundSevice backgroundHandler,
-            IAddressableRefsHolder addressableRefs)
-            : base(taskFactory, backgroundHandler, addressableRefs)
+        protected PracticeScenario(ITaskFactory taskFactory
+            , ITaskBackgroundSevice backgroundHandler
+            , IAddressableRefsHolder addressableRefs
+            , IDataService dataService)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService)
         {
         }
 

@@ -62,6 +62,7 @@ namespace Mathy.Core.Tasks
             result.ElementValues = elements;
             result.OperatorValues = operators;
             result.VariantValues = variants;
+            result.MaxValue = maxValue;
             taskData = result;
             return result;
         }
