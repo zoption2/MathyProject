@@ -39,7 +39,7 @@ public class GameSettingsManager : StaticInstance<GameSettingsManager>
         {
             gameModeMaxNumber = value;
             PlayerPrefs.SetInt(maxNumberKey, value);
-            _ = TaskManager.Instance.GenerateAllTasks();
+            //_ = TaskManager.Instance.GenerateAllTasks();
         }
     }
 

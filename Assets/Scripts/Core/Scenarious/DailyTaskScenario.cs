@@ -4,6 +4,7 @@ using Mathy.Data;
 using Mathy.Services;
 using Mathy.UI;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,13 +31,9 @@ namespace Mathy.Core.Tasks
             remainingTasksCount = TotalTasks;
             var counterParent = scenePointer.CounterParent;
             counterView = await addressableRefs.GameplayScenePopupsProvider.InstantiateFromReference<ITaskCounter>(TaskFeatures.CounterVariantOne, counterParent);
-            bool isTodayDateExists = await dataManager.IsTodayModeExist(TaskMode);
-            if (isTodayDateExists)
-            {
-                int taskIndex = await dataManager.GetLastTaskIndexOfMode(TaskMode);
-                taskIndexer = taskIndex;
-                remainingTasksCount -= taskIndexer;
-            }
+            var dailyModeData = await dataService.TaskData.GetDailyModeData(DateTime.UtcNow, TaskMode);
+            taskIndexer = dailyModeData.PlayedCount;
+            remainingTasksCount -= taskIndexer;
 
             InitCounter();
         }
@@ -44,6 +41,7 @@ namespace Mathy.Core.Tasks
         protected override async UniTask UpdateResultAndSave(ITaskController controller)
         {
             var results = controller.GetResults();
+            results.Date = DateTime.UtcNow;
             var isModeDone = (remainingTasksCount == 0 && TasksInQueue == 0);
             TaskStatus status = results.IsAnswerCorrect ? TaskStatus.Right : TaskStatus.Wrong;
             counterView.ChangeStatusByIndex(taskIndexer, status);
@@ -57,11 +55,11 @@ namespace Mathy.Core.Tasks
                 Date = DateTime.UtcNow,
                 Mode = TaskMode,
                 IsComplete = isModeDone,
-                LastIndex = taskIndexer
+                PlayedCount = taskIndexer
             };
-            //dataManager.SaveTaskData(result);
-            await dataService.Task.SaveTask(results);
-            await dataService.Task.UpdateDailyMode(modeData);
+
+            await dataService.TaskData.SaveTask(results);
+            await dataService.TaskData.UpdateDailyMode(modeData);
 
             if (results.IsAnswerCorrect)
             {
@@ -107,7 +105,8 @@ namespace Mathy.Core.Tasks
 
         protected async void InitCounter()
         {
-            List<bool> userAnswers = await DataManager.Instance.GetTodayAnswers(TaskMode);
+            var tasks = await dataService.TaskData.GetTasksByModeAndDate(TaskMode, DateTime.UtcNow);
+            var userAnswers = tasks.Select(x => x.IsAnswerCorrect).ToList();
             counterView.Init(TotalTasks, userAnswers);
 
             for (int i = 0, j = userAnswers.Count; i < j; i++)

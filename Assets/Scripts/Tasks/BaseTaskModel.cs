@@ -63,7 +63,6 @@ namespace Mathy.Core.Tasks
         public virtual TaskData GetResult()
         {
             var result = new TaskData();
-            result.Date = DateTime.Now;
             result.TaskType = TaskType;
             result.ElementValues = elements;
             result.OperatorValues = operators;

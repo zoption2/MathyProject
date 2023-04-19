@@ -125,45 +125,45 @@ namespace Mathy.Data
             }
         }
 
-        public async void SaveTaskData(TaskData data)
-        {
-            DbHandler.DataToSave = data;
-            if (await DbHandler.IsTodayModeExist(DbHandler.DataToSave.Mode))
-            {
-                if (!await DbHandler.IsTodayModeCompleted(DbHandler.DataToSave.Mode))
-                {
-                    await System.Threading.Tasks.Task.Run(() => DbHandler.UpdateData());
-                }
-            }
-            else
-            {
-                await System.Threading.Tasks.Task.Run(() => DbHandler.SaveTaskData());
-            }
-        }
+        //public async void SaveTaskData(TaskData data)
+        //{
+        //    DbHandler.DataToSave = data;
+        //    if (await DbHandler.IsTodayModeExist(DbHandler.DataToSave.Mode))
+        //    {
+        //        if (!await DbHandler.IsTodayModeCompleted(DbHandler.DataToSave.Mode))
+        //        {
+        //            await System.Threading.Tasks.Task.Run(() => DbHandler.UpdateData());
+        //        }
+        //    }
+        //    else
+        //    {
+        //        await System.Threading.Tasks.Task.Run(() => DbHandler.SaveTaskData());
+        //    }
+        //}
 
         /// <summary>
         /// Ping changes and saving data to the database  
         /// </summary>
-        public async void Save()
-        {
-            //Getting all data from all Savables
-            foreach (var savable in Savables)
-            {
-                savable.Save();
-            }
+        //public async void Save()
+        //{
+        //    //Getting all data from all Savables
+        //    foreach (var savable in Savables)
+        //    {
+        //        savable.Save();
+        //    }
 
-            if (await DbHandler.IsTodayModeExist(DbHandler.DataToSave.Mode))
-            {
-                if (!await DbHandler.IsTodayModeCompleted(DbHandler.DataToSave.Mode))
-                {
-                    await System.Threading.Tasks.Task.Run(() => DbHandler.UpdateData());
-                }
-            }
-            else
-            {
-                await System.Threading.Tasks.Task.Run(() => DbHandler.SaveTaskData());
-            }
-        }
+        //    if (await DbHandler.IsTodayModeExist(DbHandler.DataToSave.Mode))
+        //    {
+        //        if (!await DbHandler.IsTodayModeCompleted(DbHandler.DataToSave.Mode))
+        //        {
+        //            await System.Threading.Tasks.Task.Run(() => DbHandler.UpdateData());
+        //        }
+        //    }
+        //    else
+        //    {
+        //        await System.Threading.Tasks.Task.Run(() => DbHandler.SaveTaskData());
+        //    }
+        //}
 
         public async void SaveChallenge(ChallengeData data)
         {

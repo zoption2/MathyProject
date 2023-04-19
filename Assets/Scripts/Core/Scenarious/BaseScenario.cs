@@ -27,7 +27,6 @@ namespace Mathy.Core.Tasks
         protected IDataService dataService;
         protected TaskManager taskManager;
         protected GameplayScenePointer scenePointer;
-        protected DataManager dataManager;
         protected int taskIndexer = 0;
         protected int correctAnswers;
         protected List<ScriptableTask> availableTasks;
@@ -53,7 +52,6 @@ namespace Mathy.Core.Tasks
         public async virtual void StartScenario(List<ScriptableTask> availableTasks)
         {
             taskManager = TaskManager.Instance;
-            dataManager = DataManager.Instance;
             scenePointer = GameplayScenePointer.Instance;
 
             correctAnswers = 0;
@@ -83,7 +81,7 @@ namespace Mathy.Core.Tasks
         {
             controller.ON_COMPLETE -= OnTaskComplete;
             controller.ON_FORCE_EXIT -= ClickOnExitFromGameplay;
-            UpdateResultAndSave(controller);
+            await UpdateResultAndSave(controller);
 
             await UpdateTasksQueue();
 
@@ -108,6 +106,7 @@ namespace Mathy.Core.Tasks
         protected virtual async UniTask UpdateResultAndSave(ITaskController controller)
         {
             var result = controller.GetResults();
+            result.Date = DateTime.Now;
             result.Mode = TaskMode;
             taskIndexer++;
             result.TaskModeIndex = taskIndexer;
@@ -117,11 +116,11 @@ namespace Mathy.Core.Tasks
                 Date = DateTime.UtcNow,
                 Mode = TaskMode,
                 IsComplete = false,
-                LastIndex = taskIndexer
+                PlayedCount = taskIndexer
             };
-            //dataManager.SaveTaskData(result);
-            await dataService.Task.SaveTask(result);
-            await dataService.Task.UpdateDailyMode(modeData);
+
+            await dataService.TaskData.SaveTask(result);
+            await dataService.TaskData.UpdateDailyMode(modeData);
 
             if (result.IsAnswerCorrect)
             {

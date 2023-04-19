@@ -43,13 +43,9 @@ namespace Mathy.Core
 
         private async UniTask LoadAllScenesAsync()
         {
-            Debug.Log("1. Start all loadings");
             await UnloadAllScenesExcept("LoadingScreen");
-            Debug.Log("2. All scenes unloaded");
             await UniTask.WaitUntil(() => DataManager.Instance != null);
-            Debug.Log("3. DataManager ready");
             await UniTask.Delay(100);
-            Debug.Log("4. Delay 100 completed");
             AsyncOperation asyncLoadMainMenu = SceneManager.LoadSceneAsync("MainMenu", LoadSceneMode.Additive);
             await UniTask.WaitUntil(() => asyncLoadMainMenu.isDone).ContinueWith(LoadGameplayScenes);
             await UniTask.WaitUntil(() => IAPManager.Instance != null).ContinueWith(() =>

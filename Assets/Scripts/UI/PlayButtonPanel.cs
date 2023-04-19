@@ -255,11 +255,11 @@ public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
         }
     }
 
-    public void RunTask()
-    {
-        AudioSystem.Instance.FadeMusic(0, 1f, true);
-        _ = ScenesManager.Instance.CreateTasks(tasksAmount); // generate tasks
-    }
+    //public void RunTask()
+    //{
+    //    AudioSystem.Instance.FadeMusic(0, 1f, true);
+    //    _ = ScenesManager.Instance.CreateTasks(tasksAmount); // generate tasks
+    //}
 
     public async void Play()
     {

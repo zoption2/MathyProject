@@ -7,40 +7,34 @@ using System.Data;
 using System.IO;
 using Mathy.Data;
 using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
+using UnityEditor.Search;
+using ModestTree;
 
 namespace Mathy.Services
 {
     public interface IDataService
     { 
-        ITaskDataProvider Task { get; }
+        ITaskDataProvider TaskData { get; }
     }
 
 
     public class DataService : IDataService
     {
-        private const string kFileFormat = "TasksSave_{0}.db";
-        private const string kVersion = "0.0.1";
-
         private TaskDataProvider _task;
 
-        private string dataPath = Application.persistentDataPath;
-        private string saveDirectoryPath;
-        private string saveFilePath;
+        private readonly string dataPath = Application.persistentDataPath;
         private string databasePath;
 
-        public ITaskDataProvider Task => _task;
+        public ITaskDataProvider TaskData => _task;
 
 
         public DataService()
         {
-            saveDirectoryPath = dataPath + "/Saves/";
-            var currentYear = DateTime.Now.Year;
-            var fileName = string.Format(kFileFormat, currentYear);
-            saveFilePath = saveDirectoryPath + fileName;
-            databasePath = $"Data Source={saveFilePath}";
-            if (!Directory.Exists(saveDirectoryPath))
+            databasePath = dataPath + "/Saves/";
+            if (!Directory.Exists(databasePath))
             {
-                Directory.CreateDirectory(saveDirectoryPath);
+                Directory.CreateDirectory(databasePath);
             }
 
             _task = new TaskDataProvider(databasePath);
@@ -50,135 +44,135 @@ namespace Mathy.Services
 
     public interface ITaskDataProvider
     {
-        TaskData[] GetTasksByMode(TaskMode mode);
-        UniTask SaveTask(TaskData task);
+        UniTask<TaskData[]> GetTasksByModeAndDate(TaskMode mode, DateTime date);
+        UniTask<int> SaveTask(TaskData task);
         UniTask UpdateDailyMode(DailyModeData data);
+        UniTask<DailyModeData> GetDailyModeData(DateTime date, TaskMode mode);
     }
 
     public class TaskDataProvider : ITaskDataProvider
     {
-        private const string kTableName = "TasksData";
+        private const string kFileFormat = "tasks_results_save_{0}.db";
 
-        private string databasePath;
+        private string _databasePath;
+        private string _directoryPath;
+        private int _currentYear;
         private static IDbConnection _dbConnection;
 
 
-        public TaskDataProvider(string databasePath)
+        public TaskDataProvider(string directoryPath)
         {
-            this.databasePath = databasePath;
-            TryCreateTasksTable();
-            //TryCreateDailyModeTable();
+            _directoryPath = directoryPath;
+            _currentYear = DateTime.UtcNow.Year;
+            var fileName = string.Format(kFileFormat, _currentYear);
+            var saveFilePath = directoryPath + fileName;
+            _databasePath = $"Data Source={saveFilePath}";
+            TryCreateTables();
         }
 
-        public TaskData[] GetTasksByMode(TaskMode mode)
+        public async UniTask<TaskData[]> GetTasksByModeAndDate(TaskMode mode, DateTime date)
         {
-            try
+            var databasePath = GetPathToDatabase(date);
+            if(databasePath.IsEmpty())
             {
-                using (_dbConnection = new SqliteConnection(databasePath))
-                {
-                    var query = TaskDataUtils.SelectByModeQuery;
-                    return _dbConnection.Query<TaskData>(query, mode).ToArray();
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogErrorFormat("{0} error: " + e.ToString(), nameof(GetTasksByMode));
-                return default;
+                return new TaskData[0];
             }
 
+            using (_dbConnection = new SqliteConnection(databasePath))
+            {
+                var requestData = new TaskData()
+                {
+                    Date = date,
+                    Mode = mode
+                };
+                var requestModel = requestData.ToTaskTableData();
+                var tableModels = await _dbConnection.QueryAsync<TaskDataTableModel>(TaskDataUtils.SelectTaskByModeAndDateQuery, requestModel);
+                var result = tableModels.Select(x => x.ToTaskData()).ToArray();
+                return result;
+            }
         }
 
-        public async UniTask SaveTask(TaskData task)
+        public async UniTask<int> SaveTask(TaskData task)
         {
-            try
+            using (_dbConnection = new SqliteConnection(_databasePath))
             {
-                using (_dbConnection = new SqliteConnection(databasePath))
-                {
-                    var dataModel = task.ToTaskTableData();
-                    var query = TaskDataUtils.InsertQuery;
-                    var id = await _dbConnection.QueryAsync<int>(query, dataModel);
-                }
+                var dataModel = task.ToTaskTableData();
+                var query = TaskDataUtils.InsertTaskQuery;
+                var id = await _dbConnection.QueryFirstOrDefaultAsync<int>(query, dataModel);
+                return id;
             }
-            catch (Exception e)
-            {
-                Debug.LogErrorFormat("{0} error: " + e.ToString(), nameof(SaveTask));
-            }
-
         }
 
         public async UniTask UpdateDailyMode(DailyModeData data)
         {
-            try
+            using (_dbConnection = new SqliteConnection(_databasePath))
             {
-                using (_dbConnection = new SqliteConnection(databasePath))
-                {
-                    var dataModel = data.ToDailyModeTableData();
-                    var exists = _dbConnection.ExecuteScalar<int>(TaskDataUtils.SelectDailyQuery, dataModel);
-                    var query = exists > 0 ? TaskDataUtils.UpdateDailyQuery : TaskDataUtils.InsertQuery;
-                    await _dbConnection.ExecuteAsync(query, dataModel);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogErrorFormat("{0} error: " + e.ToString(), nameof(UpdateDailyMode));
+                var dataModel = data.ToDailyModeTableData();
+                var exists = await _dbConnection.QueryFirstOrDefaultAsync<DailyModeTableModel>(TaskDataUtils.SelectDailyQuery, dataModel);
+                var query = exists != null ? TaskDataUtils.UpdateDailyQuery : TaskDataUtils.InsertDailyQuery;
+                await _dbConnection.ExecuteAsync(query, dataModel);
             }
         }
 
-        private void TryCreateTasksTable()
+        public async UniTask<DailyModeData> GetDailyModeData(DateTime date, TaskMode mode)
         {
-            try
+            var requestData = new DailyModeData() { Date = date, Mode = mode };
+
+            var databasePath = GetPathToDatabase(date);
+            if (databasePath.IsEmpty())
             {
-                using (_dbConnection = new SqliteConnection(databasePath))
-                {
-                    _dbConnection.Open();
-                    var transaction = _dbConnection.BeginTransaction();
-                    _dbConnection.Execute(TaskDataUtils.CreateTasksDataTableQuery, transaction);
-                    _dbConnection.Execute(TaskDataUtils.CreateDailyModeTableQuery, transaction);
-                    transaction.Commit();
-                }
+                return requestData;
             }
-            catch (Exception e)
+
+            using (_dbConnection = new SqliteConnection(_databasePath))
             {
-                Debug.LogErrorFormat("{0} error: " + e.ToString(), nameof(TryCreateTasksTable));
+                
+                var requestModel = requestData.ToDailyModeTableData();
+                var model = await _dbConnection.QueryFirstOrDefaultAsync<DailyModeTableModel>
+                    (TaskDataUtils.SelectDailyQuery, requestModel);
+                if (model == null)
+                {
+                    await _dbConnection.ExecuteAsync(TaskDataUtils.InsertDailyQuery, requestModel);
+                    return requestData;
+                }
+                var result = model.ToDailyModeData();
+                return result;
             }
         }
 
-        private void TryCreateDailyModeTable()
+        private void TryCreateTables()
         {
-            try
+            using (_dbConnection = new SqliteConnection(_databasePath))
             {
-                using (_dbConnection = new SqliteConnection(databasePath))
-                {
-                    _dbConnection.Execute(TaskDataUtils.CreateDailyModeTableQuery);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogErrorFormat("{0} error: " + e.ToString(), nameof(TryCreateTasksTable));
+                _dbConnection.Open();
+                var transaction = _dbConnection.BeginTransaction();
+                _dbConnection.Execute(TaskDataUtils.CreateTasksDataTableQuery, transaction);
+                _dbConnection.Execute(TaskDataUtils.CreateDailyModeTableQuery, transaction);
+                transaction.Commit();
             }
         }
-    }
 
-
-    [Serializable]
-    public class DailyModeData
-    {
-        public int Id { get; set; }
-        public DateTime Date { get; set; }
-        public TaskMode Mode { get; set; }
-        public bool IsComplete { get; set; }
-        public int LastIndex { get; set; }
-    }
-
-    [Serializable]
-    public class DailyModeTableModel
-    {
-        public int Id { get; set; }
-        public string Date { get; set; }
-        public string Mode { get; set; }
-        public int ModeIndex { get; set; }
-        public bool IsComplete { get; set; }
-        public int LastIndex { get; set; }
+        private string GetPathToDatabase(DateTime date)
+        {
+            if (date.Year == _currentYear)
+            {
+                return _databasePath;
+            }
+            else
+            {
+                var fileName = string.Format(kFileFormat, date.Year);
+                var saveFilePath = _directoryPath + fileName;
+                if (File.Exists(saveFilePath))
+                {
+                    var selectedDatabasePath = $"Data Source={fileName}";
+                    return selectedDatabasePath;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
     }
 }
 
