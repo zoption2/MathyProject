@@ -136,7 +136,6 @@ namespace Mathy.Core.Tasks
             currenTaskData.SelectedAnswerIndexes = selectedVariantIndexes;
             currenTaskData.CorrectAnswerIndexes = corectVariantIndexes;
             currenTaskData.IsAnswerCorrect = isCorrect;
-            currenTaskData.Seed = activeTask.Seed;
             currenTaskData.TaskType = taskType;
             currenTaskData.ElementValues = elements.ConvertAll<string>(x => x.Value.ToString());
             currenTaskData.VariantValues = variants.ConvertAll<string>(x => x.Value.ToString());

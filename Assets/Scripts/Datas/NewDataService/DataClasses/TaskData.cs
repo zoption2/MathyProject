@@ -6,8 +6,6 @@ namespace Mathy.Data
     [Serializable]
     public class TaskResultData
     {
-        //Task seed
-        public int Seed { get; set; }
         public int ID { get; set; }
         public DateTime Date { get; set; }
         public TaskMode Mode { get; set; }

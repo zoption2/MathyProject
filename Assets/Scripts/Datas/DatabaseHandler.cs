@@ -726,13 +726,12 @@ namespace Mathy.Data
                     {
                         case TaskType.Addition:
                             {
-                                string query = "INSERT INTO Addition (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                string query = "INSERT INTO Addition (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
                                     "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
                   
                                 SqliteCommand AdditionCommand = new SqliteCommand(query, connection);
                                 AdditionCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                AdditionCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 AdditionCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
                                 AdditionCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 AdditionCommand.Parameters.AddWithValue("@mode", modeId);
@@ -750,13 +749,12 @@ namespace Mathy.Data
                             }
                         case TaskType.Subtraction:
                             {
-                                string query = "INSERT INTO Subtraction (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                string query = "INSERT INTO Subtraction (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
                                     "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
                                 SqliteCommand AddSubCommand = new SqliteCommand(query, connection);
                                 AddSubCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                AddSubCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 AddSubCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
                                 AddSubCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 AddSubCommand.Parameters.AddWithValue("@mode", modeId);
@@ -775,13 +773,12 @@ namespace Mathy.Data
 
                         case TaskType.AddSubMissingNumber:
                             {
-                                string AddSubMissingQuery = "INSERT INTO AddSubMissingNumber (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                string AddSubMissingQuery = "INSERT INTO AddSubMissingNumber (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
                                     "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
                                 SqliteCommand AddSubMissingCommand = new SqliteCommand(AddSubMissingQuery, connection);
                                 AddSubMissingCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                AddSubMissingCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 AddSubMissingCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
                                 AddSubMissingCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 AddSubMissingCommand.Parameters.AddWithValue("@mode", modeId);
@@ -798,13 +795,12 @@ namespace Mathy.Data
                             }
                         case TaskType.Comparison:
                             {
-                                string ComparisonQuery = "INSERT INTO Comparison (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                string ComparisonQuery = "INSERT INTO Comparison (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
                                     "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
                                 SqliteCommand ComparisonCommand = new SqliteCommand(ComparisonQuery, connection);
                                 ComparisonCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                ComparisonCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 ComparisonCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
                                 ComparisonCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 ComparisonCommand.Parameters.AddWithValue("@mode", modeId);
@@ -821,13 +817,12 @@ namespace Mathy.Data
                             }
                         case TaskType.ComparisonExpressions:
                             {
-                                string ExpressionsComparisonQuery = "INSERT INTO ExpressionsComparison (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                string ExpressionsComparisonQuery = "INSERT INTO ExpressionsComparison (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
                                     "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
                                 SqliteCommand ExpressionsComparisonCommand = new SqliteCommand(ExpressionsComparisonQuery, connection);
                                 ExpressionsComparisonCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                ExpressionsComparisonCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 ExpressionsComparisonCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
                                 ExpressionsComparisonCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 ExpressionsComparisonCommand.Parameters.AddWithValue("@mode", modeId);
@@ -844,13 +839,12 @@ namespace Mathy.Data
                             }
                         case TaskType.ComparisonWithMissingNumber:
                             {
-                                string ComparisonMissingNumQuery = "INSERT INTO ComparisonWithMissingNumber (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                string ComparisonMissingNumQuery = "INSERT INTO ComparisonWithMissingNumber (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
                                     "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
                                 SqliteCommand ComparisonMissingNumCommand = new SqliteCommand(ComparisonMissingNumQuery, connection);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@mode", modeId);
@@ -867,13 +861,12 @@ namespace Mathy.Data
                             }
                         case TaskType.ComparisonMissingElements:
                             {
-                                string ComparisonMissingNumQuery = "INSERT INTO ComparisonMissingElements (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                string ComparisonMissingNumQuery = "INSERT INTO ComparisonMissingElements (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
                                 "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+                                "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
                                 SqliteCommand ComparisonMissingNumCommand = new SqliteCommand(ComparisonMissingNumQuery, connection);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@mode", modeId);
@@ -891,13 +884,12 @@ namespace Mathy.Data
                             }
                         case TaskType.MissingExpression:
                             {
-                                string MissingExpQuery = "INSERT INTO MissingExpression (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                string MissingExpQuery = "INSERT INTO MissingExpression (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
                                     "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
                                 SqliteCommand MissingExpCommand = new SqliteCommand(MissingExpQuery, connection);
                                 MissingExpCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                MissingExpCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 MissingExpCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
                                 MissingExpCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 MissingExpCommand.Parameters.AddWithValue("@mode", modeId);
@@ -914,13 +906,12 @@ namespace Mathy.Data
                             }
                         case TaskType.MissingNumber:
                             {
-                                string ComparisonMissingNumQuery = "INSERT INTO MissingNumber (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                string ComparisonMissingNumQuery = "INSERT INTO MissingNumber (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
                                     "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
                                 SqliteCommand ComparisonMissingNumCommand = new SqliteCommand(ComparisonMissingNumQuery, connection);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 ComparisonMissingNumCommand.Parameters.AddWithValue("@mode", modeId);
@@ -937,13 +928,12 @@ namespace Mathy.Data
                             }
                         case TaskType.IsThatTrue:
                             {
-                                string IsThatTrueQuery = "INSERT INTO IsThatTrue (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                string IsThatTrueQuery = "INSERT INTO IsThatTrue (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
                                     "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
                                 SqliteCommand IsThatTrueCommand = new SqliteCommand(IsThatTrueQuery, connection);
                                 IsThatTrueCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                IsThatTrueCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 IsThatTrueCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
                                 IsThatTrueCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 IsThatTrueCommand.Parameters.AddWithValue("@mode", modeId);
@@ -960,13 +950,12 @@ namespace Mathy.Data
                             }
                         case TaskType.MissingSign:
                             {
-                                string MissingSignQuery = "INSERT INTO MissingSign (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                string MissingSignQuery = "INSERT INTO MissingSign (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
                                     "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
                                 SqliteCommand MissingSignCommand = new SqliteCommand(MissingSignQuery, connection);
                                 MissingSignCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                MissingSignCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 MissingSignCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
                                 MissingSignCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 MissingSignCommand.Parameters.AddWithValue("@mode", modeId);
@@ -983,13 +972,12 @@ namespace Mathy.Data
                             }
                         case TaskType.SumOfNumbers:
                             {
-                                string SumOfNumbersQuery = "INSERT INTO SumOfNumbers (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                string SumOfNumbersQuery = "INSERT INTO SumOfNumbers (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
                                     "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnswers, @correctAnswers, @isUserCorrect, @maxNumb);";
+                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnswers, @correctAnswers, @isUserCorrect, @maxNumb);";
 
                                 SqliteCommand SumOfNumbersCommand = new SqliteCommand(SumOfNumbersQuery, connection);
                                 SumOfNumbersCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                SumOfNumbersCommand.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 SumOfNumbersCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
                                 SumOfNumbersCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 SumOfNumbersCommand.Parameters.AddWithValue("@mode", modeId);
@@ -1006,13 +994,12 @@ namespace Mathy.Data
                             }
                         case TaskType.CountTo10Images:
                             {
-                                string query = "INSERT INTO CountTo10Images (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                string query = "INSERT INTO CountTo10Images (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
                                     "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
                                 SqliteCommand command = new SqliteCommand(query, connection);
                                 command.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                command.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 command.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
                                 command.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 command.Parameters.AddWithValue("@mode", modeId);
@@ -1029,13 +1016,12 @@ namespace Mathy.Data
                             }
                         case TaskType.SelectFromThreeCount:
                             {
-                                string query = "INSERT INTO SelectFromThreeCount (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                string query = "INSERT INTO SelectFromThreeCount (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
                                     "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
                                 SqliteCommand command = new SqliteCommand(query, connection);
                                 command.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                command.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 command.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
                                 command.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 command.Parameters.AddWithValue("@mode", modeId);
@@ -1053,13 +1039,12 @@ namespace Mathy.Data
 
                         case TaskType.CountTo10Frames:
                             {
-                                string query = "INSERT INTO CountTo10Frames (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                string query = "INSERT INTO CountTo10Frames (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
                                     "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
                                     "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
                                 SqliteCommand command = new SqliteCommand(query, connection);
                                 command.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                command.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 command.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
                                 command.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 command.Parameters.AddWithValue("@mode", modeId);
@@ -1076,13 +1061,12 @@ namespace Mathy.Data
                             }
                         case TaskType.CountTo20Frames:
                             {
-                                string query = "INSERT INTO CountTo20Frames (Id, Seed, TaskTypes, Duration, Mode, Elements, Operators, " +
+                                string query = "INSERT INTO CountTo20Frames (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
                                     "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
                                 SqliteCommand command = new SqliteCommand(query, connection);
                                 command.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                command.Parameters.AddWithValue("@seed", DataToSave.Seed);
                                 command.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
                                 command.Parameters.AddWithValue("@duration", DataToSave.Duration);
                                 command.Parameters.AddWithValue("@mode", modeId);
@@ -1338,12 +1322,11 @@ namespace Mathy.Data
                     {
                         case TaskType.ImageOpening:
                             {
-                                string OpenImageQuery = "INSERT INTO OpenImage (Id, Seed, ChallengeTypes, Mode, Duration, MaxNumber, CorrectRate)" +
-                                "VALUES( @id, @seed, @challengeType, @mode, @duration, @maxNumb, @correctRate );";
+                                string OpenImageQuery = "INSERT INTO OpenImage (Id, ChallengeTypes, Mode, Duration, MaxNumber, CorrectRate)" +
+                                "VALUES( @id, @challengeType, @mode, @duration, @maxNumb, @correctRate );";
 
                                 SqliteCommand OpenImageCommand = new SqliteCommand(OpenImageQuery, connection);
                                 OpenImageCommand.Parameters.AddWithValue("@id", await GetChallengeUniqueID());
-                                OpenImageCommand.Parameters.AddWithValue("@seed", challengeData.Seed);
                                 OpenImageCommand.Parameters.AddWithValue("@challengeType", (int)challengeData.TaskType);
                                 OpenImageCommand.Parameters.AddWithValue("@mode", modeId);
                                 OpenImageCommand.Parameters.AddWithValue("@duration", challengeData.Duration.TotalMilliseconds);
@@ -1357,12 +1340,11 @@ namespace Mathy.Data
                             }
                         case TaskType.PairsNumbers:
                             {
-                                string PairsNumbersQuery = "INSERT INTO PairsNumbers (Id, Seed, ChallengeTypes, Mode, Duration, MaxNumber, CorrectRate)" +
-                                "VALUES( @id, @seed, @challengeType, @mode, @duration, @maxNumb, @correctRate );";
+                                string PairsNumbersQuery = "INSERT INTO PairsNumbers (Id, ChallengeTypes, Mode, Duration, MaxNumber, CorrectRate)" +
+                                "VALUES( @id, @challengeType, @mode, @duration, @maxNumb, @correctRate );";
 
                                 SqliteCommand PairsNumbersCommand = new SqliteCommand(PairsNumbersQuery, connection);
                                 PairsNumbersCommand.Parameters.AddWithValue("@id", await GetChallengeUniqueID());
-                                PairsNumbersCommand.Parameters.AddWithValue("@seed", challengeData.Seed);
                                 PairsNumbersCommand.Parameters.AddWithValue("@challengeType", (int)challengeData.TaskType);
                                 PairsNumbersCommand.Parameters.AddWithValue("@mode", modeId);
                                 PairsNumbersCommand.Parameters.AddWithValue("@duration", challengeData.Duration.TotalMilliseconds);
