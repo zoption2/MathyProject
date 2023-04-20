@@ -34,7 +34,7 @@ namespace Mathy.Data
         private string databasePath;
         private string saveDirectoryPath;
         private string saveFilePath;
-        public TaskData? DataToSave { get; set; }
+        public TaskResultData? DataToSave { get; set; }
 
         private Dictionary<TaskType, string> taskTypeTables = new Dictionary<TaskType, string>
         {

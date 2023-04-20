@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Mathy.Data
 {
     [Serializable]
-    public class TaskData
+    public class TaskResultData
     {
         //Task seed
         public int Seed { get; set; }

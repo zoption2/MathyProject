@@ -12,7 +12,7 @@ namespace Mathy.Core.Tasks
         string DescriptionKey { get;}
         ScriptableTask TaskSettings { get; }
         TaskType TaskType { get;}
-        TaskData GetResult();
+        TaskResultData GetResult();
         void Release();
     }
 
@@ -60,9 +60,9 @@ namespace Mathy.Core.Tasks
             random = new Random();
         }
 
-        public virtual TaskData GetResult()
+        public virtual TaskResultData GetResult()
         {
-            var result = new TaskData();
+            var result = new TaskResultData();
             result.TaskType = TaskType;
             result.ElementValues = elements;
             result.OperatorValues = operators;

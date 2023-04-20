@@ -9,7 +9,7 @@ namespace Mathy.Core.Tasks
         List<ExpressionElement> Expression { get; }
         List<string> Variants { get; }
         List<string> CorrectVariants { get; }
-        bool TryUpdateModelBasedOnPlayerChoice(string inputedValue, int inputedIndex, out TaskData taskData);
+        bool TryUpdateModelBasedOnPlayerChoice(string inputedValue, int inputedIndex, out TaskResultData taskData);
         int GetWrongIndex();
         void SetAllIndexesCorrect();
     }
@@ -20,7 +20,7 @@ namespace Mathy.Core.Tasks
         private List<string> correctVariants;
         private ArithmeticSigns selectedSign;
         private List<int> integerVariants;
-        private TaskData taskData;
+        private TaskResultData taskData;
         private string dublicatedValue;
         private int dublicatedIndex;
 
@@ -55,9 +55,9 @@ namespace Mathy.Core.Tasks
             GetExpressionValues(expression, out elements, out operators);
         }
 
-        public override TaskData GetResult()
+        public override TaskResultData GetResult()
         {
-            var result = new TaskData();
+            var result = new TaskResultData();
             result.TaskType = TaskType;
             result.ElementValues = elements;
             result.OperatorValues = operators;
@@ -67,7 +67,7 @@ namespace Mathy.Core.Tasks
             return result;
         }
 
-        public bool TryUpdateModelBasedOnPlayerChoice(string inputedValue, int inputedIndex, out TaskData data)
+        public bool TryUpdateModelBasedOnPlayerChoice(string inputedValue, int inputedIndex, out TaskResultData data)
         {
             var inputedValueIndex = -1;
             var intValue = int.Parse(inputedValue);

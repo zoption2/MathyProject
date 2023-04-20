@@ -4,13 +4,14 @@ using Mathy.Services;
 using System;
 using System.Globalization;
 using System.Linq;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 public static class DatabaseExtensions
 {
     private const string kDataFormat = "yyyy-MM-dd";
 
-    public static TaskDataTableModel ToTaskTableData(this TaskData data)
+    public static TaskDataTableModel ConvertToModel(this TaskResultData data)
     {
         var result = new TaskDataTableModel();
         result.ID = data.ID;
@@ -31,19 +32,9 @@ public static class DatabaseExtensions
         return result;
     }
 
-    //result.ElementValues = data.ElementValues != null 
-    //        ? string.Join(",", data.ElementValues)
-    //        : string.Empty;
-    //    result.OperatorValues = data.OperatorValues != null
-    //        ? string.Join(",", data.OperatorValues)
-    //        : string.Empty;
-    //    result.VariantValues = data.VariantValues != null
-    //        ? string.Join(",", data.VariantValues)
-    //        : string.Empty;
-
-    public static TaskData ToTaskData(this TaskDataTableModel model)
+    public static TaskResultData ConvertToData(this TaskDataTableModel model)
     {
-        var result = new TaskData();
+        var result = new TaskResultData();
         result.ID = model.ID;
         result.Date = DateTime.ParseExact(model.Date, kDataFormat, CultureInfo.InvariantCulture);
         result.Mode = Enum.Parse<TaskMode>(model.Mode);
@@ -61,7 +52,7 @@ public static class DatabaseExtensions
     }
 
 
-    public static DailyModeTableModel ToDailyModeTableData(this DailyModeData data)
+    public static DailyModeTableModel ConvertToModel(this DailyModeData data)
     {
         var result = new DailyModeTableModel();
         result.Id = data.Id;
@@ -74,7 +65,7 @@ public static class DatabaseExtensions
         return result;
     }
 
-    public static DailyModeData ToDailyModeData(this DailyModeTableModel model)
+    public static DailyModeData ConvertToData(this DailyModeTableModel model)
     {
         var result = new DailyModeData();
         result.Id = model.Id;
@@ -82,6 +73,38 @@ public static class DatabaseExtensions
         result.Mode = Enum.Parse<TaskMode>(model.Mode);
         result.IsComplete = model.IsComplete;
         result.PlayedCount = model.PlayedTasks;
+
+        return result;
+    }
+
+    public static GeneralResultsTableModel ConvertToModel(this GeneralResultsData data)
+    {
+        var result = new GeneralResultsTableModel();
+        result.TotalTasksPlayed = data.TotalTasksPlayed;
+        result.TotalCorrectAnswers = data.TotalCorrectAnswers;
+        result.TotalPlayedTime = data.TotalPlayedTime;
+        result.EachTaskPlayedJson = JsonConvert.SerializeObject(data.EachTaskPlayed);
+        result.TaskMiddleRatingJson = JsonConvert.SerializeObject(data.TaskMiddleRating);
+        result.EachModePlayedJson = JsonConvert.SerializeObject(data.EachModePlayed);
+        result.ModeMiddleRatingJson = JsonConvert.SerializeObject(data.ModeMiddleRating);
+        result.ModeCompletedJson = JsonConvert.SerializeObject(data.ModeCompleted);
+        result.SkillTypeMiddleRatingJson = JsonConvert.SerializeObject(data.SkillTypeMiddleRating);
+
+        return result;
+    }
+
+    public static GeneralResultsData ConvertToData(this GeneralResultsTableModel model)
+    {
+        var result = new GeneralResultsData();
+        result.TotalTasksPlayed = model.TotalTasksPlayed;
+        result.TotalCorrectAnswers = model.TotalCorrectAnswers;
+        result.TotalPlayedTime = model.TotalPlayedTime;
+        result.EachTaskPlayed = JsonConvert.DeserializeObject<Dictionary<TaskType, int>>(model.EachTaskPlayedJson);
+        result.TaskMiddleRating = JsonConvert.DeserializeObject<Dictionary<TaskType, int>>(model.TaskMiddleRatingJson);
+        result.EachModePlayed = JsonConvert.DeserializeObject<Dictionary<TaskMode, int>>(model.EachModePlayedJson);
+        result.ModeMiddleRating = JsonConvert.DeserializeObject<Dictionary<TaskMode, int>>(model.ModeMiddleRatingJson);
+        result.ModeCompleted = JsonConvert.DeserializeObject<Dictionary<TaskMode, int>>(model.ModeCompletedJson);
+        result.SkillTypeMiddleRating = JsonConvert.DeserializeObject<Dictionary<SkillType, int>>(model.SkillTypeMiddleRatingJson);
 
         return result;
     }

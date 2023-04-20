@@ -17,7 +17,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         public UniTask Init(IModel model, IView view);
         void Prepare();
         void StartTask();
-        TaskData GetResults();
+        TaskResultData GetResults();
         void HideAndRelease(Action callback);
         void ReleaseImmediate();
     }
@@ -30,7 +30,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         protected ITaskBackgroundSevice backgroundSevice;
         protected IAddressableRefsHolder refsHolder;
         protected Random random;
-        protected TaskData taskData;
+        protected TaskResultData taskData;
         private DateTime timer;
         private double totalPlayingTime;
 
@@ -98,7 +98,7 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         protected abstract UniTask DoOnInit();
 
-        public TaskData GetResults()
+        public TaskResultData GetResults()
         {
             taskData.Duration = totalPlayingTime;
             taskData.IsAnswerCorrect = IsAnswerCorrect;

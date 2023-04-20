@@ -73,7 +73,7 @@ namespace Mathy.Core.Tasks
 
 
         private ChallengeData currenChallengeData { get; set; } = new ChallengeData();
-        private TaskData currenTaskData { get; set; } = new TaskData();
+        private TaskResultData currenTaskData { get; set; } = new TaskResultData();
         public bool IsTasksGenerated { get; private set; } = false;
 
         private int currentTaskIndex = 0;
