@@ -146,7 +146,7 @@ namespace Mathy.Core.Tasks
             }
 
             bool isDone = TasksAmount == currentTaskIndex && currenTaskData.Mode != TaskMode.Practic;
-            currenTaskData.IsModeDone = isDone;
+            //currenTaskData.IsModeDone = isDone;
             //DataManager.Instance.Save();
         }
 

@@ -1254,14 +1254,13 @@ namespace Mathy.Data
                 {
                     connection.Open();
 
-                    string TaskModeQuery = "INSERT INTO TaskMode (Name, ModeCode, Date, IsModeDone, LastTaskModeIndex) " +
-                        "VALUES(@name, @mode, @date, @isDone, @lastIndex);";
+                    string TaskModeQuery = "INSERT INTO TaskMode (Name, ModeCode, Date, LastTaskModeIndex) " +
+                        "VALUES(@name, @mode, @date, @lastIndex);";
 
                     SqliteCommand TaskModeCommand = new SqliteCommand(TaskModeQuery, connection);
                     TaskModeCommand.Parameters.AddWithValue("@name", DataToSave.Mode.ToString());
                     TaskModeCommand.Parameters.AddWithValue("@mode", (int)DataToSave.Mode);
                     TaskModeCommand.Parameters.AddWithValue("@date", DateTime.UtcNow.ToString("yyyy-MM-dd"));
-                    TaskModeCommand.Parameters.AddWithValue("@isDone", DataToSave.IsModeDone);
                     TaskModeCommand.Parameters.AddWithValue("@lastIndex", DataToSave.TaskModeIndex);
                     await TaskModeCommand.ExecuteNonQueryAsync();
 
@@ -1374,11 +1373,10 @@ namespace Mathy.Data
                 {
                     connection.Open();
 
-                    string UpdateModeQuery = "UPDATE TaskMode SET IsModeDone = @isDone, LastTaskModeIndex = @lastIndex " +
+                    string UpdateModeQuery = "UPDATE TaskMode SET LastTaskModeIndex = @lastIndex " +
                     "WHERE strftime('%Y-%m-%d',Date) = @date AND ModeCode = @mode";
 
                     SqliteCommand UpdateModeCommand = new SqliteCommand(UpdateModeQuery, connection);
-                    UpdateModeCommand.Parameters.AddWithValue("@isDone", Convert.ToInt32(DataToSave.IsModeDone));
                     UpdateModeCommand.Parameters.AddWithValue("@date", DateTime.UtcNow.ToString("yyyy-MM-dd"));
                     UpdateModeCommand.Parameters.AddWithValue("@mode", (int)DataToSave.Mode);
                     UpdateModeCommand.Parameters.AddWithValue("@lastIndex", DataToSave.TaskModeIndex);

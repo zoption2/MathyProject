@@ -17,7 +17,6 @@ namespace Mathy.Data
         public List<int> SelectedAnswerIndexes { get; set; } = new();
         public List<int> CorrectAnswerIndexes { get; set; } = new();
         public bool IsAnswerCorrect { get; set; }
-        public bool IsModeDone { get; set; } = false;
         public double Duration {get; set; }
         public int MaxValue { get; set; }
     }
