@@ -8,7 +8,13 @@ using Cysharp.Threading.Tasks;
 
 namespace Mathy.Services
 {
-    public class TaskResultsProvider
+    public interface ITaskResultsProvider : IDataProvider
+    {
+        UniTask<TaskResultData[]> GetTasksByModeAndDate(TaskMode mode, DateTime date, IDbConnection connection);
+        UniTask<int> SaveTask(TaskResultData task, IDbConnection connection);
+    }
+
+    public class TaskResultsProvider : ITaskResultsProvider
     {
         public async UniTask<TaskResultData[]> GetTasksByModeAndDate(TaskMode mode, DateTime date, IDbConnection connection)
         {

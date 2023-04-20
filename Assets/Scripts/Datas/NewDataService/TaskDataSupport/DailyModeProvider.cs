@@ -6,7 +6,14 @@ using Cysharp.Threading.Tasks;
 
 namespace Mathy.Services
 {
-    public class DailyModeProvider
+    public interface IDailyModeProvider : IDataProvider
+    {
+        UniTask UpdateDailyMode(DailyModeData data, IDbConnection connection);
+        UniTask<DailyModeData> GetDailyModeData(DateTime date, TaskMode mode, IDbConnection connection);
+    }
+
+
+    public class DailyModeProvider : IDailyModeProvider
     {
         public async UniTask UpdateDailyMode(DailyModeData data, IDbConnection connection)
         {

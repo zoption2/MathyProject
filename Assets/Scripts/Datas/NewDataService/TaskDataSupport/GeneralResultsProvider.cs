@@ -5,7 +5,14 @@ using Cysharp.Threading.Tasks;
 
 namespace Mathy.Services
 {
-    public class GeneralResultsProvider
+    public interface IGeneralResultsProvider : IDataProvider
+    {
+        UniTask<GeneralResultsData> GetDataAsync(IDbConnection connection);
+        UniTask SaveAsync(GeneralResultsData data, IDbConnection connection);
+    }
+
+
+    public class GeneralResultsProvider : IGeneralResultsProvider
     {
         public async UniTask<GeneralResultsData> GetDataAsync(IDbConnection connection)
         {
