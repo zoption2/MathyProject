@@ -4,7 +4,7 @@ using System.Data;
 using Cysharp.Threading.Tasks;
 
 
-namespace Mathy.Services
+namespace Mathy.Services.Data
 {
     public interface IDailyModeProvider : IDataProvider
     {

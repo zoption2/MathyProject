@@ -1,9 +1,10 @@
 ﻿using Dapper;
 using System.Data;
 using Cysharp.Threading.Tasks;
+using Mathy.Data;
 
 
-namespace Mathy.Services
+namespace Mathy.Services.Data
 {
     public interface IGeneralResultsProvider : IDataProvider
     {

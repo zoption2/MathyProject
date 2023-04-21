@@ -1,6 +1,4 @@
-﻿using Mathy.Data;
-
-namespace Mathy.Services
+﻿namespace Mathy.Services.Data
 {
     public static class TaskResultsTableRequests
     {

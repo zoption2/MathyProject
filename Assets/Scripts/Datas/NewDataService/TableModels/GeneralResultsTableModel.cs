@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mathy.Services
+namespace Mathy.Services.Data
 {
     [Serializable]
     public class GeneralResultsTableModel

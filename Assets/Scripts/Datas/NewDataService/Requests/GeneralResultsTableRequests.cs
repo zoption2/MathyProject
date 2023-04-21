@@ -1,4 +1,4 @@
-﻿namespace Mathy.Services
+﻿namespace Mathy.Services.Data
 {
     public static class GeneralResultsTableRequests
     {

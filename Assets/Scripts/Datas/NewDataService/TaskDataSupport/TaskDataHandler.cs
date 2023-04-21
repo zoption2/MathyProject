@@ -7,10 +7,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 
-namespace Mathy.Services
+
+namespace Mathy.Services.Data
 {
     public interface ITaskDataHandler
     {
+        IReadonlyGeneralResultsData GeneralData { get; }
         UniTask<TaskResultData[]> GetTasksByModeAndDate(TaskMode mode, DateTime date);
         UniTask<List<string>> GetTaskResultsFormatted(TaskMode mode, DateTime date);
         UniTask SaveTask(TaskResultData task);
@@ -19,7 +21,7 @@ namespace Mathy.Services
     }
 
 
-    public class TaskDataHandler : ITaskDataHandler
+    public class TaskDataHandler : BaseDataHandler, ITaskDataHandler
     {
         private readonly ITaskResultsProvider _taskProvider;
         private readonly IGeneralResultsProvider _generalProvider;
@@ -27,7 +29,7 @@ namespace Mathy.Services
         private readonly ITaskResultFormatProcessor _resultFormatProcessor;
 
         private const string kFileFormat = "tasks_results_save_{0}.db";
-        private const string kGeneralFileName = "general_results_save.db";
+        private const string kGeneralFileName = "general_account_save.db";
 
         private string _taskDBFilePath;
         private string _generalDBFilePath;
@@ -36,6 +38,8 @@ namespace Mathy.Services
         private GeneralResultsData _generalData;
         private static IDbConnection _taskDBConnection;
         private static IDbConnection _generalDBConnection;
+
+        public IReadonlyGeneralResultsData GeneralData => _generalData;
 
         public TaskDataHandler(string directoryPath)
         {
@@ -54,11 +58,6 @@ namespace Mathy.Services
             _resultFormatProcessor = new TaskResultFormatProcessor();
         }
 
-        public async UniTask Init()
-        {
-            await TryCreateTables();
-            await InitProviders();
-        }
 
         public async UniTask<TaskResultData[]> GetTasksByModeAndDate(TaskMode mode, DateTime date)
         {
@@ -110,31 +109,30 @@ namespace Mathy.Services
             return result;
         }
 
-        private IDbConnection OpenConnection(string path)
+        protected override async UniTask TryCreateTables()
         {
-            var connection = new SqliteConnection(path);
-            connection.Open();
-            return connection;
+            await UniTask.WhenAll(
+                TryCreateTaskTables(),
+                TryCreateGeneralTables()
+                );
         }
 
-        private void CloseConnection(IDbConnection connection)
-        {
-            connection.Close();
-            connection.Dispose();
-        }
-
-        private async UniTask TryCreateTables()
+        private async UniTask TryCreateTaskTables()
         {
             _taskDBConnection = OpenConnection(_taskDBFilePath);
             await _taskProvider.TryCreateTable(_taskDBConnection);
             await _dailyModeProvider.TryCreateTable(_taskDBConnection);
             CloseConnection(_taskDBConnection);
-            _generalDBConnection = OpenConnection(_generalDBFilePath);
-            await _generalProvider.TryCreateTable(_generalDBConnection);
-            CloseConnection (_generalDBConnection);
         }
 
-        private async UniTask InitProviders()
+        private async UniTask TryCreateGeneralTables()
+        {
+            _generalDBConnection = OpenConnection(_generalDBFilePath);
+            await _generalProvider.TryCreateTable(_generalDBConnection);
+            CloseConnection(_generalDBConnection);
+        }
+
+        protected override async UniTask InitProviders()
         {
             _generalDBConnection = OpenConnection(_generalDBFilePath);
             _generalData = await _generalProvider.GetDataAsync(_generalDBConnection);

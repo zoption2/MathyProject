@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mathy.Data
+namespace Mathy.Services.Data
 {
     [Serializable]
     public class TaskDataTableModel
