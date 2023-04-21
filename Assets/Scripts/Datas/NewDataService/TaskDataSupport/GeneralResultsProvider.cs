@@ -51,6 +51,7 @@ namespace Mathy.Services.Data
             {
                 await connection.ExecuteAsync(GeneralResultsTableRequests.TryCreateTableQuery);
                 await connection.ExecuteAsync(GeneralResultsTableRequests.CreateView);
+                await connection.ExecuteAsync(GeneralResultsTableRequests.CreateMultiViews);
             }
         }
     }

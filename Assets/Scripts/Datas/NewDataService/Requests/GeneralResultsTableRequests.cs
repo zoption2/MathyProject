@@ -30,13 +30,26 @@
             {kSkillMiddleRating} STRING NOT NULL
             )";
 
-        public static readonly string CreateView = $@"create view {kResultsView}
+        public static readonly string CreateView = $@"create view IF NOT EXISTS {kResultsView}
             as
             select
             sum({TaskResultsTableRequests.kDuration}) as TotalTime,
             sum(case when {TaskResultsTableRequests.kIsCorrect} then 1 else 0 end) as TotalCorrectAnswers
             from {TaskResultsTableRequests.kTasksTable};
             ";
+
+        public static readonly string CreateMultiViews = $@"
+CREATE VIEW IF NOT EXISTS TaskTypeSummary AS
+SELECT 
+    {TaskResultsTableRequests.kTaskType},
+    SUM({TaskResultsTableRequests.kDuration}) AS TotalTime,
+    COUNT(*) AS TotalTasks,
+    SUM(CASE WHEN {TaskResultsTableRequests.kIsCorrect} = 1 THEN 1 ELSE 0 END) AS TotalCorrectAnswers
+FROM 
+    {TaskResultsTableRequests.kTasksTable}
+GROUP BY 
+    {TaskResultsTableRequests.kTaskType};
+";
 
 
 

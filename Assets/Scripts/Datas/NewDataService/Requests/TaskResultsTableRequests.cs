@@ -8,7 +8,7 @@
         private const string kDate = "Date";
         private const string kMode = "Mode";
         private const string kModeIndex = "ModeIndex";
-        private const string kTaskType = "TaskType";
+        public const string kTaskType = "TaskType";
         private const string kTaskTypeIndex = "TypeIndex";
         private const string kElements = "Elements";
         private const string kOperators = "Operators";
