@@ -14,70 +14,51 @@ namespace Mathy.Services.Data
     }
 
 
-    public class SkillPlanHandler : BaseDataHandler, ISkillPlanHandler
+    public class SkillPlanHandler : ISkillPlanHandler
     {
-        private const string kGeneralFileName = "general_account_save.db";
-
         private ISkillSettingsProvider _skillSettingsProvider;
         private IGradeSettingsProvider _gradeSettingsProvider;
 
-        private string _saveDirectoryPath;
         private string _dbFilePath;
 
-        private static IDbConnection _dbConnection;
-
-        public SkillPlanHandler(string directoryPath)
+        public SkillPlanHandler(string dbFilePath)
         {
-            _saveDirectoryPath = directoryPath;
-            var saveFilePath = directoryPath + kGeneralFileName;
-            _dbFilePath = $"Data Source={saveFilePath}";
+            _dbFilePath = dbFilePath;
 
-            _skillSettingsProvider = new SkillSettingsProvider();
-            _gradeSettingsProvider = new GradeSettingsProvider();
+            _skillSettingsProvider = new SkillSettingsProvider(dbFilePath);
+            _gradeSettingsProvider = new GradeSettingsProvider(dbFilePath);
         }
 
         public async UniTask<bool> IsGradeEnabled(int grade, bool defaultIsEnable = true)
         {
-            _dbConnection = OpenConnection(_dbFilePath);
-            var result = await _gradeSettingsProvider.IsGradeEnabled(grade, _dbConnection, defaultIsEnable);
-            CloseConnection(_dbConnection);
+            var result = await _gradeSettingsProvider.IsGradeEnabled(grade, defaultIsEnable);
             return result;
         }
 
         public async UniTask SaveGradeState(int grade, bool isEnable)
         {
-            _dbConnection = OpenConnection(_dbFilePath);
-            await _gradeSettingsProvider.SaveGradeSettings(grade, isEnable, _dbConnection);
-            CloseConnection(_dbConnection);
+            await _gradeSettingsProvider.SaveGradeSettings(grade, isEnable);
         }
 
         public async UniTask<SkillSettingsData> GetSkillSettings(int grade, SkillType skillType)
         {
-            _dbConnection = OpenConnection(_dbFilePath);
-            var result = await _skillSettingsProvider.GetSettingsByGradeAndSkill(grade, skillType, _dbConnection);
-            CloseConnection(_dbConnection);
+            var result = await _skillSettingsProvider.GetSettingsByGradeAndSkill(grade, skillType);
             return result;
         }
 
         public async UniTask SaveSkillSettings(SkillSettingsData settings)
         {
-            _dbConnection = OpenConnection(_dbFilePath);
-            await _skillSettingsProvider.SaveSkillSettings(settings, _dbConnection);
-            CloseConnection(_dbConnection);
+            await _skillSettingsProvider.SaveSkillSettings(settings);
         }
 
         public async UniTask SaveSkillPlan(SkillSettingsData[] settings)
         {
-            _dbConnection = OpenConnection(_dbFilePath);
-            await _skillSettingsProvider.SaveSkillPlan(settings, _dbConnection);
-            CloseConnection(_dbConnection);
+            await _skillSettingsProvider.SaveSkillPlan(settings);
         }
 
-        protected async override UniTask TryCreateTables()
+        protected async UniTask TryCreateTables()
         {
-            _dbConnection = OpenConnection(_dbFilePath);
-            await _skillSettingsProvider.TryCreateTable(_dbConnection);
-            CloseConnection (_dbConnection);
+            await _skillSettingsProvider.TryCreateTable();
         }
     }
 

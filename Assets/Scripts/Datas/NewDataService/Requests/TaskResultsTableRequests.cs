@@ -2,7 +2,7 @@
 {
     public static class TaskResultsTableRequests
     {
-        private const string kTasksTable = "TasksResults";
+        public const string kTasksTable = "TasksResults";
 
         private const string kId = "id";
         private const string kDate = "Date";
@@ -15,8 +15,8 @@
         private const string kVariants = "Variants";
         private const string kSelectedAnswersIndexes = "SelectedIndexes";
         private const string kCorrectAnswersIndexes = "CorrectIndexes";
-        private const string kIsCorrect = "IsCorrect";
-        private const string kDuration = "Duration";
+        public const string kIsCorrect = "IsCorrect";
+        public const string kDuration = "Duration";
         private const string kMaxValue = "MaxValue";
 
 

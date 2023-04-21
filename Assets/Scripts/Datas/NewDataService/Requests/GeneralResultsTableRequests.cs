@@ -3,6 +3,7 @@
     public static class GeneralResultsTableRequests
     {
         private const string kGeneralTable = "GeneralTasksResults";
+        private const string kResultsView = "ResultsView";
 
         private const string kTotalTasks = "TasksPlayed";
         private const string kTotalCorrect = "CorrectAnswers";
@@ -28,6 +29,17 @@
             {kModeCompleted} STRING NOT NULL,
             {kSkillMiddleRating} STRING NOT NULL
             )";
+
+        public static readonly string CreateView = $@"create view {kResultsView}
+            as
+            select
+            sum({TaskResultsTableRequests.kDuration}) as TotalTime,
+            sum(case when {TaskResultsTableRequests.kIsCorrect} then 1 else 0 end) as TotalCorrectAnswers
+            from {TaskResultsTableRequests.kTasksTable};
+            ";
+
+
+
 
         public static readonly string SelectQuery = $@"select
             {kTotalTasks} as {nameof(GeneralResultsTableModel.TotalTasksPlayed)},

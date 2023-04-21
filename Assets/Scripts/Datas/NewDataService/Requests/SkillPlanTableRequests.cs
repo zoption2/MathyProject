@@ -46,7 +46,7 @@ namespace Mathy.Services.Data
                 where {kGrade} = @{nameof(SkillPlanTableModel.Grade)}
                 and {kSkill} = @{nameof(SkillPlanTableModel.Skill)}
             ;";
-
+        public static readonly string InsertEntryQueryTest = $@"if exist(select* from ) begin update end ";
 
 
         public static readonly string InsertEntryQuery = $@"insert into {kTable}

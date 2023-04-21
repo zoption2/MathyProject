@@ -14,11 +14,13 @@ namespace Mathy.Services
 
     public class DataService : IDataService
     {
+        private const string kFileName = "save.db";
         private readonly string dataPath = Application.persistentDataPath;
 
         private TaskDataHandler _taskDataHandler;
         private SkillPlanHandler _skillPlanHandler;
-        private string databasePath;
+        private string _saveDirectoryPath;
+        private string _taskDBFilePath;
 
         public ITaskDataHandler TaskData => _taskDataHandler;
         public ISkillPlanHandler SkillPlan => _skillPlanHandler;
@@ -26,21 +28,22 @@ namespace Mathy.Services
 
         public DataService()
         {
-            databasePath = dataPath + "/Saves/";
-            if (!Directory.Exists(databasePath))
+            _saveDirectoryPath = dataPath + "/Saves/";
+            var saveFilePath = _saveDirectoryPath + kFileName;
+            _taskDBFilePath = $"Data Source={saveFilePath}";
+            if (!Directory.Exists(_saveDirectoryPath))
             {
-                Directory.CreateDirectory(databasePath);
+                Directory.CreateDirectory(_saveDirectoryPath);
             }
 
-            _taskDataHandler = new TaskDataHandler(databasePath);
-            _skillPlanHandler = new SkillPlanHandler(databasePath);
+            _taskDataHandler = new TaskDataHandler(_taskDBFilePath);
+            _skillPlanHandler = new SkillPlanHandler(_taskDBFilePath);
             InitProviders();
         }
 
         private async void InitProviders()
         {
             await _taskDataHandler.Init();
-            await _skillPlanHandler.Init();
         }
     }
 }

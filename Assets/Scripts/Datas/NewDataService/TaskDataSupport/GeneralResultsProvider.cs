@@ -1,44 +1,57 @@
 ﻿using Dapper;
-using System.Data;
 using Cysharp.Threading.Tasks;
 using Mathy.Data;
-
+using Mono.Data.Sqlite;
 
 namespace Mathy.Services.Data
 {
     public interface IGeneralResultsProvider : IDataProvider
     {
-        UniTask<GeneralResultsData> GetDataAsync(IDbConnection connection);
-        UniTask SaveAsync(GeneralResultsData data, IDbConnection connection);
+        UniTask<GeneralResultsData> GetDataAsync();
+        UniTask SaveAsync(GeneralResultsData data);
     }
 
 
-    public class GeneralResultsProvider : IGeneralResultsProvider
+    public class GeneralResultsProvider : BaseDataProvider, IGeneralResultsProvider
     {
-        public async UniTask<GeneralResultsData> GetDataAsync(IDbConnection connection)
+        public GeneralResultsProvider(string dbFilePath) : base(dbFilePath)
         {
-            var data = new GeneralResultsData();
-            var requestModel = data.ConvertToModel();
-            var model = await connection.QueryFirstOrDefaultAsync<GeneralResultsTableModel>
-                    (GeneralResultsTableRequests.SelectQuery, requestModel);
-            if (model == null)
+        }
+
+        public async UniTask<GeneralResultsData> GetDataAsync()
+        {
+            using (var connection = new SqliteConnection(_dbFilePath))
             {
-                await connection.ExecuteAsync(GeneralResultsTableRequests.InsertQuery, requestModel);
-                return data;
+                var data = new GeneralResultsData();
+                var requestModel = data.ConvertToModel();
+                var model = await connection.QueryFirstOrDefaultAsync<GeneralResultsTableModel>
+                        (GeneralResultsTableRequests.SelectQuery, requestModel);
+                if (model == null)
+                {
+                    await connection.ExecuteAsync(GeneralResultsTableRequests.InsertQuery, requestModel);
+                    return data;
+                }
+                var result = model.ConvertToData();
+                return result;
             }
-            var result = model.ConvertToData();
-            return result;
         }
 
-        public async UniTask SaveAsync(GeneralResultsData data, IDbConnection connection)
+        public async UniTask SaveAsync(GeneralResultsData data)
         {
-            var requestModel = data.ConvertToModel();
-            await connection.ExecuteAsync(GeneralResultsTableRequests.UpdateQuery, requestModel);
+            using (var connection = new SqliteConnection(_dbFilePath))
+            {
+                var requestModel = data.ConvertToModel();
+                await connection.ExecuteAsync(GeneralResultsTableRequests.UpdateQuery, requestModel);
+            }
         }
 
-        public async UniTask TryCreateTable(IDbConnection connection)
+        public async override UniTask TryCreateTable()
         {
-            await connection.ExecuteAsync(GeneralResultsTableRequests.TryCreateTableQuery);
+            using (var connection = new SqliteConnection(_dbFilePath))
+            {
+                await connection.ExecuteAsync(GeneralResultsTableRequests.TryCreateTableQuery);
+                await connection.ExecuteAsync(GeneralResultsTableRequests.CreateView);
+            }
         }
     }
 

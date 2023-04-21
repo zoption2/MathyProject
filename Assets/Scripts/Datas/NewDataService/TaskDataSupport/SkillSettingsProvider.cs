@@ -1,61 +1,75 @@
 ﻿using Cysharp.Threading.Tasks;
 using Dapper;
 using Mathy.Data;
-using System.Data;
-using UnityEditor.MemoryProfiler;
+using Mono.Data.Sqlite;
+
 
 namespace Mathy.Services.Data
 {
     public interface ISkillSettingsProvider : IDataProvider
     {
-        UniTask<SkillSettingsData> GetSettingsByGradeAndSkill(int grade, SkillType skillType, IDbConnection connection);
-        UniTask SaveSkillSettings(SkillSettingsData data, IDbConnection connection);
-        UniTask SaveSkillPlan(SkillSettingsData[] data, IDbConnection connection);
+        UniTask<SkillSettingsData> GetSettingsByGradeAndSkill(int grade, SkillType skillType);
+        UniTask SaveSkillSettings(SkillSettingsData data);
+        UniTask SaveSkillPlan(SkillSettingsData[] data);
     }
 
 
-    public class SkillSettingsProvider : ISkillSettingsProvider, IDataProvider
+    public class SkillSettingsProvider : BaseDataProvider, ISkillSettingsProvider, IDataProvider
     {
-        public async UniTask<SkillSettingsData> GetSettingsByGradeAndSkill(int grade, SkillType skillType, IDbConnection connection)
+        public SkillSettingsProvider(string dbFilePath) : base(dbFilePath)
         {
-            var requestData = new SkillSettingsData() {Grade = grade, Skill = skillType};
-            var requestModel = requestData.ConvertToTableModel();
-            var model = await connection.QueryFirstOrDefaultAsync<SkillPlanTableModel>
-                (SkillPlanTableRequests.SelectByGradeAndSkillQuery, requestModel);
-            if (model == null)
-            {
-                await connection.ExecuteAsync(SkillPlanTableRequests.InsertEntryQuery, requestModel);
-                return requestData;
-            }
-            var result = model.ConvertToData();
-            return result;
         }
 
-        public async UniTask SaveSkillPlan(SkillSettingsData[] data, IDbConnection connection)
+        public async UniTask<SkillSettingsData> GetSettingsByGradeAndSkill(int grade, SkillType skillType)
         {
-            UnityEngine.Debug.Log("SaveSkillPlan started!");
-            for (int i = 0, j = data.Length; i < j; i++)
+            using (var connection = new SqliteConnection(_dbFilePath))
             {
-                var requestData = data[i];
+                var requestData = new SkillSettingsData() { Grade = grade, Skill = skillType };
                 var requestModel = requestData.ConvertToTableModel();
+                var model = await connection.QueryFirstOrDefaultAsync<SkillPlanTableModel>
+                    (SkillPlanTableRequests.SelectByGradeAndSkillQuery, requestModel);
+                if (model == null)
+                {
+                    await connection.ExecuteAsync(SkillPlanTableRequests.InsertEntryQuery, requestModel);
+                    return requestData;
+                }
+                var result = model.ConvertToData();
+                return result;
+            }
+        }
+
+        public async UniTask SaveSkillPlan(SkillSettingsData[] data)
+        {
+            using (var connection = new SqliteConnection(_dbFilePath))
+            {
+                for (int i = 0, j = data.Length; i < j; i++)
+                {
+                    var requestData = data[i];
+                    var requestModel = requestData.ConvertToTableModel();
+                    var exists = await connection.QueryFirstOrDefaultAsync<SkillPlanTableModel>(SkillPlanTableRequests.SelectByGradeAndSkillQuery, requestModel);
+                    var query = exists != null ? DailyModeTableRequests.UpdateDailyQuery : DailyModeTableRequests.InsertDailyQuery;
+                    await connection.ExecuteAsync(query, requestModel);
+                }
+            }
+        }
+
+        public async UniTask SaveSkillSettings(SkillSettingsData data)
+        {
+            using (var connection = new SqliteConnection(_dbFilePath))
+            {
+                var requestModel = data.ConvertToTableModel();
                 var exists = await connection.QueryFirstOrDefaultAsync<SkillPlanTableModel>(SkillPlanTableRequests.SelectByGradeAndSkillQuery, requestModel);
                 var query = exists != null ? DailyModeTableRequests.UpdateDailyQuery : DailyModeTableRequests.InsertDailyQuery;
                 await connection.ExecuteAsync(query, requestModel);
             }
-            UnityEngine.Debug.Log("SaveSkillPlan completed!");
         }
 
-        public async UniTask SaveSkillSettings(SkillSettingsData data, IDbConnection connection)
+        public async override UniTask TryCreateTable()
         {
-            var requestModel = data.ConvertToTableModel();
-            var exists = await connection.QueryFirstOrDefaultAsync<SkillPlanTableModel>(SkillPlanTableRequests.SelectByGradeAndSkillQuery, requestModel);
-            var query = exists != null ? DailyModeTableRequests.UpdateDailyQuery : DailyModeTableRequests.InsertDailyQuery;
-            await connection.ExecuteAsync(query, requestModel);
-        }
-
-        public async UniTask TryCreateTable(IDbConnection connection)
-        {
-            await connection.ExecuteAsync(SkillPlanTableRequests.TryCreateTableQuery, connection);
+            using (var connection = new SqliteConnection(_dbFilePath))
+            {
+                await connection.ExecuteAsync(SkillPlanTableRequests.TryCreateTableQuery);
+            }
         }
     }
 }

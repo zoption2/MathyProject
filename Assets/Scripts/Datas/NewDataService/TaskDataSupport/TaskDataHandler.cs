@@ -21,54 +21,32 @@ namespace Mathy.Services.Data
     }
 
 
-    public class TaskDataHandler : BaseDataHandler, ITaskDataHandler
+    public class TaskDataHandler : ITaskDataHandler
     {
         private readonly ITaskResultsProvider _taskProvider;
         private readonly IGeneralResultsProvider _generalProvider;
         private readonly IDailyModeProvider _dailyModeProvider;
         private readonly ITaskResultFormatProcessor _resultFormatProcessor;
 
-        private const string kFileFormat = "tasks_results_save_{0}.db";
-        private const string kGeneralFileName = "general_account_save.db";
-
-        private string _taskDBFilePath;
-        private string _generalDBFilePath;
-        private string _saveDirectoryPath;
-        private int _currentYear;
+        private string _filePath;
         private GeneralResultsData _generalData;
-        private static IDbConnection _taskDBConnection;
-        private static IDbConnection _generalDBConnection;
 
         public IReadonlyGeneralResultsData GeneralData => _generalData;
 
-        public TaskDataHandler(string directoryPath)
+        public TaskDataHandler(string filePath)
         {
-            _saveDirectoryPath = directoryPath;
-            _currentYear = DateTime.UtcNow.Year;
-            var fileName = string.Format(kFileFormat, _currentYear);
-            var saveFilePath = directoryPath + fileName;
-            _taskDBFilePath = $"Data Source={saveFilePath}";
+            _filePath = filePath;
 
-            var generalSavePath = directoryPath + kGeneralFileName;
-            _generalDBFilePath = $"Data Source={generalSavePath}";
-
-            _taskProvider = new TaskResultsProvider();
-            _dailyModeProvider = new DailyModeProvider();
-            _generalProvider = new GeneralResultsProvider();
+            _taskProvider = new TaskResultsProvider(filePath);
+            _dailyModeProvider = new DailyModeProvider(filePath);
+            _generalProvider = new GeneralResultsProvider(filePath);
             _resultFormatProcessor = new TaskResultFormatProcessor();
         }
 
 
         public async UniTask<TaskResultData[]> GetTasksByModeAndDate(TaskMode mode, DateTime date)
         {
-            var databasePath = GetPathToTaskResultsDatabase(date);
-            if (databasePath.IsEmpty())
-            {
-                return new TaskResultData[0];
-            }
-            _taskDBConnection = OpenConnection(_taskDBFilePath);
-            var result = await _taskProvider.GetTasksByModeAndDate(mode, date, _taskDBConnection);
-            CloseConnection(_taskDBConnection);
+            var result = await _taskProvider.GetTasksByModeAndDate(mode, date);
             return result;
         }
 
@@ -81,62 +59,33 @@ namespace Mathy.Services.Data
 
         public async UniTask SaveTask(TaskResultData task)
         {
-            _taskDBConnection = OpenConnection(_taskDBFilePath);
-            await _taskProvider.SaveTask(task, _taskDBConnection);
-            CloseConnection(_taskDBConnection);
+            await _taskProvider.SaveTask(task);
             UpdateGeneralData(task);
             SaveGeneralDataAsync();
         }
 
         public async UniTask UpdateDailyMode(DailyModeData data)
         {
-            _taskDBConnection = OpenConnection(_taskDBFilePath);
-            await _dailyModeProvider.UpdateDailyMode(data, _taskDBConnection);
-            CloseConnection(_taskDBConnection);
+            await _dailyModeProvider.UpdateDailyMode(data);
         }
 
         public async UniTask<DailyModeData> GetDailyModeData(DateTime date, TaskMode mode)
         {
-            var databasePath = GetPathToTaskResultsDatabase(date);
-            if (databasePath.IsEmpty())
-            {
-                return new DailyModeData() { Date = date, Mode = mode };
-            }
-
-            _taskDBConnection = OpenConnection(databasePath);
-            var result = await _dailyModeProvider.GetDailyModeData(date, mode, _taskDBConnection);
-            CloseConnection(_taskDBConnection);
+            var result = await _dailyModeProvider.GetDailyModeData(date, mode);
             return result;
         }
 
-        protected override async UniTask TryCreateTables()
+        protected async UniTask TryCreateTables()
         {
-            await UniTask.WhenAll(
-                TryCreateTaskTables(),
-                TryCreateGeneralTables()
-                );
+            await _taskProvider.TryCreateTable();
+            await _dailyModeProvider.TryCreateTable();
+            await _generalProvider.TryCreateTable();
         }
 
-        private async UniTask TryCreateTaskTables()
+        public async UniTask Init()
         {
-            _taskDBConnection = OpenConnection(_taskDBFilePath);
-            await _taskProvider.TryCreateTable(_taskDBConnection);
-            await _dailyModeProvider.TryCreateTable(_taskDBConnection);
-            CloseConnection(_taskDBConnection);
-        }
-
-        private async UniTask TryCreateGeneralTables()
-        {
-            _generalDBConnection = OpenConnection(_generalDBFilePath);
-            await _generalProvider.TryCreateTable(_generalDBConnection);
-            CloseConnection(_generalDBConnection);
-        }
-
-        protected override async UniTask InitProviders()
-        {
-            _generalDBConnection = OpenConnection(_generalDBFilePath);
-            _generalData = await _generalProvider.GetDataAsync(_generalDBConnection);
-            CloseConnection(_generalDBConnection);
+            await TryCreateTables();
+            _generalData = await _generalProvider.GetDataAsync();
         }
 
         private void UpdateGeneralData(TaskResultData task)
@@ -161,36 +110,7 @@ namespace Mathy.Services.Data
 
         private async void SaveGeneralDataAsync()
         {
-            _generalDBConnection = OpenConnection(_generalDBFilePath);
-            await _generalProvider.SaveAsync(_generalData, _generalDBConnection);
-            CloseConnection(_generalDBConnection);
-        }
-
-        //Method return path to database file based on date.Year, as every year has it own file.db
-        //We do it to reduce query request time in case if statistic gathering for very long time
-        //and has tens of thousands of entries.
-        //Thats why we also have general.save for total statistic values
-        //and separate ability to get info from old saves files.
-        private string GetPathToTaskResultsDatabase(DateTime date)
-        {
-            if (date.Year == _currentYear)
-            {
-                return _taskDBFilePath;
-            }
-            else
-            {
-                var fileName = string.Format(kFileFormat, date.Year);
-                var saveFilePath = _saveDirectoryPath + fileName;
-                if (File.Exists(saveFilePath))
-                {
-                    var selectedDatabasePath = $"Data Source={fileName}";
-                    return selectedDatabasePath;
-                }
-                else
-                {
-                    return "";
-                }
-            }
+            await _generalProvider.SaveAsync(_generalData);
         }
     }
 }
