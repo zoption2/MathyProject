@@ -50,8 +50,8 @@ namespace Mathy.Services.Data
             using (var connection = new SqliteConnection(_dbFilePath))
             {
                 await connection.ExecuteAsync(GeneralResultsTableRequests.TryCreateTableQuery);
-                await connection.ExecuteAsync(GeneralResultsTableRequests.CreateView);
-                await connection.ExecuteAsync(GeneralResultsTableRequests.CreateMultiViews);
+                await connection.ExecuteAsync(GeneralResultsTableRequests.CreateGeneralView);
+                await connection.ExecuteAsync(GeneralResultsTableRequests.CreateDetailedViews);
             }
         }
     }

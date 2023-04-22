@@ -4,7 +4,7 @@
     {
         public const string kTasksTable = "TasksResults";
 
-        private const string kId = "id";
+        public const string kId = "id";
         private const string kDate = "Date";
         private const string kMode = "Mode";
         private const string kModeIndex = "ModeIndex";
