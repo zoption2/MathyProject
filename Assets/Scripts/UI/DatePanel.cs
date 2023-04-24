@@ -10,6 +10,8 @@ using System.Globalization;
 using UnityEngine.Localization.Settings;
 using TMPro;
 using Cysharp.Threading.Tasks;
+using Zenject;
+using Mathy.Services;
 
 public class DatePanel : ButtonFX
 {
@@ -59,6 +61,7 @@ public class DatePanel : ButtonFX
     }
 
     #endregion
+    [Inject] private IDataService dataService;
 
     protected override void Awake()
     {
@@ -70,9 +73,7 @@ public class DatePanel : ButtonFX
     {
         if (!isInitialization)
         {
-            //Debug.LogError("Here is supposed to be GetCalendarData from database");
-            CalendarData = await DataManager.Instance.GetCalendarData(System.DateTime.UtcNow.Date);
-            //CalendarData = await DatabaseHandler..GetCalendarData(System.DateTime.UtcNow.Date);
+            CalendarData = await GetTodayCalendarDate();
         }
         LocalizationManager.OnLanguageChanged.AddListener(Localize);
         Localize();
@@ -91,17 +92,13 @@ public class DatePanel : ButtonFX
 
     public async void ResetToDefault()
     {
-        //Debug.LogError("Here is supposed to be GetCalendarData from database");
-        CalendarData = await DataManager.Instance.GetCalendarData(System.DateTime.UtcNow.Date);
+        CalendarData = await GetTodayCalendarDate();
         Initializing();
     }
 
     private async void Initializing()
     {
-        //Debug.LogError("Here is supposed to be GetCalendarData from database");
-        //this.CalendarData = new CalendarData(DateTime.Today);//temp
-
-        CalendarData = await DataManager.Instance.GetCalendarData(System.DateTime.UtcNow.Date);
+        CalendarData = await GetTodayCalendarDate();
         //calendar.SelectCurrentDate();
         UpdateAwardIndicator(); //Temp solution, need to update award icon on start
         isInitialization = false;
@@ -148,5 +145,16 @@ public class DatePanel : ButtonFX
     {
         var status = DailyStatusPanel.Instance.AllModesDone ? DailyModeStatus.Done : DailyModeStatus.InProgress;
         awardIndicator.Status = status;
+    }
+
+    private async UniTask<CalendarData> GetTodayCalendarDate()
+    {
+        var dateResults = await dataService.TaskData.GetDailyData(DateTime.UtcNow);
+        var data = new CalendarData(DateTime.UtcNow.Date);
+        for (int i = 0, j = dateResults.Count; i < j; i++)
+        {
+            data.ModeData.Add(dateResults[i].Mode, dateResults[i].IsComplete);
+        }
+        return data;
     }
 }

@@ -9,10 +9,12 @@ using Mathy.Core;
 using Mathy.UI;
 using Zenject;
 using Mathy.Services;
+using System;
 
 public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
 {
     [Inject] private IGameplayService gameplayService;
+    [Inject] private IDataService dataService;
     public enum PlayPanelState
     {
         Default = 0,
@@ -110,11 +112,15 @@ public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
 
     private async UniTask UpdateModeButtons()
     {
-        var calendarData = await DataManager.Instance.GetCalendarData(System.DateTime.UtcNow.Date);
-        foreach (TaskMode mode in calendarData.ModeData.Keys)
+        //calendarData = await DataManager.Instance.GetCalendarData(System.DateTime.UtcNow.Date);
+        var calendarData = await dataService.TaskData.GetDailyData(DateTime.UtcNow);
+        var modes = Enum.GetValues(typeof(TaskMode));
+        foreach (TaskMode mode in modes)
         {
-            if(mode != TaskMode.Practic)
-                modeButtons[(int)mode].gameObject.SetActive(!calendarData.ModeData[mode]);
+            var modeData = calendarData.FirstOrDefault(x => x.Mode == mode);
+            var modeCompleted = modeData != null && modeData.IsComplete;
+            if (mode != TaskMode.Practic)
+                modeButtons[(int)mode].gameObject.SetActive(!modeCompleted);
         }
     }
 
@@ -207,13 +213,14 @@ public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
 
     public async UniTask AllModesDone()
     {
-        var calendarData = await DataManager.Instance.GetCalendarData(System.DateTime.UtcNow.Date);
-        List<bool> modeStatuses = new List<bool>();
-        foreach (TaskMode mode in calendarData.ModeData.Keys)
-        {
-            if (mode != TaskMode.Practic)
-                modeStatuses.Add(calendarData.ModeData[mode]);
-        }
+        //var calendarData = await DataManager.Instance.GetCalendarData(System.DateTime.UtcNow.Date);
+        var calendarData = await dataService.TaskData.GetDailyData(DateTime.UtcNow);
+        List<bool> modeStatuses = calendarData.Where(x => x.Mode != TaskMode.Practic).Select(x => x.IsComplete).ToList();
+        //foreach (TaskMode mode in calendarData.ModeData.Keys)
+        //{
+        //    if (mode != TaskMode.Practic)
+        //        modeStatuses.Add(calendarData.ModeData[mode]);
+        //}
         IsAllModesDone = modeStatuses.Count == 4 && modeStatuses.All(x => x == true);
         if (IsAllModesDone)
         {
@@ -236,7 +243,9 @@ public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
         if (mode != TaskMode.Challenge)
         {
             //Debug.LogError("Here was TodayDoneTasksAmount");
-            int doneTaskAmount = await DataManager.Instance.TodayDoneTasksAmount(mode);
+            //int doneTaskAmount = await DataManager.Instance.TodayDoneTasksAmount(mode);
+            var modeResult = await dataService.TaskData.GetDailyModeData(DateTime.UtcNow, mode);
+            int doneTaskAmount = modeResult.PlayedCount;
             //int doneTaskAmount = 0;
             status = (doneTaskAmount == 0) ? 0 : (doneTaskAmount == tasksAmountValues[(int)mode]) ? 2 : 1;
         }

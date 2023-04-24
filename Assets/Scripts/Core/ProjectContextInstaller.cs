@@ -5,10 +5,13 @@ using Mathy.Core.Tasks.DailyTasks;
 using Mathy.Core.Tasks;
 using Mathy.Services;
 using Mathy.UI;
+using System.Collections.Generic;
+using Mathy.Data;
 
 public class ProjectContextInstaller : MonoInstaller
 {
     [SerializeField] private AddressableRefsHolder refsHolder;
+    [SerializeField] private GradeSettingsHolder gradeSettingsHolder;
 
     public override void InstallBindings()
     {
@@ -20,6 +23,9 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<ITaskBackgroundSevice>().To<TaskBackgroundService>().AsSingle();
         Container.Bind<IParentGateService>().To<ParentGateService>().AsSingle();
         Container.Bind<IDataService>().To<DataService>().AsSingle().NonLazy();
+        Container.Bind<ISkillPlanService>().To<SkillPlanService>().AsSingle();
+
+        Container.Bind<List<GradeSettings>>().FromInstance(gradeSettingsHolder.GradeSettings).AsSingle();
 
         BindTaskControllers();
         BindScenarious();
