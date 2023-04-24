@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 
 namespace Mathy.Services.Data
 {
@@ -65,6 +65,10 @@ namespace Mathy.Services.Data
             result.ModeIndex = (int)data.Mode;
             result.IsComplete = data.IsComplete;
             result.PlayedTasks = data.PlayedCount;
+            result.CorrectAnswers = data.CorrectAnswers;
+            result.CorrectRate = data.CorrectRate;
+            result.Duration = data.Duration;
+            result.TotalTasks = data.TotalTasks;
 
             return result;
         }
@@ -77,40 +81,78 @@ namespace Mathy.Services.Data
             result.Mode = Enum.Parse<TaskMode>(model.Mode);
             result.IsComplete = model.IsComplete;
             result.PlayedCount = model.PlayedTasks;
+            result.CorrectAnswers = model.CorrectAnswers;
+            result.CorrectRate = model.CorrectRate;
+            result.Duration = model.Duration;
+            result.TotalTasks = model.TotalTasks;
 
             return result;
         }
         #endregion
 
         #region GeneralResultsTable
-        public static GeneralResultsTableModel ConvertToModel(this GeneralResultsData data)
+        public static GeneralTasksViewModel ConvertToModel(this GeneralTasksViewData data)
         {
-            var result = new GeneralResultsTableModel();
+            var result = new GeneralTasksViewModel();
             result.TotalTasksPlayed = data.TotalTasksPlayed;
             result.TotalCorrectAnswers = data.TotalCorrectAnswers;
+            result.MiddleRate = data.MiddleRate;
             result.TotalPlayedTime = data.TotalPlayedTime;
-            result.EachTaskPlayedJson = JsonConvert.SerializeObject(data.EachTaskPlayed);
-            result.TaskMiddleRatingJson = JsonConvert.SerializeObject(data.TaskMiddleRating);
-            result.EachModePlayedJson = JsonConvert.SerializeObject(data.EachModePlayed);
-            result.ModeMiddleRatingJson = JsonConvert.SerializeObject(data.ModeMiddleRating);
-            result.ModeCompletedJson = JsonConvert.SerializeObject(data.ModeCompleted);
-            result.SkillTypeMiddleRatingJson = JsonConvert.SerializeObject(data.SkillTypeMiddleRating);
 
             return result;
         }
 
-        public static GeneralResultsData ConvertToData(this GeneralResultsTableModel model)
+        public static GeneralTasksViewData ConvertToData(this GeneralTasksViewModel model)
         {
-            var result = new GeneralResultsData();
+            var result = new GeneralTasksViewData();
             result.TotalTasksPlayed = model.TotalTasksPlayed;
+            result.MiddleRate = model.MiddleRate;
             result.TotalCorrectAnswers = model.TotalCorrectAnswers;
             result.TotalPlayedTime = model.TotalPlayedTime;
-            result.EachTaskPlayed = DeserializeDictionaryJson<TaskType, int>(model.EachTaskPlayedJson);
-            result.TaskMiddleRating = DeserializeDictionaryJson<TaskType, int>(model.TaskMiddleRatingJson);
-            result.EachModePlayed = DeserializeDictionaryJson<TaskMode, int>(model.EachModePlayedJson);
-            result.ModeMiddleRating = DeserializeDictionaryJson<TaskMode, int>(model.ModeMiddleRatingJson);
-            result.ModeCompleted = DeserializeDictionaryJson<TaskMode, int>(model.ModeCompletedJson);
-            result.SkillTypeMiddleRating = DeserializeDictionaryJson<SkillType, int>(model.SkillTypeMiddleRatingJson);
+
+            return result;
+        }
+
+        public static DetailedTasksViewModel ConvertToModel(this DetailedTasksViewData data)
+        {
+            var result = new DetailedTasksViewModel();
+            result.TaskType = data.TaskType.ToString();
+            result.TaskTypeIndex = (int)data.TaskType;
+            result.TotalTasksPlayed = data.TotalTasksPlayed;
+            result.TotalCorrectAnswers = data.TotalCorrectAnswers;
+            result.MiddleRate = data.MiddleRate;
+            result.TotalPlayedTime = data.TotalPlayedTime;
+
+            return result;
+        }
+
+        public static DetailedTasksViewData ConvertToData(this DetailedTasksViewModel model)
+        {
+            var result = new DetailedTasksViewData();
+            result.TaskType = Enum.Parse<TaskType>(model.TaskType);
+            result.TotalTasksPlayed = model.TotalTasksPlayed;
+            result.TotalCorrectAnswers = model.TotalCorrectAnswers;
+            result.MiddleRate = model.MiddleRate;
+            result.TotalPlayedTime = model.TotalPlayedTime;
+
+            return result;
+        }
+
+        public static DailyModeViewModel ConvertToModel(this DailyModeViewData data)
+        {
+            var result = new DailyModeViewModel();
+            result.Mode = data.Mode.ToString();
+            result.ModeIndex = (int)data.Mode;
+            result.TotalCompleted = data.TotalCompleted;
+
+            return result;
+        }
+
+        public static DailyModeViewData ConvertToData(this DailyModeViewModel model)
+        {
+            var result = new DailyModeViewData();
+            result.Mode = Enum.Parse<TaskMode>(model.Mode);
+            result.TotalCompleted = model.TotalCompleted;
 
             return result;
         }

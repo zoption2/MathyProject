@@ -15,7 +15,7 @@ namespace Mathy.Services.Data
             (
             {kId} INTEGER PRIMARY KEY AUTOINCREMENT,
             {kGrade} INTEGER NOT NULL,
-            {kIsEnable} BOOLEAN NOT NULL,
+            {kIsEnable} BOOLEAN NOT NULL
             )";
 
 
@@ -33,6 +33,15 @@ namespace Mathy.Services.Data
             from {kTable}
             where {kGrade} = @{nameof(SkillPlanTableModel.Grade)}
             ;";
+
+
+        public static readonly string InsertOrUpdateGradeQuery = $@"
+            INSERT OR REPLACE INTO {kTable} 
+            ({kGrade}, {kIsEnable})
+            VALUES(
+                @{nameof(GradeTableModel.Grade)},
+                @{nameof(GradeTableModel.IsEnable)}
+            )";
 
 
         public static readonly string InsertGradeQuery = $@"insert into {kTable}

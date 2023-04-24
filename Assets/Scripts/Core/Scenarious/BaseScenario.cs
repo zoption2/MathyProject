@@ -111,21 +111,24 @@ namespace Mathy.Core.Tasks
             taskIndexer++;
             result.TaskModeIndex = taskIndexer;
 
-            DailyModeData modeData = new DailyModeData()
-            {
-                Date = DateTime.UtcNow,
-                Mode = TaskMode,
-                IsComplete = false,
-                PlayedCount = taskIndexer
-            };
-
             await dataService.TaskData.SaveTask(result);
-            await dataService.TaskData.UpdateDailyMode(modeData);
 
             if (result.IsAnswerCorrect)
             {
                 correctAnswers++;
             }
+
+            DailyModeData modeData = new DailyModeData()
+            {
+                Date = DateTime.UtcNow,
+                Mode = TaskMode,
+                IsComplete = false,
+                PlayedCount = taskIndexer,
+                CorrectAnswers = correctAnswers,
+                CorrectRate = (correctAnswers * 100) / taskIndexer,
+                Duration = result.Duration
+            };
+            await dataService.TaskData.UpdateDailyMode(modeData);
         }
 
         protected virtual bool TryStartTask()

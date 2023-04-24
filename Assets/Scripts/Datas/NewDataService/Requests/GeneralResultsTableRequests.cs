@@ -2,56 +2,44 @@
 {
     public static class GeneralResultsTableRequests
     {
-        private const string kGeneralTable = "GeneralTasksResults";
-
         private const string kGeneralViewName = "TotalTaskResultsView";
         private const string kDetailedViewName = "DetailedTasksResultsView";
+        private const string kDailyModeViewName = "DailyModesView";
 
+        private const string kTaskType = "TaskType";
+        private const string kTypeIndex = "TypeIndex";
+        private const string kModeType = "Mode";
+        private const string kModeIndex = "ModeIndex";
         private const string kTotalTasks = "TotalTasks";
         private const string kTotalCorrect = "TotalCorrect";
         private const string kTasksTime = "TotalTime";
-
-        private const string kEachTaskPlayed = "EachTaskPlayed";
+        private const string kTotalCompletedMode = "TotalCompleted";
         private const string kMiddleRating = "MiddleRating";
-        private const string kEachModePlayed = "EachModePlayed";
-        private const string kModeMiddleRating = "ModeMiddleRating";
-        private const string kModeCompleted = "ModeCompleted";
-        private const string kSkillMiddleRating = "SkillMiddleRating";
 
 
 
-        public static readonly string TryCreateTableQuery = $@"create table if not exists {kGeneralTable}
-            (
-            {kTotalTasks} INTEGER NOT NULL,
-            {kTotalCorrect} INTEGER NOT NULL,
-            {kTasksTime} DOUBLE NOT NULL,
-            {kEachTaskPlayed} STRING NOT NULL,
-            {kMiddleRating} STRING NOT NULL,
-            {kEachModePlayed} STRING NOT NULL,
-            {kModeMiddleRating} STRING NOT NULL,
-            {kModeCompleted} STRING NOT NULL,
-            {kSkillMiddleRating} STRING NOT NULL
-            )";
+
 
         public static readonly string CreateGeneralView = $@"create view IF NOT EXISTS {kGeneralViewName}
             as
             select
             count(*) as {kTotalTasks},
             sum(case when {TaskResultsTableRequests.kIsCorrect} then 1 else 0 end) as {kTotalCorrect},
-            sum({TaskResultsTableRequests.kDuration}) as {kTasksTime},
+            cast((sum(case when {TaskResultsTableRequests.kIsCorrect} then 1 else 0 end) * 100.0 / count(*)) as integer) as {kMiddleRating},
+            sum({TaskResultsTableRequests.kDuration}) as {kTasksTime}
             from {TaskResultsTableRequests.kTasksTable};
             ";
 
-        public static readonly string CreateDetailedViews = $@"
+
+        public static readonly string CreateDetailedView = $@"
             CREATE VIEW IF NOT EXISTS {kDetailedViewName}
             AS
             SELECT 
-                {TaskResultsTableRequests.kTaskType} AS PRIMARY KEY,
+                {TaskResultsTableRequests.kTaskType},
                 COUNT(*) AS {kTotalTasks},
-                SUM(CASE WHEN {TaskResultsTableRequests.kIsCorrect} = 1 THEN 1 ELSE 0 END) AS {kTotalCorrect},
-                CAST(({kTotalCorrect} * 100.0 / {kTotalTasks}) AS INTEGER) AS {kMiddleRating},
+                SUM(CASE WHEN {TaskResultsTableRequests.kIsCorrect} THEN 1 ELSE 0 END) AS {kTotalCorrect},
+                CAST((SUM(CASE WHEN {TaskResultsTableRequests.kIsCorrect} THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) AS INTEGER) AS {kMiddleRating},
                 SUM({TaskResultsTableRequests.kDuration}) AS {kTasksTime}
-                
             FROM 
                 {TaskResultsTableRequests.kTasksTable}
             GROUP BY 
@@ -59,49 +47,66 @@
             ";
 
 
+        public static readonly string CreateModeView = $@"
+            create view if not exists {kDailyModeViewName}
+            as
+            select
+                {DailyModeTableRequests.kMode},
+                {DailyModeTableRequests.kModeIndex} as {kModeIndex},
+                sum(case when {DailyModeTableRequests.kIsModeDone} then 1 else 0 end) as {kTotalCompletedMode}
+            from
+                {DailyModeTableRequests.kDailyModeTable}
+            group by
+                {DailyModeTableRequests.kMode};
+            ";
 
 
-        public static readonly string SelectQuery = $@"select
-            {kTotalTasks} as {nameof(GeneralResultsTableModel.TotalTasksPlayed)},
-            {kTotalCorrect} as {nameof(GeneralResultsTableModel.TotalCorrectAnswers)},
-            {kTasksTime} as {nameof(GeneralResultsTableModel.TotalPlayedTime)},
-            {kEachTaskPlayed} as {nameof(GeneralResultsTableModel.EachTaskPlayedJson)},
-            {kMiddleRating} as {nameof(GeneralResultsTableModel.TaskMiddleRatingJson)},
-            {kEachModePlayed} as {nameof(GeneralResultsTableModel.EachModePlayedJson)},
-            {kModeMiddleRating} as {nameof(GeneralResultsTableModel.ModeMiddleRatingJson)},
-            {kModeCompleted} as {nameof(GeneralResultsTableModel.ModeCompletedJson)},
-            {kSkillMiddleRating} as {nameof(GeneralResultsTableModel.SkillTypeMiddleRatingJson)}
-            from {kGeneralTable}
+
+
+        public static readonly string SelectFromGeneralTasksViewQuery = $@"select
+            {kTotalTasks} as {nameof(GeneralTasksViewModel.TotalTasksPlayed)},
+            {kTotalCorrect} as {nameof(GeneralTasksViewModel.TotalCorrectAnswers)},
+            {kTasksTime} as {nameof(GeneralTasksViewModel.TotalPlayedTime)},
+            {kMiddleRating} as {nameof(GeneralTasksViewModel.MiddleRate)}
+            from {kGeneralViewName}
             ;";
 
-        public static readonly string InsertQuery = $@"insert into {kGeneralTable}
-            ({kTotalTasks}, {kTotalCorrect}, {kTasksTime}, {kEachTaskPlayed}, {kMiddleRating},
-            {kEachModePlayed}, {kModeMiddleRating}, {kModeCompleted}, {kSkillMiddleRating})
-            values(
-                @{nameof(GeneralResultsTableModel.TotalTasksPlayed)},
-                @{nameof(GeneralResultsTableModel.TotalCorrectAnswers)},
-                @{nameof(GeneralResultsTableModel.TotalPlayedTime)},
-                @{nameof(GeneralResultsTableModel.EachTaskPlayedJson)},
-                @{nameof(GeneralResultsTableModel.TaskMiddleRatingJson)},
-                @{nameof(GeneralResultsTableModel.EachModePlayedJson)},
-                @{nameof(GeneralResultsTableModel.ModeMiddleRatingJson)},
-                @{nameof(GeneralResultsTableModel.ModeCompletedJson)},
-                @{nameof(GeneralResultsTableModel.SkillTypeMiddleRatingJson)}
-            )";
+
+        public static readonly string SelectFromDetailedTaskViewByTypeQuery = $@"
+            {kTaskType} as {nameof(DetailedTasksViewModel.TaskType)},
+            {kTypeIndex} as {nameof(DetailedTasksViewModel.TaskTypeIndex)},
+            {kTotalTasks} as {nameof(DetailedTasksViewModel.TotalTasksPlayed)},
+            {kTotalCorrect} as {nameof(DetailedTasksViewModel.TotalCorrectAnswers)},
+            {kTasksTime} as {nameof(DetailedTasksViewModel.TotalPlayedTime)},
+            {kMiddleRating} as {nameof(DetailedTasksViewModel.MiddleRate)}
+            from {kGeneralViewName}
+            where {kTaskType} = @{nameof(DetailedTasksViewModel.TaskType)}
+            ";
 
 
-        public static readonly string UpdateQuery = $@"update {kGeneralTable}
-            set
-            {kTotalTasks} = @{nameof(GeneralResultsTableModel.TotalTasksPlayed)},
-            {kTotalCorrect} = @{nameof(GeneralResultsTableModel.TotalCorrectAnswers)},
-            {kTasksTime} = @{nameof(GeneralResultsTableModel.TotalPlayedTime)},
-            {kEachTaskPlayed} = @{nameof(GeneralResultsTableModel.EachTaskPlayedJson)},
-            {kMiddleRating} = @{nameof(GeneralResultsTableModel.TaskMiddleRatingJson)},
-            {kEachModePlayed} = @{nameof(GeneralResultsTableModel.EachModePlayedJson)},
-            {kModeMiddleRating} = @{nameof(GeneralResultsTableModel.ModeMiddleRatingJson)},
-            {kModeCompleted} = @{nameof(GeneralResultsTableModel.ModeCompletedJson)},
-            {kSkillMiddleRating} = @{nameof(GeneralResultsTableModel.SkillTypeMiddleRatingJson)}
-";
+
+        public static readonly string SelectDailyModeViewByModeQuery = $@"
+            {kModeType} as {nameof(DailyModeViewModel.Mode)},
+            {kModeIndex} as {nameof(DailyModeViewModel.ModeIndex)},
+            {kTotalCompletedMode} as {nameof(DailyModeViewModel.TotalCompleted)}
+            from {kDailyModeViewName}
+            where {kModeType} = @{nameof(DailyModeViewModel.Mode)}
+            ";
+
+
+        public static readonly string DropGeneralTasksViewQuery = $@"
+            drop view if exists {kGeneralViewName}
+            ";
+
+
+        public static readonly string DropDetailedTasksViewQuery = $@"
+            drop view if exists {kDetailedViewName}
+            ";
+
+
+        public static readonly string DropDailyModeViewQuery = $@"
+            drop view if exists {kDailyModeViewName}
+            ";
     }
 
 }

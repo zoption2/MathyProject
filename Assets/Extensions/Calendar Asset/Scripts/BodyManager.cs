@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using Zenject;
+using Mathy.Services;
+
 
 public class BodyManager : MonoBehaviour
 {
@@ -25,6 +28,7 @@ public class BodyManager : MonoBehaviour
 	private string today;
 
 	#endregion
+	[Inject] private IDataService dataService;
 
 	#region Public Methods
 
@@ -69,11 +73,11 @@ public class BodyManager : MonoBehaviour
 		days.Clear();
 
 
-        List<CalendarData> calendarDatas = await DataManager.Instance.GetCalendarData(month);
+        //List<CalendarData> calendarDatas = await DataManager.Instance.GetCalendarData(month);
 
-        Debug.LogError("calendarDatas.Count " + calendarDatas.Count);
+        //Debug.LogError("calendarDatas.Count " + calendarDatas.Count);
 
-		if (calendarDatas.Count != 0) Debug.Log("calendarDatas.Count = " + calendarDatas.Count);
+		//if (calendarDatas.Count != 0) Debug.Log("calendarDatas.Count = " + calendarDatas.Count);
 
         foreach (int index in arr)
 		{
@@ -84,22 +88,23 @@ public class BodyManager : MonoBehaviour
             {
 				buttonManager.Initialize(index.ToString(), clickEventHandler);
                 CalendarDayCell day = instance.GetComponent<CalendarDayCell>();
-				if (calendarDatas.Count != 0) Debug.Log("calendarData Day format is " + calendarDatas[0].Date.Day);
-
-                if (calendarDatas.Any(x => x.Date.Day == index))
-                {
-                    day.CalendarData = calendarDatas.FirstOrDefault(x => x.Date.Day == index);
-                }
-                else 
-                {
+				//if (calendarDatas.Count != 0) Debug.Log("calendarData Day format is " + calendarDatas[0].Date.Day);
+				//if (calendarDatas.Any(x => x.Date.Day == index))
+				//{
+				//    day.CalendarData = calendarDatas.FirstOrDefault(x => x.Date.Day == index);
+				//}
+				//else 
+				//{
+				var dailyData = await dataService.TaskData.GetDailyData(dateTime);
                     CalendarData temp = new CalendarData(dateTime);
                     foreach (TaskMode mode in (TaskMode[])Enum.GetValues(typeof(TaskMode)))
                     {
-                        temp.ModeData.Add(mode, false);
+					bool modeCompleted = dailyData.FirstOrDefault(x => x.Mode == mode).IsComplete;
+                        temp.ModeData.Add(mode, modeCompleted);
                     }
 
                     day.CalendarData = temp;
-				}
+				//}
 				//day.Date = buttonManager.label.text + "." + dateTime.Month + "." + dateTime.Year;
 				days.Add(day);
 				buttonManager.calendarDay = day;

@@ -1,10 +1,9 @@
 ﻿using System;
 
-
-namespace Mathy.Data
+namespace Mathy.Services.Data
 {
     [Serializable]
-    public class GeneralTasksViewData
+    public class GeneralTasksViewModel
     {
         public int TotalTasksPlayed { get; set; }
         public int TotalCorrectAnswers { get; set; }

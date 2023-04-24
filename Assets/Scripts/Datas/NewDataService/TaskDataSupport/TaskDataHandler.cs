@@ -1,23 +1,23 @@
 ﻿using Cysharp.Threading.Tasks;
 using Mathy.Data;
-using ModestTree;
-using Mono.Data.Sqlite;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.IO;
+
 
 
 namespace Mathy.Services.Data
 {
     public interface ITaskDataHandler
     {
-        IReadonlyGeneralResultsData GeneralData { get; }
-        UniTask<TaskResultData[]> GetTasksByModeAndDate(TaskMode mode, DateTime date);
+        UniTask<TaskResultData[]> GetResultsByModeAndDate(TaskMode mode, DateTime date);
         UniTask<List<string>> GetTaskResultsFormatted(TaskMode mode, DateTime date);
         UniTask SaveTask(TaskResultData task);
         UniTask UpdateDailyMode(DailyModeData data);
         UniTask<DailyModeData> GetDailyModeData(DateTime date, TaskMode mode);
+        UniTask<List<DailyModeData>> GetDailyData(DateTime date);
+        UniTask<GeneralTasksViewData> GetGeneralTaskData();
+        UniTask<DetailedTasksViewData> GetGeneralTaskTypeDataAsync(TaskType taskType);
+        UniTask<DailyModeViewData> GetGeneralTaskModeDataAsync(TaskMode mode);
     }
 
 
@@ -29,9 +29,6 @@ namespace Mathy.Services.Data
         private readonly ITaskResultFormatProcessor _resultFormatProcessor;
 
         private string _filePath;
-        private GeneralResultsData _generalData;
-
-        public IReadonlyGeneralResultsData GeneralData => _generalData;
 
         public TaskDataHandler(string filePath)
         {
@@ -44,7 +41,7 @@ namespace Mathy.Services.Data
         }
 
 
-        public async UniTask<TaskResultData[]> GetTasksByModeAndDate(TaskMode mode, DateTime date)
+        public async UniTask<TaskResultData[]> GetResultsByModeAndDate(TaskMode mode, DateTime date)
         {
             var result = await _taskProvider.GetTasksByModeAndDate(mode, date);
             return result;
@@ -52,7 +49,7 @@ namespace Mathy.Services.Data
 
         public async UniTask<List<string>> GetTaskResultsFormatted(TaskMode mode, DateTime date)
         {
-            var tasks = await GetTasksByModeAndDate(mode, date);
+            var tasks = await GetResultsByModeAndDate(mode, date);
             var result = _resultFormatProcessor.GetTaskResultsFormatted(tasks);
             return result;
         }
@@ -60,8 +57,6 @@ namespace Mathy.Services.Data
         public async UniTask SaveTask(TaskResultData task)
         {
             await _taskProvider.SaveTask(task);
-            UpdateGeneralData(task);
-            SaveGeneralDataAsync();
         }
 
         public async UniTask UpdateDailyMode(DailyModeData data)
@@ -75,42 +70,40 @@ namespace Mathy.Services.Data
             return result;
         }
 
-        protected async UniTask TryCreateTables()
+        public async UniTask<List<DailyModeData>> GetDailyData(DateTime date)
         {
-            await _taskProvider.TryCreateTable();
-            await _dailyModeProvider.TryCreateTable();
-            await _generalProvider.TryCreateTable();
+            var result = await _dailyModeProvider.GetDailyData(date);
+            return result;
+        }
+
+        public async UniTask<GeneralTasksViewData> GetGeneralTaskData()
+        {
+            var result = await _generalProvider.GetGeneralTasksDataAsync();
+            return result;
+        }
+
+        public async UniTask<DetailedTasksViewData> GetGeneralTaskTypeDataAsync(TaskType taskType)
+        {
+            var result = await _generalProvider.GetDetailedTasksDataAsync(taskType);
+            return result;
+        }
+
+        public async UniTask<DailyModeViewData> GetGeneralTaskModeDataAsync(TaskMode mode)
+        {
+            var result = await _generalProvider.GetDailyModeDataAsync(mode);
+            return result;
         }
 
         public async UniTask Init()
         {
             await TryCreateTables();
-            _generalData = await _generalProvider.GetDataAsync();
         }
 
-        private void UpdateGeneralData(TaskResultData task)
+        protected async UniTask TryCreateTables()
         {
-            _generalData.TotalTasksPlayed++;
-            _generalData.TotalCorrectAnswers = task.IsAnswerCorrect ? ++_generalData.TotalCorrectAnswers : _generalData.TotalCorrectAnswers;
-            _generalData.TotalPlayedTime += task.Duration;
-            var taskDictionary = _generalData.EachTaskPlayed;
-            if (!taskDictionary.ContainsKey(task.TaskType))
-            {
-                taskDictionary.Add(task.TaskType, 0);
-            }
-            _generalData.EachTaskPlayed[task.TaskType]++;
-
-            var modeDictionary = _generalData.EachModePlayed;
-            if (!modeDictionary.ContainsKey(task.Mode))
-            {
-                modeDictionary.Add(task.Mode, 0);
-            }
-            _generalData.EachModePlayed[task.Mode]++;
-        }
-
-        private async void SaveGeneralDataAsync()
-        {
-            await _generalProvider.SaveAsync(_generalData);
+            await _taskProvider.TryCreateTable();
+            await _dailyModeProvider.TryCreateTable();
+            await _generalProvider.TryCreateTable();
         }
     }
 }

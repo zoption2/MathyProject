@@ -38,12 +38,13 @@ namespace Mathy.Services
 
             _taskDataHandler = new TaskDataHandler(_taskDBFilePath);
             _skillPlanHandler = new SkillPlanHandler(_taskDBFilePath);
-            InitProviders();
+            InitHandlers();
         }
 
-        private async void InitProviders()
+        private async void InitHandlers()
         {
             await _taskDataHandler.Init();
+            await _skillPlanHandler.Init();
         }
     }
 }

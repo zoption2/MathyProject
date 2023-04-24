@@ -11,6 +11,10 @@ namespace Mathy.Services.Data
         public int ModeIndex { get; set; }
         public bool IsComplete { get; set; }
         public int PlayedTasks { get; set; }
+        public int CorrectAnswers { get; set; }
+        public int CorrectRate { get; set; }
+        public double Duration { get; set; }
+        public int TotalTasks { get; set; }
     }
 }
 

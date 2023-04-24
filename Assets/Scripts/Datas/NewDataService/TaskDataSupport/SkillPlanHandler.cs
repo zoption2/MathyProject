@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using Mathy.Data;
-using System.Data;
+
 
 namespace Mathy.Services.Data
 {
@@ -56,16 +56,16 @@ namespace Mathy.Services.Data
             await _skillSettingsProvider.SaveSkillPlan(settings);
         }
 
+        public async UniTask Init()
+        {
+            await TryCreateTables();
+        }
+
         protected async UniTask TryCreateTables()
         {
             await _skillSettingsProvider.TryCreateTable();
+            await _gradeSettingsProvider.TryCreateTable();
         }
     }
-
-
-
-
-
-
 }
 

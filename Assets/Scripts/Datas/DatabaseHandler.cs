@@ -61,7 +61,7 @@ namespace Mathy.Data
             { TaskType.SumOfNumbers, "SumOfNumbers" },
             { TaskType.MissingExpression, "MissingExpression" },
             { TaskType.CountTo10Images, "CountTo10Images" },
-            { TaskType.SelectFromThreeCount, "SelectFromThreeCount" },
+            { TaskType.CountTo10WhichShows, "SelectFromThreeCount" },
             { TaskType.CountTo10Frames, "CountTo10Frames" },
             { TaskType.CountTo20Frames,  "CountTo20Frames"}
         };
@@ -576,7 +576,7 @@ namespace Mathy.Data
                     List<TaskType> types = new List<TaskType>() { TaskType.Addition, TaskType.Subtraction, TaskType.AddSubMissingNumber,
                     TaskType.Comparison,TaskType.ComparisonExpressions,TaskType.ComparisonWithMissingNumber,
                     TaskType.ComparisonMissingElements, TaskType.MissingExpression, TaskType.MissingNumber, TaskType.IsThatTrue,
-                    TaskType.MissingSign, TaskType.SumOfNumbers, TaskType.CountTo10Frames, TaskType.CountTo10Images, TaskType.SelectFromThreeCount };
+                    TaskType.MissingSign, TaskType.SumOfNumbers, TaskType.CountTo10Frames, TaskType.CountTo10Images, TaskType.CountTo10WhichShows };
 
                     string FillTaskTypesQuery = "";
 
@@ -1014,7 +1014,7 @@ namespace Mathy.Data
                                 await command.ExecuteNonQueryAsync();
                                 break;
                             }
-                        case TaskType.SelectFromThreeCount:
+                        case TaskType.CountTo10WhichShows:
                             {
                                 string query = "INSERT INTO SelectFromThreeCount (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
                                     "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +

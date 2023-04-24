@@ -50,21 +50,25 @@ namespace Mathy.Core.Tasks
             taskIndexer++;
             results.TaskModeIndex = taskIndexer;
 
-            DailyModeData modeData = new DailyModeData()
-            {
-                Date = DateTime.UtcNow,
-                Mode = TaskMode,
-                IsComplete = isModeDone,
-                PlayedCount = taskIndexer
-            };
-
             await dataService.TaskData.SaveTask(results);
-            await dataService.TaskData.UpdateDailyMode(modeData);
 
             if (results.IsAnswerCorrect)
             {
                 correctAnswers++;
             }
+
+            DailyModeData modeData = new DailyModeData()
+            {
+                Date = DateTime.UtcNow,
+                Mode = TaskMode,
+                IsComplete = isModeDone,
+                PlayedCount = taskIndexer,
+                CorrectAnswers = correctAnswers,
+                CorrectRate = (correctAnswers * 100) / taskIndexer,
+                Duration = results.Duration,
+                TotalTasks = this.TotalTasks
+            };
+            await dataService.TaskData.UpdateDailyMode(modeData);
         }
 
         protected override bool TryStartTask()
@@ -105,7 +109,7 @@ namespace Mathy.Core.Tasks
 
         protected async void InitCounter()
         {
-            var tasks = await dataService.TaskData.GetTasksByModeAndDate(TaskMode, DateTime.UtcNow);
+            var tasks = await dataService.TaskData.GetResultsByModeAndDate(TaskMode, DateTime.UtcNow);
             var userAnswers = tasks.Select(x => x.IsAnswerCorrect).ToList();
             counterView.Init(TotalTasks, userAnswers);
 

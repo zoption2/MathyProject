@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -2982273151591960060}
   - component: {fileID: 2225648532016755862}
   m_Layer: 5
-  m_Name: 3.CountingSelect10TaskView
+  m_Name: 3.CountingWhichShows10TaskView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

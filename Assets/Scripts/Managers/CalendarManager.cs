@@ -9,9 +9,13 @@ using Mathy.UI;
 using System;
 using TMPro;
 using System.Collections;
+using Zenject;
+using Mathy.Services;
+using UnityEngine.Analytics;
 
 public class CalendarManager : StaticInstance<CalendarManager>
 {
+	private const string kAnswersFormat = "{0}/{1}";
 	#region FIELDS
 
 	[Header("COMPONENTS:")]
@@ -98,8 +102,8 @@ public class CalendarManager : StaticInstance<CalendarManager>
 	private int mModeTotalTasks;
 	private int lModeTotalTasks;
 
-    private long sTime = 0;
-	private long sModeTime
+    private double sTime = 0;
+	private double sModeTime
 	{
 		get => sTime;
 		set
@@ -108,8 +112,8 @@ public class CalendarManager : StaticInstance<CalendarManager>
 			SetModeTimeText(0, value);
 		}
 	}
-    private long mTime = 0;
-    private long mModeTime
+    private double mTime = 0;
+    private double mModeTime
 	{
 		get => mTime;
 		set
@@ -118,8 +122,8 @@ public class CalendarManager : StaticInstance<CalendarManager>
 			SetModeTimeText(1, value);
 		}
 	}
-    private long lTime = 0;
-    private long lModeTime
+    private double lTime = 0;
+    private double lModeTime
     {
         get => lTime;
         set
@@ -129,8 +133,8 @@ public class CalendarManager : StaticInstance<CalendarManager>
         }
     }
 
-    private long total = 0;
-    private long totalTime
+    private double total = 0;
+    private double totalTime
 	{
 		get => total;
 		set
@@ -143,8 +147,8 @@ public class CalendarManager : StaticInstance<CalendarManager>
 			totalTimeLable.text = $"{title} <color=#3097EF>{text}</color>";
 		}
 	}
-    private long lessons = 0;
-    private long lessonsTime
+    private double lessons = 0;
+    private double lessonsTime
 	{
 		get => lessons;
 		set
@@ -156,8 +160,8 @@ public class CalendarManager : StaticInstance<CalendarManager>
 			lessonsTimeLable.text = $"{title} {text}";
 		}
 	}
-    private long other = 0;
-    private long otherTime
+    private double other = 0;
+    private double otherTime
 	{
 		get => other;
 		set
@@ -172,6 +176,7 @@ public class CalendarManager : StaticInstance<CalendarManager>
 	}
 
 	#endregion
+	[Inject] private IDataService dataService;
 
 	#region INITIALIZATION
 
@@ -268,7 +273,7 @@ public class CalendarManager : StaticInstance<CalendarManager>
 		answerLables[modeIndex].text = $"{title} {text}";		
 	}
 
-	private void SetModeTimeText(int modeIndex, long time)
+	private void SetModeTimeText(int modeIndex, double time)
 	{
         TimeSpan t = TimeSpan.FromMilliseconds(time);
         string answer = string.Format("{0:D2}m:{1:D2}s", t.Minutes, t.Seconds);
@@ -318,37 +323,33 @@ public class CalendarManager : StaticInstance<CalendarManager>
 
     public async void UpdateInfoText()
     {
-		sModeCorrectAnswers = await DataManager.Instance.GetCorrectAnswersOfModeByDate(TaskMode.Small,this.SelectedDate);
-        mModeCorrectAnswers = await DataManager.Instance.GetCorrectAnswersOfModeByDate(TaskMode.Medium, this.SelectedDate);
-		lModeCorrectAnswers = await DataManager.Instance.GetCorrectAnswersOfModeByDate(TaskMode.Large, this.SelectedDate);
-		sModeTotalTasks = 10;
-		mModeTotalTasks = 20;
-		lModeTotalTasks = 30;
+		//sModeCorrectAnswers = await DataManager.Instance.GetCorrectAnswersOfModeByDate(TaskMode.Small,this.SelectedDate);
+		//      mModeCorrectAnswers = await DataManager.Instance.GetCorrectAnswersOfModeByDate(TaskMode.Medium, this.SelectedDate);
+		//lModeCorrectAnswers = await DataManager.Instance.GetCorrectAnswersOfModeByDate(TaskMode.Large, this.SelectedDate);
+		var smallModeResults = await dataService.TaskData.GetDailyModeData(SelectedDate, TaskMode.Small);
+        var mediumModeResults = await dataService.TaskData.GetDailyModeData(SelectedDate, TaskMode.Medium);
+        var largeModeResults = await dataService.TaskData.GetDailyModeData(SelectedDate, TaskMode.Large);
 
-		sModeCorrectRate = Convert.ToInt32(((double)sModeCorrectAnswers / (double)sModeTotalTasks) * 100);
-		mModeCorrectRate = Convert.ToInt32(((double)mModeCorrectAnswers / (double)mModeTotalTasks) * 100);
-		lModeCorrectRate = Convert.ToInt32(((double)lModeCorrectAnswers / (double)lModeTotalTasks) * 100);
+		sModeCorrectAnswers = smallModeResults.CorrectAnswers;
+		mModeCorrectAnswers = mediumModeResults.CorrectAnswers;
+		lModeCorrectAnswers = largeModeResults.CorrectAnswers;
+
+		sModeTotalTasks = smallModeResults.TotalTasks;
+		mModeTotalTasks = mediumModeResults.TotalTasks;
+		lModeTotalTasks = largeModeResults.TotalTasks;
+
+		sModeCorrectRate = smallModeResults.CorrectRate;
+		mModeCorrectRate = mediumModeResults.CorrectRate;
+		lModeCorrectRate = largeModeResults.CorrectRate;
 
 		UpdateAnswersText();
 		UpdateGradeText(0, sModeCorrectRate);
         UpdateGradeText(1, mModeCorrectRate);
         UpdateGradeText(2, lModeCorrectRate);
 
-        sModeTime = await DataManager.Instance.GetTimeOfModeAndDate(TaskMode.Small, this.SelectedDate);
-        mModeTime = await DataManager.Instance.GetTimeOfModeAndDate(TaskMode.Medium, this.SelectedDate);
-        lModeTime = await DataManager.Instance.GetTimeOfModeAndDate(TaskMode.Large, this.SelectedDate);
-        if (sModeTime != 0)
-        {
-            sModeTime += 15000;
-        }
-        if (mModeTime != 0)
-        {
-            mModeTime += 30000;
-        }
-        if (lModeTime != 0)
-        {
-            lModeTime += 45000;
-        }
+		sModeTime = smallModeResults.Duration;
+		mModeTime = mediumModeResults.Duration;
+		lModeTime = largeModeResults.Duration;
 
         lessonsTime = sModeTime + mModeTime + lModeTime;
         otherTime = 0; //need to calculate and show ingame time without lessonsTime
@@ -362,48 +363,72 @@ public class CalendarManager : StaticInstance<CalendarManager>
     public async void ViewDetailsOfMode(int mode)
 	{
 		//Debug.LogError("Mode details request");
-        if (await DataManager.Instance.IsDateModeCompleted((TaskMode)mode, SelectedDate)) //await DatabaseHandler.IsDateModeCompleted((TaskMode)mode, SelectedDate))
-        {
-			int correctRate;
-			long modeTime;
-			string completedTasks;
-
-			switch (mode)
+		var modeResult = await dataService.TaskData.GetDailyModeData(SelectedDate, (TaskMode)mode);
+		if (modeResult.IsComplete)
+		{
+            var dayResults = await dataService.TaskData.GetResultsByModeAndDate((TaskMode)mode, SelectedDate);
+			int totalTasks = dayResults.Length;
+			int correctAnswers = 0;
+			double duration = 0;
+			for (int i = 0; i < totalTasks; i++)
 			{
-				case 0:
-					correctRate = sModeCorrectRate;
-					modeTime = sModeTime;
-					completedTasks = $"{sModeCorrectAnswers}/{sModeTotalTasks}";
-					break;
-				case 1:
-					correctRate = mModeCorrectRate;
-					modeTime = mModeTime;
-					completedTasks = $"{mModeCorrectAnswers}/{mModeTotalTasks}";
-					break;
-				case 2:
-					correctRate = lModeCorrectRate;
-					modeTime = lModeTime;
-					completedTasks = $"{lModeCorrectAnswers}/{lModeTotalTasks}";
-					break;
-				default:
-					goto case 0;
-			}
+				correctAnswers = dayResults[i].IsAnswerCorrect
+					? ++correctAnswers
+					: correctAnswers;
+				duration += dayResults[i].Duration;
+            }
+			int correctRate = (correctAnswers * 100) / totalTasks;
+			string answers = string.Format(kAnswersFormat, correctAnswers, totalTasks);
 
-			dailyResultPanel.gameObject.SetActive(true);
-			dailyResultPanel.UpdateInfoPanel(correctRate, modeTime, completedTasks);
-			dailyResultPanel.Initialize((TaskMode)mode, false);
+            dailyResultPanel.gameObject.SetActive(true);
+            dailyResultPanel.UpdateInfoPanel(correctRate, duration, answers);
+            dailyResultPanel.Initialize((TaskMode)mode, false);
         }
         else
         {
             Debug.LogError("Nothing");
         }
+
+
+        //     if (await DataManager.Instance.IsDateModeCompleted((TaskMode)mode, SelectedDate)) //await DatabaseHandler.IsDateModeCompleted((TaskMode)mode, SelectedDate))
+        //     {
+        //int correctRate;
+        //long modeTime;
+        //string completedTasks;
+
+        //switch (mode)
+        //{
+        //	case 0:
+        //		correctRate = sModeCorrectRate;
+        //		modeTime = sModeTime;
+        //		completedTasks = $"{sModeCorrectAnswers}/{sModeTotalTasks}";
+        //		break;
+        //	case 1:
+        //		correctRate = mModeCorrectRate;
+        //		modeTime = mModeTime;
+        //		completedTasks = $"{mModeCorrectAnswers}/{mModeTotalTasks}";
+        //		break;
+        //	case 2:
+        //		correctRate = lModeCorrectRate;
+        //		modeTime = lModeTime;
+        //		completedTasks = $"{lModeCorrectAnswers}/{lModeTotalTasks}";
+        //		break;
+        //	default:
+        //		goto case 0;
+        //}
+
+        //dailyResultPanel.gameObject.SetActive(true);
+        //dailyResultPanel.UpdateInfoPanel(correctRate, modeTime, completedTasks);
+        //dailyResultPanel.Initialize((TaskMode)mode, false);
+        //     }
+
     }
 
 	public async virtual void UpdateCalendar()
     {
 		monthYearText.text = $"{SelectedDate.Year} {cultureInfo.DateTimeFormat.GetMonthName(SelectedDate.Month)}";
 
-		List<CalendarData> calendarDatas = await DataManager.Instance.GetCalendarData(selectedMonth, selectedYear);
+		//List<CalendarData> calendarDatas = await DataManager.Instance.GetCalendarData(selectedMonth, selectedYear);
 
 		foreach (var calendarCell in calendarCellButtons)
 		{
@@ -411,20 +436,23 @@ public class CalendarManager : StaticInstance<CalendarManager>
 
 			if (cellDay > 0 && cellDay <= DaysInMonth)
 			{
-				if (calendarDatas.Any(x => x.Date.Day == cellDay))
-				{
-					calendarCell.CalendarData = calendarDatas.FirstOrDefault(x => x.Date.Day == cellDay);
-				}
-				else
-				{
-					CalendarData emptyCalendarData = new CalendarData(new DateTime(selectedYear, selectedMonth, cellDay));
+                //if (calendarDatas.Any(x => x.Date.Day == cellDay))
+                //{
+                //	calendarCell.CalendarData = calendarDatas.FirstOrDefault(x => x.Date.Day == cellDay);
+                //}
+                //else
+                //{
+                var dailyData = await dataService.TaskData.GetDailyData(new DateTime(selectedYear, selectedMonth, cellDay));
+                CalendarData emptyCalendarData = new CalendarData(new DateTime(selectedYear, selectedMonth, cellDay));
 					foreach (TaskMode mode in (TaskMode[])Enum.GetValues(typeof(TaskMode)))
 					{
-						emptyCalendarData.ModeData.Add(mode, false);
+						var dailyMode = dailyData.FirstOrDefault(x => x.Mode == mode);
+						var modeCompleted = (dailyMode != null) && dailyMode.IsComplete; 
+						emptyCalendarData.ModeData.Add(mode, modeCompleted);
 					}
 
 					calendarCell.CalendarData = emptyCalendarData;
-				}
+				//}
 			}
 
 			calendarCell.Init(SelectedDate);
