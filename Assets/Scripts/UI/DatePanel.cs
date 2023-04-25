@@ -149,11 +149,12 @@ public class DatePanel : ButtonFX
 
     private async UniTask<CalendarData> GetTodayCalendarDate()
     {
-        var dateResults = await dataService.TaskData.GetDailyData(DateTime.UtcNow);
         var data = new CalendarData(DateTime.UtcNow.Date);
-        for (int i = 0, j = dateResults.Count; i < j; i++)
+        var modes = (TaskMode[])Enum.GetValues(typeof(TaskMode));
+        foreach (var mode in modes)
         {
-            data.ModeData.Add(dateResults[i].Mode, dateResults[i].IsComplete);
+            var dateResults = await dataService.TaskData.GetDailyModeData(DateTime.UtcNow, mode);
+            data.ModeData.Add(mode, dateResults.IsComplete);
         }
         return data;
     }

@@ -4,11 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 namespace Mathy.Services
 {
     public interface ISkillPlanService
     {
+        event Action ON_SKILL_PLAN_UPDATED;
         bool IsAnySkillActivated { get; }
         public int SelectedGrade { get; set; }
         List<ScriptableTask> GetAvailableTaskSettings();
@@ -22,6 +24,8 @@ namespace Mathy.Services
 
     public class SkillPlanService : ISkillPlanService
     {
+        public event Action ON_SKILL_PLAN_UPDATED;
+
         private readonly IDataService _dataService;
         private List<GradeSettings> _gradeSettings;
         private List<GradeData> _gradeDatas;
@@ -100,10 +104,20 @@ namespace Mathy.Services
             //    .SelectMany(x => x.Tasks.ForEach(g => g.MaxNumber = settings.Value));
 
             _gradeDatas.Where(x => x.GradeIndex == settings.Grade)
+                       .SelectMany(t => t.SkillDatas.Where(s => s.Settings.Skill == settings.Skill))
+                       .ToList()
+                       .ForEach(x => x.Settings.IsEnabled = settings.IsEnabled);
+
+           _gradeDatas.Where(x => x.GradeIndex == settings.Grade)
                         .SelectMany(t => t.SkillDatas.Where(s => s.Settings.Skill == settings.Skill))
                         .SelectMany(x => x.Tasks)
                         .ToList()
-                        .ForEach(g => g.MaxNumber = settings.Value);
+                        .ForEach(g =>
+                        {
+                            g.MaxNumber = settings.Value;
+                        });
+
+            ON_SKILL_PLAN_UPDATED?.Invoke();
         }
 
         public async UniTask SaveGradeState(int grade, bool isEnable)

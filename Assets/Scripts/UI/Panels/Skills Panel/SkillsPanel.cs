@@ -33,7 +33,7 @@ namespace Mathy.UI
         [SerializeField] private string selectAllKey = "Skills Panel Select All";
         [SerializeField] private string deselectAllKey = "Skills Panel Deselect All";
 
-        private GradeData selectedGradeData;
+        private List<SkillData> selectedGradeData;
         private int selectedTabIndex = -1;
         private int selectedSkillsCount = 0;
         private int availableSkillsCount;
@@ -53,7 +53,7 @@ namespace Mathy.UI
 
         private void Localize()
         {
-            var skillDatas = selectedGradeData.SkillDatas;
+            var skillDatas = selectedGradeData;
             if (skillDatas.Count <= 0) return;
             for (int i = 0; i < availableSkillsCount; i++)
             {
@@ -65,7 +65,7 @@ namespace Mathy.UI
                 selectAllToggle.isOn ? deselectAllKey : selectAllKey);
         }
 
-        private async void Initialize()
+        private void Initialize()
         {
             if (availableGrades > gradeTabButtons.Count)
                 availableGrades = gradeTabButtons.Count;
@@ -88,6 +88,9 @@ namespace Mathy.UI
             selectAllToggle.onValueChanged.AddListener(SelectAllSkills);
             closeButton.onClick.AddListener(ClosePanel);
             LocalizationManager.OnLanguageChanged.AddListener(Localize);
+
+            selectAllTitle.text = LocalizationManager.GetLocalizedString(tableName,
+                selectAllToggle.isOn ? deselectAllKey : selectAllKey);
         }
 
         public override void ClosePanel()
@@ -98,13 +101,13 @@ namespace Mathy.UI
 
         private void UpdateDisplayedSkills()
         {
-            var skillDatas = service.GetSelectedGradeSkillDatas();
-            availableSkillsCount = skillDatas.Count;
+            selectedGradeData = service.GetSelectedGradeSkillDatas();
+            availableSkillsCount = selectedGradeData.Count;
 
             //Initialization of all skill settings GUI depending on the available skill datas
             for (int i = 0; i < availableSkillsCount; i++)
             {
-                var skill = skillDatas[i];
+                var skill = selectedGradeData[i];
                 var settings = skillSettingsElements[i];
 
                 settings.gameObject.SetActive(true);

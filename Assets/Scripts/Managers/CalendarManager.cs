@@ -442,12 +442,13 @@ public class CalendarManager : StaticInstance<CalendarManager>
                 //}
                 //else
                 //{
-                var dailyData = await dataService.TaskData.GetDailyData(new DateTime(selectedYear, selectedMonth, cellDay));
+                //var dailyData = await dataService.TaskData.GetDailyData(new DateTime(selectedYear, selectedMonth, cellDay));
                 CalendarData emptyCalendarData = new CalendarData(new DateTime(selectedYear, selectedMonth, cellDay));
 					foreach (TaskMode mode in (TaskMode[])Enum.GetValues(typeof(TaskMode)))
 					{
-						var dailyMode = dailyData.FirstOrDefault(x => x.Mode == mode);
-						var modeCompleted = (dailyMode != null) && dailyMode.IsComplete; 
+					var dailyData = await dataService.TaskData.GetDailyModeData(new DateTime(selectedYear, selectedMonth, cellDay), mode);
+						//var dailyMode = dailyData.FirstOrDefault(x => x.Mode == mode);
+						var modeCompleted = dailyData.IsComplete; 
 						emptyCalendarData.ModeData.Add(mode, modeCompleted);
 					}
 
