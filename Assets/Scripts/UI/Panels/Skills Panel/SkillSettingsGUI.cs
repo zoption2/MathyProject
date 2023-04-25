@@ -1,3 +1,4 @@
+using Mathy.Data;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -23,6 +24,8 @@ namespace Mathy.UI
 
         [Header("CONFIG:")]
         [SerializeField] private int maxNumber;
+
+        private SkillType skillType;
         public int MaxNumber
         {
             get => maxNumber;
@@ -46,8 +49,8 @@ namespace Mathy.UI
         }
 
         [Header("EVENTS:")]
-        public UnityEvent<bool> OnTogglePressed;
-        public UnityEvent<int> OnSliderValueChanged;
+        public UnityEvent<SkillType, bool> OnTogglePressed;
+        public UnityEvent<SkillType, int> OnSliderValueChanged;
 
         #endregion
 
@@ -56,19 +59,22 @@ namespace Mathy.UI
             isActiveToggle.onValueChanged.AddListener(delegate { 
                 SetActive(isActiveToggle.isOn); });
             maxNumberSlider.onValueChanged.AddListener(delegate { 
-                SetMaxNumber(maxNumberSlider.value * maxNumberSlider.maxValue); });
+                SetCurrentValue(maxNumberSlider.value * maxNumberSlider.maxValue); });
         }
 
         public void SetActive(bool isSkillActive)
         {
             IsActive = isSkillActive;
-            if (OnTogglePressed != null) OnTogglePressed.Invoke(IsActive);
+            if (OnTogglePressed != null) OnTogglePressed.Invoke(skillType, IsActive);
         }
 
-        public void SetMaxNumber(float skillMaxNumber)
+        private void SetCurrentValue(float skillMaxNumber)
         {
             maxNumber = (int)skillMaxNumber;
-            if (OnSliderValueChanged != null) OnSliderValueChanged.Invoke(MaxNumber);
+            if (OnSliderValueChanged != null)
+            {
+                OnSliderValueChanged.Invoke(skillType, MaxNumber);
+            } 
         }
 
         private void UpdateSliderState()
@@ -89,9 +95,10 @@ namespace Mathy.UI
             }
             
         }
-        public void Initialize(string nameLabel, int maxNumber, bool isActive)
+        public void Initialize(SkillType skillType, string localizedName, int maxNumber, bool isActive)
         {
-            this.nameLabel.text = nameLabel;
+            this.skillType = skillType;
+            this.nameLabel.text = localizedName;
             this.maxNumberSlider.value = maxNumber / 10;
             this.IsActive = isActive;
         }

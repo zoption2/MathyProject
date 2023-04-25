@@ -174,19 +174,19 @@ namespace Mathy.Data
 
         #region SAVE GRADE SETTINGS
 
-        public async System.Threading.Tasks.Task SaveGradeDatas(List<GradeData> gradeDatas)
-        {
-            await DbHandler.SaveGradeDatas(gradeDatas);
-        }
+        //public async System.Threading.Tasks.Task SaveGradeDatas(List<GradeData> gradeDatas)
+        //{
+        //    await DbHandler.SaveGradeDatas(gradeDatas);
+        //}
 
         #endregion
 
         #region LOAD GRADE SETTINGS
 
-        public async Task<List<GradeData>> GetGradeDatas(List<GradeSettings> gradeSettings)
-        {
-            return await DbHandler.GetGradeDatas(gradeSettings);
-        }
+        //public async Task<List<GradeData>> GetGradeDatas(List<GradeSettings> gradeSettings)
+        //{
+        //    return await DbHandler.GetGradeDatas(gradeSettings);
+        //}
 
         #endregion
 

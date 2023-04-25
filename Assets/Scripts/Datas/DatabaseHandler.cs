@@ -532,38 +532,38 @@ namespace Mathy.Data
             UpdateSystemInfo(actualDatabaseVersion, Application.version);
         }
 
-        public async System.Threading.Tasks.Task SaveGradeDatas(List<GradeData> gradeDatas)
-        {
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try
-                {
-                    await connection.OpenAsync();
+        //public async System.Threading.Tasks.Task SaveGradeDatas(List<GradeData> gradeDatas)
+        //{
+        //    using (SqliteConnection connection = new SqliteConnection(databasePath))
+        //    {
+        //        try
+        //        {
+        //            await connection.OpenAsync();
 
-                    foreach (var gradeData in gradeDatas)
-                    {
-                        int gradeIndex = gradeData.GradeIndex;
-                        for (int i = 0; i < gradeData.SkillDatas.Count; i++)
-                        {
-                            var skillData = gradeData.SkillDatas[i];
-                            int skillTypeIndex = (int)skillData.SkillType;
+        //            foreach (var gradeData in gradeDatas)
+        //            {
+        //                int gradeIndex = gradeData.GradeIndex;
+        //                for (int i = 0; i < gradeData.SkillDatas.Count; i++)
+        //                {
+        //                    var skillData = gradeData.SkillDatas[i];
+        //                    int skillTypeIndex = (int)skillData.SkillType;
 
-                            var updateCommand = new SqliteCommand("UPDATE SkillSettings SET MaxNumber = @maxNumber, IsActive = @isActive WHERE GradeIndex = @gradeIndex AND SkillTypeIndex = @skillTypeIndex", connection);
-                            updateCommand.Parameters.AddWithValue("@maxNumber", skillData.MaxNumber);
-                            updateCommand.Parameters.AddWithValue("@isActive", skillData.IsActive);
-                            updateCommand.Parameters.AddWithValue("@gradeIndex", gradeIndex);
-                            updateCommand.Parameters.AddWithValue("@skillTypeIndex", skillTypeIndex);
+        //                    var updateCommand = new SqliteCommand("UPDATE SkillSettings SET MaxNumber = @maxNumber, IsActive = @isActive WHERE GradeIndex = @gradeIndex AND SkillTypeIndex = @skillTypeIndex", connection);
+        //                    updateCommand.Parameters.AddWithValue("@maxNumber", skillData.MaxNumber);
+        //                    updateCommand.Parameters.AddWithValue("@isActive", skillData.IsActive);
+        //                    updateCommand.Parameters.AddWithValue("@gradeIndex", gradeIndex);
+        //                    updateCommand.Parameters.AddWithValue("@skillTypeIndex", skillTypeIndex);
 
-                            await updateCommand.ExecuteNonQueryAsync();
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.Log("Some error: " + e.ToString());
-                }
-            }
-        }
+        //                    await updateCommand.ExecuteNonQueryAsync();
+        //                }
+        //            }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.Log("Some error: " + e.ToString());
+        //        }
+        //    }
+        //}
 
         private async System.Threading.Tasks.Task FillTaskTypes() 
         {
@@ -1948,66 +1948,66 @@ namespace Mathy.Data
 
         #region LOADING
 
-        public async Task<List<GradeData>> GetGradeDatas(List<GradeSettings> gradeSettings)
-        {
-            List<GradeData> gradeDatas = new List<GradeData>();
+        //public async Task<List<GradeData>> GetGradeDatas(List<GradeSettings> gradeSettings)
+        //{
+        //    List<GradeData> gradeDatas = new List<GradeData>();
 
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try 
-                { 
-                    connection.Open();
+        //    using (SqliteConnection connection = new SqliteConnection(databasePath))
+        //    {
+        //        try 
+        //        { 
+        //            connection.Open();
 
-                    foreach (var gradeSetting in gradeSettings)
-                    {
-                        var gradeData = new GradeData();
-                        int gradeIndex = gradeSettings.IndexOf(gradeSetting) + 1;
-                        gradeData.GradeIndex = gradeIndex;
-                        gradeData.IsActive = true;
-                        gradeData.SkillDatas = new List<SkillData>();
-                        for (int i = 0; i < gradeSetting.SkillSettings.Count; i++)
-                        {
-                            SkillData skillData = new SkillData();
-                            skillData.SkillType = gradeSetting.SkillSettings[i].SkillType;
-                            skillData.TaskSettings = gradeSetting.SkillSettings[i].TaskSettings;
-                            int skillTypeIndex = (int)gradeSetting.SkillSettings[i].SkillType;
+        //            foreach (var gradeSetting in gradeSettings)
+        //            {
+        //                var gradeData = new GradeData();
+        //                int gradeIndex = gradeSettings.IndexOf(gradeSetting) + 1;
+        //                gradeData.GradeIndex = gradeIndex;
+        //                gradeData.IsActive = true;
+        //                gradeData.SkillDatas = new List<SkillData>();
+        //                for (int i = 0; i < gradeSetting.SkillSettings.Count; i++)
+        //                {
+        //                    SkillData skillData = new SkillData();
+        //                    skillData.SkillType = gradeSetting.SkillSettings[i].SkillType;
+        //                    skillData.TaskSettings = gradeSetting.SkillSettings[i].TaskSettings;
+        //                    int skillTypeIndex = (int)gradeSetting.SkillSettings[i].SkillType;
 
-                            var selectCommand = new SqliteCommand("SELECT * FROM SkillSettings WHERE GradeIndex = @gradeIndex AND SkillTypeIndex = @skillTypeIndex", connection);
-                            selectCommand.Parameters.AddWithValue("@gradeIndex", gradeIndex);
-                            selectCommand.Parameters.AddWithValue("@skillTypeIndex", skillTypeIndex);
+        //                    var selectCommand = new SqliteCommand("SELECT * FROM SkillSettings WHERE GradeIndex = @gradeIndex AND SkillTypeIndex = @skillTypeIndex", connection);
+        //                    selectCommand.Parameters.AddWithValue("@gradeIndex", gradeIndex);
+        //                    selectCommand.Parameters.AddWithValue("@skillTypeIndex", skillTypeIndex);
 
-                            var reader = await selectCommand.ExecuteReaderAsync();
-                            if (!reader.HasRows)
-                            {
-                                reader.Close();
-                                var insertCommand = new SqliteCommand("INSERT INTO SkillSettings (GradeIndex, SkillTypeIndex, MaxNumber, IsActive) VALUES (@gradeIndex, @skillTypeIndex, @maxNumber, @isActive)", connection);
-                                insertCommand.Parameters.AddWithValue("@gradeIndex", gradeIndex);
-                                insertCommand.Parameters.AddWithValue("@skillTypeIndex", skillTypeIndex);
-                                insertCommand.Parameters.AddWithValue("@maxNumber", 20);
-                                insertCommand.Parameters.AddWithValue("@isActive", true);
-                                await insertCommand.ExecuteNonQueryAsync();
+        //                    var reader = await selectCommand.ExecuteReaderAsync();
+        //                    if (!reader.HasRows)
+        //                    {
+        //                        reader.Close();
+        //                        var insertCommand = new SqliteCommand("INSERT INTO SkillSettings (GradeIndex, SkillTypeIndex, MaxNumber, IsActive) VALUES (@gradeIndex, @skillTypeIndex, @maxNumber, @isActive)", connection);
+        //                        insertCommand.Parameters.AddWithValue("@gradeIndex", gradeIndex);
+        //                        insertCommand.Parameters.AddWithValue("@skillTypeIndex", skillTypeIndex);
+        //                        insertCommand.Parameters.AddWithValue("@maxNumber", 20);
+        //                        insertCommand.Parameters.AddWithValue("@isActive", true);
+        //                        await insertCommand.ExecuteNonQueryAsync();
 
-                                reader = await selectCommand.ExecuteReaderAsync();
-                            }
-                            while (await reader.ReadAsync())
-                            {
-                                skillData.IsActive = (bool)reader["IsActive"];
-                                skillData.MaxNumber = Convert.ToInt32(reader["MaxNumber"]);
-                                gradeData.SkillDatas.Add(skillData);
-                            }
-                            reader.Close();
-                        }
-                        gradeDatas.Add(gradeData);
-                    }
-                    connection.Close();
-                }
-                catch (Exception e)
-                {
-                    Debug.Log("Some error: " + e.ToString());
-                }
-            }
-            return gradeDatas;
-        }
+        //                        reader = await selectCommand.ExecuteReaderAsync();
+        //                    }
+        //                    while (await reader.ReadAsync())
+        //                    {
+        //                        skillData.IsActive = (bool)reader["IsActive"];
+        //                        skillData.MaxNumber = Convert.ToInt32(reader["MaxNumber"]);
+        //                        gradeData.SkillDatas.Add(skillData);
+        //                    }
+        //                    reader.Close();
+        //                }
+        //                gradeDatas.Add(gradeData);
+        //            }
+        //            connection.Close();
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.Log("Some error: " + e.ToString());
+        //        }
+        //    }
+        //    return gradeDatas;
+        //}
 
 
         //Returns list of TimeSpans represents time of the task completion 

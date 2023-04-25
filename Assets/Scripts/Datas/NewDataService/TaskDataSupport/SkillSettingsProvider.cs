@@ -47,7 +47,7 @@ namespace Mathy.Services.Data
                     var requestData = data[i];
                     var requestModel = requestData.ConvertToTableModel();
                     var exists = await connection.QueryFirstOrDefaultAsync<SkillPlanTableModel>(SkillPlanTableRequests.SelectByGradeAndSkillQuery, requestModel);
-                    var query = exists != null ? DailyModeTableRequests.UpdateDailyQuery : DailyModeTableRequests.InsertDailyQuery;
+                    var query = exists != null ? SkillPlanTableRequests.UpdateSkillQuery : SkillPlanTableRequests.InsertEntryQuery;
                     await connection.ExecuteAsync(query, requestModel);
                 }
             }
@@ -59,7 +59,7 @@ namespace Mathy.Services.Data
             {
                 var requestModel = data.ConvertToTableModel();
                 var exists = await connection.QueryFirstOrDefaultAsync<SkillPlanTableModel>(SkillPlanTableRequests.SelectByGradeAndSkillQuery, requestModel);
-                var query = exists != null ? DailyModeTableRequests.UpdateDailyQuery : DailyModeTableRequests.InsertDailyQuery;
+                var query = exists != null ? SkillPlanTableRequests.UpdateSkillQuery : SkillPlanTableRequests.InsertEntryQuery;
                 await connection.ExecuteAsync(query, requestModel);
             }
         }

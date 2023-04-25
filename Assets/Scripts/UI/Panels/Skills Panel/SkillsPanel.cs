@@ -5,11 +5,14 @@ using Mathy.Data;
 using System;
 using TMPro;
 using Cysharp.Threading.Tasks;
+using Zenject;
+using Mathy.Services;
 
 namespace Mathy.UI
 {
     public class SkillsPanel : PopupPanel
     {
+        [Inject] private ISkillPlanService service;
         #region FIELDS
 
         [Header("COMPONENTS:")]
@@ -34,6 +37,7 @@ namespace Mathy.UI
         private int selectedTabIndex = -1;
         private int selectedSkillsCount = 0;
         private int availableSkillsCount;
+        private Dictionary<SkillType, SkillSettingsData> skillSettingsDatas = new();
 
         #endregion
 
@@ -42,9 +46,8 @@ namespace Mathy.UI
             Initialize();
         }
 
-        private async void Start()
+        private void Start()
         {
-            await UniTask.WaitUntil(() => GradeManager.Instance != null);
             SelectTab(defaultTabIndex);
         }
 
@@ -56,19 +59,21 @@ namespace Mathy.UI
             {
                 var skill = skillDatas[i];
                 var settings = skillSettingsElements[i];
-                settings.Localize(GetSkillTitle(skill.SkillType));
+                settings.Localize(GetSkillTitle(skill.Settings.Skill));
             }
             selectAllTitle.text = LocalizationManager.GetLocalizedString(tableName,
                 selectAllToggle.isOn ? deselectAllKey : selectAllKey);
         }
 
-        private void Initialize()
+        private async void Initialize()
         {
             if (availableGrades > gradeTabButtons.Count)
                 availableGrades = gradeTabButtons.Count;
 
             for (int i = 0; i < availableGrades; i++)
             {
+                //var grade = i + 1;
+                //var isGradeEnabled = await service.IsGradeEnable(grade, true);
                 int tabIndex = i;
                 gradeTabButtons[i].gameObject.SetActive(true);
                 gradeTabButtons[i].UpdateDisplayStyle(availableGrades > 3);
@@ -85,10 +90,15 @@ namespace Mathy.UI
             LocalizationManager.OnLanguageChanged.AddListener(Localize);
         }
 
+        public override void ClosePanel()
+        {
+            SaveSkillsSettings();
+            base.ClosePanel();
+        }
+
         private void UpdateDisplayedSkills()
         {
-            selectedGradeData = GradeManager.Instance.GradeDatas[selectedTabIndex];
-            var skillDatas = selectedGradeData.SkillDatas;
+            var skillDatas = service.GetSelectedGradeSkillDatas();
             availableSkillsCount = skillDatas.Count;
 
             //Initialization of all skill settings GUI depending on the available skill datas
@@ -98,9 +108,11 @@ namespace Mathy.UI
                 var settings = skillSettingsElements[i];
 
                 settings.gameObject.SetActive(true);
-                settings.Initialize(GetSkillTitle(skill.SkillType),
-                    skill.MaxNumber, skill.IsActive);
-                if (skill.IsActive)
+                var skillSettings = skill.Settings;
+                var localizedName = GetSkillTitle(skillSettings.Skill);
+                settings.Initialize(skillSettings.Skill, localizedName
+                                    , skillSettings.Value, skillSettings.IsEnabled);
+                if (skillSettings.IsEnabled)
                     selectedSkillsCount++;
             }
 
@@ -121,14 +133,43 @@ namespace Mathy.UI
             {
                 int gradeIndex = selectedTabIndex + 1;
                 int skillIndex = i;
-                skillSettingsElements[i].OnTogglePressed.AddListener(
-                (isAvailable) => GradeManager.Instance.SetSkillIsActive(
-                    gradeIndex, skillIndex, isAvailable));
-                skillSettingsElements[i].OnTogglePressed.AddListener((isEnabled) => this.SkillChecked(isEnabled));
-                skillSettingsElements[i].OnSliderValueChanged.AddListener(
-                (maxNumber) => GradeManager.Instance.SetSkillMaxNumber(
-                    gradeIndex, skillIndex, maxNumber));
+                //skillSettingsElements[i].OnTogglePressed.AddListener(
+                //(isAvailable) => GradeManager.Instance.SetSkillIsActive(
+                //    gradeIndex, skillIndex, isAvailable));
+                skillSettingsElements[i].OnTogglePressed.AddListener(UpdateSkillActivityInternal);
+                skillSettingsElements[i].OnSliderValueChanged.AddListener(UpdateSkillValueInternal);
             }
+        }
+
+        private void UpdateSkillActivityInternal(SkillType skillType, bool isEnable)
+        {
+            if (!skillSettingsDatas.ContainsKey(skillType))
+            {
+                var data = new SkillSettingsData();
+                data.Skill = skillType;
+                skillSettingsDatas.Add(skillType, data);
+            }
+            skillSettingsDatas[skillType].IsEnabled = isEnable;
+        }
+
+        private void UpdateSkillValueInternal(SkillType skillType, int value)
+        {
+            if (!skillSettingsDatas.ContainsKey(skillType))
+            {
+                var data = new SkillSettingsData();
+                data.Skill = skillType;
+                skillSettingsDatas.Add(skillType, data);
+            }
+            skillSettingsDatas[skillType].Value = value;
+        }
+
+        private async void SaveSkillsSettings()
+        {
+            foreach (var skillData in skillSettingsDatas.Values)
+            {
+                await service.SaveSkillSettings(skillData);
+            }
+            skillSettingsDatas.Clear();
         }
 
         /// <summary>
@@ -163,16 +204,17 @@ namespace Mathy.UI
             }
 
             selectedTabIndex = tabToSelectIndex;
+            service.SelectedGrade = tabToSelectIndex + 1;
             UpdateDisplayedSkills();
         }
 
-        private void SkillChecked(bool isEnabled)
-        {
-            selectedSkillsCount += isEnabled ? 1 : -1;
-            selectedSkillsCount = Mathf.Clamp(selectedSkillsCount, 0, availableSkillsCount);
-            selectAllToggle.isOn = selectedSkillsCount == availableSkillsCount;
-            _ = PlayButtonPanel.Instance.CheckSkills();
-        }
+        //private void CheckSkill(bool isEnabled)
+        //{
+        //    selectedSkillsCount += isEnabled ? 1 : -1;
+        //    selectedSkillsCount = Mathf.Clamp(selectedSkillsCount, 0, availableSkillsCount);
+        //    selectAllToggle.isOn = selectedSkillsCount == availableSkillsCount;
+        //    _ = PlayButtonPanel.Instance.CheckSkills();
+        //}
 
         private void SelectAllSkills(bool isActive)
         {

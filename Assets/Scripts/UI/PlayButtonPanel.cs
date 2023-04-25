@@ -15,6 +15,7 @@ public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
 {
     [Inject] private IGameplayService gameplayService;
     [Inject] private IDataService dataService;
+    [Inject] private ISkillPlanService skillPlanService;
     public enum PlayPanelState
     {
         Default = 0,
@@ -137,15 +138,14 @@ public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
                 button.IsInteractable = true;
             }
         }
-        _ = CheckSkills();
+        CheckSkills();
     }
 
-    public async UniTask CheckSkills()
+    public void CheckSkills()
     {
-        await UniTask.WaitUntil(() => GradeManager.Instance.IsInitialized);
         if(IsAllModesDone)
             State = PlayPanelState.Completed;
-        else if (GradeManager.Instance.IsAnySkillActivated)
+        else if (skillPlanService.IsAnySkillActivated)
             State = PlayPanelState.Default;
         else
             State = PlayPanelState.Inactive;
@@ -274,7 +274,7 @@ public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
     {
         AudioSystem.Instance.FadeMusic(0, 1f, true);
         _ = ScenesManager.Instance.SetGameplaySceneActive();
-        var settings = GradeManager.Instance.AvailableTaskSettings();
+        var settings = skillPlanService.GetAvailableTaskSettings();
         gameplayService.StartGame(SelectedTaskMode, settings);
         await UniTask.Delay(2000);
         LoadingManager.Instance.ClosePanel();

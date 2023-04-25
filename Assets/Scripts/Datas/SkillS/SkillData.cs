@@ -15,29 +15,12 @@ namespace Mathy.Data
         public int GradeIndex;
         public bool IsActive;
         public List<SkillData> SkillDatas;
-
-        public GradeData(int index, bool isActive, List<SkillData> skillDatas)
-        {
-            this.GradeIndex = index;
-            this.IsActive = isActive;
-            this.SkillDatas = skillDatas;
-        }
     }
 
     [Serializable]
-    public struct SkillData
+    public class SkillData
     {
-        public SkillType SkillType;
-        public bool IsActive;
-        public int MaxNumber;
-        public List<ScriptableTask> TaskSettings;
-
-        public SkillData(SkillType skillType, bool isActive, int maxNumber, List<ScriptableTask> taskSettings)
-        {
-            this.SkillType = skillType;
-            this.IsActive = isActive;
-            this.MaxNumber = maxNumber;
-            this.TaskSettings = taskSettings;
-        }
+        public SkillSettingsData Settings;
+        public List<ScriptableTask> Tasks;
     }
 }

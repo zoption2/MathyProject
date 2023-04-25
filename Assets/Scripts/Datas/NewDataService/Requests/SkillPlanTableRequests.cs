@@ -60,7 +60,7 @@ namespace Mathy.Services.Data
             @{nameof(SkillPlanTableModel.MaxValue)}
             )";
 
-        public static readonly string UpdateDailyQuery = $@"update {kTable}
+        public static readonly string UpdateSkillQuery = $@"update {kTable}
             SET {kIsEnable} = @{nameof(SkillPlanTableModel.IsEnabled)},
                 {kValue} = @{nameof(SkillPlanTableModel.Value)},
                 {kMinValue} = @{nameof(SkillPlanTableModel.MinValue)},
