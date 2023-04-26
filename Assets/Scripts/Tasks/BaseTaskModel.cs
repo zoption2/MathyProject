@@ -25,6 +25,7 @@ namespace Mathy.Core.Tasks
 
     public abstract class BaseTaskModel : ITaskModel
     {
+        protected const string kUnknownSign = "?";
         public virtual string TitleKey => taskSettings.Title;
         public virtual string DescriptionKey => taskSettings.Description;
         public TaskType TaskType => taskSettings.TaskType;
@@ -45,8 +46,6 @@ namespace Mathy.Core.Tasks
         protected int maxLimit;
         protected int amountOfVariants;
         protected Random random;
-
-        protected const string kUnknownElement = "?";
 
         public BaseTaskModel(ScriptableTask taskSettings)
         {
@@ -136,7 +135,7 @@ namespace Mathy.Core.Tasks
         {
             elements = expression
                 .Where(e => e.Type == TaskElementType.Value)
-                .Select(e => e.IsUnknown ? kUnknownElement : e.Value)
+                .Select(e => e.IsUnknown ? kUnknownSign : e.Value)
                 .ToList();
 
             operators = expression
