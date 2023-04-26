@@ -41,15 +41,6 @@ namespace Mathy.UI
 
         #endregion
 
-        //private void Awake()
-        //{
-        //    Initialize();
-        //}
-
-        //private void Start()
-        //{
-        //    SelectTab(defaultTabIndex);
-        //}
 
         protected override void OnEnable()
         {
@@ -73,21 +64,6 @@ namespace Mathy.UI
             TryUnsubscribeFromSkillSettings();
         }
 
-        //private void Localize()
-        //{
-        //    var skillDatas = selectedGradeData;
-        //    if (skillDatas.Count <= 0) return;
-        //    for (int i = 0; i < availableSkillsCount; i++)
-        //    {
-        //        var skill = skillDatas[i];
-        //        var settings = skillSettingsElements[i];
-        //        var localizedTitle = GetSkillTitle(skill.Settings.Skill);
-        //        settings.Localize(localizedTitle);
-        //    }
-        //    selectAllTitle.text = LocalizationManager.GetLocalizedString(tableName,
-        //        selectAllToggle.isOn ? deselectAllKey : selectAllKey);
-        //}
-
         private void Initialize()
         {
             if (availableGrades > gradeTabButtons.Count)
@@ -95,22 +71,15 @@ namespace Mathy.UI
 
             for (int i = 0; i < availableGrades; i++)
             {
-                //var grade = i + 1;
-                //var isGradeEnabled = await service.IsGradeEnable(grade, true);
-                int tabIndex = i;
                 gradeTabButtons[i].gameObject.SetActive(true);
                 gradeTabButtons[i].UpdateDisplayStyle(availableGrades > 3);
                 gradeTabButtons[i].Button.onClick.AddListener
-                    (() => { SelectTab(tabIndex); });
+                    (() => { SelectTab(i); });
             }
             for (int i = availableGrades; i < gradeTabButtons.Count; i++)
             {
                 gradeTabButtons[i].gameObject.SetActive(false);
             }
-            
-            //selectAllToggle.onValueChanged.AddListener(SelectAllSkills);
-            //closeButton.onClick.AddListener(ClosePanel);
-            //LocalizationManager.OnLanguageChanged.AddListener(Localize);
 
             selectAllTitle.text = LocalizationManager.GetLocalizedString(tableName,
                 selectAllToggle.isOn ? deselectAllKey : selectAllKey);
@@ -168,6 +137,10 @@ namespace Mathy.UI
             }
 
             selectAllToggle.isOn = selectedSkillsCount == availableSkillsCount;
+            
+            selectAllTitle.text = LocalizationManager.GetLocalizedString(tableName,
+                                 selectAllToggle.isOn ? deselectAllKey : selectAllKey);
+            
             TryUnsubscribeFromSkillSettings();
             SubscribeToSkillSettings();
         }
@@ -202,6 +175,13 @@ namespace Mathy.UI
 
         private void UpdateSkillActivityInternal(SkillType skillType, bool isEnable)
         {
+            if (isEnable != skillSettingsDatas[skillType].IsEnabled)
+            {
+                selectedSkillsCount = isEnable
+                    ? ++selectedSkillsCount
+                    : --selectedSkillsCount;
+            }
+
             if (skillSettingsDatas.ContainsKey(skillType))
             {
                 skillSettingsDatas[skillType].IsEnabled = isEnable;
@@ -245,32 +225,27 @@ namespace Mathy.UI
             return title;
         }
 
-
-
-        //private void CheckSkill(bool isEnabled)
-        //{
-        //    selectedSkillsCount += isEnabled ? 1 : -1;
-        //    selectedSkillsCount = Mathf.Clamp(selectedSkillsCount, 0, availableSkillsCount);
-        //    selectAllToggle.isOn = selectedSkillsCount == availableSkillsCount;
-        //    _ = PlayButtonPanel.Instance.CheckSkills();
-        //}
-
         private void SelectAllSkills(bool isActive)
         {
-            if (isActive)
+            //if (isActive)
+            //{
+            //    for (int i = 0; i < availableSkillsCount; i++)
+            //    {
+            //        skillSettingsElements[i].SetActive(true);
+            //    }
+            //}
+            //else if (selectedSkillsCount == availableSkillsCount)
+            //{
+            //    for (int i = 0; i < availableSkillsCount; i++)
+            //    {
+            //        skillSettingsElements[i].SetActive(false);
+            //    }
+            //}
+            for (int i = 0; i < availableSkillsCount; i++)
             {
-                for (int i = 0; i < availableSkillsCount; i++)
-                {
-                    skillSettingsElements[i].SetActive(true);
-                }
+                skillSettingsElements[i].SetActive(isActive);
             }
-            else if (selectedSkillsCount == availableSkillsCount)
-            {
-                for (int i = 0; i < availableSkillsCount; i++)
-                {
-                    skillSettingsElements[i].SetActive(false);
-                }
-            }
+
             selectAllTitle.text = LocalizationManager.GetLocalizedString(tableName,
                 isActive ? deselectAllKey: selectAllKey);
         }

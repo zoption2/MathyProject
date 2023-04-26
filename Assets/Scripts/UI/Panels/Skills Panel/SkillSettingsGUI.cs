@@ -119,10 +119,5 @@ namespace Mathy.UI
         {
             Unsubscribe();
         }
-
-        //public void Localize(string nameLabel)
-        //{
-        //    this.nameLabel.text = nameLabel;
-        //}
     }
 }
