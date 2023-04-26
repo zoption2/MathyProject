@@ -59,7 +59,8 @@ namespace Mathy.UI
             {
                 var skill = skillDatas[i];
                 var settings = skillSettingsElements[i];
-                settings.Localize(GetSkillTitle(skill.Settings.Skill));
+                var localizedTitle = GetSkillTitle(skill.Settings.Skill);
+                settings.Localize(localizedTitle);
             }
             selectAllTitle.text = LocalizationManager.GetLocalizedString(tableName,
                 selectAllToggle.isOn ? deselectAllKey : selectAllKey);
@@ -102,6 +103,7 @@ namespace Mathy.UI
         private void UpdateDisplayedSkills()
         {
             selectedGradeData = service.GetSelectedGradeSkillDatas();
+            FillDictionaryWithSkills(selectedGradeData);
             availableSkillsCount = selectedGradeData.Count;
 
             //Initialization of all skill settings GUI depending on the available skill datas
@@ -144,26 +146,29 @@ namespace Mathy.UI
             }
         }
 
+        private void FillDictionaryWithSkills(List<SkillData> storedData)
+        {
+            skillSettingsDatas.Clear();
+            foreach (var skill in storedData)
+            {
+                skillSettingsDatas.Add(skill.Settings.Skill, skill.Settings);
+            }
+        }
+
         private void UpdateSkillActivityInternal(SkillType skillType, bool isEnable)
         {
-            if (!skillSettingsDatas.ContainsKey(skillType))
+            if (skillSettingsDatas.ContainsKey(skillType))
             {
-                var data = new SkillSettingsData();
-                data.Skill = skillType;
-                skillSettingsDatas.Add(skillType, data);
+                skillSettingsDatas[skillType].IsEnabled = isEnable;
             }
-            skillSettingsDatas[skillType].IsEnabled = isEnable;
         }
 
         private void UpdateSkillValueInternal(SkillType skillType, int value)
         {
-            if (!skillSettingsDatas.ContainsKey(skillType))
+            if (skillSettingsDatas.ContainsKey(skillType))
             {
-                var data = new SkillSettingsData();
-                data.Skill = skillType;
-                skillSettingsDatas.Add(skillType, data);
+                skillSettingsDatas[skillType].Value = value;
             }
-            skillSettingsDatas[skillType].Value = value;
         }
 
         private async void SaveSkillsSettings()
@@ -182,9 +187,10 @@ namespace Mathy.UI
         /// <returns>The localized title of the skill.</returns>
         private string GetSkillTitle(SkillType type)
         {
-            string skillKey = $"{Enum.GetName(typeof(SkillType), type)} Skill";
-            string title = $"{LocalizationManager.GetLocalizedString(tableName, skillKey)} " +
-                $"{LocalizationManager.GetLocalizedString(tableName, upToKey)}";
+            string skillKey = string.Format("{0} Skill", type);
+            string localizedSkill = LocalizationManager.GetLocalizedString(tableName, skillKey);
+            string localizedSufix = LocalizationManager.GetLocalizedString(tableName, upToKey);
+            string title = string.Format("{0} {1}", localizedSkill, localizedSufix);
             return title;
         }
 
