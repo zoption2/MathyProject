@@ -54,12 +54,22 @@ namespace Mathy.UI
 
         #endregion
 
-        private void Start()
+        private void Subscribe()
         {
             isActiveToggle.onValueChanged.AddListener(delegate { 
                 SetActive(isActiveToggle.isOn); });
             maxNumberSlider.onValueChanged.AddListener(delegate { 
                 SetCurrentValue(maxNumberSlider.value * maxNumberSlider.maxValue); });
+        }
+
+        private void Unsubscribe()
+        {
+            isActiveToggle.onValueChanged.RemoveListener(delegate {
+                SetActive(isActiveToggle.isOn);
+            });
+            maxNumberSlider.onValueChanged.RemoveListener(delegate {
+                SetCurrentValue(maxNumberSlider.value * maxNumberSlider.maxValue);
+            });
         }
 
         public void SetActive(bool isSkillActive)
@@ -95,17 +105,24 @@ namespace Mathy.UI
             }
             
         }
+
         public void Initialize(SkillType skillType, string localizedName, int maxNumber, bool isActive)
         {
             this.skillType = skillType;
             this.nameLabel.text = localizedName;
             this.maxNumberSlider.value = maxNumber / 10;
             this.IsActive = isActive;
+            Subscribe();
         }
 
-        public void Localize(string nameLabel)
+        public void Release()
         {
-            this.nameLabel.text = nameLabel;
+            Unsubscribe();
         }
+
+        //public void Localize(string nameLabel)
+        //{
+        //    this.nameLabel.text = nameLabel;
+        //}
     }
 }

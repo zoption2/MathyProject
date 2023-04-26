@@ -41,30 +41,52 @@ namespace Mathy.UI
 
         #endregion
 
-        private void Awake()
+        //private void Awake()
+        //{
+        //    Initialize();
+        //}
+
+        //private void Start()
+        //{
+        //    SelectTab(defaultTabIndex);
+        //}
+
+        protected override void OnEnable()
         {
+            base.OnEnable();
             Initialize();
+            var tab = selectedTabIndex == -1 ? defaultTabIndex : selectedTabIndex;
+            SelectTab(tab);
+            selectAllToggle.onValueChanged.AddListener(SelectAllSkills);
+            closeButton.onClick.AddListener(ClosePanel);
         }
 
-        private void Start()
+        private void OnDisable()
         {
-            SelectTab(defaultTabIndex);
-        }
-
-        private void Localize()
-        {
-            var skillDatas = selectedGradeData;
-            if (skillDatas.Count <= 0) return;
-            for (int i = 0; i < availableSkillsCount; i++)
+            selectAllToggle.onValueChanged.RemoveListener(SelectAllSkills);
+            closeButton.onClick.RemoveListener(ClosePanel);
+            for (int i = 0; i < availableGrades; i++)
             {
-                var skill = skillDatas[i];
-                var settings = skillSettingsElements[i];
-                var localizedTitle = GetSkillTitle(skill.Settings.Skill);
-                settings.Localize(localizedTitle);
+                gradeTabButtons[i].Button.onClick.RemoveListener
+                    (() => { SelectTab(i); });
             }
-            selectAllTitle.text = LocalizationManager.GetLocalizedString(tableName,
-                selectAllToggle.isOn ? deselectAllKey : selectAllKey);
+            TryUnsubscribeFromSkillSettings();
         }
+
+        //private void Localize()
+        //{
+        //    var skillDatas = selectedGradeData;
+        //    if (skillDatas.Count <= 0) return;
+        //    for (int i = 0; i < availableSkillsCount; i++)
+        //    {
+        //        var skill = skillDatas[i];
+        //        var settings = skillSettingsElements[i];
+        //        var localizedTitle = GetSkillTitle(skill.Settings.Skill);
+        //        settings.Localize(localizedTitle);
+        //    }
+        //    selectAllTitle.text = LocalizationManager.GetLocalizedString(tableName,
+        //        selectAllToggle.isOn ? deselectAllKey : selectAllKey);
+        //}
 
         private void Initialize()
         {
@@ -86,18 +108,35 @@ namespace Mathy.UI
                 gradeTabButtons[i].gameObject.SetActive(false);
             }
             
-            selectAllToggle.onValueChanged.AddListener(SelectAllSkills);
-            closeButton.onClick.AddListener(ClosePanel);
-            LocalizationManager.OnLanguageChanged.AddListener(Localize);
+            //selectAllToggle.onValueChanged.AddListener(SelectAllSkills);
+            //closeButton.onClick.AddListener(ClosePanel);
+            //LocalizationManager.OnLanguageChanged.AddListener(Localize);
 
             selectAllTitle.text = LocalizationManager.GetLocalizedString(tableName,
                 selectAllToggle.isOn ? deselectAllKey : selectAllKey);
         }
 
-        public override void ClosePanel()
+        public void SelectTab(int tabToSelectIndex)
         {
-            SaveSkillsSettings();
-            base.ClosePanel();
+            if (tabToSelectIndex < 0 || tabToSelectIndex >= gradeTabButtons.Count)
+            {
+                return;
+            }
+
+            // Set the State property of the selected tab to Selected.
+            var selectedTab = gradeTabButtons[tabToSelectIndex];
+            selectedTab.State = GradeTabState.Selected;
+
+            // Set the State property of the previously selected tab to Default, if there was one.
+            if (selectedTabIndex != -1 && selectedTabIndex != tabToSelectIndex)
+            {
+                var previousSelectedTab = gradeTabButtons[selectedTabIndex];
+                previousSelectedTab.State = GradeTabState.Default;
+            }
+
+            selectedTabIndex = tabToSelectIndex;
+            service.SelectedGrade = tabToSelectIndex + 1;
+            UpdateDisplayedSkills();
         }
 
         private void UpdateDisplayedSkills()
@@ -106,6 +145,7 @@ namespace Mathy.UI
             FillDictionaryWithSkills(selectedGradeData);
             availableSkillsCount = selectedGradeData.Count;
 
+            selectedSkillsCount = 0;
             //Initialization of all skill settings GUI depending on the available skill datas
             for (int i = 0; i < availableSkillsCount; i++)
             {
@@ -128,21 +168,26 @@ namespace Mathy.UI
             }
 
             selectAllToggle.isOn = selectedSkillsCount == availableSkillsCount;
+            TryUnsubscribeFromSkillSettings();
             SubscribeToSkillSettings();
         }
 
         private void SubscribeToSkillSettings()
         {
             for (int i = 0; i < availableSkillsCount; i++)
-            //for (int i = 0; i < 5; i++)
             {
-                int gradeIndex = selectedTabIndex + 1;
-                int skillIndex = i;
-                //skillSettingsElements[i].OnTogglePressed.AddListener(
-                //(isAvailable) => GradeManager.Instance.SetSkillIsActive(
-                //    gradeIndex, skillIndex, isAvailable));
                 skillSettingsElements[i].OnTogglePressed.AddListener(UpdateSkillActivityInternal);
                 skillSettingsElements[i].OnSliderValueChanged.AddListener(UpdateSkillValueInternal);
+            }
+        }
+
+        private void TryUnsubscribeFromSkillSettings()
+        {
+            for (int i = 0; i < availableSkillsCount; i++)
+            {
+                skillSettingsElements[i].OnTogglePressed.RemoveListener(UpdateSkillActivityInternal);
+                skillSettingsElements[i].OnSliderValueChanged.RemoveListener(UpdateSkillValueInternal);
+                skillSettingsElements[i].Release();
             }
         }
 
@@ -171,6 +216,12 @@ namespace Mathy.UI
             }
         }
 
+        public override void ClosePanel()
+        {
+            SaveSkillsSettings();
+            base.ClosePanel();
+        }
+
         private async void SaveSkillsSettings()
         {
             foreach (var skillData in skillSettingsDatas.Values)
@@ -194,28 +245,7 @@ namespace Mathy.UI
             return title;
         }
 
-        public void SelectTab(int tabToSelectIndex)
-        {
-            if (tabToSelectIndex < 0 || tabToSelectIndex >= gradeTabButtons.Count)
-            {
-                return;
-            }
 
-            // Set the State property of the selected tab to Selected.
-            var selectedTab = gradeTabButtons[tabToSelectIndex];
-            selectedTab.State = GradeTabState.Selected;
-
-            // Set the State property of the previously selected tab to Default, if there was one.
-            if (selectedTabIndex != -1 && selectedTabIndex != tabToSelectIndex)
-            {
-                var previousSelectedTab = gradeTabButtons[selectedTabIndex];
-                previousSelectedTab.State = GradeTabState.Default;
-            }
-
-            selectedTabIndex = tabToSelectIndex;
-            service.SelectedGrade = tabToSelectIndex + 1;
-            UpdateDisplayedSkills();
-        }
 
         //private void CheckSkill(bool isEnabled)
         //{
