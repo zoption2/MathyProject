@@ -82,6 +82,11 @@
             where {kMode} = @{nameof(TaskDataTableModel.Mode)}
             and {kDate} = @{nameof(TaskDataTableModel.Date)}
             ;";
+
+
+        public static readonly string DeleteTable = $@"
+            drop table if exists {kTasksTable}
+            ";
     }
 }
 

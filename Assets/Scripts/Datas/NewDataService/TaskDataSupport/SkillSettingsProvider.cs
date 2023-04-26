@@ -71,6 +71,14 @@ namespace Mathy.Services.Data
                 await connection.ExecuteAsync(SkillPlanTableRequests.TryCreateTableQuery);
             }
         }
+
+        public async override UniTask DeleteTable()
+        {
+            using (var connection = new SqliteConnection(_dbFilePath))
+            {
+                await connection.ExecuteAsync(SkillPlanTableRequests.DeleteTable);
+            }
+        }
     }
 }
 

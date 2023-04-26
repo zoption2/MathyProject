@@ -58,6 +58,7 @@ namespace Mathy.Services
         private async void InitInternal()
         {
             _gradeDatas = await LoadSkillPlan(_gradeSettings);
+            _dataService.ON_RESET += DoOnDataReset;
         }
 
 
@@ -159,6 +160,13 @@ namespace Mathy.Services
             }
 
             return result;
+        }
+
+        private void DoOnDataReset()
+        {
+            _dataService.ON_RESET -= DoOnDataReset;
+            //do service reset
+            InitInternal();
         }
     }
 }

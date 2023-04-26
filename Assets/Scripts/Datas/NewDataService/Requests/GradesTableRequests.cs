@@ -56,6 +56,11 @@ namespace Mathy.Services.Data
             set {kIsEnable} = @{nameof(GradeTableModel.IsEnable)}
             where {kGrade} = @{nameof(GradeTableModel.Grade)}
             ";
+
+
+        public static readonly string DeleteTable = $@"
+            drop table if exists {kTable}
+            ";
     }
 }
 

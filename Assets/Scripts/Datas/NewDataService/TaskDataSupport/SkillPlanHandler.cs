@@ -61,6 +61,12 @@ namespace Mathy.Services.Data
             await TryCreateTables();
         }
 
+        public async UniTask ClearData()
+        {
+            await _skillSettingsProvider.DeleteTable();
+            await _gradeSettingsProvider.DeleteTable();
+        }
+
         protected async UniTask TryCreateTables()
         {
             await _skillSettingsProvider.TryCreateTable();

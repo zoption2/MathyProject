@@ -102,6 +102,11 @@
             from {kDailyModeTable}
             where {kDate} = @{nameof(DailyModeTableModel.Date)}
             ;";
+
+
+        public static readonly string DeleteTable = $@"
+            drop table if exists {kDailyModeTable}
+            ";
     }
 
 }

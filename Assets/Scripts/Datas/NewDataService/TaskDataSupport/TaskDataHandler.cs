@@ -99,6 +99,13 @@ namespace Mathy.Services.Data
             await TryCreateTables();
         }
 
+        public async UniTask ClearData()
+        {
+            await _generalProvider.DeleteTable();
+            await _taskProvider.DeleteTable();
+            await _dailyModeProvider.DeleteTable();
+        }
+
         protected async UniTask TryCreateTables()
         {
             await _taskProvider.TryCreateTable();

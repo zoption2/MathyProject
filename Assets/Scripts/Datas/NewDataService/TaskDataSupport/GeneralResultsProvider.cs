@@ -86,6 +86,16 @@ namespace Mathy.Services.Data
                 await connection.ExecuteAsync(GeneralResultsTableRequests.CreateModeView);
             }
         }
+
+        public async override UniTask DeleteTable()
+        {
+            using (var connection = new SqliteConnection(_dbFilePath))
+            {
+                await connection.ExecuteAsync(GeneralResultsTableRequests.DropGeneralTasksViewQuery);
+                await connection.ExecuteAsync(GeneralResultsTableRequests.DropDetailedTasksViewQuery);
+                await connection.ExecuteAsync(GeneralResultsTableRequests.DropDailyModeViewQuery);
+            }
+        }
     }
 
 }

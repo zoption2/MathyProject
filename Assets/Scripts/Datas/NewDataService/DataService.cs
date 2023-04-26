@@ -1,19 +1,24 @@
 using UnityEngine;
 using System.IO;
 using Mathy.Services.Data;
-
+using System;
+using Cysharp.Threading.Tasks;
 
 namespace Mathy.Services
 {
     public interface IDataService
-    { 
+    {
+        event Action ON_RESET;
         ITaskDataHandler TaskData { get; }
         ISkillPlanHandler SkillPlan { get; }
+        UniTask ResetProgress();
     }
 
 
     public class DataService : IDataService
     {
+        public event Action ON_RESET;
+
         private const string kFileName = "save.db";
         private readonly string dataPath = Application.persistentDataPath;
 
@@ -41,7 +46,23 @@ namespace Mathy.Services
             InitHandlers();
         }
 
+        public async UniTask ResetProgress()
+        {
+            await _taskDataHandler.ClearData();
+            await _skillPlanHandler.ClearData();
+
+            await InitHandlersAsync();
+
+            ON_RESET?.Invoke();
+            Debug.Log("Data reseted");
+        }
+
         private async void InitHandlers()
+        {
+            await InitHandlersAsync();
+        }
+
+        private async UniTask InitHandlersAsync()
         {
             await _taskDataHandler.Init();
             await _skillPlanHandler.Init();

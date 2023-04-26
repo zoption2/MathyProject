@@ -7,6 +7,7 @@ namespace Mathy.Services
     public interface IDataProvider
     {
         UniTask TryCreateTable();
+        UniTask DeleteTable();
     }
 
     public abstract class BaseDataProvider : IDataProvider
@@ -19,9 +20,9 @@ namespace Mathy.Services
 
         public abstract UniTask TryCreateTable();
 
-        protected void OpenConnection(out IDbConnection connection)
+        public async virtual UniTask DeleteTable()
         {
-            connection = new SqliteConnection(_dbFilePath);
+            await UniTask.CompletedTask;
         }
     }
 }

@@ -67,6 +67,11 @@ namespace Mathy.Services.Data
                 {kMaxValue} = @{nameof(SkillPlanTableModel.MaxValue)}
             WHERE {kGrade} = @{nameof(SkillPlanTableModel.Grade)}
             AND {kSkill} = @{nameof(SkillPlanTableModel.Skill)}";
+
+
+        public static readonly string DeleteTable = $@"
+            drop table if exists {kTable}
+            ";
     }
 }
 
