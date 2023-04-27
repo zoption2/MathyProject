@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Data;
 
 
 namespace Mathy.Services.Data
@@ -168,6 +169,23 @@ namespace Mathy.Services.Data
             result.Value = data.Value;
             result.MinValue = data.MinValue;
             result.MaxValue = data.MaxValue;
+
+            return result;
+        }
+
+        public static SkillPlanTableModel DoRead (this IDataReader reader)
+        {
+            var result = new SkillPlanTableModel();
+            while (reader.Read())
+            {
+                result.Id = Convert.ToInt32(reader[0]);
+                result.Grade = Convert.ToInt32(reader[1]);
+                result.Skill = Convert.ToString(reader[2]);
+                result.IsEnabled = Convert.ToBoolean(reader[3]);
+                result.Value = Convert.ToInt32(reader[4]);
+                result.MinValue = Convert.ToInt32(reader[5]);
+                result.MaxValue = Convert.ToInt32(reader[6]);
+            }
 
             return result;
         }

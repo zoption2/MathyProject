@@ -52,12 +52,13 @@ namespace Mathy.Services
         {
             _dataService = dataService;
             _gradeSettings = gradeSettings;
-            InitInternal();
+
+            Init();
         }
 
-        private async void InitInternal()
+        private void Init()
         {
-            _gradeDatas = await LoadSkillPlan(_gradeSettings);
+            _gradeDatas = LoadSkillPlan(_gradeSettings);
             _dataService.ON_RESET += DoOnDataReset;
         }
 
@@ -69,7 +70,7 @@ namespace Mathy.Services
 
         public async UniTask<bool> IsSkillTypeEnable(int grade, SkillType skillType)
         {
-            var settings = await _dataService.SkillPlan.GetSkillSettings(grade, skillType);
+            var settings = await _dataService.SkillPlan.GetSkillSettingsAsync(grade, skillType);
             return settings.IsEnabled;
         }
 
@@ -131,7 +132,7 @@ namespace Mathy.Services
             await _dataService.SkillPlan.SaveSkillPlan(settings);
         }
 
-        private async UniTask<List<GradeData>> LoadSkillPlan(List<GradeSettings> settings)
+        private async UniTask<List<GradeData>> LoadSkillPlanAsync(List<GradeSettings> settings)
         {
             List<GradeData> result = new();
             foreach (var gradeSetting in settings)
@@ -145,7 +146,38 @@ namespace Mathy.Services
                 for (int i = 0, j = skillSettingsList.Count; i < j; i++)
                 {
                     SkillData skillData = new SkillData();
-                    SkillSettingsData skillSettings = await _dataService.SkillPlan.GetSkillSettings(gradeIndex, skillSettingsList[i].SkillType);
+                    SkillSettingsData skillSettings = await _dataService.SkillPlan.GetSkillSettingsAsync(gradeIndex, skillSettingsList[i].SkillType);
+                    skillData.Settings = skillSettings;
+                    var tasks = skillSettingsList[i].TaskSettings;
+                    tasks.ForEach(x =>
+                    {
+                        x.MaxNumber = skillSettings.Value;
+                    })
+;
+                    skillData.Tasks = tasks;
+                    gradeData.SkillDatas.Add(skillData);
+                }
+                result.Add(gradeData);
+            }
+
+            return result;
+        }
+
+        private List<GradeData> LoadSkillPlan(List<GradeSettings> settings)
+        {
+            List<GradeData> result = new();
+            foreach (var gradeSetting in settings)
+            {
+                var gradeData = new GradeData();
+                int gradeIndex = settings.IndexOf(gradeSetting) + 1;
+                gradeData.GradeIndex = gradeIndex;
+                gradeData.IsActive = true;
+                gradeData.SkillDatas = new List<SkillData>();
+                var skillSettingsList = gradeSetting.SkillSettings;
+                for (int i = 0, j = skillSettingsList.Count; i < j; i++)
+                {
+                    SkillData skillData = new SkillData();
+                    SkillSettingsData skillSettings = _dataService.SkillPlan.GetSkillSettings(gradeIndex, skillSettingsList[i].SkillType);
                     skillData.Settings = skillSettings;
                     var tasks = skillSettingsList[i].TaskSettings;
                     tasks.ForEach(x =>
@@ -166,7 +198,7 @@ namespace Mathy.Services
         {
             _dataService.ON_RESET -= DoOnDataReset;
             //do service reset
-            InitInternal();
+            Init();
         }
     }
 }

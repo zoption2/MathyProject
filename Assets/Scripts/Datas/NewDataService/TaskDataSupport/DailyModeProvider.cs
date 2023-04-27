@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Mono.Data.Sqlite;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 
 namespace Mathy.Services.Data
 {
@@ -40,8 +41,22 @@ namespace Mathy.Services.Data
                 connection.Open();
                 var requestData = new DailyModeData() { Date = date, Mode = mode };
                 var requestModel = requestData.ConvertToModel();
-                var model = await connection.QueryFirstOrDefaultAsync<DailyModeTableModel>
-                    (DailyModeTableRequests.SelectByDateAndModeQuery, requestModel);
+                DailyModeTableModel model = null;
+                try
+                {
+                    UnityEngine.Debug.Log("GetDailyModeDataAsync started");
+                    model = await connection.QueryFirstOrDefaultAsync<DailyModeTableModel>
+                        (DailyModeTableRequests.SelectByDateAndModeQuery, requestModel);
+                }
+                catch (Exception e)
+                {
+                    UnityEngine.Debug.LogFormat("Async method captured with exeption: {0}", e);
+                    model = connection.QueryFirstOrDefault<DailyModeTableModel>
+                        (DailyModeTableRequests.SelectByDateAndModeQuery, requestModel);
+                    throw;
+                }
+
+                UnityEngine.Debug.LogFormat("GetDailyModeData completed with result: exist = {0}", model != null);
                 if (model == null)
                 {
                     return requestData;

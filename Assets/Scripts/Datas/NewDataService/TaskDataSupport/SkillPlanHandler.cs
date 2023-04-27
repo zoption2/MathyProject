@@ -8,7 +8,8 @@ namespace Mathy.Services.Data
     {
         UniTask<bool> IsGradeEnabled(int grade, bool defaultIsEnable = true);
         UniTask SaveGradeState(int grade, bool isEnable);
-        UniTask<SkillSettingsData> GetSkillSettings(int grade, SkillType skillType);
+        UniTask<SkillSettingsData> GetSkillSettingsAsync(int grade, SkillType skillType);
+        SkillSettingsData GetSkillSettings(int grade, SkillType skillType);
         UniTask SaveSkillSettings(SkillSettingsData settings);
         UniTask SaveSkillPlan(SkillSettingsData[] settings);
     }
@@ -40,9 +41,16 @@ namespace Mathy.Services.Data
             await _gradeSettingsProvider.SaveGradeSettings(grade, isEnable);
         }
 
-        public async UniTask<SkillSettingsData> GetSkillSettings(int grade, SkillType skillType)
+        public async UniTask<SkillSettingsData> GetSkillSettingsAsync(int grade, SkillType skillType)
         {
-            var result = await _skillSettingsProvider.GetSettingsByGradeAndSkill(grade, skillType);
+            var result = await _skillSettingsProvider.GetSettingsByGradeAndSkillAsync(grade, skillType);
+            return result;
+        }
+
+        public SkillSettingsData GetSkillSettings(int grade, SkillType skillType)
+        {
+            //var result = _skillSettingsProvider.GetSettingsByGradeAndSkill(grade, skillType);
+            var result = _skillSettingsProvider.GetSettingsByGradeAndSkillTEST(grade, skillType);
             return result;
         }
 

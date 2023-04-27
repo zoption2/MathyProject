@@ -1,4 +1,5 @@
 ﻿using Mathy.Data;
+using UnityEngine.Localization.SmartFormat.Core.Parsing;
 
 namespace Mathy.Services.Data
 {
@@ -35,18 +36,28 @@ namespace Mathy.Services.Data
             from {kTable}
             ;";
 
-        public static readonly string SelectByGradeAndSkillQuery = $@"select
-            {kGrade} as {nameof(SkillPlanTableModel.Grade)},
-            {kSkill} as {nameof(SkillPlanTableModel.Skill)},
-            {kIsEnable} as {nameof(SkillPlanTableModel.IsEnabled)},
-            {kValue} as {nameof(SkillPlanTableModel.Value)},
-            {kMinValue} as {nameof(SkillPlanTableModel.MinValue)},
-            {kMaxValue} as {nameof(SkillPlanTableModel.MaxValue)}
-            from {kTable}
+        public static readonly string SelectByGradeAndSkillQuery = $@"SELECT
+            {kId} AS {nameof(SkillPlanTableModel.Id)},
+            {kGrade} AS {nameof(SkillPlanTableModel.Grade)},
+            {kSkill} AS {nameof(SkillPlanTableModel.Skill)},
+            {kIsEnable} AS {nameof(SkillPlanTableModel.IsEnabled)},
+            {kValue} AS {nameof(SkillPlanTableModel.Value)},
+            {kMinValue} AS {nameof(SkillPlanTableModel.MinValue)},
+            {kMaxValue} AS {nameof(SkillPlanTableModel.MaxValue)}
+            FROM {kTable}
+                WHERE {kGrade} = @{nameof(SkillPlanTableModel.Grade)}
+                AND {kSkill} = @{nameof(SkillPlanTableModel.Skill)}
+            ;";
+
+
+        public static readonly string InsertEntryQueryTest = $@"if exist(select* from ) begin update end ";
+
+
+        public static readonly string GetCountQuery = $@"SELECT COUNT(*) as Count
+            FROM {kTable}
                 where {kGrade} = @{nameof(SkillPlanTableModel.Grade)}
                 and {kSkill} = @{nameof(SkillPlanTableModel.Skill)}
             ;";
-        public static readonly string InsertEntryQueryTest = $@"if exist(select* from ) begin update end ";
 
 
         public static readonly string InsertEntryQuery = $@"insert into {kTable}
