@@ -22,6 +22,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 var requestModel = new GradeTableModel() { Grade = grade, IsEnable = defaultIsEnable };
                 var model = await connection.QueryFirstOrDefaultAsync<GradeTableModel>(GradesTableRequests.SelectGradeQuery, requestModel);
                 if (model == null)
@@ -38,6 +39,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 var requestModel = new GradeTableModel() { Grade = grade, IsEnable = isEnable };
                 var model = await connection.QueryFirstOrDefaultAsync<GradeTableModel>(GradesTableRequests.SelectGradeQuery, requestModel);
                 var query = model != null ? GradesTableRequests.UpdateGradeQuery : GradesTableRequests.InsertGradeQuery;
@@ -49,6 +51,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 await connection.ExecuteAsync(GradesTableRequests.TryCreateTableQuery);
             }
         }
@@ -57,6 +60,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 await connection.ExecuteAsync(GradesTableRequests.DeleteTable);
             }
         }

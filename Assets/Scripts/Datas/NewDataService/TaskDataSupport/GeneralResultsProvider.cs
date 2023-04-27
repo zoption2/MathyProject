@@ -23,6 +23,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 var data = new GeneralTasksViewData();
                 var requestModel = data.ConvertToModel();
                 var model = await connection.QueryFirstOrDefaultAsync<GeneralTasksViewModel>
@@ -40,6 +41,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 var data = new DetailedTasksViewData() { TaskType = taskType };
                 var requestModel = data.ConvertToModel();
                 var model = await connection.QueryFirstOrDefaultAsync<DetailedTasksViewModel>
@@ -57,6 +59,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 var data = new DailyModeViewData() { Mode = mode };
                 var requestModel = data.ConvertToModel();
                 var model = await connection.QueryFirstOrDefaultAsync<DailyModeViewModel>
@@ -75,6 +78,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 //We can delete view on game start, if potentially they will changed often,
                 //and then create new ones. It's fast and save methods with no data lost.
                 await connection.ExecuteAsync(GeneralResultsTableRequests.DropGeneralTasksViewQuery);
@@ -91,6 +95,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 await connection.ExecuteAsync(GeneralResultsTableRequests.DropGeneralTasksViewQuery);
                 await connection.ExecuteAsync(GeneralResultsTableRequests.DropDetailedTasksViewQuery);
                 await connection.ExecuteAsync(GeneralResultsTableRequests.DropDailyModeViewQuery);

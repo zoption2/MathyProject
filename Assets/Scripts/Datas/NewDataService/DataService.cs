@@ -20,7 +20,7 @@ namespace Mathy.Services
         public event Action ON_RESET;
 
         private const string kFileName = "save.db";
-        private readonly string dataPath = Application.persistentDataPath;
+
 
         private TaskDataHandler _taskDataHandler;
         private SkillPlanHandler _skillPlanHandler;
@@ -33,6 +33,8 @@ namespace Mathy.Services
 
         public DataService()
         {
+            string dataPath = Application.persistentDataPath;
+            //string dataPath = Application.dataPath + "/Resources/";
             _saveDirectoryPath = dataPath + "/Saves/";
             var saveFilePath = _saveDirectoryPath + kFileName;
             _taskDBFilePath = $"Data Source={saveFilePath}";

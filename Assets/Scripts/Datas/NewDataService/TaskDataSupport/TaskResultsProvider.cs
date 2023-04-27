@@ -24,6 +24,7 @@ namespace Mathy.Services.Data
         {
             using(var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 var requestData = new TaskResultData() {Date = date, Mode = mode};
                 var requestModel = requestData.ConvertToModel();
                 var tableModels = await connection.QueryAsync<TaskDataTableModel>(TaskResultsTableRequests.SelectTaskByModeAndDateQuery, requestModel);
@@ -47,6 +48,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 await connection.ExecuteAsync(TaskResultsTableRequests.TryCreateTasksDataTableQuery);
             }
         }
@@ -55,6 +57,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 await connection.ExecuteAsync(TaskResultsTableRequests.DeleteTable);
             }
         }

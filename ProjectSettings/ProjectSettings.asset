@@ -134,7 +134,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.7.6.1
+  bundleVersion: 1.8.0.1
   preloadedAssets:
   - {fileID: 11400000, guid: 39b493040e425c9468c5b56fde471358, type: 2}
   metroInputSource: 0
@@ -163,7 +163,7 @@ PlayerSettings:
     iPhone: 2002
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
-  AndroidBundleVersionCode: 1761
+  AndroidBundleVersionCode: 1801
   AndroidMinSdkVersion: 22
   AndroidTargetSdkVersion: 31
   AndroidPreferredInstallLocation: 1
@@ -789,7 +789,7 @@ PlayerSettings:
   assemblyVersionValidation: 1
   gcWBarrierValidation: 0
   apiCompatibilityLevelPerPlatform:
-    Android: 3
+    Android: 6
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: 2D_BuiltInRenderer

@@ -24,6 +24,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 var requestData = new SkillSettingsData() { Grade = grade, Skill = skillType };
                 var requestModel = requestData.ConvertToTableModel();
                 var model = await connection.QueryFirstOrDefaultAsync<SkillPlanTableModel>
@@ -42,6 +43,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 for (int i = 0, j = data.Length; i < j; i++)
                 {
                     var requestData = data[i];
@@ -57,6 +59,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 var requestModel = data.ConvertToTableModel();
                 var exists = await connection.QueryFirstOrDefaultAsync<SkillPlanTableModel>(SkillPlanTableRequests.SelectByGradeAndSkillQuery, requestModel);
                 var query = exists != null ? SkillPlanTableRequests.UpdateSkillQuery : SkillPlanTableRequests.InsertEntryQuery;
@@ -68,6 +71,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 await connection.ExecuteAsync(SkillPlanTableRequests.TryCreateTableQuery);
             }
         }
@@ -76,6 +80,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 await connection.ExecuteAsync(SkillPlanTableRequests.DeleteTable);
             }
         }

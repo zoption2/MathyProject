@@ -25,6 +25,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 var dataModel = data.ConvertToModel();
                 var exists = await connection.QueryFirstOrDefaultAsync<DailyModeTableModel>(DailyModeTableRequests.SelectByDateAndModeQuery, dataModel);
                 var query = exists != null ? DailyModeTableRequests.UpdateDailyQuery : DailyModeTableRequests.InsertDailyQuery;
@@ -36,6 +37,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 var requestData = new DailyModeData() { Date = date, Mode = mode };
                 var requestModel = requestData.ConvertToModel();
                 var model = await connection.QueryFirstOrDefaultAsync<DailyModeTableModel>
@@ -54,6 +56,7 @@ namespace Mathy.Services.Data
             List<DailyModeData> results = new List<DailyModeData>();
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 var requestData = new DailyModeData() { Date = date };
                 var requestModel = requestData.ConvertToModel();
                 var models = await connection.QueryAsync<DailyModeTableModel>
@@ -72,6 +75,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 await connection.ExecuteAsync(DailyModeTableRequests.TryCreateDailyModeTableQuery);
             }
         }
@@ -80,6 +84,7 @@ namespace Mathy.Services.Data
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
+                connection.Open();
                 await connection.ExecuteAsync(DailyModeTableRequests.DeleteTable);
             }
         }

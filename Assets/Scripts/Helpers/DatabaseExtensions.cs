@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
+
 
 namespace Mathy.Services.Data
 {
@@ -188,40 +188,40 @@ namespace Mathy.Services.Data
 
 
 
-        private static string SerializeDictionary<TEnum, TValue>(Dictionary<TEnum, TValue> dic) where TEnum : Enum
-        {
-            int count = dic.Count;
-            Dictionary<string, TValue> convertedDic = new(count);
-            foreach (var key in dic.Keys)
-            {
-                convertedDic.Add(key.ToString(), dic[key]);
-            }
-            var result = JsonConvert.SerializeObject(convertedDic);
-            return result;
-        }
+        //private static string SerializeDictionary<TEnum, TValue>(Dictionary<TEnum, TValue> dic) where TEnum : Enum
+        //{
+        //    int count = dic.Count;
+        //    Dictionary<string, TValue> convertedDic = new(count);
+        //    foreach (var key in dic.Keys)
+        //    {
+        //        convertedDic.Add(key.ToString(), dic[key]);
+        //    }
+        //    var result = JsonConvert.SerializeObject(convertedDic);
+        //    return result;
+        //}
 
-        private static Dictionary<TEnum, TValue> DeserializeDictionaryJson<TEnum, TValue>(string json) where TEnum : Enum
-        {
-            Dictionary<string, TValue> convertedDic = JsonConvert.DeserializeObject<Dictionary<string, TValue>>(json);
-            Dictionary<TEnum, TValue> result = new();
+        //private static Dictionary<TEnum, TValue> DeserializeDictionaryJson<TEnum, TValue>(string json) where TEnum : Enum
+        //{
+        //    Dictionary<string, TValue> convertedDic = JsonConvert.DeserializeObject<Dictionary<string, TValue>>(json);
+        //    Dictionary<TEnum, TValue> result = new();
 
-            foreach (var key in convertedDic.Keys)
-            {
-                try
-                {
-                    var parsedKey = Enum.Parse<TEnum>(key);
-                    result.Add(parsedKey, convertedDic[key]);
-                }
-                catch (Exception)
-                {
-                    UnityEngine.Debug.LogFormat($"Current version of {nameof(TEnum)} does not contains {key}, " +
-                        $"so it will not be included at general results, getted from database");
-                    throw;
-                }
-            }
+        //    foreach (var key in convertedDic.Keys)
+        //    {
+        //        try
+        //        {
+        //            var parsedKey = Enum.Parse<TEnum>(key);
+        //            result.Add(parsedKey, convertedDic[key]);
+        //        }
+        //        catch (Exception)
+        //        {
+        //            UnityEngine.Debug.LogFormat($"Current version of {nameof(TEnum)} does not contains {key}, " +
+        //                $"so it will not be included at general results, getted from database");
+        //            throw;
+        //        }
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
     }
 }
 
