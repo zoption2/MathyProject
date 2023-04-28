@@ -5,7 +5,7 @@
         public const string kDailyModeTable = "DailyMode";
 
         private const string kId = "id";
-        private const string kDate = "Date";
+        private const string kDate = "_Date";
         public const string kMode = "Mode";
         public const string kModeIndex = "ModeIndex";
         public const string kIsModeDone = "IsDone";
@@ -93,7 +93,7 @@
             {_selectableDailyModeTableContent}
             from {kDailyModeTable}
             where {kDate} = @{nameof(DailyModeTableModel.Date)}
-            and {kModeIndex} = @{nameof(DailyModeTableModel.ModeIndex)}
+            and {kMode} = @{nameof(DailyModeTableModel.Mode)}
             ;";
 
 

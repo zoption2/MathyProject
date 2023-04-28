@@ -28,6 +28,8 @@ namespace Mathy.Services
         private string _saveDirectoryPath;
         private string _taskDBFilePath;
 
+        public string DatabasePath => _taskDBFilePath;
+
         public ITaskDataHandler TaskData => _taskDataHandler;
         public ISkillPlanHandler SkillPlan => _skillPlanHandler;
 
@@ -44,8 +46,8 @@ namespace Mathy.Services
                 Directory.CreateDirectory(_saveDirectoryPath);
             }
 
-            _taskDataHandler = new TaskDataHandler(_taskDBFilePath);
-            _skillPlanHandler = new SkillPlanHandler(_taskDBFilePath);
+            _taskDataHandler = new TaskDataHandler(this);
+            _skillPlanHandler = new SkillPlanHandler(this);
             InitHandlers();
         }
 

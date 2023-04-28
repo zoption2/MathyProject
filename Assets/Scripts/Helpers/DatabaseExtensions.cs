@@ -13,6 +13,7 @@ namespace Mathy.Services.Data
     public static class DatabaseExtensions
     {
         private const string kDataFormat = "yyyy-MM-dd";
+        private const string kDataTimeFormat = "yyyy-MM-dd HH:mm:ss";
 
         #region TaskResultsTable
         public static TaskDataTableModel ConvertToModel(this TaskResultData data)
@@ -204,6 +205,26 @@ namespace Mathy.Services.Data
         }
         #endregion
 
+        #region KeyValueIntegerTable
+        public static KeyValueIntegerDataModel ConvertToModel(this KeyValueIntegerData data)
+        {
+            var result = new KeyValueIntegerDataModel();
+            result.Key = data.Key.ToString();
+            result.Value = data.Value;
+            result.Date = data.Date.ToString(kDataTimeFormat);
+
+            return result;
+        }
+
+        public static KeyValueIntegerData ConvertToData(this KeyValueIntegerDataModel model)
+        {
+            var result = new KeyValueIntegerData();
+            result.Key = Enum.Parse<KeyValuePairKeys>(model.Key);
+            result.Value = model.Value;
+            result.Date = DateTime.ParseExact(model.Date, kDataTimeFormat, CultureInfo.InvariantCulture);
+
+            return result;
+        }
 
 
         //private static string SerializeDictionary<TEnum, TValue>(Dictionary<TEnum, TValue> dic) where TEnum : Enum

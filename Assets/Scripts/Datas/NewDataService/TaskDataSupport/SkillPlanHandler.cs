@@ -19,15 +19,16 @@ namespace Mathy.Services.Data
     {
         private ISkillSettingsProvider _skillSettingsProvider;
         private IGradeSettingsProvider _gradeSettingsProvider;
+        private readonly DataService _dataService;
 
-        private string _dbFilePath;
 
-        public SkillPlanHandler(string dbFilePath)
+        public SkillPlanHandler(DataService dataService)
         {
-            _dbFilePath = dbFilePath;
+            _dataService = dataService;
+            var filePath = dataService.DatabasePath;
 
-            _skillSettingsProvider = new SkillSettingsProvider(dbFilePath);
-            _gradeSettingsProvider = new GradeSettingsProvider(dbFilePath);
+            _skillSettingsProvider = new SkillSettingsProvider(filePath);
+            _gradeSettingsProvider = new GradeSettingsProvider(filePath);
         }
 
         public async UniTask<bool> IsGradeEnabled(int grade, bool defaultIsEnable = true)

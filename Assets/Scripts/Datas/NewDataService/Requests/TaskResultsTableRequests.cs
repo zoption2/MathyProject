@@ -20,8 +20,8 @@
         private const string kMaxValue = "MaxValue";
 
 
-        public static readonly string TryCreateTasksDataTableQuery = $@"create table if not exists {kTasksTable}
-            (
+        public static readonly string CreatingTableColumns = $@"
+        (
             {kId} INTEGER PRIMARY KEY AUTOINCREMENT,
             {kDate} STRING NOT NULL,
             {kMode} STRING NOT NULL,
@@ -36,9 +36,18 @@
             {kIsCorrect} BOOLEAN NOT NULL,
             {kDuration} DOUBLE NOT NULL,
             {kMaxValue} INTEGER NOT NULL
-            )";
+        )
+        ";
 
-        private static string _selectableTaskTableContent = $@"
+
+        public static readonly string TryCreateTasksDataTableQuery = $@"create table if not exists {kTasksTable}
+            {CreatingTableColumns}
+            ";
+
+
+
+
+        public static string SelectableContentQuery = $@"
             {kId} as {nameof(TaskDataTableModel.ID)},
             {kDate} as {nameof(TaskDataTableModel.Date)},
             {kMode} as {nameof(TaskDataTableModel.Mode)},
@@ -55,7 +64,7 @@
             {kMaxValue} as {nameof(TaskDataTableModel.MaxValue)}";
 
 
-        public static readonly string InsertTaskQuery = $@"insert into {kTasksTable}
+        public static readonly string InsertableContentQuery = $@"
             ({kDate}, {kMode}, {kModeIndex}, {kTaskType}, {kTaskTypeIndex}, {kElements}
             , {kOperators}, {kVariants}, {kSelectedAnswersIndexes}, {kCorrectAnswersIndexes}
             , {kIsCorrect}, {kDuration}, {kMaxValue})
@@ -72,12 +81,17 @@
                 @{nameof(TaskDataTableModel.CorrectAnswerIndexes)},
                 @{nameof(TaskDataTableModel.IsAnswerCorrect)},
                 @{nameof(TaskDataTableModel.Duration)},
-                @{nameof(TaskDataTableModel.MaxValue)})
-            returning {kId}";
+                @{nameof(TaskDataTableModel.MaxValue)}
+            )";
+
+
+        public static readonly string InsertTaskQuery = $@"insert into {kTasksTable}
+            {InsertableContentQuery}
+            ";
 
 
         public static readonly string SelectTaskByModeAndDateQuery = $@"select
-            {_selectableTaskTableContent}
+            {SelectableContentQuery}
             from {kTasksTable} 
             where {kMode} = @{nameof(TaskDataTableModel.Mode)}
             and {kDate} = @{nameof(TaskDataTableModel.Date)}

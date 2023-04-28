@@ -1,4 +1,6 @@
-﻿namespace Mathy.Services.Data
+﻿using static UnityEngine.Rendering.DebugUI;
+
+namespace Mathy.Services.Data
 {
     public static class GeneralResultsTableRequests
     {

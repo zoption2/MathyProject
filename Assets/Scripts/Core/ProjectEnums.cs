@@ -199,5 +199,11 @@
     }
 
     #endregion
+
+    public enum KeyValuePairKeys
+    {
+        none = 0,
+        UniqueTaskIndex = 1,
+    }
 }
 

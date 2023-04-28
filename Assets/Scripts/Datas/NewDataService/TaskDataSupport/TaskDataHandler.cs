@@ -27,12 +27,13 @@ namespace Mathy.Services.Data
         private readonly IGeneralResultsProvider _generalProvider;
         private readonly IDailyModeProvider _dailyModeProvider;
         private readonly ITaskResultFormatProcessor _resultFormatProcessor;
+        private readonly DataService _dataService;
 
-        private string _filePath;
 
-        public TaskDataHandler(string filePath)
+        public TaskDataHandler(DataService dataService)
         {
-            _filePath = filePath;
+            _dataService = dataService;
+            var filePath = dataService.DatabasePath;
 
             _taskProvider = new TaskResultsProvider(filePath);
             _dailyModeProvider = new DailyModeProvider(filePath);
@@ -111,6 +112,45 @@ namespace Mathy.Services.Data
             await _taskProvider.TryCreateTable();
             await _dailyModeProvider.TryCreateTable();
             await _generalProvider.TryCreateTable();
+        }
+    }
+
+
+
+    public interface IKeyValuePairDataHandler
+    {
+        UniTask<KeyValueIntegerData> GetKeyValueIntegerData(KeyValuePairKeys key, int defaultValue = 0);
+        UniTask<int> GetIntValue(KeyValuePairKeys key, int defaultValue = 0);
+        UniTask SaveIntValue(KeyValuePairKeys key, int value);
+    }
+
+    public class KeyValuePairDataHandler : IKeyValuePairDataHandler
+    {
+        private IKeyValuePairIntegerProvider _intProvider;
+        private readonly DataService _dataService;
+
+        public KeyValuePairDataHandler(DataService dataService)
+        {
+            _dataService = dataService;
+            var filePath = dataService.DatabasePath;
+
+            _intProvider = new KeyValuePairIntegerProvider(filePath);
+        }
+
+        public async UniTask<KeyValueIntegerData> GetKeyValueIntegerData(KeyValuePairKeys key, int defaultValue = 0)
+        {
+            return await _intProvider.GetDataByKey(key, defaultValue);
+        }
+
+        public async UniTask<int> GetIntValue(KeyValuePairKeys key, int defaultValue = 0)
+        {
+            return await _intProvider.GetIntOrDefaultByKey(key, defaultValue);
+        }
+
+        public async UniTask SaveIntValue(KeyValuePairKeys key, int value)
+        {
+            var currentDateTime = DateTime.UtcNow;
+            await _intProvider.SaveIntWithKey(key, value, currentDateTime);
         }
     }
 }
