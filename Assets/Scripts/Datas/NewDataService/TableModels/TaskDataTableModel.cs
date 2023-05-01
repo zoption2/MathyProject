@@ -11,6 +11,8 @@ namespace Mathy.Services.Data
         public int TaskModeIndex { get; set; }
         public string TaskType { get; set; }
         public int TaskTypeIndex { get; set; }
+        public string SkillType { get; set; }
+        public int SkillIndex { get; set; }
         public string ElementValues { get; set; }
         public string OperatorValues { get; set; }
         public string VariantValues { get; set; }

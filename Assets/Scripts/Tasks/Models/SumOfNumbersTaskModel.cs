@@ -24,7 +24,7 @@ namespace Mathy.Core.Tasks
         {
             var random = new System.Random();
             var answer = random.Next(minValue, maxValue);
-            var ñorrectVariantsValues = MathOperations.SplitNumberIntoAddends(answer, totalValues).ToList();
+            var CorrectVariantsValues = MathOperations.SplitNumberIntoAddends(answer, totalValues).ToList();
 
             elements = new List<string>();
             operators = new List<string>();
@@ -32,7 +32,7 @@ namespace Mathy.Core.Tasks
 
             for (int i = 0; i < totalValues; i++)
             {
-                expression.Add(new ExpressionElement(TaskElementType.Value, ñorrectVariantsValues[i], true));
+                expression.Add(new ExpressionElement(TaskElementType.Value, CorrectVariantsValues[i], true));
                 expression.Add(new ExpressionElement(TaskElementType.Operator,
                     i == totalValues - 1 ? (char)ArithmeticSigns.Equal : (char)ArithmeticSigns.Plus));
             }
@@ -48,8 +48,8 @@ namespace Mathy.Core.Tasks
 
             var fastFandom = new FastRandom();
             List<int> variantsValues = fastFandom.ExclusiveNumericRange(
-                minValue, maxValue, amountOfVariants, ñorrectVariantsValues);
-            var correctValues = ñorrectVariantsValues;
+                minValue, maxValue, amountOfVariants, CorrectVariantsValues);
+            var correctValues = CorrectVariantsValues;
 
             variants = new List<string>();
 

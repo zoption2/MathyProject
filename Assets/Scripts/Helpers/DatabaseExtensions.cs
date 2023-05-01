@@ -25,6 +25,8 @@ namespace Mathy.Services.Data
             result.TaskModeIndex = (int)data.Mode;
             result.TaskType = data.TaskType.ToString();
             result.TaskTypeIndex = (int)data.TaskType;
+            result.SkillType = data.SkillType.ToString();
+            result.SkillIndex = (int)data.SkillType;
             result.ElementValues = string.Join(",", data.ElementValues);
             result.OperatorValues = string.Join(",", data.OperatorValues);
             result.VariantValues = string.Join(",", data.VariantValues);
@@ -42,8 +44,12 @@ namespace Mathy.Services.Data
             var result = new TaskResultData();
             result.ID = model.ID;
             result.Date = DateTime.ParseExact(model.Date, kDataFormat, CultureInfo.InvariantCulture);
-            result.Mode = Enum.Parse<TaskMode>(model.Mode);
-            result.TaskType = Enum.Parse<TaskType>(model.TaskType);
+            var modeName = Enum.GetName(typeof(TaskMode), model.TaskModeIndex);
+            result.Mode = Enum.Parse<TaskMode>(modeName);
+            var taskTypeName = Enum.GetName(typeof(TaskType), model.TaskTypeIndex);
+            result.TaskType =  Enum.Parse<TaskType>(taskTypeName);
+            var skillName = Enum.GetName(typeof(SkillType), model.SkillIndex);
+            result.SkillType = Enum.Parse<SkillType>(skillName);
             result.ElementValues = model.ElementValues.Split(',').ToList();
             result.OperatorValues = model.OperatorValues.Split(',').ToList();
             result.VariantValues = model.VariantValues.Split(',').ToList();

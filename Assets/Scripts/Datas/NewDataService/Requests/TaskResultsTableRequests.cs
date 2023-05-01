@@ -10,6 +10,8 @@
         private const string kModeIndex = "ModeIndex";
         public const string kTaskType = "TaskType";
         private const string kTaskTypeIndex = "TypeIndex";
+        private const string kSkillType = "Skill";
+        private const string kSkillIndex = "SkillIndex";
         private const string kElements = "Elements";
         private const string kOperators = "Operators";
         private const string kVariants = "Variants";
@@ -28,6 +30,8 @@
             {kModeIndex} INTEGER NOT NULL,
             {kTaskType} STRING NOT NULL,
             {kTaskTypeIndex} INTEGER NOT NULL,
+            {kSkillType} STRING NOT NULL,
+            {kSkillIndex} INTEGER NOT NULL,
             {kElements} STRING NOT NULL,
             {kOperators} STRING NOT NULL,
             {kVariants} STRING NOT NULL,
@@ -54,6 +58,8 @@
             {kModeIndex} as {nameof(TaskDataTableModel.TaskModeIndex)},
             {kTaskType} as {nameof(TaskDataTableModel.TaskType)},
             {kTaskTypeIndex} as {nameof(TaskDataTableModel.TaskTypeIndex)},
+{kSkillType} as {nameof(TaskDataTableModel)},
+{kSkillIndex} as {nameof(TaskDataTableModel)},
             {kElements} as {nameof(TaskDataTableModel.ElementValues)},
             {kOperators} as {nameof(TaskDataTableModel.OperatorValues)},
             {kVariants} as {nameof(TaskDataTableModel.VariantValues)},

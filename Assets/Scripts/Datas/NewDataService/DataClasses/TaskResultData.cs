@@ -9,8 +9,8 @@ namespace Mathy.Data
         public int ID { get; set; }
         public DateTime Date { get; set; }
         public TaskMode Mode { get; set; }
-        public int TaskModeIndex { get; set; }
         public TaskType TaskType { get; set; }
+        public SkillType SkillType { get; set; }
         public List<string> ElementValues { get; set; } = new();
         public List<string> OperatorValues { get; set; } = new();
         public List<string> VariantValues { get; set; } = new();
