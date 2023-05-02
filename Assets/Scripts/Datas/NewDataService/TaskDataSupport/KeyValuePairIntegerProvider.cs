@@ -2,13 +2,15 @@
 using Cysharp.Threading.Tasks;
 using Mono.Data.Sqlite;
 
+
 namespace Mathy.Services.Data
 {
     public interface IKeyValuePairIntegerProvider : IDataProvider
     {
         UniTask<KeyValueIntegerData> GetDataByKey(KeyValuePairKeys key, int defaultValue = 0);
         UniTask<int> GetIntOrDefaultByKey(KeyValuePairKeys key, int defaultValue = 0);
-        UniTask SaveIntWithKey(KeyValuePairKeys key, int value, DateTime date);
+        UniTask SetValue(KeyValuePairKeys key, int value, DateTime date);
+        UniTask IncrementValue(KeyValuePairKeys key, DateTime date);
     }
 
 
@@ -23,38 +25,41 @@ namespace Mathy.Services.Data
             using (var connection = new SqliteConnection(_dbFilePath))
             {
                 connection.Open();
-                var requestData = new KeyValueIntegerData() { Key = key, Value = defaultValue};
+                var requestData = new KeyValueIntegerData() { Key = key, Value = defaultValue, Date = DateTime.UtcNow};
                 var requestModel = requestData.ConvertToModel();
 
-                var query = KeyValueIntegerTableRequests.SelectByKeyQuery;
-                var keyParam = $@"@{nameof(KeyValueIntegerDataModel.Key)}";
-                var valueParam = $@"@{nameof(KeyValueIntegerDataModel.Value)}";
-                var dateParam = $@"@{nameof(KeyValueIntegerDataModel.Date)}";
+                var query = KeyValueIntegerTableRequests.GetCountQyery;
 
                 SqliteCommand command = new SqliteCommand(query, connection);
-                command.Parameters.AddWithValue(keyParam, requestModel.Key);
+                command.Parameters.AddWithValue(nameof(KeyValueIntegerDataModel.Key), requestModel.Key);
+
+                var scaler = await command.ExecuteScalarAsync();
+                var value = Convert.ToInt32(scaler);
+                if (value == 0)
+                {
+                    query = KeyValueIntegerTableRequests.InsertQuery;
+                    command = new SqliteCommand(query, connection);
+                    command.Parameters.AddWithValue(nameof(KeyValueIntegerDataModel.Key), requestModel.Key);
+                    command.Parameters.AddWithValue(nameof(KeyValueIntegerDataModel.Value), requestModel.Value);
+                    command.Parameters.AddWithValue(nameof(KeyValueIntegerDataModel.Date), requestModel.Date);
+                    await command.ExecuteNonQueryAsync();
+                    return requestData;
+                }
+
+                query = KeyValueIntegerTableRequests.SelectByKeyQuery;
+                command = new SqliteCommand(query, connection);
+                command.Parameters.AddWithValue(nameof(KeyValueIntegerDataModel.Key), requestModel.Key);
                 var reader = await command.ExecuteReaderAsync();
 
                 var resultModel = new KeyValueIntegerDataModel();
                 while (await reader.ReadAsync())
                 {
-                    resultModel.ID = Convert.ToInt32(reader[0]);
-                    resultModel.Key = Convert.ToString(reader[1]);
-                    resultModel.Value = Convert.ToInt32(reader[2]);
-                    resultModel.Date = Convert.ToString(reader[3]);
+                    //resultModel.ID = Convert.ToInt32(reader[0]);
+                    resultModel.Key = Convert.ToString(reader[0]);
+                    resultModel.Value = Convert.ToInt32(reader[1]);
+                    resultModel.Date = Convert.ToString(reader[2]);
                 }
                 reader.Close();
-
-                if (resultModel.ID == 0)
-                {
-                    query = KeyValueIntegerTableRequests.InsertQuery;
-                    command = new SqliteCommand(query, connection);
-                    command.Parameters.AddWithValue(keyParam, requestModel.Key);
-                    command.Parameters.AddWithValue(valueParam, requestModel.Value);
-                    command.Parameters.AddWithValue(dateParam, requestModel.Date);
-                    await command.ExecuteNonQueryAsync();
-                }
-
                 connection.Close();
                 connection.Dispose();
 
@@ -69,7 +74,7 @@ namespace Mathy.Services.Data
             return data.Value;
         }
 
-        public async UniTask SaveIntWithKey(KeyValuePairKeys key, int value, DateTime date)
+        public async UniTask SetValue(KeyValuePairKeys key, int value, DateTime date)
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
@@ -77,33 +82,42 @@ namespace Mathy.Services.Data
                 var requestData = new KeyValueIntegerData() { Key = key, Value = value , Date = date};
                 var requestModel = requestData.ConvertToModel();
 
-                var query = KeyValueIntegerTableRequests.SelectByKeyQuery;
-                var keyParam = $@"@{nameof(KeyValueIntegerDataModel.Key)}";
-                var valueParam = $@"@{nameof(KeyValueIntegerDataModel.Value)}";
-                var dateParam = $@"@{nameof(KeyValueIntegerDataModel.Date)}";
+                //var query = KeyValueIntegerTableRequests.SelectByKeyQuery;
 
+                var query = KeyValueIntegerTableRequests.GetCountQyery;
                 SqliteCommand command = new SqliteCommand(query, connection);
-                command.Parameters.AddWithValue(keyParam, requestModel.Key);
-                var reader = await command.ExecuteReaderAsync();
+                command.Parameters.AddWithValue(nameof(KeyValueIntegerDataModel.Key), requestModel.Key);
+                var scaler = await command.ExecuteScalarAsync();
+                var count = Convert.ToInt32(scaler);
 
-                var resultModel = new KeyValueIntegerDataModel();
-                while (await reader.ReadAsync())
-                {
-                    resultModel.ID = Convert.ToInt32(reader[0]);
-                    resultModel.Key = Convert.ToString(reader[1]);
-                    resultModel.Value = Convert.ToInt32(reader[2]);
-                    resultModel.Date = Convert.ToString(reader[3]);
-                }
-                reader.Close();
-
-                query = resultModel.ID == 0 
+                query = count == 0
                     ? KeyValueIntegerTableRequests.InsertQuery 
                     : KeyValueIntegerTableRequests.UpdateQuery;
 
                 command = new SqliteCommand(query, connection);
-                command.Parameters.AddWithValue(keyParam, requestModel.Key);
-                command.Parameters.AddWithValue(valueParam, requestModel.Value);
-                command.Parameters.AddWithValue(dateParam, requestModel.Date);
+                command.Parameters.AddWithValue(nameof(KeyValueIntegerDataModel.Key), requestModel.Key);
+                command.Parameters.AddWithValue(nameof(KeyValueIntegerDataModel.Value), requestModel.Value);
+                command.Parameters.AddWithValue(nameof(KeyValueIntegerDataModel.Date), requestModel.Date);
+                await command.ExecuteNonQueryAsync();
+
+                connection.Close();
+                connection.Dispose();
+            }
+        }
+
+        public async UniTask IncrementValue(KeyValuePairKeys key, DateTime date)
+        {
+            using (var connection = new SqliteConnection(_dbFilePath))
+            {
+                connection.Open();
+                var requestData = new KeyValueIntegerData() { Key = key, Date = date};
+                var requestModel = requestData.ConvertToModel();
+
+                var query = KeyValueIntegerTableRequests.InsertOrReplaceQuery;
+
+                SqliteCommand command = new SqliteCommand(query, connection);
+                command.Parameters.AddWithValue(nameof(KeyValueIntegerDataModel.Key), requestModel.Key);
+                command.Parameters.AddWithValue(nameof(KeyValueIntegerDataModel.Date), requestModel.Date);
                 await command.ExecuteNonQueryAsync();
 
                 connection.Close();

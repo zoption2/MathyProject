@@ -16,6 +16,9 @@ MonoBehaviour:
   VariantsAmount: 3
   MinNumber: 0
   MaxNumber: 10
+  MinLimit: 0
+  MaxLimit: 100
   Title: SelectFromThreeImagesCount
   Description: Description of the task should be here
   TaskType: 23
+  SkillType: 10

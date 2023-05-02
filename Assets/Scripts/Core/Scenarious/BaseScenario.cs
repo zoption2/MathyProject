@@ -109,7 +109,7 @@ namespace Mathy.Core.Tasks
             result.Date = DateTime.Now;
             result.Mode = TaskMode;
             taskIndexer++;
-            result.TaskModeIndex = taskIndexer;
+            //result.TaskModeIndex = taskIndexer;
 
             await dataService.TaskData.SaveTask(result);
 

@@ -11,7 +11,7 @@ namespace Mathy.Services
 {
     public interface ITaskResultFormatProcessor
     {
-        List<string> GetTaskResultsFormatted(TaskResultData[] tasks);
+        List<string> GetTaskResultsFormatted(List<TaskResultData> tasks);
     }
 
 
@@ -34,11 +34,11 @@ namespace Mathy.Services
             {$"{nameof(ArithmeticSigns.QuestionMark)}", "?"},
         };
 
-        public List<string> GetTaskResultsFormatted(TaskResultData[] tasks)
+        public List<string> GetTaskResultsFormatted(List<TaskResultData> tasks)
         {
             var results = new List<string>();
 
-            for (int x = 0, y = tasks.Length; x < y; x++)
+            for (int x = 0, y = tasks.Count; x < y; x++)
             {
                 bool isCorrect = tasks[x].IsAnswerCorrect;
                 List<string> new_elements = tasks[x].ElementValues;

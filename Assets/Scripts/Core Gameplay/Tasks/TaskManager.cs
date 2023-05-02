@@ -132,7 +132,7 @@ namespace Mathy.Core.Tasks
 
         public void SaveTaskData(TaskType taskType, bool isCorrect, List<int> selectedVariantIndexes, List<int> corectVariantIndexes, List<Element> elements, List<Operator> operators, List<Variant> variants)
         {
-            currenTaskData.TaskModeIndex = currentTaskIndex;
+            //currenTaskData.TaskModeIndex = currentTaskIndex;
             currenTaskData.SelectedAnswerIndexes = selectedVariantIndexes;
             currenTaskData.CorrectAnswerIndexes = corectVariantIndexes;
             currenTaskData.IsAnswerCorrect = isCorrect;

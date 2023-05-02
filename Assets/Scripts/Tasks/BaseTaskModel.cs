@@ -63,11 +63,13 @@ namespace Mathy.Core.Tasks
         {
             var result = new TaskResultData();
             result.TaskType = TaskType;
+            result.SkillType = taskSettings.SkillType;
             result.ElementValues = elements;
             result.OperatorValues = operators;
             result.VariantValues = variants;
             result.CorrectAnswerIndexes = correctAnswersIndexes;
             result.MaxValue = maxValue;
+
             return result;
         }
 

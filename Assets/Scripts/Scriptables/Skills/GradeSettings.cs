@@ -30,12 +30,12 @@ namespace Mathy.Data
 
     public enum SkillType
     {
-        Count = 0,
-        Addition = 1,
-        Subtraction = 2,
-        Comparison= 3,
-        Shapes = 4,
-        Sorting = 5,
-        Complex = 6
+        Count = 10,
+        Addition = 11,
+        Subtraction = 12,
+        Comparison= 13,
+        Shapes = 14,
+        Sorting = 15,
+        Complex = 16
     }
 }

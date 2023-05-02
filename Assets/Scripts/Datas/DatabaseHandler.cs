@@ -1261,7 +1261,7 @@ namespace Mathy.Data
                     TaskModeCommand.Parameters.AddWithValue("@name", DataToSave.Mode.ToString());
                     TaskModeCommand.Parameters.AddWithValue("@mode", (int)DataToSave.Mode);
                     TaskModeCommand.Parameters.AddWithValue("@date", DateTime.UtcNow.ToString("yyyy-MM-dd"));
-                    TaskModeCommand.Parameters.AddWithValue("@lastIndex", DataToSave.TaskModeIndex);
+                   // TaskModeCommand.Parameters.AddWithValue("@lastIndex", DataToSave.TaskModeIndex);
                     await TaskModeCommand.ExecuteNonQueryAsync();
 
                     await InsertTaskTables();
@@ -1379,7 +1379,7 @@ namespace Mathy.Data
                     SqliteCommand UpdateModeCommand = new SqliteCommand(UpdateModeQuery, connection);
                     UpdateModeCommand.Parameters.AddWithValue("@date", DateTime.UtcNow.ToString("yyyy-MM-dd"));
                     UpdateModeCommand.Parameters.AddWithValue("@mode", (int)DataToSave.Mode);
-                    UpdateModeCommand.Parameters.AddWithValue("@lastIndex", DataToSave.TaskModeIndex);
+                    //UpdateModeCommand.Parameters.AddWithValue("@lastIndex", DataToSave.TaskModeIndex);
 
                     await UpdateModeCommand.ExecuteNonQueryAsync();
                     

@@ -367,7 +367,7 @@ public class CalendarManager : StaticInstance<CalendarManager>
 		if (modeResult.IsComplete)
 		{
             var dayResults = await dataService.TaskData.GetResultsByModeAndDate((TaskMode)mode, SelectedDate);
-			int totalTasks = dayResults.Length;
+			int totalTasks = dayResults.Count;
 			int correctAnswers = 0;
 			double duration = 0;
 			for (int i = 0; i < totalTasks; i++)

@@ -16,6 +16,9 @@ MonoBehaviour:
   VariantsAmount: 4
   MinNumber: 0
   MaxNumber: 20
+  MinLimit: 0
+  MaxLimit: 100
   Title: Sum_of_Numbers
   Description: Description of the task should be here
   TaskType: 19
+  SkillType: 11

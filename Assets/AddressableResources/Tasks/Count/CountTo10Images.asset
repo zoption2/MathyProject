@@ -21,3 +21,4 @@ MonoBehaviour:
   Title: CountToTenImagesTitle
   Description: Description of the task should be here
   TaskType: 22
+  SkillType: 10

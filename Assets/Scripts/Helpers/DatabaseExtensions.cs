@@ -231,7 +231,7 @@ namespace Mathy.Services.Data
 
             return result;
         }
-
+        #endregion
 
         //private static string SerializeDictionary<TEnum, TValue>(Dictionary<TEnum, TValue> dic) where TEnum : Enum
         //{

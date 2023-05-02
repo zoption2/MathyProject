@@ -16,6 +16,9 @@ MonoBehaviour:
   VariantsAmount: 4
   MinNumber: 1
   MaxNumber: 20
+  MinLimit: 0
+  MaxLimit: 100
   Title: Missing_Sign
   Description: Task description here
   TaskType: 12
+  SkillType: 16

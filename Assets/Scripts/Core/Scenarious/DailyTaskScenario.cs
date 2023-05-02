@@ -48,7 +48,7 @@ namespace Mathy.Core.Tasks
 
             results.Mode = TaskMode;
             taskIndexer++;
-            results.TaskModeIndex = taskIndexer;
+            //results.TaskModeIndex = taskIndexer;
 
             await dataService.TaskData.SaveTask(results);
 

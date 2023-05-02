@@ -16,6 +16,9 @@ MonoBehaviour:
   VariantsAmount: 5
   MinNumber: 0
   MaxNumber: 20
+  MinLimit: 0
+  MaxLimit: 100
   Title: Comparison_Missing_Elements
   Description: Task description here
   TaskType: 16
+  SkillType: 13

@@ -9,7 +9,7 @@ namespace Mathy.Services.Data
 {
     public interface ITaskDataHandler
     {
-        UniTask<TaskResultData[]> GetResultsByModeAndDate(TaskMode mode, DateTime date);
+        UniTask<List<TaskResultData>> GetResultsByModeAndDate(TaskMode mode, DateTime date);
         UniTask<List<string>> GetTaskResultsFormatted(TaskMode mode, DateTime date);
         UniTask SaveTask(TaskResultData task);
         UniTask UpdateDailyMode(DailyModeData data);
@@ -42,7 +42,7 @@ namespace Mathy.Services.Data
         }
 
 
-        public async UniTask<TaskResultData[]> GetResultsByModeAndDate(TaskMode mode, DateTime date)
+        public async UniTask<List<TaskResultData>> GetResultsByModeAndDate(TaskMode mode, DateTime date)
         {
             var result = await _taskProvider.GetTasksByModeAndDate(mode, date);
             return result;
@@ -57,7 +57,19 @@ namespace Mathy.Services.Data
 
         public async UniTask SaveTask(TaskResultData task)
         {
+            var uniqueId = await _dataService.KeyValueHandler.GetIntValue(KeyValuePairKeys.UniqueTaskIndex, 0);
+            uniqueId++;
+            task.ID = uniqueId;
             await _taskProvider.SaveTask(task);
+            await _dataService.KeyValueHandler.SaveIntValue(KeyValuePairKeys.UniqueTaskIndex, uniqueId);
+
+            var answer = task.IsAnswerCorrect
+                ? KeyValuePairKeys.TotalCorrectAnswers
+                : KeyValuePairKeys.TotalWrongAnswers;
+            await _dataService.KeyValueHandler.IncrementIntValue(answer);
+
+            var skill = (KeyValuePairKeys)task.SkillType;
+            await _dataService.KeyValueHandler.IncrementIntValue(skill);
         }
 
         public async UniTask UpdateDailyMode(DailyModeData data)
@@ -112,45 +124,6 @@ namespace Mathy.Services.Data
             await _taskProvider.TryCreateTable();
             await _dailyModeProvider.TryCreateTable();
             await _generalProvider.TryCreateTable();
-        }
-    }
-
-
-
-    public interface IKeyValuePairDataHandler
-    {
-        UniTask<KeyValueIntegerData> GetKeyValueIntegerData(KeyValuePairKeys key, int defaultValue = 0);
-        UniTask<int> GetIntValue(KeyValuePairKeys key, int defaultValue = 0);
-        UniTask SaveIntValue(KeyValuePairKeys key, int value);
-    }
-
-    public class KeyValuePairDataHandler : IKeyValuePairDataHandler
-    {
-        private IKeyValuePairIntegerProvider _intProvider;
-        private readonly DataService _dataService;
-
-        public KeyValuePairDataHandler(DataService dataService)
-        {
-            _dataService = dataService;
-            var filePath = dataService.DatabasePath;
-
-            _intProvider = new KeyValuePairIntegerProvider(filePath);
-        }
-
-        public async UniTask<KeyValueIntegerData> GetKeyValueIntegerData(KeyValuePairKeys key, int defaultValue = 0)
-        {
-            return await _intProvider.GetDataByKey(key, defaultValue);
-        }
-
-        public async UniTask<int> GetIntValue(KeyValuePairKeys key, int defaultValue = 0)
-        {
-            return await _intProvider.GetIntOrDefaultByKey(key, defaultValue);
-        }
-
-        public async UniTask SaveIntValue(KeyValuePairKeys key, int value)
-        {
-            var currentDateTime = DateTime.UtcNow;
-            await _intProvider.SaveIntWithKey(key, value, currentDateTime);
         }
     }
 }

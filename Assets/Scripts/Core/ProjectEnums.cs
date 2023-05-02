@@ -204,6 +204,16 @@
     {
         none = 0,
         UniqueTaskIndex = 1,
+        TotalCorrectAnswers = 2,
+        TotalWrongAnswers = 3,
+
+        Count = 10,
+        Addition = 11,
+        Subtraction = 12,
+        Comparison = 13,
+        Shapes = 14,
+        Sorting = 15,
+        Complex = 16
     }
 }
 

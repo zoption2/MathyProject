@@ -21,3 +21,4 @@ MonoBehaviour:
   Title: CountTo20FramesTitle
   Description: Description of the task should be here
   TaskType: 25
+  SkillType: 10

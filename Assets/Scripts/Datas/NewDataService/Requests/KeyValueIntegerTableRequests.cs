@@ -12,7 +12,6 @@
         public static readonly string CreateTable = $@"
             create table if not exists {kTableName}
             (
-                {kId} INTEGER AUTOINCREMENT,
                 {kKey} STRING PRIMARY KEY NOT NULL,
                 {kValue} INTEGER NOT NULL,
                 {kDate} STRING NOT NULL
@@ -31,13 +30,33 @@
 
 
         public static readonly string SelectByKeyQuery = $@"select
-            {kId} as {nameof(KeyValueIntegerDataModel.ID)},
             {kKey} as {nameof(KeyValueIntegerDataModel.Key)},
             {kValue} as {nameof(KeyValueIntegerDataModel.Value)},
             {kDate} as {nameof(KeyValueIntegerDataModel.Date)}
             from {kTableName}
             where {kKey} = @{nameof(KeyValueIntegerDataModel.Key)}
             ;";
+
+
+        public static readonly string GetCountQyery = $@"SELECT COUNT(*) FROM {kTableName}
+            WHERE {kKey} = @{nameof(KeyValueIntegerDataModel.Key)}
+        ;";
+
+
+        public static readonly string InsertOrReplaceQuery = $@"INSERT OR REPLACE INTO {kTableName}
+            (
+                {kKey}, {kValue}, {kDate}
+            )
+            VALUES (
+                @{nameof(KeyValueIntegerDataModel.Key)},
+                CASE
+                    WHEN EXISTS(SELECT 1 FROM {kTableName} WHERE {kKey} = @{nameof(KeyValueIntegerDataModel.Key)})
+                        THEN (SELECT value FROM {kTableName} WHERE {kKey} = @{nameof(KeyValueIntegerDataModel.Key)}) + 1
+                    ELSE 1
+                END,
+                @{nameof(KeyValueIntegerDataModel.Date)}
+            );
+            ";
 
 
         public static readonly string UpdateQuery = $@"update {kTableName}

@@ -25,6 +25,7 @@ namespace Mathy.Services
 
         private TaskDataHandler _taskDataHandler;
         private SkillPlanHandler _skillPlanHandler;
+        private KeyValuePairDataHandler _keyValuehandler;
         private string _saveDirectoryPath;
         private string _taskDBFilePath;
 
@@ -32,12 +33,12 @@ namespace Mathy.Services
 
         public ITaskDataHandler TaskData => _taskDataHandler;
         public ISkillPlanHandler SkillPlan => _skillPlanHandler;
+        public IKeyValuePairDataHandler KeyValueHandler => _keyValuehandler;
 
 
         public DataService()
         {
             string dataPath = Application.persistentDataPath;
-            //string dataPath = Application.dataPath + "/Resources/";
             _saveDirectoryPath = dataPath + "/Saves/";
             var saveFilePath = _saveDirectoryPath + kFileName;
             _taskDBFilePath = $"Data Source={saveFilePath}";
@@ -48,6 +49,7 @@ namespace Mathy.Services
 
             _taskDataHandler = new TaskDataHandler(this);
             _skillPlanHandler = new SkillPlanHandler(this);
+            _keyValuehandler = new KeyValuePairDataHandler(this);
             InitHandlers();
         }
 
@@ -71,6 +73,7 @@ namespace Mathy.Services
         {
             await _taskDataHandler.Init();
             await _skillPlanHandler.Init();
+            await _keyValuehandler.Init();
         }
     }
 }

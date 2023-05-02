@@ -218,7 +218,8 @@ namespace Mathy.UI
         /// <returns>The localized title of the skill.</returns>
         private string GetSkillTitle(SkillType type)
         {
-            string skillKey = string.Format("{0} Skill", type);
+            var skill = Enum.GetName(typeof(SkillType), type);
+            string skillKey = string.Format("{0} Skill", skill);
             string localizedSkill = LocalizationManager.GetLocalizedString(tableName, skillKey);
             string localizedSufix = LocalizationManager.GetLocalizedString(tableName, upToKey);
             string title = string.Format("{0} {1}", localizedSkill, localizedSufix);

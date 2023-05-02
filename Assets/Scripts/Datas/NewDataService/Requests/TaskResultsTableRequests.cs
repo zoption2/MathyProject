@@ -24,7 +24,7 @@
 
         public static readonly string CreatingTableColumns = $@"
         (
-            {kId} INTEGER PRIMARY KEY AUTOINCREMENT,
+            {kId} INTEGER PRIMARY KEY NOT NULL UNIQUE,
             {kDate} STRING NOT NULL,
             {kMode} STRING NOT NULL,
             {kModeIndex} INTEGER NOT NULL,
@@ -58,8 +58,8 @@
             {kModeIndex} as {nameof(TaskDataTableModel.TaskModeIndex)},
             {kTaskType} as {nameof(TaskDataTableModel.TaskType)},
             {kTaskTypeIndex} as {nameof(TaskDataTableModel.TaskTypeIndex)},
-{kSkillType} as {nameof(TaskDataTableModel)},
-{kSkillIndex} as {nameof(TaskDataTableModel)},
+            {kSkillType} as {nameof(TaskDataTableModel.SkillType)},
+            {kSkillIndex} as {nameof(TaskDataTableModel.SkillIndex)},
             {kElements} as {nameof(TaskDataTableModel.ElementValues)},
             {kOperators} as {nameof(TaskDataTableModel.OperatorValues)},
             {kVariants} as {nameof(TaskDataTableModel.VariantValues)},
@@ -71,15 +71,18 @@
 
 
         public static readonly string InsertableContentQuery = $@"
-            ({kDate}, {kMode}, {kModeIndex}, {kTaskType}, {kTaskTypeIndex}, {kElements}
-            , {kOperators}, {kVariants}, {kSelectedAnswersIndexes}, {kCorrectAnswersIndexes}
-            , {kIsCorrect}, {kDuration}, {kMaxValue})
+            ({kId}, {kDate}, {kMode}, {kModeIndex}, {kTaskType}, {kTaskTypeIndex}, {kSkillType}
+            , {kSkillIndex}, {kElements}, {kOperators}, {kVariants}, {kSelectedAnswersIndexes}
+            , {kCorrectAnswersIndexes}, {kIsCorrect}, {kDuration}, {kMaxValue})
             values( 
+                @{nameof(TaskDataTableModel.ID)}, 
                 @{nameof(TaskDataTableModel.Date)}, 
                 @{nameof(TaskDataTableModel.Mode)},
                 @{nameof(TaskDataTableModel.TaskModeIndex)},
                 @{nameof(TaskDataTableModel.TaskType)},
                 @{nameof(TaskDataTableModel.TaskTypeIndex)},
+                @{nameof(TaskDataTableModel.SkillType)},
+                @{nameof(TaskDataTableModel.SkillIndex)},
                 @{nameof(TaskDataTableModel.ElementValues)},
                 @{nameof(TaskDataTableModel.OperatorValues)},
                 @{nameof(TaskDataTableModel.VariantValues)},
@@ -96,12 +99,39 @@
             ";
 
 
-        public static readonly string SelectTaskByModeAndDateQuery = $@"select
+        //public static readonly string SelectTaskByModeAndDateQuery = $@"select
+        //    {SelectableContentQuery}
+        //    from {kTasksTable} 
+        //    where {kMode} = @{nameof(TaskDataTableModel.Mode)}
+        //    and {kDate} = @{nameof(TaskDataTableModel.Date)}
+        //    ;";
+
+
+        private static readonly string SelectTaskFromQuery = $@"select
             {SelectableContentQuery}
-            from {kTasksTable} 
-            where {kMode} = @{nameof(TaskDataTableModel.Mode)}
+            from";
+
+        private static readonly string SelectByIdSufix = $@"
+            where {kId} = @{nameof(TaskDataTableModel.ID)}
+            ";
+
+        public static string GetSelectQueryByIdAndTable(string tableName)
+        {
+            string format = "{0} {1} {2}";
+            return string.Format(format, SelectTaskFromQuery, tableName, SelectByIdSufix);
+        }
+
+
+        private static readonly string SelectByModeAndDateSufix = $@"
+            where {kModeIndex} = @{nameof(TaskDataTableModel.TaskModeIndex)}
             and {kDate} = @{nameof(TaskDataTableModel.Date)}
-            ;";
+            ";
+
+        public static string GetSelectQueryModeAndDate(string tableName)
+        {
+            string format = "{0} {1} {2}";
+            return string.Format(format, SelectTaskFromQuery, tableName, SelectByModeAndDateSufix);
+        }
 
 
         public static readonly string DeleteTable = $@"
