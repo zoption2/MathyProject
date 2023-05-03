@@ -77,6 +77,7 @@ namespace Mathy.Services.Data
             result.CorrectRate = data.CorrectRate;
             result.Duration = data.Duration;
             result.TotalTasks = data.TotalTasks;
+            result.TasksIds = string.Join(",", data.TasksIds);
 
             return result;
         }
@@ -93,6 +94,7 @@ namespace Mathy.Services.Data
             result.CorrectRate = model.CorrectRate;
             result.Duration = model.Duration;
             result.TotalTasks = model.TotalTasks;
+            result.TasksIds = model.TasksIds.Split(',').Select(int.Parse).ToList();
 
             return result;
         }
@@ -215,7 +217,7 @@ namespace Mathy.Services.Data
         public static KeyValueIntegerDataModel ConvertToModel(this KeyValueIntegerData data)
         {
             var result = new KeyValueIntegerDataModel();
-            result.Key = data.Key.ToString();
+            result.Key = data.Key;
             result.Value = data.Value;
             result.Date = data.Date.ToString(kDataTimeFormat);
 
@@ -225,7 +227,7 @@ namespace Mathy.Services.Data
         public static KeyValueIntegerData ConvertToData(this KeyValueIntegerDataModel model)
         {
             var result = new KeyValueIntegerData();
-            result.Key = Enum.Parse<KeyValuePairKeys>(model.Key);
+            result.Key = model.Key;
             result.Value = model.Value;
             result.Date = DateTime.ParseExact(model.Date, kDataTimeFormat, CultureInfo.InvariantCulture);
 

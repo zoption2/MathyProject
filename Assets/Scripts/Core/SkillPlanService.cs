@@ -101,10 +101,6 @@ namespace Mathy.Services
             settings.Grade = SelectedGrade;
             await _dataService.SkillPlan.SaveSkillSettings(settings);
 
-            //_gradeDatas.Where(x => x.GradeIndex == settings.Grade)
-            //    .SelectMany(t => t.SkillDatas.Where(s => s.Settings.Skill == settings.Skill))
-            //    .SelectMany(x => x.Tasks.ForEach(g => g.MaxNumber = settings.Value));
-
             _gradeDatas.Where(x => x.GradeIndex == settings.Grade)
                        .SelectMany(t => t.SkillDatas.Where(s => s.Settings.Skill == settings.Skill))
                        .ToList()

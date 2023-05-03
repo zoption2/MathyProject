@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
-using Dapper;
 using Mono.Data.Sqlite;
+using System;
 
 
 namespace Mathy.Services.Data
@@ -24,14 +24,41 @@ namespace Mathy.Services.Data
             {
                 connection.Open();
                 var requestModel = new GradeTableModel() { Grade = grade, IsEnable = defaultIsEnable };
-                var model = await connection.QueryFirstOrDefaultAsync<GradeTableModel>(GradesTableRequests.SelectGradeQuery, requestModel);
-                if (model == null)
-                {
-                    await connection.ExecuteAsync(GradesTableRequests.InsertGradeQuery, requestModel);
-                    return requestModel.IsEnable;
-                }
+                var result = requestModel.IsEnable;
 
-                return model.IsEnable;
+                var query = GradesTableRequests.GetCountQuery;
+                SqliteCommand command = new SqliteCommand(query, connection);
+                command.Parameters.AddWithValue(nameof(GradeTableModel.Grade), requestModel.Grade);
+                var scaler = await command.ExecuteScalarAsync();
+                var count = Convert.ToInt32(scaler);
+
+                if (count == 0)
+                {
+                    query = GradesTableRequests.InsertGradeQuery;
+                    command = new SqliteCommand(query, connection);
+                    command.Parameters.AddWithValue(nameof(GradeTableModel.Grade), requestModel.Grade);
+                    command.Parameters.AddWithValue(nameof(GradeTableModel.IsEnable), requestModel.IsEnable);
+                    await command.ExecuteNonQueryAsync();
+                }
+                else
+                {
+                    query = GradesTableRequests.SelectGradeQuery;
+                    command = new SqliteCommand(query, connection);
+                    command.Parameters.AddWithValue(nameof(GradeTableModel.Grade), requestModel.Grade);
+                    var reader = await command.ExecuteReaderAsync();
+
+                    var data = new GradeTableModel();
+                    while (await reader.ReadAsync())
+                    {
+                        data.Grade = Convert.ToInt32(reader[1]);
+                        data.IsEnable = Convert.ToBoolean(reader[2]);
+                    }
+                    reader.Close();
+                    result = data.IsEnable;
+                }
+                connection.Close();
+                connection.Dispose();
+                return result;
             }
         }
 
@@ -41,9 +68,20 @@ namespace Mathy.Services.Data
             {
                 connection.Open();
                 var requestModel = new GradeTableModel() { Grade = grade, IsEnable = isEnable };
-                var model = await connection.QueryFirstOrDefaultAsync<GradeTableModel>(GradesTableRequests.SelectGradeQuery, requestModel);
-                var query = model != null ? GradesTableRequests.UpdateGradeQuery : GradesTableRequests.InsertGradeQuery;
-                await connection.ExecuteAsync(query, requestModel);
+                var query = GradesTableRequests.GetCountQuery;
+                SqliteCommand command = new SqliteCommand(query, connection);
+                command.Parameters.AddWithValue(nameof(GradeTableModel.Grade), requestModel.Grade);
+                var scaler = await command.ExecuteScalarAsync();
+                var count = Convert.ToInt32(scaler);
+
+                query = count == 0
+                    ? GradesTableRequests.InsertGradeQuery
+                    : GradesTableRequests.UpdateGradeQuery;
+
+                command = new SqliteCommand(query, connection);
+                command.Parameters.AddWithValue(nameof(GradeTableModel.Grade), requestModel.Grade);
+                command.Parameters.AddWithValue(nameof(GradeTableModel.IsEnable), requestModel.IsEnable);
+                await command.ExecuteNonQueryAsync();
             }
         }
 
@@ -52,7 +90,11 @@ namespace Mathy.Services.Data
             using (var connection = new SqliteConnection(_dbFilePath))
             {
                 connection.Open();
-                await connection.ExecuteAsync(GradesTableRequests.TryCreateTableQuery);
+                var query = GradesTableRequests.TryCreateTableQuery;
+                SqliteCommand command = new SqliteCommand(query, connection);
+                await command.ExecuteNonQueryAsync();
+                connection.Close();
+                connection.Dispose();
             }
         }
 
@@ -61,7 +103,11 @@ namespace Mathy.Services.Data
             using (var connection = new SqliteConnection(_dbFilePath))
             {
                 connection.Open();
-                await connection.ExecuteAsync(GradesTableRequests.DeleteTable);
+                var query = GradesTableRequests.DeleteTable;
+                SqliteCommand command = new SqliteCommand(query, connection);
+                await command.ExecuteNonQueryAsync();
+                connection.Close();
+                connection.Dispose();
             }
         }
     }

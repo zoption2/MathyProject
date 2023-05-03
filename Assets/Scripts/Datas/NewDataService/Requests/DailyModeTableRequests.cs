@@ -5,7 +5,7 @@
         public const string kDailyModeTable = "DailyMode";
 
         private const string kId = "id";
-        private const string kDate = "_Date";
+        private const string kDate = "Date";
         public const string kMode = "Mode";
         public const string kModeIndex = "ModeIndex";
         public const string kIsModeDone = "IsDone";
@@ -14,6 +14,7 @@
         private const string kCorrectRate = "CorrectRate";
         private const string kDuration = "Duration";
         private const string kTotalTasks = "TotalTasks";
+        private const string kTasksIds = "TasksIds";
 
 
         public static readonly string TryCreateDailyModeTableQuery = $@"create table if not exists {kDailyModeTable}
@@ -27,7 +28,8 @@
             {kCorrect} INTEGER NOT NULL,
             {kCorrectRate} INTEGER NOT NULL,
             {kDuration} DOUBLE NOT NULL,
-            {kTotalTasks} INTEGER NOT NULL
+            {kTotalTasks} INTEGER NOT NULL,
+            {kTasksIds} STRING NOT NULL
             )";
 
         private static string _selectableDailyModeTableContent = $@"
@@ -40,7 +42,8 @@
             {kCorrect} as {nameof(DailyModeTableModel.CorrectAnswers)},
             {kCorrectRate} as {nameof(DailyModeTableModel.CorrectRate)},
             {kDuration} as {nameof(DailyModeTableModel.Duration)},
-            {kTotalTasks} as {nameof(DailyModeTableModel.TotalTasks)}
+            {kTotalTasks} as {nameof(DailyModeTableModel.TotalTasks)},
+            {kTasksIds} as {nameof(DailyModeTableModel.TasksIds)}
             ";
 
 
@@ -65,7 +68,7 @@
 
         public static readonly string InsertDailyQuery = $@"insert into {kDailyModeTable}
             ({kDate}, {kMode}, {kModeIndex}, {kIsModeDone}, {kPlayedCount}, {kCorrect},
-            {kCorrectRate}, {kDuration}, {kTotalTasks})
+            {kCorrectRate}, {kDuration}, {kTotalTasks}, {kTasksIds})
             values(
                 @{nameof(DailyModeTableModel.Date)},
                 @{nameof(DailyModeTableModel.Mode)},
@@ -75,7 +78,8 @@
                 @{nameof(DailyModeTableModel.CorrectAnswers)},
                 @{nameof(DailyModeTableModel.CorrectRate)},
                 @{nameof(DailyModeTableModel.Duration)},
-                @{nameof(DailyModeTableModel.TotalTasks)}
+                @{nameof(DailyModeTableModel.TotalTasks)},
+                @{nameof(DailyModeTableModel.TasksIds)}
             )";
 
         public static readonly string UpdateDailyQuery = $@"update {kDailyModeTable}
@@ -84,7 +88,8 @@
                 {kCorrect} = @{nameof(DailyModeTableModel.CorrectAnswers)},
                 {kCorrectRate} = @{nameof(DailyModeTableModel.CorrectRate)},
                 {kDuration} = {kDuration} + @{nameof(DailyModeTableModel.Duration)},
-                {kTotalTasks} = @{nameof(DailyModeTableModel.TotalTasks)}
+                {kTotalTasks} = @{nameof(DailyModeTableModel.TotalTasks)},
+                {kTasksIds} = @{nameof(DailyModeTableModel.TasksIds)}
             WHERE {kDate} = @{nameof(DailyModeTableModel.Date)}
             AND {kModeIndex} = @{nameof(DailyModeTableModel.ModeIndex)}";
 

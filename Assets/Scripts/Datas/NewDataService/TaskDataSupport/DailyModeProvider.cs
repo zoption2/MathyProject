@@ -28,19 +28,9 @@ namespace Mathy.Services.Data
                 var requestModel = data.ConvertToModel();
 
                 var query = DailyModeTableRequests.SelectByDateAndModeQuery;
-                var dateParam = $@"@{nameof(DailyModeTableModel.Date)}";
-                var modeParam = $@"@{nameof(DailyModeTableModel.Mode)}";
-                var modeIndexParam = $@"@{nameof(DailyModeTableModel.ModeIndex)}";
-                var isCompleteParam = $@"@{nameof(DailyModeTableModel.IsComplete)}";
-                var countParam = $@"@{nameof(DailyModeTableModel.PlayedTasks)}";
-                var correctParam = $@"@{nameof(DailyModeTableModel.CorrectAnswers)}";
-                var rateParam = $@"@{nameof(DailyModeTableModel.CorrectRate)}";
-                var durationParam = $@"@{nameof(DailyModeTableModel.Duration)}";
-                var totalTasksParam = $@"@{nameof(DailyModeTableModel.TotalTasks)}";
-
                 SqliteCommand command = new SqliteCommand(query, connection);
-                command.Parameters.AddWithValue(dateParam, requestModel.Date);
-                command.Parameters.AddWithValue(modeParam, requestModel.Mode);
+                command.Parameters.AddWithValue(nameof(DailyModeTableModel.Date), requestModel.Date);
+                command.Parameters.AddWithValue(nameof(DailyModeTableModel.Mode), requestModel.Mode);
                 var reader = await command.ExecuteReaderAsync();
 
                 var resultModel = new DailyModeTableModel();
@@ -56,6 +46,7 @@ namespace Mathy.Services.Data
                     resultModel.CorrectRate = Convert.ToInt32(reader[7]);
                     resultModel.Duration = Convert.ToDouble(reader[8]);
                     resultModel.TotalTasks = Convert.ToInt32(reader[9]);
+                    resultModel.TasksIds = Convert.ToString(reader[10]);
                 }
                 reader.Close();
 
@@ -64,15 +55,16 @@ namespace Mathy.Services.Data
                     : DailyModeTableRequests.UpdateDailyQuery;
 
                 command = new SqliteCommand(query, connection);
-                command.Parameters.AddWithValue(isCompleteParam, requestModel.IsComplete);
-                command.Parameters.AddWithValue(countParam, requestModel.PlayedTasks);
-                command.Parameters.AddWithValue(correctParam, requestModel.CorrectAnswers);
-                command.Parameters.AddWithValue(rateParam, requestModel.CorrectRate);
-                command.Parameters.AddWithValue(durationParam, requestModel.Duration);
-                command.Parameters.AddWithValue(totalTasksParam, requestModel.TotalTasks);
-                command.Parameters.AddWithValue(dateParam, requestModel.Date);
-                command.Parameters.AddWithValue(modeParam, requestModel.Mode);
-                command.Parameters.AddWithValue(modeIndexParam, requestModel.ModeIndex);
+                command.Parameters.AddWithValue(nameof(DailyModeTableModel.IsComplete), requestModel.IsComplete);
+                command.Parameters.AddWithValue(nameof(DailyModeTableModel.PlayedTasks), requestModel.PlayedTasks);
+                command.Parameters.AddWithValue(nameof(DailyModeTableModel.CorrectAnswers), requestModel.CorrectAnswers);
+                command.Parameters.AddWithValue(nameof(DailyModeTableModel.CorrectRate), requestModel.CorrectRate);
+                command.Parameters.AddWithValue(nameof(DailyModeTableModel.Duration), requestModel.Duration);
+                command.Parameters.AddWithValue(nameof(DailyModeTableModel.TotalTasks), requestModel.TotalTasks);
+                command.Parameters.AddWithValue(nameof(DailyModeTableModel.Date), requestModel.Date);
+                command.Parameters.AddWithValue(nameof(DailyModeTableModel.Mode), requestModel.Mode);
+                command.Parameters.AddWithValue(nameof(DailyModeTableModel.ModeIndex), requestModel.ModeIndex);
+                command.Parameters.AddWithValue(nameof(DailyModeTableModel.TasksIds), requestModel.TasksIds);
                 await command.ExecuteNonQueryAsync();
 
                 connection.Close();
@@ -96,10 +88,8 @@ namespace Mathy.Services.Data
 
                 string query = DailyModeTableRequests.SelectByDateAndModeQuery;
                 SqliteCommand command = new SqliteCommand(query, connection);
-                var dateParam = $@"@{nameof(DailyModeTableModel.Date)}";
-                command.Parameters.AddWithValue(dateParam, requestModel.Date);
-                var modeParam = $@"@{nameof(DailyModeTableModel.Mode)}";
-                command.Parameters.AddWithValue(modeParam, requestModel.Mode);
+                command.Parameters.AddWithValue(nameof(DailyModeTableModel.Date), requestModel.Date);
+                command.Parameters.AddWithValue(nameof(DailyModeTableModel.Mode), requestModel.Mode);
                 var reader = await command.ExecuteReaderAsync();
                  
                 var result = new DailyModeTableModel();
@@ -115,6 +105,7 @@ namespace Mathy.Services.Data
                     result.CorrectRate = Convert.ToInt32(reader[7]);
                     result.Duration = Convert.ToDouble(reader[8]);
                     result.TotalTasks = Convert.ToInt32(reader[9]);
+                    result.TasksIds = Convert.ToString(reader[10]);
                 }
                 reader.Close();
 

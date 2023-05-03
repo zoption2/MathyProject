@@ -50,8 +50,7 @@ namespace Mathy.Services.Data
 
         public SkillSettingsData GetSkillSettings(int grade, SkillType skillType)
         {
-            //var result = _skillSettingsProvider.GetSettingsByGradeAndSkill(grade, skillType);
-            var result = _skillSettingsProvider.GetSettingsByGradeAndSkillTEST(grade, skillType);
+            var result = _skillSettingsProvider.GetSettingsByGradeAndSkill(grade, skillType);
             return result;
         }
 

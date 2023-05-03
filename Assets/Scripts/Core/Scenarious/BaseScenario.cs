@@ -30,6 +30,7 @@ namespace Mathy.Core.Tasks
         protected int taskIndexer = 0;
         protected int correctAnswers;
         protected List<ScriptableTask> availableTasks;
+        protected DailyModeData dailyModeData;
 
         protected int TasksInQueue => tasks.Count;
         public abstract TaskMode TaskMode { get;}
@@ -54,8 +55,8 @@ namespace Mathy.Core.Tasks
             taskManager = TaskManager.Instance;
             scenePointer = GameplayScenePointer.Instance;
 
-            correctAnswers = 0;
-            taskIndexer = 0;
+            dailyModeData = await dataService.TaskData.GetDailyModeData(DateTime.UtcNow, TaskMode);
+            taskIndexer = dailyModeData.PlayedCount;
             tasks = new(kMaxTasksLoadedAtOnce);
             this.availableTasks = availableTasks;
 
@@ -109,26 +110,22 @@ namespace Mathy.Core.Tasks
             result.Date = DateTime.Now;
             result.Mode = TaskMode;
             taskIndexer++;
-            //result.TaskModeIndex = taskIndexer;
 
-            await dataService.TaskData.SaveTask(result);
+            var taskId = await dataService.TaskData.SaveTask(result);
 
             if (result.IsAnswerCorrect)
             {
                 correctAnswers++;
             }
 
-            DailyModeData modeData = new DailyModeData()
-            {
-                Date = DateTime.UtcNow,
-                Mode = TaskMode,
-                IsComplete = false,
-                PlayedCount = taskIndexer,
-                CorrectAnswers = correctAnswers,
-                CorrectRate = (correctAnswers * 100) / taskIndexer,
-                Duration = result.Duration
-            };
-            await dataService.TaskData.UpdateDailyMode(modeData);
+            dailyModeData.IsComplete = false;
+            dailyModeData.PlayedCount = taskIndexer;
+            dailyModeData.CorrectAnswers = correctAnswers;
+            dailyModeData.CorrectRate = (correctAnswers * 100) / taskIndexer;
+            dailyModeData.Duration = result.Duration;
+            dailyModeData.TasksIds.Add(taskId);
+
+            await dataService.TaskData.UpdateDailyMode(dailyModeData);
         }
 
         protected virtual bool TryStartTask()

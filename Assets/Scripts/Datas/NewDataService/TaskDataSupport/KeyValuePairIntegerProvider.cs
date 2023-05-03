@@ -7,10 +7,10 @@ namespace Mathy.Services.Data
 {
     public interface IKeyValuePairIntegerProvider : IDataProvider
     {
-        UniTask<KeyValueIntegerData> GetDataByKey(KeyValuePairKeys key, int defaultValue = 0);
-        UniTask<int> GetIntOrDefaultByKey(KeyValuePairKeys key, int defaultValue = 0);
-        UniTask SetValue(KeyValuePairKeys key, int value, DateTime date);
-        UniTask IncrementValue(KeyValuePairKeys key, DateTime date);
+        UniTask<KeyValueIntegerData> GetDataByKey(string key, int defaultValue = 0);
+        UniTask<int> GetIntOrDefaultByKey(string key, int defaultValue = 0);
+        UniTask SetValue(string key, int value, DateTime date);
+        UniTask IncrementValue(string key, DateTime date);
     }
 
 
@@ -20,7 +20,7 @@ namespace Mathy.Services.Data
         {
         }
 
-        public async UniTask<KeyValueIntegerData> GetDataByKey(KeyValuePairKeys key, int defaultValue = 0)
+        public async UniTask<KeyValueIntegerData> GetDataByKey(string key, int defaultValue = 0)
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
@@ -68,13 +68,13 @@ namespace Mathy.Services.Data
             }
         }
 
-        public async UniTask<int> GetIntOrDefaultByKey(KeyValuePairKeys key, int defaultValue = 0)
+        public async UniTask<int> GetIntOrDefaultByKey(string key, int defaultValue = 0)
         {
             var data = await GetDataByKey(key, defaultValue);
             return data.Value;
         }
 
-        public async UniTask SetValue(KeyValuePairKeys key, int value, DateTime date)
+        public async UniTask SetValue(string key, int value, DateTime date)
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
@@ -105,7 +105,7 @@ namespace Mathy.Services.Data
             }
         }
 
-        public async UniTask IncrementValue(KeyValuePairKeys key, DateTime date)
+        public async UniTask IncrementValue(string key, DateTime date)
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {

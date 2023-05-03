@@ -35,6 +35,11 @@ namespace Mathy.Services.Data
             ;";
 
 
+        public static readonly string GetCountQuery = $@"SELECT COUNT(*) FROM {kTable}
+            WHERE {kGrade} = @{nameof(SkillPlanTableModel.Grade)}
+        ;";
+
+
         public static readonly string InsertOrUpdateGradeQuery = $@"
             INSERT OR REPLACE INTO {kTable} 
             ({kGrade}, {kIsEnable})

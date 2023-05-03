@@ -25,11 +25,11 @@ namespace Mathy.Services.Data
         public static readonly string CreateGeneralView = $@"create view IF NOT EXISTS {kGeneralViewName}
             as
             select
-            count(*) as {kTotalTasks},
+            (select {KeyValueIntegerTableRequests.kValue} WHERE {KeyValueIntegerTableRequests.kKey} = '{nameof(KeyValuePairKeys.TotalTasksIndexer)}') AS {kTotalTasks},
             sum(case when {TaskResultsTableRequests.kIsCorrect} then 1 else 0 end) as {kTotalCorrect},
             cast((sum(case when {TaskResultsTableRequests.kIsCorrect} then 1 else 0 end) * 100.0 / count(*)) as integer) as {kMiddleRating},
             sum({TaskResultsTableRequests.kDuration}) as {kTasksTime}
-            from {TaskResultsTableRequests.kTasksTable};
+            from {KeyValueIntegerTableRequests.kTableName};
             ";
 
 
@@ -43,7 +43,7 @@ namespace Mathy.Services.Data
                 CAST((SUM(CASE WHEN {TaskResultsTableRequests.kIsCorrect} THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) AS INTEGER) AS {kMiddleRating},
                 SUM({TaskResultsTableRequests.kDuration}) AS {kTasksTime}
             FROM 
-                {TaskResultsTableRequests.kTasksTable}
+                {TaskResultsTableRequests.kTaskType}
             GROUP BY 
                 {TaskResultsTableRequests.kTaskType};
             ";
@@ -72,6 +72,17 @@ namespace Mathy.Services.Data
             {kMiddleRating} as {nameof(GeneralTasksViewModel.MiddleRate)}
             from {kGeneralViewName}
             ;";
+
+
+        public static readonly string GetGeneralCountViewQuery = $@"SELECT COUNT(*) FROM {kGeneralViewName};";
+
+        public static readonly string GetDetailedCountViewQuery = $@"SELECT COUNT(*) FROM {kDetailedViewName}
+            where {kTaskType} = @{nameof(DetailedTasksViewModel.TaskType)}
+        ;";
+
+        public static readonly string GetDailyModeCountViewQuery = $@"SELECT COUNT(*) FROM {kDailyModeViewName}
+            where {kModeType} = @{nameof(DailyModeViewModel.Mode)}
+        ;";
 
 
         public static readonly string SelectFromDetailedTaskViewByTypeQuery = $@"
@@ -109,6 +120,10 @@ namespace Mathy.Services.Data
         public static readonly string DropDailyModeViewQuery = $@"
             drop view if exists {kDailyModeViewName}
             ";
+
+        public static readonly string DropAllViewsQuery = $@"
+            drop view if exists {kGeneralViewName}, {kDetailedViewName}, {kDailyModeViewName}
+        ;";
     }
 
 }

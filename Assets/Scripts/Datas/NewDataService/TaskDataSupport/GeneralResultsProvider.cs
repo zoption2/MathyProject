@@ -1,7 +1,9 @@
-﻿using Dapper;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using Mathy.Data;
 using Mono.Data.Sqlite;
+using System;
+using System.Text;
+using UnityEngine.Rendering;
 
 namespace Mathy.Services.Data
 {
@@ -26,14 +28,33 @@ namespace Mathy.Services.Data
                 connection.Open();
                 var data = new GeneralTasksViewData();
                 var requestModel = data.ConvertToModel();
-                var model = await connection.QueryFirstOrDefaultAsync<GeneralTasksViewModel>
-                        (GeneralResultsTableRequests.SelectFromGeneralTasksViewQuery, requestModel);
-                if (model == null)
+
+                var query = GeneralResultsTableRequests.GetGeneralCountViewQuery;
+                SqliteCommand command = new SqliteCommand(query, connection);
+                var scaler = await command.ExecuteScalarAsync();
+                var count = Convert.ToInt32(scaler);
+
+                if (count == 0)
                 {
                     return data;
                 }
-                var result = model.ConvertToData();
-                return result;
+
+                query = GeneralResultsTableRequests.SelectFromGeneralTasksViewQuery;
+                command = new SqliteCommand(query, connection);
+                var reader = await command.ExecuteReaderAsync();
+
+                while (await reader.ReadAsync())
+                {
+                    data.TotalTasksPlayed = Convert.ToInt32(reader[0]);
+                    data.TotalCorrectAnswers = Convert.ToInt32(reader[1]);
+                    data.MiddleRate = Convert.ToInt32(reader[2]);
+                    data.TotalPlayedTime = Convert.ToDouble(reader[3]);
+                }
+                reader.Close();
+                connection.Close();
+                connection.Dispose();
+
+                return data;
             }
         }
 
@@ -44,14 +65,37 @@ namespace Mathy.Services.Data
                 connection.Open();
                 var data = new DetailedTasksViewData() { TaskType = taskType };
                 var requestModel = data.ConvertToModel();
-                var model = await connection.QueryFirstOrDefaultAsync<DetailedTasksViewModel>
-                        (GeneralResultsTableRequests.SelectFromGeneralTasksViewQuery, requestModel);
-                if (model == null)
+
+                var query = GeneralResultsTableRequests.GetDetailedCountViewQuery;
+                SqliteCommand command = new SqliteCommand(query, connection);
+                command.Parameters.AddWithValue(nameof(DetailedTasksViewModel.TaskType), requestModel.TaskType);
+                var scaler = await command.ExecuteScalarAsync();
+                var count = Convert.ToInt32(scaler);
+
+                if (count == 0)
                 {
                     return data;
                 }
-                var result = model.ConvertToData();
-                return result;
+
+                query = GeneralResultsTableRequests.SelectFromDetailedTaskViewByTypeQuery;
+                command = new SqliteCommand(query, connection);
+                command.Parameters.AddWithValue(nameof(DetailedTasksViewModel.TaskType), requestModel.TaskType);
+                var reader = await command.ExecuteReaderAsync();
+
+                var result = new DetailedTasksViewModel();
+                while (await reader.ReadAsync())
+                {
+                    result.TaskType = Convert.ToString(reader[0]);
+                    result.TotalTasksPlayed = Convert.ToInt32(reader[1]);
+                    result.TotalCorrectAnswers = Convert.ToInt32(reader[2]);
+                    result.MiddleRate = Convert.ToInt32(reader[3]);
+                    result.TotalPlayedTime = Convert.ToDouble(reader[4]);
+                }
+                reader.Close();
+                connection.Close();
+                connection.Dispose();
+
+                return result.ConvertToData();
             }
         }
 
@@ -62,14 +106,35 @@ namespace Mathy.Services.Data
                 connection.Open();
                 var data = new DailyModeViewData() { Mode = mode };
                 var requestModel = data.ConvertToModel();
-                var model = await connection.QueryFirstOrDefaultAsync<DailyModeViewModel>
-                        (GeneralResultsTableRequests.SelectFromGeneralTasksViewQuery, requestModel);
-                if (model == null)
+
+                var query = GeneralResultsTableRequests.GetDailyModeCountViewQuery;
+                SqliteCommand command = new SqliteCommand(query, connection);
+                command.Parameters.AddWithValue(nameof(DailyModeViewModel.Mode), requestModel.Mode);
+                var scaler = await command.ExecuteScalarAsync();
+                var count = Convert.ToInt32(scaler);
+
+                if (count == 0)
                 {
                     return data;
                 }
-                var result = model.ConvertToData();
-                return result;
+
+                query = GeneralResultsTableRequests.SelectDailyModeViewByModeQuery;
+                command = new SqliteCommand(query, connection);
+                command.Parameters.AddWithValue(nameof(DailyModeViewModel.Mode), requestModel.Mode);
+                var reader = await command.ExecuteReaderAsync();
+
+                var result = new DailyModeViewModel();
+                while (await reader.ReadAsync())
+                {
+                    result.Mode = Convert.ToString(reader[0]);
+                    result.ModeIndex = Convert.ToInt32(reader[1]);
+                    result.TotalCompleted = Convert.ToInt32(reader[2]);
+                }
+                reader.Close();
+                connection.Close();
+                connection.Dispose();
+
+                return result.ConvertToData();
             }
         }
 
@@ -81,13 +146,25 @@ namespace Mathy.Services.Data
                 connection.Open();
                 //We can delete view on game start, if potentially they will changed often,
                 //and then create new ones. It's fast and save methods with no data lost.
-                await connection.ExecuteAsync(GeneralResultsTableRequests.DropGeneralTasksViewQuery);
-                await connection.ExecuteAsync(GeneralResultsTableRequests.DropDetailedTasksViewQuery);
-                await connection.ExecuteAsync(GeneralResultsTableRequests.DropDailyModeViewQuery);
+                var query = GeneralResultsTableRequests.DropGeneralTasksViewQuery;
+                SqliteCommand command = new SqliteCommand(query, connection);
+                await command.ExecuteNonQueryAsync();
 
-                await connection.ExecuteAsync(GeneralResultsTableRequests.CreateGeneralView);
-                await connection.ExecuteAsync(GeneralResultsTableRequests.CreateDetailedView);
-                await connection.ExecuteAsync(GeneralResultsTableRequests.CreateModeView);
+                query = GeneralResultsTableRequests.DropDetailedTasksViewQuery;
+                command = new SqliteCommand(query, connection);
+                await command.ExecuteNonQueryAsync();
+
+                query = GeneralResultsTableRequests.DropDailyModeViewQuery;
+                command = new SqliteCommand(query, connection);
+                await command.ExecuteNonQueryAsync();
+
+                var sb = new StringBuilder();
+                sb.Append(GeneralResultsTableRequests.CreateGeneralView);
+                sb.Append(GeneralResultsTableRequests.CreateDetailedView);
+                sb.Append(GeneralResultsTableRequests.CreateModeView);
+                query = sb.ToString();
+                command = new SqliteCommand(query, connection);
+                await command.ExecuteNonQueryAsync();
             }
         }
 
@@ -96,9 +173,20 @@ namespace Mathy.Services.Data
             using (var connection = new SqliteConnection(_dbFilePath))
             {
                 connection.Open();
-                await connection.ExecuteAsync(GeneralResultsTableRequests.DropGeneralTasksViewQuery);
-                await connection.ExecuteAsync(GeneralResultsTableRequests.DropDetailedTasksViewQuery);
-                await connection.ExecuteAsync(GeneralResultsTableRequests.DropDailyModeViewQuery);
+                var query = GeneralResultsTableRequests.DropGeneralTasksViewQuery;
+                SqliteCommand command = new SqliteCommand(query, connection);
+                await command.ExecuteNonQueryAsync();
+
+                query = GeneralResultsTableRequests.DropDetailedTasksViewQuery;
+                command = new SqliteCommand(query, connection);
+                await command.ExecuteNonQueryAsync();
+
+                query = GeneralResultsTableRequests.DropDailyModeViewQuery;
+                command = new SqliteCommand(query, connection);
+                await command.ExecuteNonQueryAsync();
+
+                connection.Close();
+                connection.Dispose();
             }
         }
     }

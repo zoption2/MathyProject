@@ -6,10 +6,10 @@ namespace Mathy.Services.Data
 {
     public interface IKeyValuePairDataHandler
     {
-        UniTask<KeyValueIntegerData> GetKeyValueIntegerData(KeyValuePairKeys key, int defaultValue = 0);
-        UniTask<int> GetIntValue(KeyValuePairKeys key, int defaultValue = 0);
-        UniTask SaveIntValue(KeyValuePairKeys key, int value);
-        UniTask IncrementIntValue(KeyValuePairKeys key);
+        UniTask<KeyValueIntegerData> GetKeyValueIntegerData(string key, int defaultValue = 0);
+        UniTask<int> GetIntValue(string key, int defaultValue = 0);
+        UniTask SaveIntValue(string key, int value);
+        UniTask IncrementIntValue(string key);
     }
 
 
@@ -26,23 +26,23 @@ namespace Mathy.Services.Data
             _intProvider = new KeyValuePairIntegerProvider(filePath);
         }
 
-        public async UniTask<KeyValueIntegerData> GetKeyValueIntegerData(KeyValuePairKeys key, int defaultValue = 0)
+        public async UniTask<KeyValueIntegerData> GetKeyValueIntegerData(string key, int defaultValue = 0)
         {
             return await _intProvider.GetDataByKey(key, defaultValue);
         }
 
-        public async UniTask<int> GetIntValue(KeyValuePairKeys key, int defaultValue = 0)
+        public async UniTask<int> GetIntValue(string key, int defaultValue = 0)
         {
             return await _intProvider.GetIntOrDefaultByKey(key, defaultValue);
         }
 
-        public async UniTask SaveIntValue(KeyValuePairKeys key, int value)
+        public async UniTask SaveIntValue(string key, int value)
         {
             var currentDateTime = DateTime.UtcNow;
             await _intProvider.SetValue(key, value, currentDateTime);
         }
 
-        public async UniTask IncrementIntValue(KeyValuePairKeys key)
+        public async UniTask IncrementIntValue(string key)
         {
             var currentDateTime = DateTime.UtcNow;
             await _intProvider.IncrementValue(key, currentDateTime);

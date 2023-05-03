@@ -28,11 +28,10 @@ namespace Mathy.Core.Tasks
 
         protected async override UniTask DoOnStart()
         {
+            dailyModeData.TotalTasks = TotalTasks;
             remainingTasksCount = TotalTasks;
             var counterParent = scenePointer.CounterParent;
             counterView = await addressableRefs.GameplayScenePopupsProvider.InstantiateFromReference<ITaskCounter>(TaskFeatures.CounterVariantOne, counterParent);
-            var dailyModeData = await dataService.TaskData.GetDailyModeData(DateTime.UtcNow, TaskMode);
-            taskIndexer = dailyModeData.PlayedCount;
             remainingTasksCount -= taskIndexer;
 
             InitCounter();
@@ -48,27 +47,22 @@ namespace Mathy.Core.Tasks
 
             results.Mode = TaskMode;
             taskIndexer++;
-            //results.TaskModeIndex = taskIndexer;
 
-            await dataService.TaskData.SaveTask(results);
+            var taskId = await dataService.TaskData.SaveTask(results);
 
             if (results.IsAnswerCorrect)
             {
                 correctAnswers++;
             }
 
-            DailyModeData modeData = new DailyModeData()
-            {
-                Date = DateTime.UtcNow,
-                Mode = TaskMode,
-                IsComplete = isModeDone,
-                PlayedCount = taskIndexer,
-                CorrectAnswers = correctAnswers,
-                CorrectRate = (correctAnswers * 100) / taskIndexer,
-                Duration = results.Duration,
-                TotalTasks = this.TotalTasks
-            };
-            await dataService.TaskData.UpdateDailyMode(modeData);
+            dailyModeData.IsComplete = isModeDone;
+            dailyModeData.PlayedCount = taskIndexer;
+            dailyModeData.CorrectAnswers = correctAnswers;
+            dailyModeData.CorrectRate = (correctAnswers * 100) / taskIndexer;
+            dailyModeData.Duration = results.Duration;
+            dailyModeData.TasksIds.Add(taskId);
+
+            await dataService.TaskData.UpdateDailyMode(dailyModeData);
         }
 
         protected override bool TryStartTask()

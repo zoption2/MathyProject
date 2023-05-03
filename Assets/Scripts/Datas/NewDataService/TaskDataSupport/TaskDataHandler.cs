@@ -11,7 +11,7 @@ namespace Mathy.Services.Data
     {
         UniTask<List<TaskResultData>> GetResultsByModeAndDate(TaskMode mode, DateTime date);
         UniTask<List<string>> GetTaskResultsFormatted(TaskMode mode, DateTime date);
-        UniTask SaveTask(TaskResultData task);
+        UniTask<int> SaveTask(TaskResultData task);
         UniTask UpdateDailyMode(DailyModeData data);
         UniTask<DailyModeData> GetDailyModeData(DateTime date, TaskMode mode);
         UniTask<List<DailyModeData>> GetDailyData(DateTime date);
@@ -55,21 +55,25 @@ namespace Mathy.Services.Data
             return result;
         }
 
-        public async UniTask SaveTask(TaskResultData task)
+        public async UniTask<int> SaveTask(TaskResultData task)
         {
-            var uniqueId = await _dataService.KeyValueHandler.GetIntValue(KeyValuePairKeys.UniqueTaskIndex, 0);
+            var idKey = KeyValuePairKeys.TotalTasksIndexer.ToString();
+            var uniqueId = await _dataService.KeyValueHandler.GetIntValue(idKey, 0);
             uniqueId++;
             task.ID = uniqueId;
             await _taskProvider.SaveTask(task);
-            await _dataService.KeyValueHandler.SaveIntValue(KeyValuePairKeys.UniqueTaskIndex, uniqueId);
+            await _dataService.KeyValueHandler.SaveIntValue(idKey, uniqueId);
 
             var answer = task.IsAnswerCorrect
                 ? KeyValuePairKeys.TotalCorrectAnswers
                 : KeyValuePairKeys.TotalWrongAnswers;
-            await _dataService.KeyValueHandler.IncrementIntValue(answer);
+            var answerKey = answer.ToString();
+            await _dataService.KeyValueHandler.IncrementIntValue(answerKey);
 
-            var skill = (KeyValuePairKeys)task.SkillType;
-            await _dataService.KeyValueHandler.IncrementIntValue(skill);
+            var skillKey = task.SkillType.ToString();
+            await _dataService.KeyValueHandler.IncrementIntValue(skillKey);
+
+            return uniqueId;
         }
 
         public async UniTask UpdateDailyMode(DailyModeData data)

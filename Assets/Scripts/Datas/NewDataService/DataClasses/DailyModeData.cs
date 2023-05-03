@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Mathy.Services
 {
@@ -14,6 +15,7 @@ namespace Mathy.Services
         public int CorrectRate { get; set; }
         public double Duration { get; set; }
         public int TotalTasks { get; set; }
+        public List<int> TasksIds { get; set; } = new();
     }
 }
 

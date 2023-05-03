@@ -15,10 +15,10 @@ MonoBehaviour:
   ElementsAmount: 10
   VariantsAmount: 10
   MinNumber: 0
-  MaxNumber: 10
+  MaxNumber: 20
   MinLimit: 20
   MaxLimit: 100
   Title: CountTo20FramesTitle
   Description: Description of the task should be here
   TaskType: 25
-  SkillType: 10
+  SkillType: 0

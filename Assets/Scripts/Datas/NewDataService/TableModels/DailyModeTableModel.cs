@@ -15,6 +15,7 @@ namespace Mathy.Services.Data
         public int CorrectRate { get; set; }
         public double Duration { get; set; }
         public int TotalTasks { get; set; }
+        public string TasksIds { get; set; }
     }
 }
 

@@ -2,11 +2,11 @@
 {
     public static class KeyValueIntegerTableRequests
     {
-        private const string kTableName = "KeyValueInteger";
+        public const string kTableName = "KeyValueInteger";
 
         private const string kId = "id";
-        private const string kKey = "Key";
-        private const string kValue = "Value";
+        public const string kKey = "Key";
+        public const string kValue = "Value";
         private const string kDate = "Date";
 
         public static readonly string CreateTable = $@"
