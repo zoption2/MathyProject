@@ -12,6 +12,8 @@ namespace Mathy.Services
         event Action ON_RESET;
         ITaskDataHandler TaskData { get; }
         ISkillPlanHandler SkillPlan { get; }
+        IKeyValuePairDataHandler KeyValueStorage { get; }
+        IGeneralStatisticHandler GeneralStatistic { get; }
         UniTask ResetProgress();
     }
 
@@ -23,6 +25,7 @@ namespace Mathy.Services
         private const string kFileName = "save.db";
 
 
+        private GeneralStatisticHandler _statisticHandler;
         private TaskDataHandler _taskDataHandler;
         private SkillPlanHandler _skillPlanHandler;
         private KeyValuePairDataHandler _keyValuehandler;
@@ -33,7 +36,8 @@ namespace Mathy.Services
 
         public ITaskDataHandler TaskData => _taskDataHandler;
         public ISkillPlanHandler SkillPlan => _skillPlanHandler;
-        public IKeyValuePairDataHandler KeyValueHandler => _keyValuehandler;
+        public IKeyValuePairDataHandler KeyValueStorage => _keyValuehandler;
+        public IGeneralStatisticHandler GeneralStatistic => _statisticHandler;
 
 
         public DataService()
@@ -50,6 +54,7 @@ namespace Mathy.Services
             _taskDataHandler = new TaskDataHandler(this);
             _skillPlanHandler = new SkillPlanHandler(this);
             _keyValuehandler = new KeyValuePairDataHandler(this);
+            _statisticHandler = new GeneralStatisticHandler(this);
             InitHandlers();
         }
 
@@ -57,6 +62,8 @@ namespace Mathy.Services
         {
             await _taskDataHandler.ClearData();
             await _skillPlanHandler.ClearData();
+            await _statisticHandler.ClearData();
+            await _keyValuehandler.ClearData();
 
             await InitHandlersAsync();
 
@@ -74,6 +81,7 @@ namespace Mathy.Services
             await _taskDataHandler.Init();
             await _skillPlanHandler.Init();
             await _keyValuehandler.Init();
+            await _statisticHandler.Init();
         }
     }
 }

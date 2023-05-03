@@ -8,6 +8,7 @@ namespace Mathy.Services.Data
     {
         UniTask<KeyValueIntegerData> GetKeyValueIntegerData(string key, int defaultValue = 0);
         UniTask<int> GetIntValue(string key, int defaultValue = 0);
+        UniTask<int> GetIntValue(KeyValuePairKeys keyType, int defaultValue = 0);
         UniTask SaveIntValue(string key, int value);
         UniTask IncrementIntValue(string key);
     }
@@ -33,6 +34,12 @@ namespace Mathy.Services.Data
 
         public async UniTask<int> GetIntValue(string key, int defaultValue = 0)
         {
+            return await _intProvider.GetIntOrDefaultByKey(key, defaultValue);
+        }
+
+        public async UniTask<int> GetIntValue(KeyValuePairKeys keyType, int defaultValue = 0)
+        {
+            var key = keyType.ToString();
             return await _intProvider.GetIntOrDefaultByKey(key, defaultValue);
         }
 

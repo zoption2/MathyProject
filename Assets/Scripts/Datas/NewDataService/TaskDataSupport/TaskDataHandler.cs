@@ -15,16 +15,13 @@ namespace Mathy.Services.Data
         UniTask UpdateDailyMode(DailyModeData data);
         UniTask<DailyModeData> GetDailyModeData(DateTime date, TaskMode mode);
         UniTask<List<DailyModeData>> GetDailyData(DateTime date);
-        UniTask<GeneralTasksViewData> GetGeneralTaskData();
-        UniTask<DetailedTasksViewData> GetGeneralTaskTypeDataAsync(TaskType taskType);
-        UniTask<DailyModeViewData> GetGeneralTaskModeDataAsync(TaskMode mode);
     }
 
 
     public class TaskDataHandler : ITaskDataHandler
     {
         private readonly ITaskResultsProvider _taskProvider;
-        private readonly IGeneralResultsProvider _generalProvider;
+        private readonly IGeneralStatisticHandler _generalProvider;
         private readonly IDailyModeProvider _dailyModeProvider;
         private readonly ITaskResultFormatProcessor _resultFormatProcessor;
         private readonly DataService _dataService;
@@ -37,7 +34,6 @@ namespace Mathy.Services.Data
 
             _taskProvider = new TaskResultsProvider(filePath);
             _dailyModeProvider = new DailyModeProvider(filePath);
-            _generalProvider = new GeneralResultsProvider(filePath);
             _resultFormatProcessor = new TaskResultFormatProcessor();
         }
 
@@ -58,20 +54,20 @@ namespace Mathy.Services.Data
         public async UniTask<int> SaveTask(TaskResultData task)
         {
             var idKey = KeyValuePairKeys.TotalTasksIndexer.ToString();
-            var uniqueId = await _dataService.KeyValueHandler.GetIntValue(idKey, 0);
+            var uniqueId = await _dataService.KeyValueStorage.GetIntValue(idKey, 0);
             uniqueId++;
             task.ID = uniqueId;
             await _taskProvider.SaveTask(task);
-            await _dataService.KeyValueHandler.SaveIntValue(idKey, uniqueId);
+            await _dataService.KeyValueStorage.SaveIntValue(idKey, uniqueId);
 
             var answer = task.IsAnswerCorrect
                 ? KeyValuePairKeys.TotalCorrectAnswers
                 : KeyValuePairKeys.TotalWrongAnswers;
             var answerKey = answer.ToString();
-            await _dataService.KeyValueHandler.IncrementIntValue(answerKey);
+            await _dataService.KeyValueStorage.IncrementIntValue(answerKey);
 
             var skillKey = task.SkillType.ToString();
-            await _dataService.KeyValueHandler.IncrementIntValue(skillKey);
+            await _dataService.KeyValueStorage.IncrementIntValue(skillKey);
 
             return uniqueId;
         }
@@ -118,7 +114,6 @@ namespace Mathy.Services.Data
 
         public async UniTask ClearData()
         {
-            await _generalProvider.DeleteTable();
             await _taskProvider.DeleteTable();
             await _dailyModeProvider.DeleteTable();
         }
@@ -127,7 +122,6 @@ namespace Mathy.Services.Data
         {
             await _taskProvider.TryCreateTable();
             await _dailyModeProvider.TryCreateTable();
-            await _generalProvider.TryCreateTable();
         }
     }
 }

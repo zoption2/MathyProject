@@ -25,12 +25,10 @@ namespace Mathy.Services.Data
         public static readonly string CreateGeneralView = $@"create view IF NOT EXISTS {kGeneralViewName}
             as
             select
-            (select {KeyValueIntegerTableRequests.kValue} WHERE {KeyValueIntegerTableRequests.kKey} = '{nameof(KeyValuePairKeys.TotalTasksIndexer)}') AS {kTotalTasks},
-            sum(case when {TaskResultsTableRequests.kIsCorrect} then 1 else 0 end) as {kTotalCorrect},
-            cast((sum(case when {TaskResultsTableRequests.kIsCorrect} then 1 else 0 end) * 100.0 / count(*)) as integer) as {kMiddleRating},
-            sum({TaskResultsTableRequests.kDuration}) as {kTasksTime}
-            from {KeyValueIntegerTableRequests.kTableName};
-            ";
+            cast((select {KeyValueIntegerTableRequests.kValue} from {KeyValueIntegerTableRequests.kTableName} where {KeyValueIntegerTableRequests.kKey} = '{nameof(KeyValuePairKeys.TotalTasksIndexer)}') as integer) as {kTotalTasks},
+            cast((select {KeyValueIntegerTableRequests.kValue} from {KeyValueIntegerTableRequests.kTableName} where {KeyValueIntegerTableRequests.kKey} = '{nameof(KeyValuePairKeys.TotalCorrectAnswers)}') as integer) as {kTotalCorrect},
+            ({kTotalCorrect} * 100.0 / {kTotalTasks}) as {kMiddleRating}
+            ;";
 
 
         public static readonly string CreateDetailedView = $@"
@@ -46,6 +44,24 @@ namespace Mathy.Services.Data
                 {TaskResultsTableRequests.kTaskType}
             GROUP BY 
                 {TaskResultsTableRequests.kTaskType};
+            ";
+
+        public static readonly string PrefixDetailedStatisticView = $@"
+            CREATE VIEW IF NOT EXISTS {kDetailedViewName}
+            AS";
+
+        public static readonly string BodyDetailedStatisticView = $@"
+            SELECT 
+                {TaskResultsTableRequests.kTaskType},
+                COUNT(*) AS {kTotalTasks},
+                SUM(CASE WHEN {TaskResultsTableRequests.kIsCorrect} THEN 1 ELSE 0 END) AS {kTotalCorrect},
+                CAST((SUM(CASE WHEN {TaskResultsTableRequests.kIsCorrect} THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) AS INTEGER) AS {kMiddleRating},
+                SUM({TaskResultsTableRequests.kDuration}) AS {kTasksTime}
+            FROM";
+
+        public static readonly string SufixDetailedStatisticView = $@"
+            GROUP BY 
+                {TaskResultsTableRequests.kTaskType}
             ";
 
 
@@ -119,6 +135,11 @@ namespace Mathy.Services.Data
 
         public static readonly string DropDailyModeViewQuery = $@"
             drop view if exists {kDailyModeViewName}
+            ";
+
+
+        public static readonly string DropAbstractViewQuery = $@"
+            drop view if exists
             ";
 
         public static readonly string DropAllViewsQuery = $@"

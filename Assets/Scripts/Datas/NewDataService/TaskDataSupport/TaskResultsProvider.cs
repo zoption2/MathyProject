@@ -10,6 +10,7 @@ namespace Mathy.Services.Data
     public interface ITaskResultsProvider : IDataProvider
     {
         UniTask<TaskResultData> GetTaskById(int id);
+        UniTask<List<TaskResultData>> GetTasksById(List<int> ids);
         UniTask<List<TaskResultData>> GetTasksByModeAndDate(TaskMode mode, DateTime date);
         UniTask SaveTask(TaskResultData task);
     }
@@ -149,6 +150,74 @@ namespace Mathy.Services.Data
 
                 var resultDate = result.ConvertToData();
                 return resultDate;
+            }
+        }
+
+
+        public async UniTask<List<TaskResultData>> GetTasksById(List<int> ids)
+        {
+            List<TaskResultData> result = new();
+            StringBuilder sb = new StringBuilder();
+            var tasks = (TaskType[])Enum.GetValues(typeof(TaskType));
+            var firstQuery = TaskResultsTableRequests.GetSelectQueryByIdAndTable(tasks[0].ToString());
+            sb.Append(firstQuery);
+            for (int i = 1, j = tasks.Length; i < j; i++)
+            {
+                var union = "union";
+                var query = TaskResultsTableRequests.GetSelectQueryByIdAndTable(tasks[i].ToString());
+                var formatedQuery = string.Format("{0} {1}", union, query);
+                sb.Append(formatedQuery);
+            }
+            sb.Append(";");
+            var resultQuery = sb.ToString();
+
+            using (var connection = new SqliteConnection(_dbFilePath))
+            {
+                connection.Open();
+                for (int i = 0, j = ids.Count; i < j; i++)
+                {
+                    var requestData = new TaskResultData() { ID = ids[i] };
+                    var requestModel = requestData.ConvertToModel();
+
+                    SqliteCommand command = new SqliteCommand(resultQuery, connection);
+                    command.Parameters.AddWithValue(nameof(TaskDataTableModel.ID), requestModel.ID);
+                    var reader = await command.ExecuteReaderAsync();
+
+                    var model = new TaskDataTableModel();
+                    while (await reader.ReadAsync())
+                    {
+                        model.ID = reader.GetInt32(0);
+                        model.Date = reader.GetString(1);
+                        model.Mode = reader.GetString(2);
+                        model.TaskModeIndex = reader.GetInt32(3);
+                        model.TaskType = reader.GetString(4);
+                        model.TaskTypeIndex = reader.GetInt32(5);
+                        model.SkillType = reader.GetString(6);
+                        model.SkillIndex = reader.GetInt32(7);
+                        model.ElementValues = reader.GetString(8);
+                        model.OperatorValues = reader.GetString(9);
+                        model.VariantValues = reader.GetString(10);
+                        model.SelectedAnswerIndexes = reader.GetString(11);
+                        model.CorrectAnswerIndexes = reader.GetString(12);
+                        model.IsAnswerCorrect = reader.GetBoolean(13);
+                        model.Duration = reader.GetDouble(14);
+                        model.MaxValue = reader.GetInt32(15);
+                    }
+                    reader.Close();
+
+                    if (model.ID == 0)
+                    {
+                        result.Add(requestData);
+                        continue;
+                    }
+
+                    var resultDate = model.ConvertToData();
+                    result.Add(resultDate);
+                }
+                connection.Close();
+                connection.Dispose();
+
+                return result;
             }
         }
 
