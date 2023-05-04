@@ -3,8 +3,12 @@ using UnityEngine.UI;
 using UnityEngine;
 using System.Collections.Generic;
 using Mathy.Data;
+using Zenject;
 using System;
 using Mathy.Core.Tasks;
+using Mathy.Services;
+using Cysharp.Threading.Tasks;
+using Mathy;
 
 public class PlayerDataManager : StaticInstance<PlayerDataManager>
 {
@@ -14,6 +18,7 @@ public class PlayerDataManager : StaticInstance<PlayerDataManager>
 
     [SerializeField] GradePanel gradePanel;
     [SerializeField] RankPanel rankPanel;
+    [Inject] private IDataService dataService;
 
     public int PlayerStars { get; private set; }
     public int PlayerRank { get; private set; }
@@ -49,11 +54,12 @@ public class PlayerDataManager : StaticInstance<PlayerDataManager>
     }
 
     const string starsKey = "PlayerStars";
-    const string expKey = "PlayerExperience";
     const string challengesKey = "ChallengesDoneAmount";
     const string goldenKey = "GoldenAmount";
     const string silverKey = "SilverAmount";
     const string bronzeKey = "BronzeAmount";
+
+    private string expKey = nameof(KeyValueIntegerKeys.Experience);
 
     #endregion
 
@@ -69,18 +75,18 @@ public class PlayerDataManager : StaticInstance<PlayerDataManager>
         PlayerPrefs.SetString(key, value);
     }
 
-    public void LoadPlayerData()
+    public async UniTask LoadPlayerData()
     {
         PlayerStars = PlayerPrefs.GetInt(starsKey, 0);
-        PlayerExperience = PlayerPrefs.GetInt(expKey, 0);
+        PlayerExperience = await dataService.KeyValueStorage.GetIntValue(expKey);
         UpdateNextLevelUpValue();
         OnPlayerStatsUpdated.Invoke();
     }
 
-    public void ResetToDefault()
+    public async void ResetToDefault()
     {
         PlayerExperience = 0;
-        SavePlayerStats(expKey, PlayerExperience);
+        await dataService.KeyValueStorage.SaveIntValue(expKey, PlayerExperience);
         UpdateNextLevelUpValue();
         OnPlayerStatsUpdated.Invoke();
 
@@ -99,7 +105,7 @@ public class PlayerDataManager : StaticInstance<PlayerDataManager>
                 PrevLevelExp = i > 0 ? levelUpValues[i - 1] : 0;
                 NextLevelExp = levelUpValues[i];
                 PlayerRank = i;
-                rankPanel.UpdateDisplayStyle();
+                rankPanel.UpdateDisplayStyle(i);
                 break;
             }
         }
@@ -108,17 +114,18 @@ public class PlayerDataManager : StaticInstance<PlayerDataManager>
 
     #region ADD METHODS
 
-    public void AddExperience(int value)
+    public async void AddExperience(int value)
     {
         PlayerExperience += value;
-        SavePlayerStats(expKey, PlayerExperience);
+        await dataService.KeyValueStorage.SaveIntValue(expKey, PlayerExperience);
         OnPlayerStatsUpdated.Invoke();
         UpdateNextLevelUpValue();
     }
-    public void DoubleExperience(int value)
+
+    public async void DoubleExperience(int value)
     {
         PlayerExperience += value;
-        SavePlayerStats(expKey, PlayerExperience);
+        await dataService.KeyValueStorage.SaveIntValue(expKey, PlayerExperience);
         OnPlayerStatsUpdated.Invoke();
         UpdateNextLevelUpValue();
     }

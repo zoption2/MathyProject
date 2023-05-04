@@ -53,7 +53,7 @@ namespace Mathy.Services.Data
 
         public async UniTask<int> SaveTask(TaskResultData task)
         {
-            var idKey = KeyValuePairKeys.TotalTasksIndexer.ToString();
+            var idKey = KeyValueIntegerKeys.TotalTasksIndexer.ToString();
             var uniqueId = await _dataService.KeyValueStorage.GetIntValue(idKey, 0);
             uniqueId++;
             task.ID = uniqueId;
@@ -61,8 +61,8 @@ namespace Mathy.Services.Data
             await _dataService.KeyValueStorage.SaveIntValue(idKey, uniqueId);
 
             var answer = task.IsAnswerCorrect
-                ? KeyValuePairKeys.TotalCorrectAnswers
-                : KeyValuePairKeys.TotalWrongAnswers;
+                ? KeyValueIntegerKeys.TotalCorrectAnswers
+                : KeyValueIntegerKeys.TotalWrongAnswers;
             var answerKey = answer.ToString();
             await _dataService.KeyValueStorage.IncrementIntValue(answerKey);
 

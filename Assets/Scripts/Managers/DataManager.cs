@@ -190,25 +190,25 @@ namespace Mathy.Data
 
         #endregion
 
-        public async Task<bool> IsTodayModeCompleted(TaskMode mode)
-        {
-            return await DbHandler.IsTodayModeCompleted(mode);
-        }
+        //public async Task<bool> IsTodayModeCompleted(TaskMode mode)
+        //{
+        //    return await DbHandler.IsTodayModeCompleted(mode);
+        //}
 
-        public async Task<bool> IsDateModeCompleted(TaskMode mode, DateTime date)
-        {
-            return await DbHandler.IsDateModeCompleted(mode, date);
-        }
+        //public async Task<bool> IsDateModeCompleted(TaskMode mode, DateTime date)
+        //{
+        //    return await DbHandler.IsDateModeCompleted(mode, date);
+        //}
 
         public async Task<bool> IsTodayModeExist(TaskMode mode)
         {
             return await DbHandler.IsTodayModeExist(mode);
         }
 
-        public async Task<int> GetLastTaskIndexOfMode(TaskMode mode)
-        { 
-            return (await DbHandler.TodayDoneTasksAmount(mode));
-        }
+        //public async Task<int> GetLastTaskIndexOfMode(TaskMode mode)
+        //{ 
+        //    return (await DbHandler.TodayDoneTasksAmount(mode));
+        //}
 
         #region CALENDAR
 
@@ -246,29 +246,29 @@ namespace Mathy.Data
             return await DbHandler.GetCorrectRateOfTaskType(type);
         }
 
-        public async Task<List<string>> GetTaskResults(TaskMode mode, DateTime date)
-        {
-            return await this.DbHandler.GetTaskResults(mode, date);
-        }
-        public async Task<List<bool>> GetAnswers(TaskMode mode, DateTime date)
-        {
-            return await this.DbHandler.GetAnswers(mode, date);
-        }
+        //public async Task<List<string>> GetTaskResults(TaskMode mode, DateTime date)
+        //{
+        //    return await this.DbHandler.GetTaskResults(mode, date);
+        //}
+        //public async Task<List<bool>> GetAnswers(TaskMode mode, DateTime date)
+        //{
+        //    return await this.DbHandler.GetAnswers(mode, date);
+        //}
 
-        public async Task<List<TimeSpan>> GetTimeSpansByModeAndDate(TaskMode mode, DateTime date)
-        {
-            return await this.DbHandler.GetTimeSpansByModeAndDate(mode, date);
-        }
+        //public async Task<List<TimeSpan>> GetTimeSpansByModeAndDate(TaskMode mode, DateTime date)
+        //{
+        //    return await this.DbHandler.GetTimeSpansByModeAndDate(mode, date);
+        //}
 
-        public async Task<List<bool>> GetTodayAnswers(TaskMode mode)
-        {
-            return await this.DbHandler.GetAnswers(mode, DateTime.UtcNow);
-        }
+        //public async Task<List<bool>> GetTodayAnswers(TaskMode mode)
+        //{
+        //    return await this.DbHandler.GetAnswers(mode, DateTime.UtcNow);
+        //}
 
-        public async Task<int> TodayDoneTasksAmount(TaskMode mode)
-        {
-            return await this.DbHandler.TodayDoneTasksAmount(mode);
-        }
+        //public async Task<int> TodayDoneTasksAmount(TaskMode mode)
+        //{
+        //    return await this.DbHandler.TodayDoneTasksAmount(mode);
+        //}
 
         //return value in milliseconds
         public async System.Threading.Tasks.Task<long> GetTimeOfModeAndDate(TaskMode mode, DateTime date)
@@ -370,26 +370,26 @@ namespace Mathy.Data
 
         #region RESET
         //Reset need to be in the DatabaseHandler, нужно переименовать тут 
-        public async UniTask ResetSaveFile()
-        {
-            await DbHandler.ResetSaveFile();
-            PlayerPrefs.DeleteAll();
-        }
+        //public async UniTask ResetSaveFile()
+        //{
+        //    await DbHandler.ResetSaveFile();
+        //    PlayerPrefs.DeleteAll();
+        //}
 
-        public void ResetAllBestScores()
-        {
-            for (int i = 0; i < bestScoreKeys.Count; i++)
-            {
-                for (int difficultyIndex = 0; difficultyIndex < 4; difficultyIndex++)
-                {
-                    string bestScoreKey = bestScoreKeys[i] + "BestScore" + difficultyIndex;
-                    if (PlayerPrefs.HasKey(bestScoreKey))
-                    {
-                        PlayerPrefs.DeleteKey(bestScoreKey);
-                    }
-                }
-            }
-        }
+        //public void ResetAllBestScores()
+        //{
+        //    for (int i = 0; i < bestScoreKeys.Count; i++)
+        //    {
+        //        for (int difficultyIndex = 0; difficultyIndex < 4; difficultyIndex++)
+        //        {
+        //            string bestScoreKey = bestScoreKeys[i] + "BestScore" + difficultyIndex;
+        //            if (PlayerPrefs.HasKey(bestScoreKey))
+        //            {
+        //                PlayerPrefs.DeleteKey(bestScoreKey);
+        //            }
+        //        }
+        //    }
+        //}
 
         #endregion
     }

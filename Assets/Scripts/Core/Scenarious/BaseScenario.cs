@@ -57,6 +57,7 @@ namespace Mathy.Core.Tasks
 
             dailyModeData = await dataService.TaskData.GetDailyModeData(DateTime.UtcNow, TaskMode);
             taskIndexer = dailyModeData.PlayedCount;
+            correctAnswers = dailyModeData.CorrectAnswers;
             tasks = new(kMaxTasksLoadedAtOnce);
             this.availableTasks = availableTasks;
 

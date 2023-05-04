@@ -1,8 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+
 
 public class RankPanel : MonoBehaviour
 {
@@ -26,10 +26,9 @@ public class RankPanel : MonoBehaviour
         rectTransform = icon.GetComponent<RectTransform>();
     }
 
-    public void UpdateDisplayStyle()
+    public void UpdateDisplayStyle(int rank)
     {
-        int index = PlayerDataManager.Instance.PlayerRank;
-        rankText.text = index.ToString();
+        rankText.text = rank.ToString();
 
         /*icon.sprite = icons[index];
 

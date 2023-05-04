@@ -25,8 +25,8 @@ namespace Mathy.Services.Data
         public static readonly string CreateGeneralView = $@"create view IF NOT EXISTS {kGeneralViewName}
             as
             select
-            cast((select {KeyValueIntegerTableRequests.kValue} from {KeyValueIntegerTableRequests.kTableName} where {KeyValueIntegerTableRequests.kKey} = '{nameof(KeyValuePairKeys.TotalTasksIndexer)}') as integer) as {kTotalTasks},
-            cast((select {KeyValueIntegerTableRequests.kValue} from {KeyValueIntegerTableRequests.kTableName} where {KeyValueIntegerTableRequests.kKey} = '{nameof(KeyValuePairKeys.TotalCorrectAnswers)}') as integer) as {kTotalCorrect},
+            cast((select {KeyValueIntegerTableRequests.kValue} from {KeyValueIntegerTableRequests.kTableName} where {KeyValueIntegerTableRequests.kKey} = '{nameof(KeyValueIntegerKeys.TotalTasksIndexer)}') as integer) as {kTotalTasks},
+            cast((select {KeyValueIntegerTableRequests.kValue} from {KeyValueIntegerTableRequests.kTableName} where {KeyValueIntegerTableRequests.kKey} = '{nameof(KeyValueIntegerKeys.TotalCorrectAnswers)}') as integer) as {kTotalCorrect},
             ({kTotalCorrect} * 100.0 / {kTotalTasks}) as {kMiddleRating}
             ;";
 

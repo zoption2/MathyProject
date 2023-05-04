@@ -200,13 +200,15 @@
 
     #endregion
 
-    public enum KeyValuePairKeys
+    public enum KeyValueIntegerKeys
     {
         none = 0,
         TotalTasksIndexer = 1,
         TotalCorrectAnswers = 2,
         TotalWrongAnswers = 3,
         TotalTasksDuration = 4,
+        Experience = 5,
+        PlayerRank = 6,
     }
 }
 

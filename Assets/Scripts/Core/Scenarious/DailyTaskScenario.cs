@@ -107,14 +107,14 @@ namespace Mathy.Core.Tasks
             var userAnswers = tasks.Select(x => x.IsAnswerCorrect).ToList();
             counterView.Init(TotalTasks, userAnswers);
 
-            for (int i = 0, j = userAnswers.Count; i < j; i++)
-            {
-                var isCorrect = userAnswers[i];
-                if (isCorrect)
-                {
-                    correctAnswers++;
-                }
-            }
+            //for (int i = 0, j = userAnswers.Count; i < j; i++)
+            //{
+            //    var isCorrect = userAnswers[i];
+            //    if (isCorrect)
+            //    {
+            //        correctAnswers++;
+            //    }
+            //}
         }
     }
 

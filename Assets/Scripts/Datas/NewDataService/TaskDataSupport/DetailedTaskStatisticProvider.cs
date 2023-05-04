@@ -96,26 +96,34 @@ namespace Mathy.Services.Data
             using (var connection = new SqliteConnection(_dbFilePath))
             {
                 connection.Open();
-                var abstractQuery = GeneralResultsTableRequests.DropAbstractViewQuery;
-                var sufix = ";";
-                var queryFormat = "{0} {1}{2}";
-
-                var tasks = (TaskType[])Enum.GetValues(typeof(TaskType));
-
-                var sb = new StringBuilder();
-                string query = "";
-
-                for (int i = 0, j = tasks.Length; i < j; i++)
-                {
-                    query = string.Format(queryFormat, abstractQuery, tasks[i], sufix);
-                    sb.Append(query);
-                }
-
+                var query = GeneralResultsTableRequests.DropDetailedTasksViewQuery;
                 SqliteCommand command = new SqliteCommand(query, connection);
                 await command.ExecuteNonQueryAsync();
                 connection.Close();
                 connection.Dispose();
             }
+            //    connection.Open();
+            //    var abstractQuery = GeneralResultsTableRequests.DropAbstractViewQuery;
+            //    var sufix = ";";
+            //    var queryFormat = "{0} {1}{2}";
+
+            //    var tasks = (TaskType[])Enum.GetValues(typeof(TaskType));
+
+            //    var sb = new StringBuilder();
+            //    string query = "";
+
+            //    for (int i = 0, j = tasks.Length; i < j; i++)
+            //    {
+            //        query = string.Format(queryFormat, abstractQuery, tasks[i], sufix);
+            //        sb.Append(query);
+            //    }
+
+            //    SqliteCommand command = new SqliteCommand(query, connection);
+            //    await command.ExecuteNonQueryAsync();
+            //    connection.Close();
+            //    connection.Dispose();
+            //}
+
         }
     }
 }
