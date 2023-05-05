@@ -120,7 +120,6 @@ namespace Mathy.Core.Tasks
 
         private void Initialize()
         {
-            DataManager.Instance.Subscribe(this);
             IsPractice = false;
         }
 

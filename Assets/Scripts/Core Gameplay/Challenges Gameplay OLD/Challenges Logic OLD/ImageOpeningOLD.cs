@@ -5,6 +5,8 @@ using UnityEngine;
 using Mathy.Core;
 using Mathy.Data;
 using System;
+using Mathy.Services;
+using Zenject;
 
 public class ImageOpeningOLD : ChallengeOLD
 {
@@ -14,6 +16,7 @@ public class ImageOpeningOLD : ChallengeOLD
     private const string bestTimeKey = "ImageOpeningBestTime";
 
     #endregion
+    [Inject] private IDataService dataService;
 
     public override void RunTask()
     {
@@ -96,6 +99,20 @@ public class ImageOpeningOLD : ChallengeOLD
         data.MaxNumber = 20;
         data.CorrectRate = this.GetCorrectRate();
 
+        var modeData = new DailyModeData();
+        modeData.Mode = TaskMode.Challenge;
+        modeData.Date = DateTime.UtcNow;
+        modeData.IsComplete = true;
+        modeData.PlayedCount = 1;
+        modeData.CorrectAnswers = 1;
+        modeData.CorrectRate = 100;
+        var duration = TimeSpan.FromSeconds(StopTimer(true));
+        modeData.Duration = duration.TotalMilliseconds;
+        modeData.TotalTasks = 1;
+        modeData.TasksIds.Add(0);
+
+        dataService.TaskData.UpdateDailyMode(modeData);
+
         if (variants.Count > 0)
         {
             GenirateNextTask();
@@ -103,7 +120,7 @@ public class ImageOpeningOLD : ChallengeOLD
         else
         {
             data.Duration = TimeSpan.FromSeconds(StopTimer(true));
-            ChallengesManager.Instance.SaveTaskData(data);
+            //ChallengesManager.Instance.SaveTaskData(data);
             ChallengesManager.Instance.ShowResult(true);
             //Debug.LogError("SAVE HERE!!");
         }

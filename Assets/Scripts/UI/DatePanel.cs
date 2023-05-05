@@ -115,14 +115,14 @@ public class DatePanel : ButtonFX
         }
     }
 
-    private async void UpdateVisual()
+    private void UpdateVisual()
     {
         foreach (TaskMode mode in calendarData.ModeData.Keys)
         {
             ModeDone(mode, calendarData.ModeData[mode]);
         }
         //Temp solution, need to refactor using CalendarData
-        ModeDone(TaskMode.Challenge, await DataManager.Instance.TodayChallengeStatus());
+       // ModeDone(TaskMode.Challenge, await DataManager.Instance.TodayChallengeStatus());
     }
 
     public void OpenPanel()

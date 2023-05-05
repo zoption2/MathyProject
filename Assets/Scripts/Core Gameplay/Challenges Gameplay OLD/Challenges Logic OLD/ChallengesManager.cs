@@ -75,11 +75,11 @@ public class ChallengesManager : StaticInstance<ChallengesManager>//, ISaveable
 
         //DataManager.Instance.TodayChallengeStatus = true;
         //PlayerDataManager.Instance.ChallengesDoneAmount++;
-        if (!isPractice)
-        {
-            PlayerDataManager.Instance.ChallengesDoneAmount++;
-            DataManager.Instance.SaveChallenge(data);
-        }
+        //if (!isPractice)
+        //{
+        //    PlayerDataManager.Instance.ChallengesDoneAmount++;
+        //    DataManager.Instance.SaveChallenge(data);
+        //}
         
 
         //currenData.CurrentTaskIndex = currentTaskIndex;

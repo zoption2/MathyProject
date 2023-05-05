@@ -36,7 +36,6 @@ namespace Mathy.Data
         
         private List<ISaveable> Savables = new List<ISaveable>();
 
-        public DatabaseHandler DbHandler;
 
         //!! move to the DatabseHandler
         //Check if we can manipulate the save file (delete it as exemple)
@@ -73,16 +72,16 @@ namespace Mathy.Data
 
         #region MONO AND INITIALIZATION
 
-        public void Subscribe(ISaveable savable)
-        {
-            Savables.Add(savable);
-            savable.OnSaveEvent += GetData;
-        }
-        public void Unsubscribe(ISaveable savable)
-        {
-            Savables.Remove(savable);
-            savable.OnSaveEvent -= GetData;
-        }
+        //public void Subscribe(ISaveable savable)
+        //{
+        //    Savables.Add(savable);
+        //    savable.OnSaveEvent += GetData;
+        //}
+        //public void Unsubscribe(ISaveable savable)
+        //{
+        //    Savables.Remove(savable);
+        //    savable.OnSaveEvent -= GetData;
+        //}
 
         protected override void Awake()
         {
@@ -90,7 +89,7 @@ namespace Mathy.Data
 
             Initialize();
 
-            CheckLastTimeChallenge();
+            //CheckLastTimeChallenge();
             CheckLastTimeAwarded();
 
             //Debug.LogError("HERE!!");
@@ -99,31 +98,31 @@ namespace Mathy.Data
 
         private async void Initialize()
         {
-            this.DbHandler = DatabaseHandler.Instance;
+            //this.DbHandler = DatabaseHandler.Instance;
         }
         #endregion
 
         #region SAVE 
 
         //Getting data from sender to save it later
-        private void GetData(object sender, EventArgs args)
-        {
-            switch (sender)
-            {
-                case TaskManager t:
-                    {
-                        SaveEventArgs saveEvent = (SaveEventArgs)args;
-                        if (saveEvent != null)
-                        {
-                            DbHandler.DataToSave = saveEvent.TaskData;
-                        }
-                        break;
-                    }
-                default:
-                    Debug.LogError("Somethin went wrong");
-                    break;
-            }
-        }
+        //private void GetData(object sender, EventArgs args)
+        //{
+        //    switch (sender)
+        //    {
+        //        case TaskManager t:
+        //            {
+        //                SaveEventArgs saveEvent = (SaveEventArgs)args;
+        //                if (saveEvent != null)
+        //                {
+        //                    DbHandler.DataToSave = saveEvent.TaskData;
+        //                }
+        //                break;
+        //            }
+        //        default:
+        //            Debug.LogError("Somethin went wrong");
+        //            break;
+        //    }
+        //}
 
         //public async void SaveTaskData(TaskData data)
         //{
@@ -165,10 +164,10 @@ namespace Mathy.Data
         //    }
         //}
 
-        public async void SaveChallenge(ChallengeData data)
-        {
-            await this.DbHandler.SaveChallengeData(data);
-        }
+        //public async void SaveChallenge(ChallengeData data)
+        //{
+        //    await this.DbHandler.SaveChallengeData(data);
+        //}
 
         #endregion
 
@@ -200,10 +199,10 @@ namespace Mathy.Data
         //    return await DbHandler.IsDateModeCompleted(mode, date);
         //}
 
-        public async Task<bool> IsTodayModeExist(TaskMode mode)
-        {
-            return await DbHandler.IsTodayModeExist(mode);
-        }
+        //public async Task<bool> IsTodayModeExist(TaskMode mode)
+        //{
+        //    return await DbHandler.IsTodayModeExist(mode);
+        //}
 
         //public async Task<int> GetLastTaskIndexOfMode(TaskMode mode)
         //{ 
@@ -214,17 +213,20 @@ namespace Mathy.Data
 
         public async System.Threading.Tasks.Task<CalendarData> GetCalendarData(DateTime date)
         {
-            return await DbHandler.GetCalendarData(date);
+            throw new NotImplementedException();
+            //return await DbHandler.GetCalendarData(date);
         }
 
         public async System.Threading.Tasks.Task<List<CalendarData>> GetCalendarData(int month)
         {
-            return await DbHandler.GetCalendarData(month);
+            throw new NotImplementedException();
+            //return await DbHandler.GetCalendarData(month);
         }
         
         public async System.Threading.Tasks.Task<List<CalendarData>> GetCalendarData(int month, int year)
         {
-            return await DbHandler.GetCalendarData(month,year);
+            throw new NotImplementedException();
+            //return await DbHandler.GetCalendarData(month,year);
         }
 
         #endregion
@@ -280,50 +282,51 @@ namespace Mathy.Data
 
         #region DAILY CHALLENGE STATUS
 
-        public async System.Threading.Tasks.Task<bool> TodayChallengeStatus()
-        {
-            /*
-            set
-            {
-                PlayerPrefs.SetInt(statusKey, value.ToInt());
-                if (TodayChallengeStatus == true) PlayerPrefs.SetString(lastTimeChallenge, DateTime.Now.Date.ToString());
-            }
-            */
-            /*
-            get
-            {
-                //return PlayerPrefs.GetInt(statusKey, 0).ToBool();
-                return await IsTodayModeExist(TaskMode.Challenge);
-            }*/
-            return await IsTodayModeExist(TaskMode.Challenge);
-        }
+        //public async System.Threading.Tasks.Task<bool> TodayChallengeStatus()
+        //{
+        //    /*
+        //    set
+        //    {
+        //        PlayerPrefs.SetInt(statusKey, value.ToInt());
+        //        if (TodayChallengeStatus == true) PlayerPrefs.SetString(lastTimeChallenge, DateTime.Now.Date.ToString());
+        //    }
+        //    */
+        //    /*
+        //    get
+        //    {
+        //        //return PlayerPrefs.GetInt(statusKey, 0).ToBool();
+        //        return await IsTodayModeExist(TaskMode.Challenge);
+        //    }*/
+        //    return await IsTodayModeExist(TaskMode.Challenge);
+        //}
 
         //useless
-        private void CheckLastTimeChallenge()
-        {
-            /*
-            if (IsDayPassed())
-            {
-                TodayChallengeStatus = false;
-            }
-            */
-        }
+        //private void CheckLastTimeChallenge()
+        //{
+        //    /*
+        //    if (IsDayPassed())
+        //    {
+        //        TodayChallengeStatus = false;
+        //    }
+        //    */
+        //}
 
-        public bool IsDayPassed()
-        {
-            if (GetLastTimeChallenge() == "")
-                return true;
+        //public bool IsDayPassed()
+        //{
+        //    Debug.Log("This useless method invoked from somewhere. ");
+        //    if (GetLastTimeChallenge() == "")
+        //        return true;
 
-            bool isPassed = DateTime.Now.Date != DateTime.Parse(GetLastTimeChallenge());
-            return isPassed;
-        }
+        //    bool isPassed = DateTime.Now.Date != DateTime.Parse(GetLastTimeChallenge());
+        //    return isPassed;
+        //}
 
-        private string GetLastTimeChallenge()
-        {
-            if (PlayerPrefs.HasKey(lastTimeChallenge))
-                return PlayerPrefs.GetString(lastTimeChallenge);
-            return "";
-        }
+        //private string GetLastTimeChallenge()
+        //{
+        //    if (PlayerPrefs.HasKey(lastTimeChallenge))
+        //        return PlayerPrefs.GetString(lastTimeChallenge);
+        //    return "";
+        //}
 
         #endregion
 

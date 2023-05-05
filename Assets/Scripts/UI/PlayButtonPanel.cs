@@ -260,19 +260,19 @@ public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
     private async System.Threading.Tasks.Task<int> modeStatusIndex(TaskMode mode)
     {
         int status;
-        if (mode != TaskMode.Challenge)
-        {
+        //if (mode != TaskMode.Challenge)
+        //{
             //Debug.LogError("Here was TodayDoneTasksAmount");
             //int doneTaskAmount = await DataManager.Instance.TodayDoneTasksAmount(mode);
             var modeResult = await dataService.TaskData.GetDailyModeData(DateTime.UtcNow, mode);
             int doneTaskAmount = modeResult.PlayedCount;
             //int doneTaskAmount = 0;
             status = (doneTaskAmount == 0) ? 0 : (doneTaskAmount == tasksAmountValues[(int)mode]) ? 2 : 1;
-        }
-        else
-        {
-            status = await DataManager.Instance.TodayChallengeStatus() ? 2 : 0;
-        }
+        //}
+        //else
+        //{
+        //    status = await DataManager.Instance.TodayChallengeStatus() ? 2 : 0;
+        //}
         return status;
     }
 

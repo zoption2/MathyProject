@@ -9,6 +9,8 @@ using Cysharp.Threading.Tasks;
 using UnityEngine.Localization.Settings;
 using System;
 using System.Collections;
+using Zenject;
+using Mathy.Services;
 
 public class ChallengeCupButton : ButtonFX
 {
@@ -29,6 +31,7 @@ public class ChallengeCupButton : ButtonFX
     private bool isCompleted = false;
 
     #endregion
+    [Inject] private IDataService dataService;
 
     private void OnEnable()
     {
@@ -50,7 +53,9 @@ public class ChallengeCupButton : ButtonFX
 
     public async void UpdateChallengeStatus()
     {
-        isCompleted = await DataManager.Instance.TodayChallengeStatus();
+        var data = await dataService.TaskData.GetDailyModeData(DateTime.UtcNow, TaskMode.Challenge);
+        //isCompleted = await DataManager.Instance.TodayChallengeStatus();
+        isCompleted = data.IsComplete;
         UpdateDisplayStyle();
     }
 

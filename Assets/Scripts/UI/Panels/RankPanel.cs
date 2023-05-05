@@ -26,6 +26,17 @@ public class RankPanel : MonoBehaviour
         rectTransform = icon.GetComponent<RectTransform>();
     }
 
+    public void UpdateDisplayStyle()
+    {
+        int index = PlayerDataManager.Instance.PlayerRank;
+        rankText.text = index.ToString();
+
+        /*icon.sprite = icons[index];
+
+        float offset = index > 5 ? 0f : -3.25f;
+        rectTransform.SetTop(offset);*/
+    }
+
     public void UpdateDisplayStyle(int rank)
     {
         rankText.text = rank.ToString();

@@ -103,11 +103,11 @@ public class PlayButton : ButtonFX
         //Debug.LogError("Here was TodayDoneTasksAmount");
         //int taskAmount = 0;
         //bool isModeCompleted = false;
-        
-        bool isModeCompleted = PlayButtonPanel.Instance.SelectedTaskMode != TaskMode.Challenge ? 
-            modeData.IsComplete :
-            await DataManager.Instance.TodayChallengeStatus();
-        
+        bool isModeCompleted = modeData.IsComplete;
+        //bool isModeCompleted = PlayButtonPanel.Instance.SelectedTaskMode != TaskMode.Challenge ? 
+        //    modeData.IsComplete :
+        //    await DataManager.Instance.TodayChallengeStatus();
+
 
         string text;
         if (taskAmount == 0)

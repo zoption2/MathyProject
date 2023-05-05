@@ -64,7 +64,7 @@ public class DailyStatusPanel : StaticInstance<DailyStatusPanel>
         if (allModesDone)
         {
             //rTransform.anchoredPosition = new Vector2(36, 0);
-            rTransform.DOAnchorPosY(140, 0.25f).SetEase(Ease.InOutQuad);
+            rTransform.DOAnchorPosY(64, 0.5f).SetEase(Ease.InOutQuad);
         }
     }
 
