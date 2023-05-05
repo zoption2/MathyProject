@@ -14,15 +14,15 @@ namespace Mathy.Services.Data
         UniTask<int> SaveTask(TaskResultData task);
         UniTask UpdateDailyMode(DailyModeData data);
         UniTask<DailyModeData> GetDailyModeData(DateTime date, TaskMode mode);
-        UniTask<List<DailyModeData>> GetDailyData(DateTime date);
+        UniTask<List<DailyModeData>> GetMonthData(DateTime date);
     }
 
 
     public class TaskDataHandler : ITaskDataHandler
     {
         private readonly ITaskResultsProvider _taskProvider;
-        private readonly IGeneralStatisticHandler _generalProvider;
         private readonly IDailyModeProvider _dailyModeProvider;
+        private readonly ISkillStatisticProvider _skillStatisticProvider;
         private readonly ITaskResultFormatProcessor _resultFormatProcessor;
         private readonly DataService _dataService;
 
@@ -34,6 +34,7 @@ namespace Mathy.Services.Data
 
             _taskProvider = new TaskResultsProvider(filePath);
             _dailyModeProvider = new DailyModeProvider(filePath);
+            _skillStatisticProvider = new SkillStatisticProvider(filePath);
             _resultFormatProcessor = new TaskResultFormatProcessor();
         }
 
@@ -69,6 +70,8 @@ namespace Mathy.Services.Data
             var skillKey = task.SkillType.ToString();
             await _dataService.KeyValueStorage.IncrementIntValue(skillKey);
 
+            await UpdateSkillStatistic(task);
+
             return uniqueId;
         }
 
@@ -83,27 +86,14 @@ namespace Mathy.Services.Data
             return result;
         }
 
-        public async UniTask<List<DailyModeData>> GetDailyData(DateTime date)
+        public async UniTask<List<DailyModeData>> GetMonthData(DateTime date)
         {
-            var result = await _dailyModeProvider.GetDailyData(date);
-            return result;
+            return await _dailyModeProvider.GetMonthData(date);
         }
 
-        public async UniTask<GeneralTasksViewData> GetGeneralTaskData()
+        public async UniTask<SkillStatisticData> GetSkillStatistic(SkillType skillType, int grade)
         {
-            var result = await _generalProvider.GetGeneralTasksDataAsync();
-            return result;
-        }
-
-        public async UniTask<DetailedTasksViewData> GetGeneralTaskTypeDataAsync(TaskType taskType)
-        {
-            var result = await _generalProvider.GetDetailedTasksDataAsync(taskType);
-            return result;
-        }
-
-        public async UniTask<DailyModeViewData> GetGeneralTaskModeDataAsync(TaskMode mode)
-        {
-            var result = await _generalProvider.GetDailyModeDataAsync(mode);
+            var result = await _skillStatisticProvider.GetSkillStatistic(skillType, grade);
             return result;
         }
 
@@ -116,12 +106,29 @@ namespace Mathy.Services.Data
         {
             await _taskProvider.DeleteTable();
             await _dailyModeProvider.DeleteTable();
+            await _skillStatisticProvider.DeleteTable();
         }
 
         protected async UniTask TryCreateTables()
         {
             await _taskProvider.TryCreateTable();
             await _dailyModeProvider.TryCreateTable();
+            await _skillStatisticProvider.TryCreateTable();
+        }
+
+        private async UniTask UpdateSkillStatistic(TaskResultData task)
+        {
+            var stat = await _skillStatisticProvider.GetSkillStatistic(task.SkillType, task.Grade);
+            var updatedTotal = ++stat.Total;
+            var updatedCorrect = task.IsAnswerCorrect ? ++stat.Correct : stat.Correct;
+
+            stat.Total = updatedTotal;
+            stat.Correct = updatedCorrect;
+            stat.Rate = updatedTotal > 0
+                ? ((updatedCorrect * 100) / updatedTotal)
+                : 0;
+            stat.Duration += task.Duration;
+            await _skillStatisticProvider.UpdateSkillStatistic(stat);
         }
     }
 }

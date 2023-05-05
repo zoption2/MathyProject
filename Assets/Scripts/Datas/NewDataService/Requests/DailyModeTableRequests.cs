@@ -9,10 +9,10 @@
         public const string kMode = "Mode";
         public const string kModeIndex = "ModeIndex";
         public const string kIsModeDone = "IsDone";
-        private const string kPlayedCount = "PlayedCount";
-        private const string kCorrect = "CorrectAnswers";
-        private const string kCorrectRate = "CorrectRate";
-        private const string kDuration = "Duration";
+        public const string kPlayedCount = "PlayedCount";
+        public const string kCorrect = "CorrectAnswers";
+        public const string kCorrectRate = "CorrectRate";
+        public const string kDuration = "Duration";
         private const string kTotalTasks = "TotalTasks";
         private const string kTasksIds = "TasksIds";
 
@@ -107,6 +107,28 @@
             from {kDailyModeTable}
             where {kDate} = @{nameof(DailyModeTableModel.Date)}
             ;";
+
+        public static string SelectByMonthQuery = $@"select
+            {kId} as {nameof(DailyModeTableModel.Id)},
+            {kDate} as {nameof(DailyModeTableModel.Date)},
+            {kMode} as {nameof(DailyModeTableModel.Mode)},
+            {kModeIndex} as {nameof(DailyModeTableModel.ModeIndex)},
+            {kIsModeDone} as {nameof(DailyModeTableModel.IsComplete)},
+            {kPlayedCount} as {nameof(DailyModeTableModel.PlayedTasks)},
+            {kCorrect} as {nameof(DailyModeTableModel.CorrectAnswers)},
+            {kCorrectRate} as {nameof(DailyModeTableModel.CorrectRate)},
+            {kDuration} as {nameof(DailyModeTableModel.Duration)},
+            {kTotalTasks} as {nameof(DailyModeTableModel.TotalTasks)},
+            {kTasksIds} as {nameof(DailyModeTableModel.TasksIds)}
+                        from {kDailyModeTable}
+            where strftime('%Y-%m', {kDate}) = strftime('%Y-%m', @{nameof(DailyModeTableModel.Date)})
+            ;";
+
+        public static string SelectCountByMonth = $@"SELECT COUNT(*) FROM {kDailyModeTable}
+            where strftime('%Y-%m', {kDate}) = strftime('%Y-%m', @{nameof(DailyModeTableModel.Date)})
+        ;";
+
+
 
 
         public static readonly string DeleteTable = $@"

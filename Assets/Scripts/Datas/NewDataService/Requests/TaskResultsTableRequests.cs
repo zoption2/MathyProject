@@ -9,7 +9,7 @@
         private const string kMode = "Mode";
         private const string kModeIndex = "ModeIndex";
         public const string kTaskType = "TaskType";
-        private const string kTaskTypeIndex = "TypeIndex";
+        public const string kTaskTypeIndex = "TypeIndex";
         private const string kSkillType = "Skill";
         private const string kSkillIndex = "SkillIndex";
         private const string kElements = "Elements";

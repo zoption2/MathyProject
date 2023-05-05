@@ -46,10 +46,11 @@ namespace Mathy.Services.Data
                 while (await reader.ReadAsync())
                 {
                     result.TaskType = Convert.ToString(reader[0]);
-                    result.TotalTasksPlayed = Convert.ToInt32(reader[1]);
-                    result.TotalCorrectAnswers = Convert.ToInt32(reader[2]);
-                    result.MiddleRate = Convert.ToInt32(reader[3]);
-                    result.TotalPlayedTime = Convert.ToDouble(reader[4]);
+                    result.TaskTypeIndex = Convert.ToInt32(reader[1]);
+                    result.TotalTasksPlayed = Convert.ToInt32(reader[2]);
+                    result.TotalCorrectAnswers = Convert.ToInt32(reader[3]);
+                    result.MiddleRate = Convert.ToInt32(reader[4]);
+                    result.TotalPlayedTime = Convert.ToDouble(reader[5]);
                 }
                 reader.Close();
                 connection.Close();

@@ -1,10 +1,7 @@
-﻿using static UnityEngine.Rendering.DebugUI;
-
-namespace Mathy.Services.Data
+﻿namespace Mathy.Services.Data
 {
     public static class GeneralResultsTableRequests
     {
-        private const string kGeneralViewName = "TotalTaskResultsView";
         private const string kDetailedViewName = "DetailedTasksResultsView";
         private const string kDailyModeViewName = "DailyModesView";
 
@@ -21,31 +18,7 @@ namespace Mathy.Services.Data
 
 
 
-
-        public static readonly string CreateGeneralView = $@"create view IF NOT EXISTS {kGeneralViewName}
-            as
-            select
-            cast((select {KeyValueIntegerTableRequests.kValue} from {KeyValueIntegerTableRequests.kTableName} where {KeyValueIntegerTableRequests.kKey} = '{nameof(KeyValueIntegerKeys.TotalTasksIndexer)}') as integer) as {kTotalTasks},
-            cast((select {KeyValueIntegerTableRequests.kValue} from {KeyValueIntegerTableRequests.kTableName} where {KeyValueIntegerTableRequests.kKey} = '{nameof(KeyValueIntegerKeys.TotalCorrectAnswers)}') as integer) as {kTotalCorrect},
-            ({kTotalCorrect} * 100.0 / {kTotalTasks}) as {kMiddleRating}
-            ;";
-
-
-        public static readonly string CreateDetailedView = $@"
-            CREATE VIEW IF NOT EXISTS {kDetailedViewName}
-            AS
-            SELECT 
-                {TaskResultsTableRequests.kTaskType},
-                COUNT(*) AS {kTotalTasks},
-                SUM(CASE WHEN {TaskResultsTableRequests.kIsCorrect} THEN 1 ELSE 0 END) AS {kTotalCorrect},
-                CAST((SUM(CASE WHEN {TaskResultsTableRequests.kIsCorrect} THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) AS INTEGER) AS {kMiddleRating},
-                SUM({TaskResultsTableRequests.kDuration}) AS {kTasksTime}
-            FROM 
-                {TaskResultsTableRequests.kTaskType}
-            GROUP BY 
-                {TaskResultsTableRequests.kTaskType};
-            ";
-
+        #region DetailedView
         public static readonly string PrefixDetailedStatisticView = $@"
             CREATE VIEW IF NOT EXISTS {kDetailedViewName}
             AS";
@@ -53,6 +26,7 @@ namespace Mathy.Services.Data
         public static readonly string BodyDetailedStatisticView = $@"
             SELECT 
                 {TaskResultsTableRequests.kTaskType},
+                {TaskResultsTableRequests.kTaskTypeIndex},
                 COUNT(*) AS {kTotalTasks},
                 SUM(CASE WHEN {TaskResultsTableRequests.kIsCorrect} THEN 1 ELSE 0 END) AS {kTotalCorrect},
                 CAST((SUM(CASE WHEN {TaskResultsTableRequests.kIsCorrect} THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) AS INTEGER) AS {kMiddleRating},
@@ -65,33 +39,6 @@ namespace Mathy.Services.Data
             ";
 
 
-        public static readonly string CreateModeView = $@"
-            create view if not exists {kDailyModeViewName}
-            as
-            select
-                {DailyModeTableRequests.kMode},
-                {DailyModeTableRequests.kModeIndex} as {kModeIndex},
-                sum(case when {DailyModeTableRequests.kIsModeDone} then 1 else 0 end) as {kTotalCompletedMode}
-            from
-                {DailyModeTableRequests.kDailyModeTable}
-            group by
-                {DailyModeTableRequests.kMode};
-            ";
-
-
-
-
-        public static readonly string SelectFromGeneralTasksViewQuery = $@"select
-            {kTotalTasks} as {nameof(GeneralTasksViewModel.TotalTasksPlayed)},
-            {kTotalCorrect} as {nameof(GeneralTasksViewModel.TotalCorrectAnswers)},
-            {kTasksTime} as {nameof(GeneralTasksViewModel.TotalPlayedTime)},
-            {kMiddleRating} as {nameof(GeneralTasksViewModel.MiddleRate)}
-            from {kGeneralViewName}
-            ;";
-
-
-        public static readonly string GetGeneralCountViewQuery = $@"SELECT COUNT(*) FROM {kGeneralViewName};";
-
         public static readonly string GetDetailedCountViewQuery = $@"SELECT COUNT(*) FROM {kDetailedViewName}
             where {kTaskType} = @{nameof(DetailedTasksViewModel.TaskType)}
         ;";
@@ -101,35 +48,53 @@ namespace Mathy.Services.Data
         ;";
 
 
-        public static readonly string SelectFromDetailedTaskViewByTypeQuery = $@"
+        public static readonly string SelectFromDetailedTaskViewByTypeQuery = $@"select
             {kTaskType} as {nameof(DetailedTasksViewModel.TaskType)},
             {kTypeIndex} as {nameof(DetailedTasksViewModel.TaskTypeIndex)},
             {kTotalTasks} as {nameof(DetailedTasksViewModel.TotalTasksPlayed)},
             {kTotalCorrect} as {nameof(DetailedTasksViewModel.TotalCorrectAnswers)},
             {kTasksTime} as {nameof(DetailedTasksViewModel.TotalPlayedTime)},
             {kMiddleRating} as {nameof(DetailedTasksViewModel.MiddleRate)}
-            from {kGeneralViewName}
+            from {kDetailedViewName}
             where {kTaskType} = @{nameof(DetailedTasksViewModel.TaskType)}
             ";
 
 
 
-        public static readonly string SelectDailyModeViewByModeQuery = $@"
-            {kModeType} as {nameof(DailyModeViewModel.Mode)},
-            {kModeIndex} as {nameof(DailyModeViewModel.ModeIndex)},
-            {kTotalCompletedMode} as {nameof(DailyModeViewModel.TotalCompleted)}
-            from {kDailyModeViewName}
-            where {kModeType} = @{nameof(DailyModeViewModel.Mode)}
-            ";
-
-
-        public static readonly string DropGeneralTasksViewQuery = $@"
-            drop view if exists {kGeneralViewName}
-            ";
-
-
         public static readonly string DropDetailedTasksViewQuery = $@"
             drop view if exists {kDetailedViewName}
+            ";
+
+        #endregion
+
+        #region ModeView
+        public static readonly string CreateModeView = $@"
+            create view if not exists {kDailyModeViewName}
+            as
+            select
+                {DailyModeTableRequests.kMode},
+                {DailyModeTableRequests.kModeIndex} as {kModeIndex},
+                sum(case when {DailyModeTableRequests.kIsModeDone} then 1 else 0 end) as {kTotalCompletedMode},
+                sum({DailyModeTableRequests.kPlayedCount}) as {kTotalTasks},
+                sum({DailyModeTableRequests.kCorrect}) as {kTotalCorrect},
+                CAST(sum({DailyModeTableRequests.kCorrect}) * 100.0 / sum({DailyModeTableRequests.kPlayedCount}) AS INTEGER) AS {kMiddleRating},
+                sum({DailyModeTableRequests.kDuration}) as {kTasksTime}
+            from
+                {DailyModeTableRequests.kDailyModeTable}
+            group by
+                {DailyModeTableRequests.kMode};
+            ";
+
+        public static readonly string SelectDailyModeViewByModeQuery = $@"select
+            {kModeType} as {nameof(DailyModeViewModel.Mode)},
+            {kModeIndex} as {nameof(DailyModeViewModel.ModeIndex)},
+            {kTotalCompletedMode} as {nameof(DailyModeViewModel.TotalCompletedModes)},
+            {kTotalTasks} as {nameof(DailyModeViewModel.TotalTasks)},
+            {kTotalCorrect} as {nameof(DailyModeViewModel.TotalCorrect)},
+            {kMiddleRating} as {nameof(DailyModeViewModel.MiddleRate)},
+            {kTasksTime} as {nameof(DailyModeViewModel.TotalTime)}
+            from {kDailyModeViewName}
+            where {kModeType} = @{nameof(DailyModeViewModel.Mode)}
             ";
 
 
@@ -137,13 +102,10 @@ namespace Mathy.Services.Data
             drop view if exists {kDailyModeViewName}
             ";
 
-
-        public static readonly string DropAbstractViewQuery = $@"
-            drop view if exists
-            ";
+        #endregion
 
         public static readonly string DropAllViewsQuery = $@"
-            drop view if exists {kGeneralViewName}, {kDetailedViewName}, {kDailyModeViewName}
+            drop view if exists {kDetailedViewName}, {kDailyModeViewName}
         ;";
     }
 

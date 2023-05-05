@@ -231,20 +231,20 @@ namespace Mathy.Data
 
         #region STATISTICS
 
-        public async System.Threading.Tasks.Task<int> GetCorrectAnswersOfModeByDate(TaskMode mode, DateTime date)
-        {
-            return await DbHandler.GetCorrectAnswersOfModeByDate(mode, date);
-        }
+        //public async System.Threading.Tasks.Task<int> GetCorrectAnswersOfModeByDate(TaskMode mode, DateTime date)
+        //{
+        //    return await DbHandler.GetCorrectAnswersOfModeByDate(mode, date);
+        //}
 
-        public async System.Threading.Tasks.Task<double> GetCorrectRateOfMode(TaskMode mode)
-        {
-            return await DbHandler.GetCorrectRateOfMode(mode);
-        }
+        //public async System.Threading.Tasks.Task<double> GetCorrectRateOfMode(TaskMode mode)
+        //{
+        //    return await DbHandler.GetCorrectRateOfMode(mode);
+        //}
 
-        public async System.Threading.Tasks.Task<double> GetCorrectRateOfTaskType(TaskType type)
-        {
-            return await DbHandler.GetCorrectRateOfTaskType(type);
-        }
+        //public async System.Threading.Tasks.Task<double> GetCorrectRateOfTaskType(TaskType type)
+        //{
+        //    return await DbHandler.GetCorrectRateOfTaskType(type);
+        //}
 
         //public async Task<List<string>> GetTaskResults(TaskMode mode, DateTime date)
         //{
@@ -271,10 +271,10 @@ namespace Mathy.Data
         //}
 
         //return value in milliseconds
-        public async System.Threading.Tasks.Task<long> GetTimeOfModeAndDate(TaskMode mode, DateTime date)
-        {
-            return await DbHandler.GetTimeOfModeAndDate(mode, date);
-        }
+        //public async System.Threading.Tasks.Task<long> GetTimeOfModeAndDate(TaskMode mode, DateTime date)
+        //{
+        //    return await DbHandler.GetTimeOfModeAndDate(mode, date);
+        //}
 
         #endregion
 

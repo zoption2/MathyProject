@@ -69,6 +69,7 @@ namespace Mathy.Core.Tasks
             result.VariantValues = variants;
             result.CorrectAnswerIndexes = correctAnswersIndexes;
             result.MaxValue = maxValue;
+            result.Grade = taskSettings.Grade;
 
             return result;
         }

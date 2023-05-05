@@ -1,5 +1,6 @@
 ﻿using Mathy.Data;
 
+
 namespace Mathy.Services.Data
 {
     public static class GradesTableRequests

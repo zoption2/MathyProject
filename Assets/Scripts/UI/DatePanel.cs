@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Mathy.Data;
-using Mathy.Core;
 using DG.Tweening;
 using System.Globalization;
 using UnityEngine.Localization.Settings;

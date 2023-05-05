@@ -21,5 +21,6 @@ namespace Mathy.Services.Data
         public bool IsAnswerCorrect { get; set; }
         public double Duration { get; set; }
         public int MaxValue { get; set; }
+        public int Grade { get; set; }
     }
 }

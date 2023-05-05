@@ -35,6 +35,7 @@ namespace Mathy.Services.Data
             result.IsAnswerCorrect = data.IsAnswerCorrect;
             result.Duration = data.Duration;
             result.MaxValue = data.MaxValue;
+            result.Grade = data.Grade;
 
             return result;
         }
@@ -58,6 +59,7 @@ namespace Mathy.Services.Data
             result.IsAnswerCorrect = model.IsAnswerCorrect;
             result.Duration = model.Duration;
             result.MaxValue = model.MaxValue;
+            result.Grade = model.Grade;
 
             return result;
         }
@@ -153,7 +155,11 @@ namespace Mathy.Services.Data
             var result = new DailyModeViewModel();
             result.Mode = data.Mode.ToString();
             result.ModeIndex = (int)data.Mode;
-            result.TotalCompleted = data.TotalCompleted;
+            result.TotalCompletedModes = data.TotalCompletedModes;
+            result.TotalTasks = data.TotalTasks;
+            result.TotalCorrect = data.TotalCorrect;
+            result.MiddleRate = data.MiddleRate;
+            result.TotalTime = data.TotalTime;
 
             return result;
         }
@@ -162,7 +168,11 @@ namespace Mathy.Services.Data
         {
             var result = new DailyModeViewData();
             result.Mode = Enum.Parse<TaskMode>(model.Mode);
-            result.TotalCompleted = model.TotalCompleted;
+            result.TotalCompletedModes = model.TotalCompletedModes;
+            result.TotalTasks = model.TotalTasks;
+            result.TotalCorrect = model.TotalCorrect;
+            result.MiddleRate = model.MiddleRate;
+            result.TotalTime = model.TotalTime;
 
             return result;
         }
@@ -230,6 +240,36 @@ namespace Mathy.Services.Data
             result.Key = model.Key;
             result.Value = model.Value;
             result.Date = DateTime.ParseExact(model.Date, kDataTimeFormat, CultureInfo.InvariantCulture);
+
+            return result;
+        }
+        #endregion
+
+        #region SkillStatisticTable
+        public static SkillStatisticModel ConvertToModel(this SkillStatisticData data)
+        {
+            var result = new SkillStatisticModel();
+            result.Skill = data.Skill.ToString();
+            result.SkillIndex = (int)data.Skill;
+            result.Total = data.Total;
+            result.Correct = data.Correct;
+            result.Rate = data.Rate;
+            result.Duration = data.Duration;
+            result.Grade = data.Grade;
+
+            return result;
+        }
+
+        public static SkillStatisticData ConvertToData(this SkillStatisticModel model)
+        {
+            var result = new SkillStatisticData();
+            var skillName = Enum.GetName(typeof(SkillType), model.SkillIndex);
+            result.Skill = Enum.Parse<SkillType>(skillName);
+            result.Total = model.Total;
+            result.Correct = model.Correct;
+            result.Rate = model.Rate;
+            result.Duration = model.Duration;
+            result.Grade = model.Grade;
 
             return result;
         }

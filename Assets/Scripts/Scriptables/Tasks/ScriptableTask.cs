@@ -9,4 +9,5 @@ public class ScriptableTask : ScriptableTaskBase
 {
     public TaskType TaskType;
     public SkillType SkillType;
+    public int Grade = 1;
 }

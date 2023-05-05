@@ -147,13 +147,17 @@ public class PlayerDataManager : StaticInstance<PlayerDataManager>
 	
     public async System.Threading.Tasks.Task<int> GetPercentageOfCompletedTaskOfMode(TaskMode mode)
     {
-        double rate = await DataManager.Instance.GetCorrectRateOfMode(mode);
-        return (int)(rate * 100);
+        var modeData = await dataService.GeneralStatistic.GetDailyModeDataAsync(mode);
+        int rate = modeData.MiddleRate;
+        //double rate = await DataManager.Instance.GetCorrectRateOfMode(mode);
+        return rate;
     }
 
     public async System.Threading.Tasks.Task<int> GetCorrectRateOfPercentageTaskType(TaskType taskType)
     {
-        double rate = await DataManager.Instance.GetCorrectRateOfTaskType(taskType);
-        return (int)(rate * 100);
+        var taskData = await dataService.GeneralStatistic.GetDetailedTasksDataAsync(taskType);
+        //double rate = await DataManager.Instance.GetCorrectRateOfTaskType(taskType);
+        var rate = taskData.MiddleRate;
+        return rate;
     }
 }

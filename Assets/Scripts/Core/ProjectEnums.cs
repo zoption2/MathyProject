@@ -209,6 +209,8 @@
         TotalTasksDuration = 4,
         Experience = 5,
         PlayerRank = 6,
+
+        DatabaseControl = 100,
     }
 }
 

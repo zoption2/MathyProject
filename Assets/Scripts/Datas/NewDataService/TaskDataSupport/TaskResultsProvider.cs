@@ -282,9 +282,13 @@ namespace Mathy.Services.Data
             using (var connection = new SqliteConnection(_dbFilePath))
             {
                 connection.Open();
-                var query = TaskResultsTableRequests.DeleteTable;
-                SqliteCommand command = new SqliteCommand(query, connection);
-                await command.ExecuteNonQueryAsync();
+                var tasks = (TaskType[])Enum.GetValues(typeof(TaskType));
+                for (int i = 0, j = tasks.Length; i < j; i++)
+                {
+                    var query = $@"drop table if exists {tasks[i]}";
+                    SqliteCommand command = new SqliteCommand(query, connection);
+                    await command.ExecuteNonQueryAsync();
+                }
                 connection.Close();
                 connection.Dispose();
             }

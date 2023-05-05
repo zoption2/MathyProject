@@ -24,6 +24,10 @@ namespace Mathy.Services
 
         private const string kFileName = "save.db";
 
+        //WARNING! Do not change if not nesassery!
+        //using for for DB reset if versions are different 
+        private const int kDatabaseControl = 1;
+
 
         private GeneralStatisticHandler _statisticHandler;
         private TaskDataHandler _taskDataHandler;
@@ -31,6 +35,8 @@ namespace Mathy.Services
         private KeyValuePairDataHandler _keyValuehandler;
         private string _saveDirectoryPath;
         private string _taskDBFilePath;
+        private string _saveFilePath;
+        private bool _isFirstCreation;
 
         public string DatabasePath => _taskDBFilePath;
 
@@ -44,8 +50,8 @@ namespace Mathy.Services
         {
             string dataPath = Application.persistentDataPath;
             _saveDirectoryPath = dataPath + "/Saves/";
-            var saveFilePath = _saveDirectoryPath + kFileName;
-            _taskDBFilePath = $"Data Source={saveFilePath}";
+            _saveFilePath = _saveDirectoryPath + kFileName;
+            _taskDBFilePath = $"Data Source={_saveFilePath}";
             if (!Directory.Exists(_saveDirectoryPath))
             {
                 Directory.CreateDirectory(_saveDirectoryPath);
@@ -74,6 +80,11 @@ namespace Mathy.Services
         private async void InitHandlers()
         {
             await InitHandlersAsync();
+            //var needToClear = await TryToClearDatabase(kDatabaseControl);
+            //if (!needToClear)
+            //{
+            //    await InitHandlersAsync();
+            //}
         }
 
         private async UniTask InitHandlersAsync()
@@ -82,7 +93,30 @@ namespace Mathy.Services
             await _skillPlanHandler.Init();
             await _keyValuehandler.Init();
             await _statisticHandler.Init();
+
+            //if(_isFirstCreation)
+            //{
+            //    await _keyValuehandler.SaveIntValue(KeyValueIntegerKeys.DatabaseControl, kDatabaseControl);
+            //}
         }
+
+        //private async UniTask<bool> TryToClearDatabase(int controlVersion)
+        //{
+        //    if (!File.Exists(_saveFilePath))
+        //    {
+        //        _isFirstCreation = true;
+        //        return false;
+        //    }
+
+        //    var existingVersion = await _keyValuehandler.GetIntValue(KeyValueIntegerKeys.DatabaseControl);
+        //    if (controlVersion != existingVersion)
+        //    {
+        //        await ResetProgress();
+        //        await _keyValuehandler.SaveIntValue(KeyValueIntegerKeys.DatabaseControl, kDatabaseControl);
+        //        return true;
+        //    }
+        //    return false;
+        //}
     }
 }
 

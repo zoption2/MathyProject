@@ -57,7 +57,7 @@ public class StatisticsPanel : MonoBehaviour
     private async UniTask UpdateStatistics()
     {
 		loadingIndicator.SetActive(true);
-        await UniTask.WaitUntil(() => PlayerDataManager.Instance != null);
+        //await UniTask.WaitUntil(() => PlayerDataManager.Instance != null);
 
 		UpdateAwardsText();
 		

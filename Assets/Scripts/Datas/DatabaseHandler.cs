@@ -26,7 +26,7 @@ namespace Mathy.Data
     public class DatabaseHandler
     {
         private const string fileName = "SaveGame.db";
-        private const string actualDatabaseVersion = "2.1.5";
+        private const string actualDatabaseVersion = "2.1.7";
         private const string correctResultColor = "#15c00f";
         private const string wrongResultColor = "#f94934";
         private const string kUnknownElementValue = "?";
@@ -202,55 +202,55 @@ namespace Mathy.Data
 
         #region HELPERS
         
-        private async System.Threading.Tasks.Task<int> GetTaskUniqueID()
-        {
-            int id = 0;
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                connection.Open();
+        //private async System.Threading.Tasks.Task<int> GetTaskUniqueID()
+        //{
+        //    int id = 0;
+        //    using (SqliteConnection connection = new SqliteConnection(databasePath))
+        //    {
+        //        connection.Open();
                 
-                using (SqliteCommand command = connection.CreateCommand())
-                {
+        //        using (SqliteCommand command = connection.CreateCommand())
+        //        {
 
-                    string query = "SELECT MAX(ID) FROM ( SELECT MAX(Id) as ID FROM Addition " +
-                    "UNION SELECT MAX(Id) as ID FROM Subtraction " +
-                    "UNION SELECT MAX(Id) as ID FROM AddSubMissingNumber " +
-                    "UNION SELECT MAX(Id) as ID FROM Comparison " +
-                    "UNION SELECT MAX(Id) as ID FROM ComparisonWithMissingNumber " +
-                    "UNION SELECT MAX(Id) as ID FROM ExpressionsComparison " +
-                    "UNION SELECT MAX(Id) as ID FROM IsThatTrue " +
-                    "UNION SELECT MAX(Id) as ID FROM ComparisonMissingElements " +
-                    "UNION SELECT MAX(Id) as ID FROM MissingExpression " +
-                    "UNION SELECT MAX(Id) as ID FROM MissingNumber " +
-                    "UNION SELECT MAX(Id) as ID FROM MissingSign " +
-                    "UNION SELECT MAX(Id) as ID FROM SumOfNumbers " +
-                    "UNION SELECT MAX(Id) as ID FROM SelectFromThreeCount " +
-                    "UNION SELECT MAX(Id) as ID FROM CountTo10Frames " +
-                    "UNION SELECT MAX(Id) as ID FROM CountTo20Frames " +
-                    "UNION SELECT MAX(Id) as ID FROM CountTo10Images ) ";
+        //            string query = "SELECT MAX(ID) FROM ( SELECT MAX(Id) as ID FROM Addition " +
+        //            "UNION SELECT MAX(Id) as ID FROM Subtraction " +
+        //            "UNION SELECT MAX(Id) as ID FROM AddSubMissingNumber " +
+        //            "UNION SELECT MAX(Id) as ID FROM Comparison " +
+        //            "UNION SELECT MAX(Id) as ID FROM ComparisonWithMissingNumber " +
+        //            "UNION SELECT MAX(Id) as ID FROM ExpressionsComparison " +
+        //            "UNION SELECT MAX(Id) as ID FROM IsThatTrue " +
+        //            "UNION SELECT MAX(Id) as ID FROM ComparisonMissingElements " +
+        //            "UNION SELECT MAX(Id) as ID FROM MissingExpression " +
+        //            "UNION SELECT MAX(Id) as ID FROM MissingNumber " +
+        //            "UNION SELECT MAX(Id) as ID FROM MissingSign " +
+        //            "UNION SELECT MAX(Id) as ID FROM SumOfNumbers " +
+        //            "UNION SELECT MAX(Id) as ID FROM SelectFromThreeCount " +
+        //            "UNION SELECT MAX(Id) as ID FROM CountTo10Frames " +
+        //            "UNION SELECT MAX(Id) as ID FROM CountTo20Frames " +
+        //            "UNION SELECT MAX(Id) as ID FROM CountTo10Images ) ";
 
-                    command.CommandText = query;
+        //            command.CommandText = query;
 
-                    using (var reader = await command.ExecuteReaderAsync())
-                    {
-                        if(await reader.ReadAsync())
-                        {
-                            object value = reader[0];
-                            if (value.GetType() == typeof(System.DBNull))
-                            {
-                                id = 0;
-                            }
-                            else
-                            {
-                                id = (Convert.ToInt32(value) + 1);
-                            }
-                        }
-                    }
-                }
-                connection.Close();
-            }
-            return id;
-        }
+        //            using (var reader = await command.ExecuteReaderAsync())
+        //            {
+        //                if(await reader.ReadAsync())
+        //                {
+        //                    object value = reader[0];
+        //                    if (value.GetType() == typeof(System.DBNull))
+        //                    {
+        //                        id = 0;
+        //                    }
+        //                    else
+        //                    {
+        //                        id = (Convert.ToInt32(value) + 1);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        connection.Close();
+        //    }
+        //    return id;
+        //}
 
         private async System.Threading.Tasks.Task<int> GetChallengeUniqueID()
         {
@@ -379,82 +379,18 @@ namespace Mathy.Data
                 SqliteConnection connection = new SqliteConnection(databasePath);
                 connection.Open();
 
-                string query = "CREATE TABLE Addition (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
-                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode)," +
-                    "Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Elements STRING NOT NULL," +
-                    "Operators STRING NOT NULL, Variants STRING NOT NULL," +
-                    "SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL, " +
-                    "MaxNumber INTEGER NOT NULL);" +
-
-                    "CREATE TABLE Subtraction (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
-                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode)," +
-                    "Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Elements STRING NOT NULL," +
-                    "Operators STRING NOT NULL, Variants STRING NOT NULL," +
-                    "SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL, " +
-                    "MaxNumber INTEGER NOT NULL);" +
-
-                    "CREATE TABLE AddSubMissingNumber (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
-                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode), Duration DOUBLE NOT NULL," +
-                    "Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Elements STRING NOT NULL," +
-                    "Operators STRING NOT NULL, Variants STRING NOT NULL," +
-                    "SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL," +
-                    "MaxNumber INTEGER NOT NULL);" +
-
+                string query = 
                     "CREATE TABLE ChallengeStatistics (ChallengeType INTEGER NOT NULL PRIMARY KEY REFERENCES ChallengeTypes (TypeCode)," +
                     "CorrectAnswers INTEGER NOT NULL, WrongAnswers INTEGER NOT NULL, CorrectRate DOUBLE NOT NULL," +
                     "TotalPlayed INTEGER NOT NULL, AverageTime DOUBLE NOT NULL, PracticBestTime DOUBLE NOT NULL);" +
 
                     "CREATE TABLE ChallengeTypes (TypeCode INTEGER PRIMARY KEY UNIQUE NOT NULL, Name STRING NOT NULL);" +
 
-                    "CREATE TABLE Comparison (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
-                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode), Duration DOUBLE NOT NULL," +
-                    "Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Elements STRING NOT NULL, Operators STRING NOT NULL," +
-                    "Variants STRING NOT NULL, SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL," +
-                    " MaxNumber INTEGER NOT NULL);" +
-
-                    "CREATE TABLE ComparisonWithMissingNumber (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
-                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode), Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id)," +
-                    "Elements STRING NOT NULL, Operators STRING NOT NULL, Variants STRING NOT NULL," +
-                    "SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL, MaxNumber INTEGER NOT NULL);" +
-
-                    "CREATE TABLE ExpressionsComparison (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
-                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode), Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id)," +
-                    "Elements STRING NOT NULL, Operators STRING NOT NULL, Variants STRING NOT NULL," +
-                    "SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL, MaxNumber INTEGER NOT NULL);" +
-
-                    "CREATE TABLE IsThatTrue (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
-                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode), Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id)," +
-                    "Elements STRING NOT NULL, Operators STRING NOT NULL," +
-                    "Variants STRING NOT NULL, SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL," +
-                    "MaxNumber INTEGER NOT NULL);" +
-
-                    "CREATE TABLE ComparisonMissingElements (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
-                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode), Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id)," +
-                    "Elements STRING NOT NULL, Operators STRING NOT NULL, Variants STRING NOT NULL," +
-                    "SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL, MaxNumber INTEGER NOT NULL);" +
-
-                    "CREATE TABLE MissingExpression (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
-                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode), Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id)," +
-                    "Elements STRING NOT NULL, Operators STRING NOT NULL, Variants STRING NOT NULL," +
-                    "SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL, MaxNumber INTEGER NOT NULL);" +
-
-                    "CREATE TABLE MissingNumber (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
-                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode), Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id)," +
-                    "Elements STRING NOT NULL, Operators STRING NOT NULL," +
-                    "Variants STRING NOT NULL, SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL," +
-                    "IsUserAnswerCorrect BOOLEAN NOT NULL, MaxNumber INTEGER NOT NULL);" +
-
-                    "CREATE TABLE MissingSign (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
-                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode), Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id)," +
-                    "Elements STRING NOT NULL, Operators STRING NOT NULL," +
-                    "Variants STRING NOT NULL, SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL," +
-                    "MaxNumber INTEGER NOT NULL);" +
-
-                    "CREATE TABLE OpenImage (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
+                    "CREATE TABLE OpenImage (Id INTEGER PRIMARY KEY NOT NULL UNIQUE," +
                     "ChallengeTypes INTEGER NOT NULL REFERENCES ChallengeTypes (TypeCode), Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Duration DOUBLE NOT NULL," +
                     "MaxNumber INTEGER NOT NULL, CorrectRate DOUBLE NOT NULL);" +
 
-                    "CREATE TABLE PairsNumbers (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
+                    "CREATE TABLE PairsNumbers (Id INTEGER PRIMARY KEY NOT NULL UNIQUE," +
                     "ChallengeTypes INTEGER NOT NULL REFERENCES ChallengeTypes (TypeCode), Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Duration DOUBLE NOT NULL," +
                     "MaxNumber INTEGER NOT NULL, CorrectRate DOUBLE NOT NULL);" +
 
@@ -462,53 +398,11 @@ namespace Mathy.Data
                     "OS STRING NOT NULL, OSVersion STRING NOT NULL, Level INTEGER NOT NULL, TotalExperience INTEGER NOT NULL, TotalAppTime INTEGER NOT NULL," +
                     "TotalCorrectAnswers INTEGER NOT NULL, TotalWrongAnswers INTEGER NOT NULL, TotalChallengesPlayed INTEGER NOT NULL);" +
 
-                    "CREATE TABLE SumOfNumbers (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
-                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode), Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id)," +
-                    "Elements STRING NOT NULL, Operators STRING NOT NULL," +
-                    "Variants STRING NOT NULL, SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL," +
-                    "MaxNumber INTEGER NOT NULL);" +
-
-                    "CREATE TABLE CountTo10Images (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
-                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode)," +
-                    "Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Elements STRING NOT NULL," +
-                    "Operators STRING NOT NULL, Variants STRING NOT NULL," +
-                    "SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL, " +
-                    "MaxNumber INTEGER NOT NULL);" +
-
-                    "CREATE TABLE SelectFromThreeCount (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
-                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode)," +
-                    "Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Elements STRING NOT NULL," +
-                    "Operators STRING NOT NULL, Variants STRING NOT NULL," +
-                    "SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL, " +
-                    "MaxNumber INTEGER NOT NULL);" +
-
-                    "CREATE TABLE CountTo10Frames (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
-                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode)," +
-                    "Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Elements STRING NOT NULL," +
-                    "Operators STRING NOT NULL, Variants STRING NOT NULL," +
-                    "SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL, " +
-                    "MaxNumber INTEGER NOT NULL);" +
-
-                    "CREATE TABLE CountTo20Frames (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, Seed INTEGER NOT NULL," +
-                    "TaskTypes INTEGER NOT NULL REFERENCES TaskTypes (TypeCode)," +
-                    "Duration DOUBLE NOT NULL, Mode INTEGER NOT NULL REFERENCES TaskMode (Id), Elements STRING NOT NULL," +
-                    "Operators STRING NOT NULL, Variants STRING NOT NULL," +
-                    "SelectedAnswers STRING NOT NULL, CorrectAnswers STRING NOT NULL, IsUserAnswerCorrect BOOLEAN NOT NULL, " +
-                    "MaxNumber INTEGER NOT NULL);" +
-
                     "CREATE TABLE SystemInfo(DatabaseVersion STRING NOT NULL UNIQUE,GameVersion STRING NOT NULL UNIQUE);" +
 
-                    "CREATE TABLE TaskMode(Id INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT, Name STRING NOT NULL, ModeCode INTEGER NOT NULL," +
+                     "CREATE TABLE TaskMode(Id INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT, Name STRING NOT NULL, ModeCode INTEGER NOT NULL," +
                     "Date STRING NOT NULL, IsModeDone BOOLEAN NOT NULL, LastTaskModeIndex INTEGER NOT NULL);" +
 
-                    "CREATE TABLE TaskStatistics (TaskType INTEGER PRIMARY KEY NOT NULL REFERENCES TaskTypes (TypeCode), CorrectAnswers INTEGER NOT NULL," +
-                    "WrongAnswers INTEGER NOT NULL, TotalPlayed INTEGER NOT NULL, CorrectRate DOUBLE NOT NULL, AverageTime DOUBLE NOT NULL," +
-                    "EndlessBestScore INTEGER NOT NULL, EasyBestScore INTEGER NOT NULL, MediumBestScore INTEGER NOT NULL, HardBestScore INTEGER NOT NULL);" +
-
-                    "CREATE TABLE SkillSettings (Id INTEGER PRIMARY KEY NOT NULL UNIQUE, SkillTypeIndex INTEGER NOT NULL," +
-                    "MaxNumber INTEGER NOT NULL, IsActive BOOLEAN NOT NULL, GradeIndex INTEGER NOT NULL);" +
-
-                    "CREATE TABLE TaskTypes (TypeCode INTEGER PRIMARY KEY UNIQUE NOT NULL, Name STRING NOT NULL);" +
                     "CREATE TABLE UserSettings (MaxNumber INTEGER NOT NULL, Language INTEGER NOT NULL, IsMusicOn BOOLEAN NOT NULL, IsSoundsOn BOOLEAN NOT NULL," +
                     "IsVibrationOn BOOLEAN NOT NULL, IsHelpTextOn BOOLEAN NOT NULL, IsHelpVoiceOn BOOLEAN NOT NULL, IsNotificationsOn BOOLEAN NOT NULL," +
                     "DailyRewardLastTime DOUBLE, DailyRewardCurrentDay DATE);";
@@ -707,575 +601,575 @@ namespace Mathy.Data
             return modeIds;
         }
 
-        private async System.Threading.Tasks.Task InsertTaskTables()
-        {
-            int modeId = await GetTaskModeId(DataToSave.Mode, DateTime.UtcNow);
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try
-                {
-                    connection.Open();
+        //private async System.Threading.Tasks.Task InsertTaskTables()
+        //{
+        //    int modeId = await GetTaskModeId(DataToSave.Mode, DateTime.UtcNow);
+        //    using (SqliteConnection connection = new SqliteConnection(databasePath))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
 
-                    string elements = String.Join(",", DataToSave.ElementValues);
-                    string operators = String.Join(",", DataToSave.OperatorValues);
-                    string variants = String.Join(",", DataToSave.VariantValues);
-                    string selectedAnswers = String.Join(",", DataToSave.SelectedAnswerIndexes);
-                    string correctAnswers = String.Join(",", DataToSave.CorrectAnswerIndexes);
+        //            string elements = String.Join(",", DataToSave.ElementValues);
+        //            string operators = String.Join(",", DataToSave.OperatorValues);
+        //            string variants = String.Join(",", DataToSave.VariantValues);
+        //            string selectedAnswers = String.Join(",", DataToSave.SelectedAnswerIndexes);
+        //            string correctAnswers = String.Join(",", DataToSave.CorrectAnswerIndexes);
 
-                    switch (DataToSave.TaskType)
-                    {
-                        case TaskType.Addition:
-                            {
-                                string query = "INSERT INTO Addition (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
-                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+        //            switch (DataToSave.TaskType)
+        //            {
+        //                case TaskType.Addition:
+        //                    {
+        //                        string query = "INSERT INTO Addition (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
+        //                            "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+        //                            "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
                   
-                                SqliteCommand AdditionCommand = new SqliteCommand(query, connection);
-                                AdditionCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                AdditionCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                AdditionCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
-                                AdditionCommand.Parameters.AddWithValue("@mode", modeId);
-                                AdditionCommand.Parameters.AddWithValue("@elements", elements);
-                                AdditionCommand.Parameters.AddWithValue("@operators", operators);
-                                AdditionCommand.Parameters.AddWithValue("@variants", variants);
-                                AdditionCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
-                                AdditionCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
-                                AdditionCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
-                                AdditionCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+        //                        SqliteCommand AdditionCommand = new SqliteCommand(query, connection);
+        //                        AdditionCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+        //                        AdditionCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+        //                        AdditionCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
+        //                        AdditionCommand.Parameters.AddWithValue("@mode", modeId);
+        //                        AdditionCommand.Parameters.AddWithValue("@elements", elements);
+        //                        AdditionCommand.Parameters.AddWithValue("@operators", operators);
+        //                        AdditionCommand.Parameters.AddWithValue("@variants", variants);
+        //                        AdditionCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+        //                        AdditionCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+        //                        AdditionCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+        //                        AdditionCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
                                 
-                                await AdditionCommand.ExecuteNonQueryAsync();
+        //                        await AdditionCommand.ExecuteNonQueryAsync();
 
-                                break;
-                            }
-                        case TaskType.Subtraction:
-                            {
-                                string query = "INSERT INTO Subtraction (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
-                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+        //                        break;
+        //                    }
+        //                case TaskType.Subtraction:
+        //                    {
+        //                        string query = "INSERT INTO Subtraction (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
+        //                            "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+        //                            "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
-                                SqliteCommand AddSubCommand = new SqliteCommand(query, connection);
-                                AddSubCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                AddSubCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                AddSubCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
-                                AddSubCommand.Parameters.AddWithValue("@mode", modeId);
-                                AddSubCommand.Parameters.AddWithValue("@elements", elements);
-                                AddSubCommand.Parameters.AddWithValue("@operators", operators);
-                                AddSubCommand.Parameters.AddWithValue("@variants", variants);
-                                AddSubCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
-                                AddSubCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
-                                AddSubCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
-                                AddSubCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+        //                        SqliteCommand AddSubCommand = new SqliteCommand(query, connection);
+        //                        AddSubCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+        //                        AddSubCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+        //                        AddSubCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
+        //                        AddSubCommand.Parameters.AddWithValue("@mode", modeId);
+        //                        AddSubCommand.Parameters.AddWithValue("@elements", elements);
+        //                        AddSubCommand.Parameters.AddWithValue("@operators", operators);
+        //                        AddSubCommand.Parameters.AddWithValue("@variants", variants);
+        //                        AddSubCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+        //                        AddSubCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+        //                        AddSubCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+        //                        AddSubCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
 
-                                await AddSubCommand.ExecuteNonQueryAsync();
+        //                        await AddSubCommand.ExecuteNonQueryAsync();
 
-                                break;
-                            }
+        //                        break;
+        //                    }
 
-                        case TaskType.AddSubMissingNumber:
-                            {
-                                string AddSubMissingQuery = "INSERT INTO AddSubMissingNumber (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
-                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+        //                case TaskType.AddSubMissingNumber:
+        //                    {
+        //                        string AddSubMissingQuery = "INSERT INTO AddSubMissingNumber (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
+        //                            "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+        //                            "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
-                                SqliteCommand AddSubMissingCommand = new SqliteCommand(AddSubMissingQuery, connection);
-                                AddSubMissingCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                AddSubMissingCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                AddSubMissingCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
-                                AddSubMissingCommand.Parameters.AddWithValue("@mode", modeId);
-                                AddSubMissingCommand.Parameters.AddWithValue("@elements", elements);
-                                AddSubMissingCommand.Parameters.AddWithValue("@operators", operators);
-                                AddSubMissingCommand.Parameters.AddWithValue("@variants", variants);
-                                AddSubMissingCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
-                                AddSubMissingCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
-                                AddSubMissingCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
-                                AddSubMissingCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+        //                        SqliteCommand AddSubMissingCommand = new SqliteCommand(AddSubMissingQuery, connection);
+        //                        AddSubMissingCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+        //                        AddSubMissingCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+        //                        AddSubMissingCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
+        //                        AddSubMissingCommand.Parameters.AddWithValue("@mode", modeId);
+        //                        AddSubMissingCommand.Parameters.AddWithValue("@elements", elements);
+        //                        AddSubMissingCommand.Parameters.AddWithValue("@operators", operators);
+        //                        AddSubMissingCommand.Parameters.AddWithValue("@variants", variants);
+        //                        AddSubMissingCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+        //                        AddSubMissingCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+        //                        AddSubMissingCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+        //                        AddSubMissingCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
 
-                                await AddSubMissingCommand.ExecuteNonQueryAsync();
-                                break;
-                            }
-                        case TaskType.Comparison:
-                            {
-                                string ComparisonQuery = "INSERT INTO Comparison (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
-                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+        //                        await AddSubMissingCommand.ExecuteNonQueryAsync();
+        //                        break;
+        //                    }
+        //                case TaskType.Comparison:
+        //                    {
+        //                        string ComparisonQuery = "INSERT INTO Comparison (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
+        //                            "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+        //                            "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
-                                SqliteCommand ComparisonCommand = new SqliteCommand(ComparisonQuery, connection);
-                                ComparisonCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                ComparisonCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                ComparisonCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
-                                ComparisonCommand.Parameters.AddWithValue("@mode", modeId);
-                                ComparisonCommand.Parameters.AddWithValue("@elements", elements);
-                                ComparisonCommand.Parameters.AddWithValue("@operators", operators);
-                                ComparisonCommand.Parameters.AddWithValue("@variants", variants);
-                                ComparisonCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
-                                ComparisonCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
-                                ComparisonCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
-                                ComparisonCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+        //                        SqliteCommand ComparisonCommand = new SqliteCommand(ComparisonQuery, connection);
+        //                        ComparisonCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+        //                        ComparisonCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+        //                        ComparisonCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
+        //                        ComparisonCommand.Parameters.AddWithValue("@mode", modeId);
+        //                        ComparisonCommand.Parameters.AddWithValue("@elements", elements);
+        //                        ComparisonCommand.Parameters.AddWithValue("@operators", operators);
+        //                        ComparisonCommand.Parameters.AddWithValue("@variants", variants);
+        //                        ComparisonCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+        //                        ComparisonCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+        //                        ComparisonCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+        //                        ComparisonCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
 
-                                await ComparisonCommand.ExecuteNonQueryAsync();
-                                break;
-                            }
-                        case TaskType.ComparisonExpressions:
-                            {
-                                string ExpressionsComparisonQuery = "INSERT INTO ExpressionsComparison (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
-                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+        //                        await ComparisonCommand.ExecuteNonQueryAsync();
+        //                        break;
+        //                    }
+        //                case TaskType.ComparisonExpressions:
+        //                    {
+        //                        string ExpressionsComparisonQuery = "INSERT INTO ExpressionsComparison (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
+        //                            "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+        //                            "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
-                                SqliteCommand ExpressionsComparisonCommand = new SqliteCommand(ExpressionsComparisonQuery, connection);
-                                ExpressionsComparisonCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                ExpressionsComparisonCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                ExpressionsComparisonCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
-                                ExpressionsComparisonCommand.Parameters.AddWithValue("@mode", modeId);
-                                ExpressionsComparisonCommand.Parameters.AddWithValue("@elements", elements);
-                                ExpressionsComparisonCommand.Parameters.AddWithValue("@operators", operators);
-                                ExpressionsComparisonCommand.Parameters.AddWithValue("@variants", variants);
-                                ExpressionsComparisonCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
-                                ExpressionsComparisonCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
-                                ExpressionsComparisonCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
-                                ExpressionsComparisonCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+        //                        SqliteCommand ExpressionsComparisonCommand = new SqliteCommand(ExpressionsComparisonQuery, connection);
+        //                        ExpressionsComparisonCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+        //                        ExpressionsComparisonCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+        //                        ExpressionsComparisonCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
+        //                        ExpressionsComparisonCommand.Parameters.AddWithValue("@mode", modeId);
+        //                        ExpressionsComparisonCommand.Parameters.AddWithValue("@elements", elements);
+        //                        ExpressionsComparisonCommand.Parameters.AddWithValue("@operators", operators);
+        //                        ExpressionsComparisonCommand.Parameters.AddWithValue("@variants", variants);
+        //                        ExpressionsComparisonCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+        //                        ExpressionsComparisonCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+        //                        ExpressionsComparisonCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+        //                        ExpressionsComparisonCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
 
-                                await ExpressionsComparisonCommand.ExecuteNonQueryAsync();
-                                break;
-                            }
-                        case TaskType.ComparisonWithMissingNumber:
-                            {
-                                string ComparisonMissingNumQuery = "INSERT INTO ComparisonWithMissingNumber (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
-                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+        //                        await ExpressionsComparisonCommand.ExecuteNonQueryAsync();
+        //                        break;
+        //                    }
+        //                case TaskType.ComparisonWithMissingNumber:
+        //                    {
+        //                        string ComparisonMissingNumQuery = "INSERT INTO ComparisonWithMissingNumber (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
+        //                            "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+        //                            "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
-                                SqliteCommand ComparisonMissingNumCommand = new SqliteCommand(ComparisonMissingNumQuery, connection);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@mode", modeId);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@elements", elements);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@operators", operators);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@variants", variants);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+        //                        SqliteCommand ComparisonMissingNumCommand = new SqliteCommand(ComparisonMissingNumQuery, connection);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@mode", modeId);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@elements", elements);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@operators", operators);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@variants", variants);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
 
-                                await ComparisonMissingNumCommand.ExecuteNonQueryAsync();
-                                break;
-                            }
-                        case TaskType.ComparisonMissingElements:
-                            {
-                                string ComparisonMissingNumQuery = "INSERT INTO ComparisonMissingElements (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
-                                "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+        //                        await ComparisonMissingNumCommand.ExecuteNonQueryAsync();
+        //                        break;
+        //                    }
+        //                case TaskType.ComparisonMissingElements:
+        //                    {
+        //                        string ComparisonMissingNumQuery = "INSERT INTO ComparisonMissingElements (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
+        //                        "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+        //                        "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
-                                SqliteCommand ComparisonMissingNumCommand = new SqliteCommand(ComparisonMissingNumQuery, connection);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@mode", modeId);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@elements", elements);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@operators", operators);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@variants", variants);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+        //                        SqliteCommand ComparisonMissingNumCommand = new SqliteCommand(ComparisonMissingNumQuery, connection);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@mode", modeId);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@elements", elements);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@operators", operators);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@variants", variants);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
 
-                                await ComparisonMissingNumCommand.ExecuteNonQueryAsync();
-                                break;
-                                break;
-                            }
-                        case TaskType.MissingExpression:
-                            {
-                                string MissingExpQuery = "INSERT INTO MissingExpression (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
-                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+        //                        await ComparisonMissingNumCommand.ExecuteNonQueryAsync();
+        //                        break;
+        //                        break;
+        //                    }
+        //                case TaskType.MissingExpression:
+        //                    {
+        //                        string MissingExpQuery = "INSERT INTO MissingExpression (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
+        //                            "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+        //                            "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
-                                SqliteCommand MissingExpCommand = new SqliteCommand(MissingExpQuery, connection);
-                                MissingExpCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                MissingExpCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                MissingExpCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
-                                MissingExpCommand.Parameters.AddWithValue("@mode", modeId);
-                                MissingExpCommand.Parameters.AddWithValue("@elements", elements);
-                                MissingExpCommand.Parameters.AddWithValue("@operators", operators);
-                                MissingExpCommand.Parameters.AddWithValue("@variants", variants);
-                                MissingExpCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
-                                MissingExpCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
-                                MissingExpCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
-                                MissingExpCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+        //                        SqliteCommand MissingExpCommand = new SqliteCommand(MissingExpQuery, connection);
+        //                        MissingExpCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+        //                        MissingExpCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+        //                        MissingExpCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
+        //                        MissingExpCommand.Parameters.AddWithValue("@mode", modeId);
+        //                        MissingExpCommand.Parameters.AddWithValue("@elements", elements);
+        //                        MissingExpCommand.Parameters.AddWithValue("@operators", operators);
+        //                        MissingExpCommand.Parameters.AddWithValue("@variants", variants);
+        //                        MissingExpCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+        //                        MissingExpCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+        //                        MissingExpCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+        //                        MissingExpCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
 
-                                await MissingExpCommand.ExecuteNonQueryAsync();
-                                break;
-                            }
-                        case TaskType.MissingNumber:
-                            {
-                                string ComparisonMissingNumQuery = "INSERT INTO MissingNumber (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
-                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+        //                        await MissingExpCommand.ExecuteNonQueryAsync();
+        //                        break;
+        //                    }
+        //                case TaskType.MissingNumber:
+        //                    {
+        //                        string ComparisonMissingNumQuery = "INSERT INTO MissingNumber (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
+        //                            "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+        //                            "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
-                                SqliteCommand ComparisonMissingNumCommand = new SqliteCommand(ComparisonMissingNumQuery, connection);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@mode", modeId);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@elements", elements);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@operators", operators);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@variants", variants);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
-                                ComparisonMissingNumCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+        //                        SqliteCommand ComparisonMissingNumCommand = new SqliteCommand(ComparisonMissingNumQuery, connection);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@mode", modeId);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@elements", elements);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@operators", operators);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@variants", variants);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+        //                        ComparisonMissingNumCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
 
-                                await ComparisonMissingNumCommand.ExecuteNonQueryAsync();
-                                break;
-                            }
-                        case TaskType.IsThatTrue:
-                            {
-                                string IsThatTrueQuery = "INSERT INTO IsThatTrue (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
-                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+        //                        await ComparisonMissingNumCommand.ExecuteNonQueryAsync();
+        //                        break;
+        //                    }
+        //                case TaskType.IsThatTrue:
+        //                    {
+        //                        string IsThatTrueQuery = "INSERT INTO IsThatTrue (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
+        //                            "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+        //                            "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
-                                SqliteCommand IsThatTrueCommand = new SqliteCommand(IsThatTrueQuery, connection);
-                                IsThatTrueCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                IsThatTrueCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                IsThatTrueCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
-                                IsThatTrueCommand.Parameters.AddWithValue("@mode", modeId);
-                                IsThatTrueCommand.Parameters.AddWithValue("@elements", elements);
-                                IsThatTrueCommand.Parameters.AddWithValue("@operators", operators);
-                                IsThatTrueCommand.Parameters.AddWithValue("@variants", variants);
-                                IsThatTrueCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
-                                IsThatTrueCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
-                                IsThatTrueCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
-                                IsThatTrueCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+        //                        SqliteCommand IsThatTrueCommand = new SqliteCommand(IsThatTrueQuery, connection);
+        //                        IsThatTrueCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+        //                        IsThatTrueCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+        //                        IsThatTrueCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
+        //                        IsThatTrueCommand.Parameters.AddWithValue("@mode", modeId);
+        //                        IsThatTrueCommand.Parameters.AddWithValue("@elements", elements);
+        //                        IsThatTrueCommand.Parameters.AddWithValue("@operators", operators);
+        //                        IsThatTrueCommand.Parameters.AddWithValue("@variants", variants);
+        //                        IsThatTrueCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+        //                        IsThatTrueCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+        //                        IsThatTrueCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+        //                        IsThatTrueCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
 
-                                await IsThatTrueCommand.ExecuteNonQueryAsync();
-                                break;
-                            }
-                        case TaskType.MissingSign:
-                            {
-                                string MissingSignQuery = "INSERT INTO MissingSign (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
-                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+        //                        await IsThatTrueCommand.ExecuteNonQueryAsync();
+        //                        break;
+        //                    }
+        //                case TaskType.MissingSign:
+        //                    {
+        //                        string MissingSignQuery = "INSERT INTO MissingSign (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
+        //                            "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+        //                            "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
-                                SqliteCommand MissingSignCommand = new SqliteCommand(MissingSignQuery, connection);
-                                MissingSignCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                MissingSignCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                MissingSignCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
-                                MissingSignCommand.Parameters.AddWithValue("@mode", modeId);
-                                MissingSignCommand.Parameters.AddWithValue("@elements", elements);
-                                MissingSignCommand.Parameters.AddWithValue("@operators", operators);
-                                MissingSignCommand.Parameters.AddWithValue("@variants", variants);
-                                MissingSignCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
-                                MissingSignCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
-                                MissingSignCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
-                                MissingSignCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+        //                        SqliteCommand MissingSignCommand = new SqliteCommand(MissingSignQuery, connection);
+        //                        MissingSignCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+        //                        MissingSignCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+        //                        MissingSignCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
+        //                        MissingSignCommand.Parameters.AddWithValue("@mode", modeId);
+        //                        MissingSignCommand.Parameters.AddWithValue("@elements", elements);
+        //                        MissingSignCommand.Parameters.AddWithValue("@operators", operators);
+        //                        MissingSignCommand.Parameters.AddWithValue("@variants", variants);
+        //                        MissingSignCommand.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+        //                        MissingSignCommand.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+        //                        MissingSignCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+        //                        MissingSignCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
 
-                                await MissingSignCommand.ExecuteNonQueryAsync();
-                                break;
-                            }
-                        case TaskType.SumOfNumbers:
-                            {
-                                string SumOfNumbersQuery = "INSERT INTO SumOfNumbers (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
-                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnswers, @correctAnswers, @isUserCorrect, @maxNumb);";
+        //                        await MissingSignCommand.ExecuteNonQueryAsync();
+        //                        break;
+        //                    }
+        //                case TaskType.SumOfNumbers:
+        //                    {
+        //                        string SumOfNumbersQuery = "INSERT INTO SumOfNumbers (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
+        //                            "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+        //                            "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnswers, @correctAnswers, @isUserCorrect, @maxNumb);";
 
-                                SqliteCommand SumOfNumbersCommand = new SqliteCommand(SumOfNumbersQuery, connection);
-                                SumOfNumbersCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                SumOfNumbersCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                SumOfNumbersCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
-                                SumOfNumbersCommand.Parameters.AddWithValue("@mode", modeId);
-                                SumOfNumbersCommand.Parameters.AddWithValue("@elements", elements);
-                                SumOfNumbersCommand.Parameters.AddWithValue("@operators", operators);
-                                SumOfNumbersCommand.Parameters.AddWithValue("@variants", variants);
-                                SumOfNumbersCommand.Parameters.AddWithValue("@selectedAnswers", selectedAnswers);
-                                SumOfNumbersCommand.Parameters.AddWithValue("@correctAnswers", correctAnswers);
-                                SumOfNumbersCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
-                                SumOfNumbersCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+        //                        SqliteCommand SumOfNumbersCommand = new SqliteCommand(SumOfNumbersQuery, connection);
+        //                        SumOfNumbersCommand.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+        //                        SumOfNumbersCommand.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+        //                        SumOfNumbersCommand.Parameters.AddWithValue("@duration", DataToSave.Duration);
+        //                        SumOfNumbersCommand.Parameters.AddWithValue("@mode", modeId);
+        //                        SumOfNumbersCommand.Parameters.AddWithValue("@elements", elements);
+        //                        SumOfNumbersCommand.Parameters.AddWithValue("@operators", operators);
+        //                        SumOfNumbersCommand.Parameters.AddWithValue("@variants", variants);
+        //                        SumOfNumbersCommand.Parameters.AddWithValue("@selectedAnswers", selectedAnswers);
+        //                        SumOfNumbersCommand.Parameters.AddWithValue("@correctAnswers", correctAnswers);
+        //                        SumOfNumbersCommand.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+        //                        SumOfNumbersCommand.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
 
-                                await SumOfNumbersCommand.ExecuteNonQueryAsync();
-                                break;
-                            }
-                        case TaskType.CountTo10Images:
-                            {
-                                string query = "INSERT INTO CountTo10Images (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
-                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+        //                        await SumOfNumbersCommand.ExecuteNonQueryAsync();
+        //                        break;
+        //                    }
+        //                case TaskType.CountTo10Images:
+        //                    {
+        //                        string query = "INSERT INTO CountTo10Images (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
+        //                            "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+        //                            "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
-                                SqliteCommand command = new SqliteCommand(query, connection);
-                                command.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                command.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                command.Parameters.AddWithValue("@duration", DataToSave.Duration);
-                                command.Parameters.AddWithValue("@mode", modeId);
-                                command.Parameters.AddWithValue("@elements", elements);
-                                command.Parameters.AddWithValue("@operators", operators);
-                                command.Parameters.AddWithValue("@variants", variants);
-                                command.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
-                                command.Parameters.AddWithValue("@correctAnsw", correctAnswers);
-                                command.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
-                                command.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+        //                        SqliteCommand command = new SqliteCommand(query, connection);
+        //                        command.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+        //                        command.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+        //                        command.Parameters.AddWithValue("@duration", DataToSave.Duration);
+        //                        command.Parameters.AddWithValue("@mode", modeId);
+        //                        command.Parameters.AddWithValue("@elements", elements);
+        //                        command.Parameters.AddWithValue("@operators", operators);
+        //                        command.Parameters.AddWithValue("@variants", variants);
+        //                        command.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+        //                        command.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+        //                        command.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+        //                        command.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
 
-                                await command.ExecuteNonQueryAsync();
-                                break;
-                            }
-                        case TaskType.CountTo10WhichShows:
-                            {
-                                string query = "INSERT INTO SelectFromThreeCount (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
-                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+        //                        await command.ExecuteNonQueryAsync();
+        //                        break;
+        //                    }
+        //                case TaskType.CountTo10WhichShows:
+        //                    {
+        //                        string query = "INSERT INTO SelectFromThreeCount (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
+        //                            "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+        //                            "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
-                                SqliteCommand command = new SqliteCommand(query, connection);
-                                command.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                command.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                command.Parameters.AddWithValue("@duration", DataToSave.Duration);
-                                command.Parameters.AddWithValue("@mode", modeId);
-                                command.Parameters.AddWithValue("@elements", elements);
-                                command.Parameters.AddWithValue("@operators", operators);
-                                command.Parameters.AddWithValue("@variants", variants);
-                                command.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
-                                command.Parameters.AddWithValue("@correctAnsw", correctAnswers);
-                                command.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
-                                command.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+        //                        SqliteCommand command = new SqliteCommand(query, connection);
+        //                        command.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+        //                        command.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+        //                        command.Parameters.AddWithValue("@duration", DataToSave.Duration);
+        //                        command.Parameters.AddWithValue("@mode", modeId);
+        //                        command.Parameters.AddWithValue("@elements", elements);
+        //                        command.Parameters.AddWithValue("@operators", operators);
+        //                        command.Parameters.AddWithValue("@variants", variants);
+        //                        command.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+        //                        command.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+        //                        command.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+        //                        command.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
 
-                                await command.ExecuteNonQueryAsync();
-                                break;
-                            }
+        //                        await command.ExecuteNonQueryAsync();
+        //                        break;
+        //                    }
 
-                        case TaskType.CountTo10Frames:
-                            {
-                                string query = "INSERT INTO CountTo10Frames (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
-                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+        //                case TaskType.CountTo10Frames:
+        //                    {
+        //                        string query = "INSERT INTO CountTo10Frames (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
+        //                            "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+        //                            "VALUES( @id, @seed, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
-                                SqliteCommand command = new SqliteCommand(query, connection);
-                                command.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                command.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                command.Parameters.AddWithValue("@duration", DataToSave.Duration);
-                                command.Parameters.AddWithValue("@mode", modeId);
-                                command.Parameters.AddWithValue("@elements", elements);
-                                command.Parameters.AddWithValue("@operators", operators);
-                                command.Parameters.AddWithValue("@variants", variants);
-                                command.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
-                                command.Parameters.AddWithValue("@correctAnsw", correctAnswers);
-                                command.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
-                                command.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+        //                        SqliteCommand command = new SqliteCommand(query, connection);
+        //                        command.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+        //                        command.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+        //                        command.Parameters.AddWithValue("@duration", DataToSave.Duration);
+        //                        command.Parameters.AddWithValue("@mode", modeId);
+        //                        command.Parameters.AddWithValue("@elements", elements);
+        //                        command.Parameters.AddWithValue("@operators", operators);
+        //                        command.Parameters.AddWithValue("@variants", variants);
+        //                        command.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+        //                        command.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+        //                        command.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+        //                        command.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
 
-                                await command.ExecuteNonQueryAsync();
-                                break;
-                            }
-                        case TaskType.CountTo20Frames:
-                            {
-                                string query = "INSERT INTO CountTo20Frames (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
-                                    "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
-                                    "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
+        //                        await command.ExecuteNonQueryAsync();
+        //                        break;
+        //                    }
+        //                case TaskType.CountTo20Frames:
+        //                    {
+        //                        string query = "INSERT INTO CountTo20Frames (Id, TaskTypes, Duration, Mode, Elements, Operators, " +
+        //                            "Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, MaxNumber) " +
+        //                            "VALUES( @id, @taskType, @duration, @mode, @elements, @operators, @variants, @selectedAnsw, @correctAnsw, @isUserCorrect, @maxNumb);";
 
-                                SqliteCommand command = new SqliteCommand(query, connection);
-                                command.Parameters.AddWithValue("@id", await GetTaskUniqueID());
-                                command.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
-                                command.Parameters.AddWithValue("@duration", DataToSave.Duration);
-                                command.Parameters.AddWithValue("@mode", modeId);
-                                command.Parameters.AddWithValue("@elements", elements);
-                                command.Parameters.AddWithValue("@operators", operators);
-                                command.Parameters.AddWithValue("@variants", variants);
-                                command.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
-                                command.Parameters.AddWithValue("@correctAnsw", correctAnswers);
-                                command.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
-                                command.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
+        //                        SqliteCommand command = new SqliteCommand(query, connection);
+        //                        command.Parameters.AddWithValue("@id", await GetTaskUniqueID());
+        //                        command.Parameters.AddWithValue("@taskType", (int)DataToSave.TaskType);
+        //                        command.Parameters.AddWithValue("@duration", DataToSave.Duration);
+        //                        command.Parameters.AddWithValue("@mode", modeId);
+        //                        command.Parameters.AddWithValue("@elements", elements);
+        //                        command.Parameters.AddWithValue("@operators", operators);
+        //                        command.Parameters.AddWithValue("@variants", variants);
+        //                        command.Parameters.AddWithValue("@selectedAnsw", selectedAnswers);
+        //                        command.Parameters.AddWithValue("@correctAnsw", correctAnswers);
+        //                        command.Parameters.AddWithValue("@isUserCorrect", DataToSave.IsAnswerCorrect);
+        //                        command.Parameters.AddWithValue("@maxNumb", GameSettingsManager.Instance.MaxNumber);
 
-                                await command.ExecuteNonQueryAsync();
-                                break;
-                            }
-                    }
-                    connection.Close();
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError("Some SaveTaskData error: " + e.ToString());
-                }
-            }
-        }
+        //                        await command.ExecuteNonQueryAsync();
+        //                        break;
+        //                    }
+        //            }
+        //            connection.Close();
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.LogError("Some SaveTaskData error: " + e.ToString());
+        //        }
+        //    }
+        //}
 
 
-        private async System.Threading.Tasks.Task UpdateTaskStatisticTables(TaskType type)
-        {
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try
-                {
-                    connection.Open();
+        //private async System.Threading.Tasks.Task UpdateTaskStatisticTables(TaskType type)
+        //{
+        //    using (SqliteConnection connection = new SqliteConnection(databasePath))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
 
-                    string AddQuery = "";
-                    SqliteCommand AddCommand;
-                    if (await IsTaskStatisticExists(DataToSave.TaskType))
-                    {
-                        AddQuery = "UPDATE TaskStatistics SET CorrectAnswers = @correctAnsw, WrongAnswers = @wrongAnsw, " +
-                        " TotalPlayed = @totalPlayed, CorrectRate = @rate, AverageTime = @time" +
-                        " WHERE TaskType = @type;";
+        //            string AddQuery = "";
+        //            SqliteCommand AddCommand;
+        //            if (await IsTaskStatisticExists(DataToSave.TaskType))
+        //            {
+        //                AddQuery = "UPDATE TaskStatistics SET CorrectAnswers = @correctAnsw, WrongAnswers = @wrongAnsw, " +
+        //                " TotalPlayed = @totalPlayed, CorrectRate = @rate, AverageTime = @time" +
+        //                " WHERE TaskType = @type;";
                                     
-                        AddCommand = new SqliteCommand(AddQuery, connection);
-                        AddCommand.Parameters.AddWithValue("@type", (int)type);
+        //                AddCommand = new SqliteCommand(AddQuery, connection);
+        //                AddCommand.Parameters.AddWithValue("@type", (int)type);
 
-                        TaskStatisticData statisticData = await GetTaskStatisticData(type);
+        //                TaskStatisticData statisticData = await GetTaskStatisticData(type);
 
-                        if (statisticData!= null) 
-                        {
+        //                if (statisticData!= null) 
+        //                {
 
-                            if (DataToSave.IsAnswerCorrect)
-                            {
-                                AddCommand.Parameters.AddWithValue("@correctAnsw", statisticData.CorrectAnswers + 1);
-                                AddCommand.Parameters.AddWithValue("@wrongAnsw", statisticData.WrongAnswers );
-                            }
-                            else
-                            {
-                                AddCommand.Parameters.AddWithValue("@correctAnsw", statisticData.CorrectAnswers );
-                                AddCommand.Parameters.AddWithValue("@wrongAnsw", statisticData.WrongAnswers + 1 );
-                            }
-                            AddCommand.Parameters.AddWithValue("@totalPlayed", statisticData.TotalPlayed + 1 );
+        //                    if (DataToSave.IsAnswerCorrect)
+        //                    {
+        //                        AddCommand.Parameters.AddWithValue("@correctAnsw", statisticData.CorrectAnswers + 1);
+        //                        AddCommand.Parameters.AddWithValue("@wrongAnsw", statisticData.WrongAnswers );
+        //                    }
+        //                    else
+        //                    {
+        //                        AddCommand.Parameters.AddWithValue("@correctAnsw", statisticData.CorrectAnswers );
+        //                        AddCommand.Parameters.AddWithValue("@wrongAnsw", statisticData.WrongAnswers + 1 );
+        //                    }
+        //                    AddCommand.Parameters.AddWithValue("@totalPlayed", statisticData.TotalPlayed + 1 );
                                         
-                            //Temp like this
-                            AddCommand.Parameters.AddWithValue("@rate", 1);
-                            AddCommand.Parameters.AddWithValue("@time", 1);
-                        }
-                        else
-                        {
-                            throw new ArgumentOutOfRangeException();
-                        }
+        //                    //Temp like this
+        //                    AddCommand.Parameters.AddWithValue("@rate", 1);
+        //                    AddCommand.Parameters.AddWithValue("@time", 1);
+        //                }
+        //                else
+        //                {
+        //                    throw new ArgumentOutOfRangeException();
+        //                }
                                     
-                    }
-                    else
-                    {
-                        AddQuery = "INSERT INTO TaskStatistics ( TaskType, CorrectAnswers, WrongAnswers, TotalPlayed, CorrectRate, " +
-                        "AverageTime, EndlessBestScore, EasyBestScore, MediumBestScore, HardBestScore) " +
-                        "VALUES ( @type, @correctAnsw, @wrongAnsw, @totalPlayed, @rate, @time, @endlesscore, @easyScore, @mediumScore, @hardScore );";
+        //            }
+        //            else
+        //            {
+        //                AddQuery = "INSERT INTO TaskStatistics ( TaskType, CorrectAnswers, WrongAnswers, TotalPlayed, CorrectRate, " +
+        //                "AverageTime, EndlessBestScore, EasyBestScore, MediumBestScore, HardBestScore) " +
+        //                "VALUES ( @type, @correctAnsw, @wrongAnsw, @totalPlayed, @rate, @time, @endlesscore, @easyScore, @mediumScore, @hardScore );";
 
-                        AddCommand = new SqliteCommand(AddQuery, connection);
-                        AddCommand.Parameters.AddWithValue("@type", (int)type);
-                        if (DataToSave.IsAnswerCorrect)
-                        {
-                            AddCommand.Parameters.AddWithValue("@correctAnsw", 1);
-                            AddCommand.Parameters.AddWithValue("@wrongAnsw", 0);
-                            AddCommand.Parameters.AddWithValue("@rate", 1);
-                        }
-                        else
-                        {
-                            AddCommand.Parameters.AddWithValue("@correctAnsw", 0);
-                            AddCommand.Parameters.AddWithValue("@wrongAnsw", 1);
-                            AddCommand.Parameters.AddWithValue("@rate", 0);
-                        }
+        //                AddCommand = new SqliteCommand(AddQuery, connection);
+        //                AddCommand.Parameters.AddWithValue("@type", (int)type);
+        //                if (DataToSave.IsAnswerCorrect)
+        //                {
+        //                    AddCommand.Parameters.AddWithValue("@correctAnsw", 1);
+        //                    AddCommand.Parameters.AddWithValue("@wrongAnsw", 0);
+        //                    AddCommand.Parameters.AddWithValue("@rate", 1);
+        //                }
+        //                else
+        //                {
+        //                    AddCommand.Parameters.AddWithValue("@correctAnsw", 0);
+        //                    AddCommand.Parameters.AddWithValue("@wrongAnsw", 1);
+        //                    AddCommand.Parameters.AddWithValue("@rate", 0);
+        //                }
 
-                        AddCommand.Parameters.AddWithValue("@totalPlayed", 1);
-                        AddCommand.Parameters.AddWithValue("@time", DataToSave.Duration);
-                        AddCommand.Parameters.AddWithValue("@endlesScore", 0);
-                        AddCommand.Parameters.AddWithValue("@easyScore", 0);
-                        AddCommand.Parameters.AddWithValue("@mediumScore", 0);
-                        AddCommand.Parameters.AddWithValue("@hardScore", 0);
-                    }
+        //                AddCommand.Parameters.AddWithValue("@totalPlayed", 1);
+        //                AddCommand.Parameters.AddWithValue("@time", DataToSave.Duration);
+        //                AddCommand.Parameters.AddWithValue("@endlesScore", 0);
+        //                AddCommand.Parameters.AddWithValue("@easyScore", 0);
+        //                AddCommand.Parameters.AddWithValue("@mediumScore", 0);
+        //                AddCommand.Parameters.AddWithValue("@hardScore", 0);
+        //            }
 
-                    await AddCommand.ExecuteNonQueryAsync();
+        //            await AddCommand.ExecuteNonQueryAsync();
 
-                    connection.Close();
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError("Some UpdateTaskStatisticTables error: " + e.ToString());
-                }
-            }
-        }
+        //            connection.Close();
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.LogError("Some UpdateTaskStatisticTables error: " + e.ToString());
+        //        }
+        //    }
+        //}
 
-        private async System.Threading.Tasks.Task<TaskStatisticData> GetTaskStatisticData(TaskType type)
-        {
-            TaskStatisticData statisticData = new TaskStatisticData();
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try
-                {
-                    connection.Open();
+        //private async System.Threading.Tasks.Task<TaskStatisticData> GetTaskStatisticData(TaskType type)
+        //{
+        //    TaskStatisticData statisticData = new TaskStatisticData();
+        //    using (SqliteConnection connection = new SqliteConnection(databasePath))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
 
-                    string GetTaskStatisticDataQuery = "SELECT CorrectAnswers, WrongAnswers, TotalPlayed, CorrectRate, AverageTime " +
-                        "FROM TaskStatistics WHERE TaskType = @type;";
+        //            string GetTaskStatisticDataQuery = "SELECT CorrectAnswers, WrongAnswers, TotalPlayed, CorrectRate, AverageTime " +
+        //                "FROM TaskStatistics WHERE TaskType = @type;";
 
-                    SqliteCommand GetTaskStatisticDataCommand = new SqliteCommand(GetTaskStatisticDataQuery, connection);
-                    GetTaskStatisticDataCommand.Parameters.AddWithValue("@type", (int)type );
+        //            SqliteCommand GetTaskStatisticDataCommand = new SqliteCommand(GetTaskStatisticDataQuery, connection);
+        //            GetTaskStatisticDataCommand.Parameters.AddWithValue("@type", (int)type );
 
-                    using (var GetModeIdReader = await GetTaskStatisticDataCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection))
-                    {
-                        while (await GetModeIdReader.ReadAsync())
-                        {
-                            statisticData.CorrectAnswers = Convert.ToInt32(GetModeIdReader[0]);
-                            statisticData.WrongAnswers = Convert.ToInt32(GetModeIdReader[1]);
-                            statisticData.TotalPlayed = Convert.ToInt32(GetModeIdReader[2]);
-                            statisticData.CorrectRate = Convert.ToDouble(GetModeIdReader[3]);
-                            statisticData.AverageTime = Convert.ToDouble(GetModeIdReader[4]);
-                        }
-                    }
+        //            using (var GetModeIdReader = await GetTaskStatisticDataCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection))
+        //            {
+        //                while (await GetModeIdReader.ReadAsync())
+        //                {
+        //                    statisticData.CorrectAnswers = Convert.ToInt32(GetModeIdReader[0]);
+        //                    statisticData.WrongAnswers = Convert.ToInt32(GetModeIdReader[1]);
+        //                    statisticData.TotalPlayed = Convert.ToInt32(GetModeIdReader[2]);
+        //                    statisticData.CorrectRate = Convert.ToDouble(GetModeIdReader[3]);
+        //                    statisticData.AverageTime = Convert.ToDouble(GetModeIdReader[4]);
+        //                }
+        //            }
 
-                    connection.Close();
+        //            connection.Close();
 
-                    return statisticData;
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError("Some UpdateTaskStatisticTables error: " + e.ToString());
-                }
-            }
-            return null;
-        }
+        //            return statisticData;
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.LogError("Some UpdateTaskStatisticTables error: " + e.ToString());
+        //        }
+        //    }
+        //    return null;
+        //}
 
-        private async System.Threading.Tasks.Task<bool> IsTaskStatisticExists(TaskType type)
-        {
-            bool result = false;
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try
-                {
-                    connection.Open();
+        //private async System.Threading.Tasks.Task<bool> IsTaskStatisticExists(TaskType type)
+        //{
+        //    bool result = false;
+        //    using (SqliteConnection connection = new SqliteConnection(databasePath))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
 
-                    string query = "SELECT EXISTS( SELECT 1 FROM TaskStatistics WHERE TaskType = @type LIMIT 1 );";
+        //            string query = "SELECT EXISTS( SELECT 1 FROM TaskStatistics WHERE TaskType = @type LIMIT 1 );";
 
-                    SqliteCommand command = new SqliteCommand(query, connection);
-                    command.Parameters.AddWithValue("@type", (int)type);
-                    result = Convert.ToBoolean(await command.ExecuteScalarAsync());
+        //            SqliteCommand command = new SqliteCommand(query, connection);
+        //            command.Parameters.AddWithValue("@type", (int)type);
+        //            result = Convert.ToBoolean(await command.ExecuteScalarAsync());
 
-                    connection.Close();
+        //            connection.Close();
 
-                    return result;
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError("Some UpdateTaskStatisticTables error: " + e.ToString());
-                }
-            }
-            return result;
-        }
+        //            return result;
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.LogError("Some UpdateTaskStatisticTables error: " + e.ToString());
+        //        }
+        //    }
+        //    return result;
+        //}
 
 
         //Saving task data to database
-        public async void SaveTaskData()
-        {
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try
-                {
-                    connection.Open();
+        //public async void SaveTaskData()
+        //{
+        //    using (SqliteConnection connection = new SqliteConnection(databasePath))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
 
-                    string TaskModeQuery = "INSERT INTO TaskMode (Name, ModeCode, Date, LastTaskModeIndex) " +
-                        "VALUES(@name, @mode, @date, @lastIndex);";
+        //            string TaskModeQuery = "INSERT INTO TaskMode (Name, ModeCode, Date, LastTaskModeIndex) " +
+        //                "VALUES(@name, @mode, @date, @lastIndex);";
 
-                    SqliteCommand TaskModeCommand = new SqliteCommand(TaskModeQuery, connection);
-                    TaskModeCommand.Parameters.AddWithValue("@name", DataToSave.Mode.ToString());
-                    TaskModeCommand.Parameters.AddWithValue("@mode", (int)DataToSave.Mode);
-                    TaskModeCommand.Parameters.AddWithValue("@date", DateTime.UtcNow.ToString("yyyy-MM-dd"));
-                   // TaskModeCommand.Parameters.AddWithValue("@lastIndex", DataToSave.TaskModeIndex);
-                    await TaskModeCommand.ExecuteNonQueryAsync();
+        //            SqliteCommand TaskModeCommand = new SqliteCommand(TaskModeQuery, connection);
+        //            TaskModeCommand.Parameters.AddWithValue("@name", DataToSave.Mode.ToString());
+        //            TaskModeCommand.Parameters.AddWithValue("@mode", (int)DataToSave.Mode);
+        //            TaskModeCommand.Parameters.AddWithValue("@date", DateTime.UtcNow.ToString("yyyy-MM-dd"));
+        //           // TaskModeCommand.Parameters.AddWithValue("@lastIndex", DataToSave.TaskModeIndex);
+        //            await TaskModeCommand.ExecuteNonQueryAsync();
 
-                    await InsertTaskTables();
+        //            await InsertTaskTables();
 
-                    await UpdateTaskStatisticTables(DataToSave.TaskType);
+        //            await UpdateTaskStatisticTables(DataToSave.TaskType);
 
-                    connection.Close();
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError("Some SaveTaskData error: " + e.ToString());
-                }
-            }
-        }
+        //            connection.Close();
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.LogError("Some SaveTaskData error: " + e.ToString());
+        //        }
+        //    }
+        //}
 
         public async System.Threading.Tasks.Task SaveChallengeData(ChallengeData data)
         {
@@ -1365,36 +1259,36 @@ namespace Mathy.Data
             }
         }
 
-        public async void UpdateData()
-        {
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try
-                {
-                    connection.Open();
+        //public async void UpdateData()
+        //{
+        //    using (SqliteConnection connection = new SqliteConnection(databasePath))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
 
-                    string UpdateModeQuery = "UPDATE TaskMode SET LastTaskModeIndex = @lastIndex " +
-                    "WHERE strftime('%Y-%m-%d',Date) = @date AND ModeCode = @mode";
+        //            string UpdateModeQuery = "UPDATE TaskMode SET LastTaskModeIndex = @lastIndex " +
+        //            "WHERE strftime('%Y-%m-%d',Date) = @date AND ModeCode = @mode";
 
-                    SqliteCommand UpdateModeCommand = new SqliteCommand(UpdateModeQuery, connection);
-                    UpdateModeCommand.Parameters.AddWithValue("@date", DateTime.UtcNow.ToString("yyyy-MM-dd"));
-                    UpdateModeCommand.Parameters.AddWithValue("@mode", (int)DataToSave.Mode);
-                    //UpdateModeCommand.Parameters.AddWithValue("@lastIndex", DataToSave.TaskModeIndex);
+        //            SqliteCommand UpdateModeCommand = new SqliteCommand(UpdateModeQuery, connection);
+        //            UpdateModeCommand.Parameters.AddWithValue("@date", DateTime.UtcNow.ToString("yyyy-MM-dd"));
+        //            UpdateModeCommand.Parameters.AddWithValue("@mode", (int)DataToSave.Mode);
+        //            //UpdateModeCommand.Parameters.AddWithValue("@lastIndex", DataToSave.TaskModeIndex);
 
-                    await UpdateModeCommand.ExecuteNonQueryAsync();
-                    
-                    await InsertTaskTables();
+        //            await UpdateModeCommand.ExecuteNonQueryAsync();
 
-                    await UpdateTaskStatisticTables(DataToSave.TaskType);
+        //            await InsertTaskTables();
 
-                    connection.Close();
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError("Some UpdateData error: " + e.ToString());
-                }
-            }
-        }
+        //            await UpdateTaskStatisticTables(DataToSave.TaskType);
+
+        //            connection.Close();
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.LogError("Some UpdateData error: " + e.ToString());
+        //        }
+        //    }
+        //}
         #endregion
 
         #region CALENDAR
@@ -1571,378 +1465,378 @@ namespace Mathy.Data
             return calendarDatas;
         }
 
-        public async System.Threading.Tasks.Task<double> GetCorrectRateOfMode(TaskMode mode)
-        {
-            double value = 0;
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try
-                {
-                    int correct = 0, tasksCount = 0;
-                    List<int> modeIds = await GetAllModeIds(mode);
-                    string idString = String.Join(",", modeIds);
+        //public async System.Threading.Tasks.Task<double> GetCorrectRateOfMode(TaskMode mode)
+        //{
+        //    double value = 0;
+        //    using (SqliteConnection connection = new SqliteConnection(databasePath))
+        //    {
+        //        try
+        //        {
+        //            int correct = 0, tasksCount = 0;
+        //            List<int> modeIds = await GetAllModeIds(mode);
+        //            string idString = String.Join(",", modeIds);
 
-                    connection.Open();
+        //            connection.Open();
 
-                    string GetCorrectQuery = "SELECT COUNT(*) FROM ( " +
-                    " SELECT Id FROM Addition WHERE Mode = @mode AND IsUserAnswerCorrect = '1'" +
-                    " UNION SELECT Id FROM Subtraction WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id FROM AddSubMissingNumber WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id FROM Comparison WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id FROM ComparisonWithMissingNumber WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id FROM ExpressionsComparison WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id FROM IsThatTrue WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id FROM ComparisonMissingElements WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id FROM MissingExpression WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id FROM MissingNumber WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id FROM MissingSign WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id FROM SelectFromThreeCount WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id FROM CountTo10Images WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id FROM CountTo10Frames WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id FROM CountTo20Frames WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id FROM SumOfNumbers WHERE Mode = @mode AND IsUserAnswerCorrect = '1' );";
+        //            string GetCorrectQuery = "SELECT COUNT(*) FROM ( " +
+        //            " SELECT Id FROM Addition WHERE Mode = @mode AND IsUserAnswerCorrect = '1'" +
+        //            " UNION SELECT Id FROM Subtraction WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id FROM AddSubMissingNumber WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id FROM Comparison WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id FROM ComparisonWithMissingNumber WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id FROM ExpressionsComparison WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id FROM IsThatTrue WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id FROM ComparisonMissingElements WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id FROM MissingExpression WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id FROM MissingNumber WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id FROM MissingSign WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id FROM SelectFromThreeCount WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id FROM CountTo10Images WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id FROM CountTo10Frames WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id FROM CountTo20Frames WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id FROM SumOfNumbers WHERE Mode = @mode AND IsUserAnswerCorrect = '1' );";
 
-                    SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
-                    GetCorrectCommand.Parameters.AddWithValue("@mode", idString);
+        //            SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
+        //            GetCorrectCommand.Parameters.AddWithValue("@mode", idString);
 
-                    int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
-                    if (correctAnswCount.HasValue)
-                    {
-                        correct = correctAnswCount.Value;
-                    }
+        //            int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
+        //            if (correctAnswCount.HasValue)
+        //            {
+        //                correct = correctAnswCount.Value;
+        //            }
 
-                    string GetSummaryQuery = "SELECT COUNT(*) FROM ( " +
-                    " SELECT Id FROM Addition WHERE Mode = @mode " +
-                    " UNION SELECT Id FROM Subtraction WHERE Mode = @mode" +
-                    " UNION SELECT Id FROM AddSubMissingNumber WHERE Mode = @mode " +
-                    " UNION SELECT Id FROM Comparison WHERE Mode = @mode " +
-                    " UNION SELECT Id FROM ComparisonWithMissingNumber WHERE Mode = @mode " +
-                    " UNION SELECT Id FROM ExpressionsComparison WHERE Mode = @mode " +
-                    " UNION SELECT Id FROM IsThatTrue WHERE Mode = @mode " +
-                    " UNION SELECT Id FROM ComparisonMissingElements WHERE Mode = @mode " +
-                    " UNION SELECT Id FROM MissingExpression WHERE Mode = @mode " +
-                    " UNION SELECT Id FROM MissingNumber WHERE Mode = @mode " +
-                    " UNION SELECT Id FROM MissingSign WHERE Mode = @mode " +
-                    " UNION SELECT Id FROM SelectFromThreeCount WHERE Mode = @mode " +
-                    " UNION SELECT Id FROM CountTo10Images WHERE Mode = @mode " +
-                    " UNION SELECT Id FROM CountTo10Frames WHERE Mode = @mode " +
-                    " UNION SELECT Id FROM CountTo20Frames WHERE Mode = @mode " +
-                    " UNION SELECT Id FROM SumOfNumbers WHERE Mode = @mode );";
+        //            string GetSummaryQuery = "SELECT COUNT(*) FROM ( " +
+        //            " SELECT Id FROM Addition WHERE Mode = @mode " +
+        //            " UNION SELECT Id FROM Subtraction WHERE Mode = @mode" +
+        //            " UNION SELECT Id FROM AddSubMissingNumber WHERE Mode = @mode " +
+        //            " UNION SELECT Id FROM Comparison WHERE Mode = @mode " +
+        //            " UNION SELECT Id FROM ComparisonWithMissingNumber WHERE Mode = @mode " +
+        //            " UNION SELECT Id FROM ExpressionsComparison WHERE Mode = @mode " +
+        //            " UNION SELECT Id FROM IsThatTrue WHERE Mode = @mode " +
+        //            " UNION SELECT Id FROM ComparisonMissingElements WHERE Mode = @mode " +
+        //            " UNION SELECT Id FROM MissingExpression WHERE Mode = @mode " +
+        //            " UNION SELECT Id FROM MissingNumber WHERE Mode = @mode " +
+        //            " UNION SELECT Id FROM MissingSign WHERE Mode = @mode " +
+        //            " UNION SELECT Id FROM SelectFromThreeCount WHERE Mode = @mode " +
+        //            " UNION SELECT Id FROM CountTo10Images WHERE Mode = @mode " +
+        //            " UNION SELECT Id FROM CountTo10Frames WHERE Mode = @mode " +
+        //            " UNION SELECT Id FROM CountTo20Frames WHERE Mode = @mode " +
+        //            " UNION SELECT Id FROM SumOfNumbers WHERE Mode = @mode );";
 
-                    SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
-                    GetSummaryCommand.Parameters.AddWithValue("@mode", idString);
+        //            SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
+        //            GetSummaryCommand.Parameters.AddWithValue("@mode", idString);
 
-                    int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
-                    if (answCount.HasValue)
-                    {
-                        tasksCount = answCount.Value;
-                    }
+        //            int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
+        //            if (answCount.HasValue)
+        //            {
+        //                tasksCount = answCount.Value;
+        //            }
 
-                    if (correct != 0)
-                    {
-                        value = (double)correct / (double)tasksCount;
-                    }
+        //            if (correct != 0)
+        //            {
+        //                value = (double)correct / (double)tasksCount;
+        //            }
 
-                    connection.Close();
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError("Some error: " + e.ToString());
-                }
-            }
-            return value;
-        }
+        //            connection.Close();
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.LogError("Some error: " + e.ToString());
+        //        }
+        //    }
+        //    return value;
+        //}
 
-        public async System.Threading.Tasks.Task<double> GetCorrectRateOfTaskType(TaskType type)
-        {
-            double value = 0;
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try
-                {
-                    int correct = 0, tasksCount = 0;
-                    connection.Open();
+        //public async System.Threading.Tasks.Task<double> GetCorrectRateOfTaskType(TaskType type)
+        //{
+        //    double value = 0;
+        //    using (SqliteConnection connection = new SqliteConnection(databasePath))
+        //    {
+        //        try
+        //        {
+        //            int correct = 0, tasksCount = 0;
+        //            connection.Open();
 
-                    switch (type)
-                    {
-                        case TaskType.Addition:
-                            {
-                                string GetCorrectQuery = "SELECT COUNT(*) FROM Addition WHERE IsUserAnswerCorrect = '1'";
-                                SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
-                                int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
-                                if (correctAnswCount.HasValue)
-                                {
-                                    correct = correctAnswCount.Value;
-                                }
+        //            switch (type)
+        //            {
+        //                case TaskType.Addition:
+        //                    {
+        //                        string GetCorrectQuery = "SELECT COUNT(*) FROM Addition WHERE IsUserAnswerCorrect = '1'";
+        //                        SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
+        //                        int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
+        //                        if (correctAnswCount.HasValue)
+        //                        {
+        //                            correct = correctAnswCount.Value;
+        //                        }
 
-                                string GetSummaryQuery = "SELECT COUNT(*) FROM Addition";
-                                SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
-                                int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
-                                if (answCount.HasValue)
-                                {
-                                    tasksCount = answCount.Value;
-                                }                                
-                                break;
-                            }
-                        case TaskType.Subtraction:
-                            {
-                                string GetCorrectQuery = "SELECT COUNT(*) FROM Subtraction WHERE IsUserAnswerCorrect = '1'";
-                                SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
-                                int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
-                                if (correctAnswCount.HasValue)
-                                {
-                                    correct = correctAnswCount.Value;
-                                }
+        //                        string GetSummaryQuery = "SELECT COUNT(*) FROM Addition";
+        //                        SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
+        //                        int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
+        //                        if (answCount.HasValue)
+        //                        {
+        //                            tasksCount = answCount.Value;
+        //                        }                                
+        //                        break;
+        //                    }
+        //                case TaskType.Subtraction:
+        //                    {
+        //                        string GetCorrectQuery = "SELECT COUNT(*) FROM Subtraction WHERE IsUserAnswerCorrect = '1'";
+        //                        SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
+        //                        int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
+        //                        if (correctAnswCount.HasValue)
+        //                        {
+        //                            correct = correctAnswCount.Value;
+        //                        }
 
-                                string GetSummaryQuery = "SELECT COUNT(*) FROM Subtraction";
-                                SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
-                                int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
-                                if (answCount.HasValue)
-                                {
-                                    tasksCount = answCount.Value;
-                                }
-                                break;
-                            }
-                        case TaskType.AddSubMissingNumber:
-                            {
-                                string GetCorrectQuery = "SELECT COUNT(*) FROM AddSubMissingNumber WHERE IsUserAnswerCorrect = '1'";
-                                SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
-                                int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
-                                if (correctAnswCount.HasValue)
-                                {
-                                    correct = correctAnswCount.Value;
-                                }
+        //                        string GetSummaryQuery = "SELECT COUNT(*) FROM Subtraction";
+        //                        SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
+        //                        int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
+        //                        if (answCount.HasValue)
+        //                        {
+        //                            tasksCount = answCount.Value;
+        //                        }
+        //                        break;
+        //                    }
+        //                case TaskType.AddSubMissingNumber:
+        //                    {
+        //                        string GetCorrectQuery = "SELECT COUNT(*) FROM AddSubMissingNumber WHERE IsUserAnswerCorrect = '1'";
+        //                        SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
+        //                        int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
+        //                        if (correctAnswCount.HasValue)
+        //                        {
+        //                            correct = correctAnswCount.Value;
+        //                        }
 
-                                string GetSummaryQuery = "SELECT COUNT(*) FROM AddSubMissingNumber";
-                                SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
-                                int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
-                                if (answCount.HasValue)
-                                {
-                                    tasksCount = answCount.Value;
-                                }
-                                break;
-                            }
-                        case TaskType.Comparison:
-                            {
-                                string GetCorrectQuery = "SELECT COUNT(*) FROM Comparison WHERE IsUserAnswerCorrect = '1'";
-                                SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
-                                int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
-                                if (correctAnswCount.HasValue)
-                                {
-                                    correct = correctAnswCount.Value;
-                                }
+        //                        string GetSummaryQuery = "SELECT COUNT(*) FROM AddSubMissingNumber";
+        //                        SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
+        //                        int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
+        //                        if (answCount.HasValue)
+        //                        {
+        //                            tasksCount = answCount.Value;
+        //                        }
+        //                        break;
+        //                    }
+        //                case TaskType.Comparison:
+        //                    {
+        //                        string GetCorrectQuery = "SELECT COUNT(*) FROM Comparison WHERE IsUserAnswerCorrect = '1'";
+        //                        SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
+        //                        int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
+        //                        if (correctAnswCount.HasValue)
+        //                        {
+        //                            correct = correctAnswCount.Value;
+        //                        }
 
-                                string GetSummaryQuery = "SELECT COUNT(*) FROM Comparison";
-                                SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
-                                int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
-                                if (answCount.HasValue)
-                                {
-                                    tasksCount = answCount.Value;
-                                }
-                                break;
-                            }
-                        case TaskType.ComparisonExpressions:
-                            {
-                                string GetCorrectQuery = "SELECT COUNT(*) FROM ExpressionsComparison WHERE IsUserAnswerCorrect = '1'";
-                                SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
-                                int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
-                                if (correctAnswCount.HasValue)
-                                {
-                                    correct = correctAnswCount.Value;
-                                }
+        //                        string GetSummaryQuery = "SELECT COUNT(*) FROM Comparison";
+        //                        SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
+        //                        int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
+        //                        if (answCount.HasValue)
+        //                        {
+        //                            tasksCount = answCount.Value;
+        //                        }
+        //                        break;
+        //                    }
+        //                case TaskType.ComparisonExpressions:
+        //                    {
+        //                        string GetCorrectQuery = "SELECT COUNT(*) FROM ExpressionsComparison WHERE IsUserAnswerCorrect = '1'";
+        //                        SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
+        //                        int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
+        //                        if (correctAnswCount.HasValue)
+        //                        {
+        //                            correct = correctAnswCount.Value;
+        //                        }
 
-                                string GetSummaryQuery = "SELECT COUNT(*) FROM ExpressionsComparison";
-                                SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
-                                int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
-                                if (answCount.HasValue)
-                                {
-                                    tasksCount = answCount.Value;
-                                }
-                                
-                                break;
-                            }
-                        case TaskType.ComparisonWithMissingNumber:
-                            {
-                                string GetCorrectQuery = "SELECT COUNT(*) FROM ComparisonWithMissingNumber WHERE IsUserAnswerCorrect = '1'";
-                                SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
-                                int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
-                                if (correctAnswCount.HasValue)
-                                {
-                                    correct = correctAnswCount.Value;
-                                }
+        //                        string GetSummaryQuery = "SELECT COUNT(*) FROM ExpressionsComparison";
+        //                        SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
+        //                        int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
+        //                        if (answCount.HasValue)
+        //                        {
+        //                            tasksCount = answCount.Value;
+        //                        }
 
-                                string GetSummaryQuery = "SELECT COUNT(*) FROM ComparisonWithMissingNumber";
-                                SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
-                                int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
-                                if (answCount.HasValue)
-                                {
-                                    tasksCount = answCount.Value;
-                                }
-                                
-                                break;
-                            }
-                        case TaskType.ComparisonMissingElements:
-                            {
-                                string GetCorrectQuery = "SELECT COUNT(*) FROM ComparisonMissingElements WHERE IsUserAnswerCorrect = '1'";
-                                SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
-                                int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
-                                if (correctAnswCount.HasValue)
-                                {
-                                    correct = correctAnswCount.Value;
-                                }
+        //                        break;
+        //                    }
+        //                case TaskType.ComparisonWithMissingNumber:
+        //                    {
+        //                        string GetCorrectQuery = "SELECT COUNT(*) FROM ComparisonWithMissingNumber WHERE IsUserAnswerCorrect = '1'";
+        //                        SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
+        //                        int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
+        //                        if (correctAnswCount.HasValue)
+        //                        {
+        //                            correct = correctAnswCount.Value;
+        //                        }
 
-                                string GetSummaryQuery = "SELECT COUNT(*) FROM ComparisonMissingElements";
-                                SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
-                                int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
-                                if (answCount.HasValue)
-                                {
-                                    tasksCount = answCount.Value;
-                                }
-                                
-                                break;
-                            }
-                        case TaskType.MissingExpression:
-                            {
-                                string GetCorrectQuery = "SELECT COUNT(*) FROM MissingExpression WHERE IsUserAnswerCorrect = '1'";
-                                SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
-                                int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
-                                if (correctAnswCount.HasValue)
-                                {
-                                    correct = correctAnswCount.Value;
-                                }
+        //                        string GetSummaryQuery = "SELECT COUNT(*) FROM ComparisonWithMissingNumber";
+        //                        SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
+        //                        int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
+        //                        if (answCount.HasValue)
+        //                        {
+        //                            tasksCount = answCount.Value;
+        //                        }
 
-                                string GetSummaryQuery = "SELECT COUNT(*) FROM MissingExpression";
-                                SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
-                                int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
-                                if (answCount.HasValue)
-                                {
-                                    tasksCount = answCount.Value;
-                                }
-                                
-                                break;
-                            }
-                        case TaskType.MissingNumber:
-                            {
-                                string GetCorrectQuery = "SELECT COUNT(*) FROM MissingNumber WHERE IsUserAnswerCorrect = '1'";
-                                SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
-                                int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
-                                if (correctAnswCount.HasValue)
-                                {
-                                    correct = correctAnswCount.Value;
-                                }
+        //                        break;
+        //                    }
+        //                case TaskType.ComparisonMissingElements:
+        //                    {
+        //                        string GetCorrectQuery = "SELECT COUNT(*) FROM ComparisonMissingElements WHERE IsUserAnswerCorrect = '1'";
+        //                        SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
+        //                        int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
+        //                        if (correctAnswCount.HasValue)
+        //                        {
+        //                            correct = correctAnswCount.Value;
+        //                        }
 
-                                string GetSummaryQuery = "SELECT COUNT(*) FROM MissingNumber";
-                                SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
-                                int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
-                                if (answCount.HasValue)
-                                {
-                                    tasksCount = answCount.Value;
-                                }
-                                
-                                break;
-                            }
-                        case TaskType.IsThatTrue:
-                            {
-                                string GetCorrectQuery = "SELECT COUNT(*) FROM IsThatTrue WHERE IsUserAnswerCorrect = '1'";
-                                SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
-                                int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
-                                if (correctAnswCount.HasValue)
-                                {
-                                    correct = correctAnswCount.Value;
-                                }
+        //                        string GetSummaryQuery = "SELECT COUNT(*) FROM ComparisonMissingElements";
+        //                        SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
+        //                        int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
+        //                        if (answCount.HasValue)
+        //                        {
+        //                            tasksCount = answCount.Value;
+        //                        }
 
-                                string GetSummaryQuery = "SELECT COUNT(*) FROM IsThatTrue";
-                                SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
-                                int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
-                                if (answCount.HasValue)
-                                {
-                                    tasksCount = answCount.Value;
-                                }
-                                
-                                break;
-                            }
-                        case TaskType.MissingSign:
-                            {
-                                string GetCorrectQuery = "SELECT COUNT(*) FROM MissingSign WHERE IsUserAnswerCorrect = '1'";
-                                SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
-                                int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
-                                if (correctAnswCount.HasValue)
-                                {
-                                    correct = correctAnswCount.Value;
-                                }
+        //                        break;
+        //                    }
+        //                case TaskType.MissingExpression:
+        //                    {
+        //                        string GetCorrectQuery = "SELECT COUNT(*) FROM MissingExpression WHERE IsUserAnswerCorrect = '1'";
+        //                        SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
+        //                        int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
+        //                        if (correctAnswCount.HasValue)
+        //                        {
+        //                            correct = correctAnswCount.Value;
+        //                        }
 
-                                string GetSummaryQuery = "SELECT COUNT(*) FROM MissingSign";
-                                SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
-                                int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
-                                if (answCount.HasValue)
-                                {
-                                    tasksCount = answCount.Value;
-                                }
-                                
-                                break;
-                            }
-                        case TaskType.ImageOpening:
-                            {
-                                string GetCorrectQuery = "SELECT CorrectRate FROM OpenImage";
-                                SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
-                                double? rate = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
-                                if (rate.HasValue)
-                                {
-                                    return rate.Value;
-                                }
-                                
-                                break;
-                            }
-                        case TaskType.PairsNumbers:
-                            {
-                                string GetCorrectQuery = "SELECT CorrectRate FROM PairsNumbers";
-                                SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
-                                double? rate = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
-                                if (rate.HasValue)
-                                {
-                                    return rate.Value;
-                                }
-                                
-                                break;
-                            }
-                        case TaskType.SumOfNumbers:
-                            {
-                                string GetCorrectQuery = "SELECT COUNT(*) FROM SumOfNumbers WHERE IsUserAnswerCorrect = '1'";
-                                SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
-                                int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
-                                if (correctAnswCount.HasValue)
-                                {
-                                    correct = correctAnswCount.Value;
-                                }
+        //                        string GetSummaryQuery = "SELECT COUNT(*) FROM MissingExpression";
+        //                        SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
+        //                        int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
+        //                        if (answCount.HasValue)
+        //                        {
+        //                            tasksCount = answCount.Value;
+        //                        }
 
-                                string GetSummaryQuery = "SELECT COUNT(*) FROM SumOfNumbers";
-                                SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
-                                int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
-                                if (answCount.HasValue)
-                                {
-                                    tasksCount = answCount.Value;
-                                }
-                                
-                                break;
-                            }
-                    }
+        //                        break;
+        //                    }
+        //                case TaskType.MissingNumber:
+        //                    {
+        //                        string GetCorrectQuery = "SELECT COUNT(*) FROM MissingNumber WHERE IsUserAnswerCorrect = '1'";
+        //                        SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
+        //                        int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
+        //                        if (correctAnswCount.HasValue)
+        //                        {
+        //                            correct = correctAnswCount.Value;
+        //                        }
 
-                    if (correct != 0)
-                    {
-                        value = (double)correct / (double)tasksCount;
-                    }
+        //                        string GetSummaryQuery = "SELECT COUNT(*) FROM MissingNumber";
+        //                        SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
+        //                        int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
+        //                        if (answCount.HasValue)
+        //                        {
+        //                            tasksCount = answCount.Value;
+        //                        }
 
-                    connection.Close();
-                    return value;
-                }
-                catch (Exception e)
-                {
-                    //Todo: process the error
-                    Debug.Log("Some error: " + e.ToString());
-                }
-            }
-            return value;
-        }
+        //                        break;
+        //                    }
+        //                case TaskType.IsThatTrue:
+        //                    {
+        //                        string GetCorrectQuery = "SELECT COUNT(*) FROM IsThatTrue WHERE IsUserAnswerCorrect = '1'";
+        //                        SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
+        //                        int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
+        //                        if (correctAnswCount.HasValue)
+        //                        {
+        //                            correct = correctAnswCount.Value;
+        //                        }
+
+        //                        string GetSummaryQuery = "SELECT COUNT(*) FROM IsThatTrue";
+        //                        SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
+        //                        int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
+        //                        if (answCount.HasValue)
+        //                        {
+        //                            tasksCount = answCount.Value;
+        //                        }
+
+        //                        break;
+        //                    }
+        //                case TaskType.MissingSign:
+        //                    {
+        //                        string GetCorrectQuery = "SELECT COUNT(*) FROM MissingSign WHERE IsUserAnswerCorrect = '1'";
+        //                        SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
+        //                        int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
+        //                        if (correctAnswCount.HasValue)
+        //                        {
+        //                            correct = correctAnswCount.Value;
+        //                        }
+
+        //                        string GetSummaryQuery = "SELECT COUNT(*) FROM MissingSign";
+        //                        SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
+        //                        int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
+        //                        if (answCount.HasValue)
+        //                        {
+        //                            tasksCount = answCount.Value;
+        //                        }
+
+        //                        break;
+        //                    }
+        //                case TaskType.ImageOpening:
+        //                    {
+        //                        string GetCorrectQuery = "SELECT CorrectRate FROM OpenImage";
+        //                        SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
+        //                        double? rate = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
+        //                        if (rate.HasValue)
+        //                        {
+        //                            return rate.Value;
+        //                        }
+
+        //                        break;
+        //                    }
+        //                case TaskType.PairsNumbers:
+        //                    {
+        //                        string GetCorrectQuery = "SELECT CorrectRate FROM PairsNumbers";
+        //                        SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
+        //                        double? rate = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
+        //                        if (rate.HasValue)
+        //                        {
+        //                            return rate.Value;
+        //                        }
+
+        //                        break;
+        //                    }
+        //                case TaskType.SumOfNumbers:
+        //                    {
+        //                        string GetCorrectQuery = "SELECT COUNT(*) FROM SumOfNumbers WHERE IsUserAnswerCorrect = '1'";
+        //                        SqliteCommand GetCorrectCommand = new SqliteCommand(GetCorrectQuery, connection);
+        //                        int? correctAnswCount = Convert.ToInt32(await GetCorrectCommand.ExecuteScalarAsync());
+        //                        if (correctAnswCount.HasValue)
+        //                        {
+        //                            correct = correctAnswCount.Value;
+        //                        }
+
+        //                        string GetSummaryQuery = "SELECT COUNT(*) FROM SumOfNumbers";
+        //                        SqliteCommand GetSummaryCommand = new SqliteCommand(GetSummaryQuery, connection);
+        //                        int? answCount = Convert.ToInt32(await GetSummaryCommand.ExecuteScalarAsync());
+        //                        if (answCount.HasValue)
+        //                        {
+        //                            tasksCount = answCount.Value;
+        //                        }
+
+        //                        break;
+        //                    }
+        //            }
+
+        //            if (correct != 0)
+        //            {
+        //                value = (double)correct / (double)tasksCount;
+        //            }
+
+        //            connection.Close();
+        //            return value;
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            //Todo: process the error
+        //            Debug.Log("Some error: " + e.ToString());
+        //        }
+        //    }
+        //    return value;
+        //}
 
         #endregion
 
@@ -2012,363 +1906,363 @@ namespace Mathy.Data
 
         //Returns list of TimeSpans represents time of the task completion 
         //depending on a specific date and task mod
-        public async Task<List<TimeSpan>> GetTimeSpansByModeAndDate(TaskMode mode, DateTime date)
-        {
-            List<TimeSpan> timeSpans = new List<TimeSpan>();
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try
-                {
-                    connection.Open();
+        //public async Task<List<TimeSpan>> GetTimeSpansByModeAndDate(TaskMode mode, DateTime date)
+        //{
+        //    List<TimeSpan> timeSpans = new List<TimeSpan>();
+        //    using (SqliteConnection connection = new SqliteConnection(databasePath))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
 
-                    int modeId = await GetTaskModeId(mode, date);
+        //            int modeId = await GetTaskModeId(mode, date);
 
-                    string GetDurationQuery = "SELECT Duration FROM ( " +
-                    " SELECT Id as ID, Duration FROM Addition WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM Subtraction WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM AddSubMissingNumber WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM Comparison WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM ComparisonWithMissingNumber WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM ExpressionsComparison WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM IsThatTrue WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM ComparisonMissingElements WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM MissingExpression WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM MissingNumber WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM MissingSign WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM SumOfNumbers WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM CountTo10Images WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM SelectFromThreeCount WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM CountTo10Frames WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM CountTo20Frames WHERE Mode = @mode " +
-                    " ) ORDER BY ID ASC;";
+        //            string GetDurationQuery = "SELECT Duration FROM ( " +
+        //            " SELECT Id as ID, Duration FROM Addition WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM Subtraction WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM AddSubMissingNumber WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM Comparison WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM ComparisonWithMissingNumber WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM ExpressionsComparison WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM IsThatTrue WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM ComparisonMissingElements WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM MissingExpression WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM MissingNumber WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM MissingSign WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM SumOfNumbers WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM CountTo10Images WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM SelectFromThreeCount WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM CountTo10Frames WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM CountTo20Frames WHERE Mode = @mode " +
+        //            " ) ORDER BY ID ASC;";
 
-                    SqliteCommand GetDurationCommand = new SqliteCommand(GetDurationQuery, connection);
-                    GetDurationCommand.Parameters.AddWithValue("@mode", modeId);
+        //            SqliteCommand GetDurationCommand = new SqliteCommand(GetDurationQuery, connection);
+        //            GetDurationCommand.Parameters.AddWithValue("@mode", modeId);
 
-                    double? duration;
-                    using (var reader = await GetDurationCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection))
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            duration = Convert.ToDouble(reader[0]);
-                            if (duration.HasValue)
-                            {
-                                timeSpans.Add(TimeSpan.FromMilliseconds(duration.Value)); 
-                            }
+        //            double? duration;
+        //            using (var reader = await GetDurationCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection))
+        //            {
+        //                while (await reader.ReadAsync())
+        //                {
+        //                    duration = Convert.ToDouble(reader[0]);
+        //                    if (duration.HasValue)
+        //                    {
+        //                        timeSpans.Add(TimeSpan.FromMilliseconds(duration.Value)); 
+        //                    }
 
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError("Some GetTimeOfModeAndDate error: " + e.ToString());
-                }
-            }
+        //                }
+        //            }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.LogError("Some GetTimeOfModeAndDate error: " + e.ToString());
+        //        }
+        //    }
 
-            return timeSpans;
-        }
+        //    return timeSpans;
+        //}
 
-        public async Task<List<string>> GetTaskResults(TaskMode mode, DateTime date)
-        {
-            List<string> results = new List<string>();
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try
-                {
-                    connection.Open();
-                    int modeId = await GetTaskModeId(mode, date);
+        //public async Task<List<string>> GetTaskResults(TaskMode mode, DateTime date)
+        //{
+        //    List<string> results = new List<string>();
+        //    using (SqliteConnection connection = new SqliteConnection(databasePath))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
+        //            int modeId = await GetTaskModeId(mode, date);
 
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append("SELECT Elements, Operators, Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, ID FROM ( ");
-                    foreach (var tableName in taskTypeTables)
-                        sb.Append($"SELECT Elements, Operators, Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, Id as ID FROM {tableName.Value} WHERE Mode = @mode UNION ");
-                    sb.Length -= " UNION ".Length; // remove the last " UNION "
-                    sb.Append(" ) ORDER BY ID ASC;");
-                    string query = sb.ToString();
+        //            StringBuilder sb = new StringBuilder();
+        //            sb.Append("SELECT Elements, Operators, Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, ID FROM ( ");
+        //            foreach (var tableName in taskTypeTables)
+        //                sb.Append($"SELECT Elements, Operators, Variants, SelectedAnswers, CorrectAnswers, IsUserAnswerCorrect, Id as ID FROM {tableName.Value} WHERE Mode = @mode UNION ");
+        //            sb.Length -= " UNION ".Length; // remove the last " UNION "
+        //            sb.Append(" ) ORDER BY ID ASC;");
+        //            string query = sb.ToString();
 
-                    SqliteCommand command = new SqliteCommand(query, connection);
-                    command.Parameters.AddWithValue("@mode", modeId);
+        //            SqliteCommand command = new SqliteCommand(query, connection);
+        //            command.Parameters.AddWithValue("@mode", modeId);
 
-                    using (var reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection))
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            string elements = reader.GetString(0);
-                            string operators = reader.GetString(1);
-                            string variants = reader.GetString(2);
-                            object selectedAnswersObject = reader.GetValue(3);
-                            string selectedAnswers = selectedAnswersObject.ToString();
-                            object correctAnswersObject = reader.GetValue(4);
-                            string correctAnswers = correctAnswersObject.ToString();
-                            bool isCorrect = Convert.ToBoolean(reader.GetInt32(5));
-                            int id = reader.GetInt32(6);
-                            string[] elementList = elements.Split(',');
-                            string[] operatorList = operators.Split(',');
-                            string[] variantsList = variants.Split(',');
-                            string[] selectedAnswersList = selectedAnswers.Split(',');
-                            string[] correctAnswersList = correctAnswers.Split(',');
+        //            using (var reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection))
+        //            {
+        //                while (await reader.ReadAsync())
+        //                {
+        //                    string elements = reader.GetString(0);
+        //                    string operators = reader.GetString(1);
+        //                    string variants = reader.GetString(2);
+        //                    object selectedAnswersObject = reader.GetValue(3);
+        //                    string selectedAnswers = selectedAnswersObject.ToString();
+        //                    object correctAnswersObject = reader.GetValue(4);
+        //                    string correctAnswers = correctAnswersObject.ToString();
+        //                    bool isCorrect = Convert.ToBoolean(reader.GetInt32(5));
+        //                    int id = reader.GetInt32(6);
+        //                    string[] elementList = elements.Split(',');
+        //                    string[] operatorList = operators.Split(',');
+        //                    string[] variantsList = variants.Split(',');
+        //                    string[] selectedAnswersList = selectedAnswers.Split(',');
+        //                    string[] correctAnswersList = correctAnswers.Split(',');
 
-                            for (int i = 0; i < variantsList.Length; i++)
-                            {
-                                if (operatorChars.ContainsKey(variantsList[i]))
-                                    variantsList[i] = operatorChars[variantsList[i]];
-                            }
+        //                    for (int i = 0; i < variantsList.Length; i++)
+        //                    {
+        //                        if (operatorChars.ContainsKey(variantsList[i]))
+        //                            variantsList[i] = operatorChars[variantsList[i]];
+        //                    }
 
-                            int variantIndex = 0;
-                            for (int i = 0; i < elementList.Length; i++)
-                            {
-                                if (elementList[i] == kUnknownElementValue)
-                                {
-                                    if (variantIndex >= selectedAnswersList.Length)
-                                    {
-                                        elementList[i] = "?";
-                                    }
-                                    else
-                                    {
-                                        int index = Int32.Parse(selectedAnswersList[variantIndex]);
-                                        elementList[i] = $"<color={(isCorrect ? correctResultColor : wrongResultColor)}>" +
-                                                        $"{variantsList[index]}</color>";
-                                        variantIndex++;
-                                    }
-                                }
-                            }
+        //                    int variantIndex = 0;
+        //                    for (int i = 0; i < elementList.Length; i++)
+        //                    {
+        //                        if (elementList[i] == kUnknownElementValue)
+        //                        {
+        //                            if (variantIndex >= selectedAnswersList.Length)
+        //                            {
+        //                                elementList[i] = "?";
+        //                            }
+        //                            else
+        //                            {
+        //                                int index = Int32.Parse(selectedAnswersList[variantIndex]);
+        //                                elementList[i] = $"<color={(isCorrect ? correctResultColor : wrongResultColor)}>" +
+        //                                                $"{variantsList[index]}</color>";
+        //                                variantIndex++;
+        //                            }
+        //                        }
+        //                    }
 
-                            var coloredOperatorList = operatorList.Select(o =>
-                            {
-                                if (o == kUnknownElementValue)
-                                {
-                                    return $"<color={(isCorrect ? correctResultColor : wrongResultColor)}>" +
-                                    $"{variantsList[Int32.Parse(selectedAnswersList[0])]}</color>";
-                                }
-                                else
-                                    return operatorChars.ContainsKey(o) ? operatorChars[o] : o;
-                            }).ToList();
+        //                    var coloredOperatorList = operatorList.Select(o =>
+        //                    {
+        //                        if (o == kUnknownElementValue)
+        //                        {
+        //                            return $"<color={(isCorrect ? correctResultColor : wrongResultColor)}>" +
+        //                            $"{variantsList[Int32.Parse(selectedAnswersList[0])]}</color>";
+        //                        }
+        //                        else
+        //                            return operatorChars.ContainsKey(o) ? operatorChars[o] : o;
+        //                    }).ToList();
 
-                            StringBuilder sbResult = new StringBuilder();
-                            for (int i = 0; i < elementList.Count(); i++)
-                            {
-                                sbResult.Append($"{elementList.ElementAt(i)} ");
-                                if (i < coloredOperatorList.Count())
-                                {
-                                    if (!coloredOperatorList[i].IsEmpty())
-                                    {
-                                        sbResult.Append($"{coloredOperatorList.ElementAt(i)} ");
-                                    }
-                                }
-                            }
-                            if (!isCorrect)
-                            {
-                                var correctAnswersValues = correctAnswersList.Select(i => int.Parse(i))
-                                            .Where(i => i >= 0 && i < variantsList.Length)
-                                            .Select(i => variantsList[i].TryLocalizeTaskVariant());
-                                sbResult.Append($" ({string.Join(", ", correctAnswersValues)})");
-                                
-                            }
-                            results.Add(sbResult.ToString());
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError("GetTaskResult error: " + e.ToString());
-                }
-            }
-            return results;
-        }
+        //                    StringBuilder sbResult = new StringBuilder();
+        //                    for (int i = 0; i < elementList.Count(); i++)
+        //                    {
+        //                        sbResult.Append($"{elementList.ElementAt(i)} ");
+        //                        if (i < coloredOperatorList.Count())
+        //                        {
+        //                            if (!coloredOperatorList[i].IsEmpty())
+        //                            {
+        //                                sbResult.Append($"{coloredOperatorList.ElementAt(i)} ");
+        //                            }
+        //                        }
+        //                    }
+        //                    if (!isCorrect)
+        //                    {
+        //                        var correctAnswersValues = correctAnswersList.Select(i => int.Parse(i))
+        //                                    .Where(i => i >= 0 && i < variantsList.Length)
+        //                                    .Select(i => variantsList[i].TryLocalizeTaskVariant());
+        //                        sbResult.Append($" ({string.Join(", ", correctAnswersValues)})");
 
-        public async Task<List<bool>> GetAnswers(TaskMode mode, DateTime date)
-        {
-            List<bool> answers = new List<bool>();
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try
-                {
-                    connection.Open();
-                    int modeId = await GetTaskModeId(mode, date);
+        //                    }
+        //                    results.Add(sbResult.ToString());
+        //                }
+        //            }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.LogError("GetTaskResult error: " + e.ToString());
+        //        }
+        //    }
+        //    return results;
+        //}
 
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append("SELECT Correct FROM ( ");
-                    foreach (var tableName in taskTypeTables)
-                        sb.Append($"SELECT Id as ID, IsUserAnswerCorrect as Correct FROM {tableName.Value} WHERE Mode = @mode UNION ");
-                    sb.Length -= " UNION ".Length; // remove the last " UNION "
-                    sb.Append(" ) ORDER BY ID ASC;");
-                    string query = sb.ToString();
+        //public async Task<List<bool>> GetAnswers(TaskMode mode, DateTime date)
+        //{
+        //    List<bool> answers = new List<bool>();
+        //    using (SqliteConnection connection = new SqliteConnection(databasePath))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
+        //            int modeId = await GetTaskModeId(mode, date);
 
-                    SqliteCommand command = new SqliteCommand(query, connection);
-                    command.Parameters.AddWithValue("@mode", modeId);
+        //            StringBuilder sb = new StringBuilder();
+        //            sb.Append("SELECT Correct FROM ( ");
+        //            foreach (var tableName in taskTypeTables)
+        //                sb.Append($"SELECT Id as ID, IsUserAnswerCorrect as Correct FROM {tableName.Value} WHERE Mode = @mode UNION ");
+        //            sb.Length -= " UNION ".Length; // remove the last " UNION "
+        //            sb.Append(" ) ORDER BY ID ASC;");
+        //            string query = sb.ToString();
 
-                    int? temp = null;
-                    using (var reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection))
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            temp = Convert.ToInt32(reader[0]);
-                            if (temp.HasValue)
-                            {
-                                answers.Add(Convert.ToBoolean(temp));
-                            }
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError("Some UpdateData error: " + e.ToString());
-                }
-            }
-            return answers;
-        }
+        //            SqliteCommand command = new SqliteCommand(query, connection);
+        //            command.Parameters.AddWithValue("@mode", modeId);
 
-        public async System.Threading.Tasks.Task<int> GetCorrectAnswersOfModeByDate(TaskMode mode, DateTime date)
-        {
-            int correctAnswersCount = 0;
+        //            int? temp = null;
+        //            using (var reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection))
+        //            {
+        //                while (await reader.ReadAsync())
+        //                {
+        //                    temp = Convert.ToInt32(reader[0]);
+        //                    if (temp.HasValue)
+        //                    {
+        //                        answers.Add(Convert.ToBoolean(temp));
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.LogError("Some UpdateData error: " + e.ToString());
+        //        }
+        //    }
+        //    return answers;
+        //}
 
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try
-                {
-                    connection.Open();
+        //public async System.Threading.Tasks.Task<int> GetCorrectAnswersOfModeByDate(TaskMode mode, DateTime date)
+        //{
+        //    int correctAnswersCount = 0;
 
-                    int modeId = await GetTaskModeId(mode, date);
+        //    using (SqliteConnection connection = new SqliteConnection(databasePath))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
 
-                    string GetCorrectTaskAmountQuery = "SELECT COUNT(*) FROM ( " +
-                    " SELECT Id as ID, IsUserAnswerCorrect as Correct FROM Addition WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM Subtraction WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM AddSubMissingNumber WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM Comparison WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM ComparisonWithMissingNumber WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM ExpressionsComparison WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM IsThatTrue WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM ComparisonMissingElements WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM MissingExpression WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM MissingNumber WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM MissingSign WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM SumOfNumbers WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM CountTo10Images WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM SelectFromThreeCount WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM CountTo10Frames WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM CountTo20Frames WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
-                    " ) ORDER BY ID ASC;";
+        //            int modeId = await GetTaskModeId(mode, date);
 
-                    SqliteCommand GetCorrectTaskAmountCommand = new SqliteCommand(GetCorrectTaskAmountQuery, connection);
-                    GetCorrectTaskAmountCommand.Parameters.AddWithValue("@mode", modeId);
+        //            string GetCorrectTaskAmountQuery = "SELECT COUNT(*) FROM ( " +
+        //            " SELECT Id as ID, IsUserAnswerCorrect as Correct FROM Addition WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM Subtraction WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM AddSubMissingNumber WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM Comparison WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM ComparisonWithMissingNumber WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM ExpressionsComparison WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM IsThatTrue WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM ComparisonMissingElements WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM MissingExpression WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM MissingNumber WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM MissingSign WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM SumOfNumbers WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM CountTo10Images WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM SelectFromThreeCount WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM CountTo10Frames WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " UNION SELECT Id as ID, IsUserAnswerCorrect as Correct FROM CountTo20Frames WHERE Mode = @mode AND IsUserAnswerCorrect = '1' " +
+        //            " ) ORDER BY ID ASC;";
 
-                    //Do I need to do null check here
-                    correctAnswersCount = Convert.ToInt32(await GetCorrectTaskAmountCommand.ExecuteScalarAsync());
+        //            SqliteCommand GetCorrectTaskAmountCommand = new SqliteCommand(GetCorrectTaskAmountQuery, connection);
+        //            GetCorrectTaskAmountCommand.Parameters.AddWithValue("@mode", modeId);
 
-                    connection.Close();
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError("Some UpdateData error: " + e.ToString());
-                }
-            }
-            return correctAnswersCount;
-        }
+        //            //Do I need to do null check here
+        //            correctAnswersCount = Convert.ToInt32(await GetCorrectTaskAmountCommand.ExecuteScalarAsync());
+
+        //            connection.Close();
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.LogError("Some UpdateData error: " + e.ToString());
+        //        }
+        //    }
+        //    return correctAnswersCount;
+        //}
 
 
         //return value in milliseconds
-        public async System.Threading.Tasks.Task<long> GetTimeOfModeAndDate(TaskMode mode, DateTime date)
-        {
-            long milliseconds = 0;
+        //public async System.Threading.Tasks.Task<long> GetTimeOfModeAndDate(TaskMode mode, DateTime date)
+        //{
+        //    long milliseconds = 0;
 
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try
-                {
-                    connection.Open();
+        //    using (SqliteConnection connection = new SqliteConnection(databasePath))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
 
-                    int modeId = await GetTaskModeId(mode, date);
+        //            int modeId = await GetTaskModeId(mode, date);
 
-                    //Переделать все квери для того что б был запрос 
+        //            //Переделать все квери для того что б был запрос 
 
-                    string GetDurationQuery = "SELECT Duration FROM ( " +
-                    " SELECT Id as ID, Duration FROM Addition WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM Subtraction WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM AddSubMissingNumber WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM Comparison WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM ComparisonWithMissingNumber WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM ExpressionsComparison WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM IsThatTrue WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM ComparisonMissingElements WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM MissingExpression WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM MissingNumber WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM MissingSign WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM SumOfNumbers WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM CountTo10Images WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM SelectFromThreeCount WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM CountTo10Frames WHERE Mode = @mode " +
-                    " UNION SELECT Id as ID, Duration FROM CountTo20Frames WHERE Mode = @mode " +
-                    " ) ORDER BY ID ASC;";
+        //            string GetDurationQuery = "SELECT Duration FROM ( " +
+        //            " SELECT Id as ID, Duration FROM Addition WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM Subtraction WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM AddSubMissingNumber WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM Comparison WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM ComparisonWithMissingNumber WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM ExpressionsComparison WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM IsThatTrue WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM ComparisonMissingElements WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM MissingExpression WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM MissingNumber WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM MissingSign WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM SumOfNumbers WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM CountTo10Images WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM SelectFromThreeCount WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM CountTo10Frames WHERE Mode = @mode " +
+        //            " UNION SELECT Id as ID, Duration FROM CountTo20Frames WHERE Mode = @mode " +
+        //            " ) ORDER BY ID ASC;";
 
-                    SqliteCommand GetDurationCommand = new SqliteCommand(GetDurationQuery, connection);
-                    GetDurationCommand.Parameters.AddWithValue("@mode", modeId);
+        //            SqliteCommand GetDurationCommand = new SqliteCommand(GetDurationQuery, connection);
+        //            GetDurationCommand.Parameters.AddWithValue("@mode", modeId);
 
-                    double? duration;
-                    using (var reader = await GetDurationCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection))
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            duration = Convert.ToDouble(reader[0]);
-                            if (duration.HasValue)
-                            {
-                                milliseconds += Convert.ToInt32(duration.Value);
-                            }
-                            
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError("Some GetTimeOfModeAndDate error: " + e.ToString());
-                }
-            }
-            return milliseconds;
-        }
+        //            double? duration;
+        //            using (var reader = await GetDurationCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection))
+        //            {
+        //                while (await reader.ReadAsync())
+        //                {
+        //                    duration = Convert.ToDouble(reader[0]);
+        //                    if (duration.HasValue)
+        //                    {
+        //                        milliseconds += Convert.ToInt32(duration.Value);
+        //                    }
+
+        //                }
+        //            }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.LogError("Some GetTimeOfModeAndDate error: " + e.ToString());
+        //        }
+        //    }
+        //    return milliseconds;
+        //}
 
         //Return amount of tasks that was done, if no tasks was done return 0
-        public async Task<int> TodayDoneTasksAmount(TaskMode mode)
-        {
-            int value = 0;
-            using (SqliteConnection connection = new SqliteConnection(databasePath))
-            {
-                try
-                {
-                    connection.Open();
+        //public async Task<int> TodayDoneTasksAmount(TaskMode mode)
+        //{
+        //    int value = 0;
+        //    using (SqliteConnection connection = new SqliteConnection(databasePath))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
 
-                    string GetModeIdQuery = "SELECT LastTaskModeIndex FROM TaskMode " +
-                        "WHERE strftime('%Y-%m-%d', Date) = @date AND ModeCode = @mode LIMIT 1";
+        //            string GetModeIdQuery = "SELECT LastTaskModeIndex FROM TaskMode " +
+        //                "WHERE strftime('%Y-%m-%d', Date) = @date AND ModeCode = @mode LIMIT 1";
 
-                    SqliteCommand GetModeIdCommand = new SqliteCommand(GetModeIdQuery, connection);
-                    GetModeIdCommand.Parameters.AddWithValue("@date", DateTime.UtcNow.ToString("yyyy-MM-dd"));
-                    GetModeIdCommand.Parameters.AddWithValue("@mode", (int)mode);
+        //            SqliteCommand GetModeIdCommand = new SqliteCommand(GetModeIdQuery, connection);
+        //            GetModeIdCommand.Parameters.AddWithValue("@date", DateTime.UtcNow.ToString("yyyy-MM-dd"));
+        //            GetModeIdCommand.Parameters.AddWithValue("@mode", (int)mode);
 
-                    int? temp = null;
-                    using (var reader = await GetModeIdCommand.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            temp = Convert.ToInt32(reader[0]);
-                        }
-                    }
+        //            int? temp = null;
+        //            using (var reader = await GetModeIdCommand.ExecuteReaderAsync())
+        //            {
+        //                while (await reader.ReadAsync())
+        //                {
+        //                    temp = Convert.ToInt32(reader[0]);
+        //                }
+        //            }
 
-                    if (!temp.HasValue)
-                    {
-                        value = 0;
-                    }
-                    else
-                    {
-                        value = temp.Value;
-                    }
+        //            if (!temp.HasValue)
+        //            {
+        //                value = 0;
+        //            }
+        //            else
+        //            {
+        //                value = temp.Value;
+        //            }
 
-                    connection.Close();
-                }
-                catch (Exception e)
-                {
-                    Debug.Log("Some TodayDoneTasksAmount error: " + e.ToString());
-                }
-            }
-            return value;
-        }
+        //            connection.Close();
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.Log("Some TodayDoneTasksAmount error: " + e.ToString());
+        //        }
+        //    }
+        //    return value;
+        //}
 
         #endregion
 

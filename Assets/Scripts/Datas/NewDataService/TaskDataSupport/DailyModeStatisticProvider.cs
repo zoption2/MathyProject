@@ -46,7 +46,11 @@ namespace Mathy.Services.Data
                 {
                     result.Mode = Convert.ToString(reader[0]);
                     result.ModeIndex = Convert.ToInt32(reader[1]);
-                    result.TotalCompleted = Convert.ToInt32(reader[2]);
+                    result.TotalCompletedModes = Convert.ToInt32(reader[2]);
+                    result.TotalTasks = Convert.ToInt32(reader[3]);
+                    result.TotalCorrect = Convert.ToInt32(reader[4]);
+                    result.MiddleRate = Convert.ToInt32(reader[5]);
+                    result.TotalTime = Convert.ToDouble(reader[6]);
                 }
                 reader.Close();
                 connection.Close();

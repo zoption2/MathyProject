@@ -3,14 +3,13 @@ using Cysharp.Threading.Tasks;
 using Mono.Data.Sqlite;
 using System.Collections.Generic;
 
-
 namespace Mathy.Services.Data
 {
     public interface IDailyModeProvider : IDataProvider
     {
         UniTask UpdateDailyMode(DailyModeData data);
         UniTask<DailyModeData> GetDailyModeData(DateTime date, TaskMode mode);
-        UniTask<List<DailyModeData>> GetDailyData(DateTime date);
+        UniTask<List<DailyModeData>> GetMonthData(DateTime date);
     }
 
 
@@ -74,12 +73,6 @@ namespace Mathy.Services.Data
 
         public async UniTask<DailyModeData> GetDailyModeData(DateTime date, TaskMode mode)
         {
-
-            if (date == DateTime.Today)
-            {
-                UnityEngine.Debug.Log("Today");
-            }
-
             using (var connection = new SqliteConnection(_dbFilePath))
             {
                 connection.Open();
@@ -122,25 +115,54 @@ namespace Mathy.Services.Data
             }
         }
 
-        public async UniTask<List<DailyModeData>> GetDailyData(DateTime date)
+        public async UniTask<List<DailyModeData>> GetMonthData(DateTime date)
         {
-            throw new NotImplementedException();
-            //List<DailyModeData> results = new List<DailyModeData>();
-            //using (var connection = new SqliteConnection(_dbFilePath))
-            //{
-            //    connection.Open();
-            //    var requestData = new DailyModeData() { Date = date };
-            //    var requestModel = requestData.ConvertToModel();
-            //    var models = await connection.QueryAsync<DailyModeTableModel>
-            //        (DailyModeTableRequests.SelectByDateQuery, requestModel);
-            //    var modelsArray = models.ToArray();
-            //    for (int i = 0, j = modelsArray.Length; i < j; i++)
-            //    {
-            //        var data = modelsArray[i].ConvertToData();
-            //        results.Add(data);
-            //    }
-            //    return results;
-            //}
+            using (var connection = new SqliteConnection(_dbFilePath))
+            {
+                connection.Open();
+                var requestData = new DailyModeData() { Date = date };
+                var requestModel = requestData.ConvertToModel();
+                var result = new List<DailyModeData>();
+
+                string query = DailyModeTableRequests.SelectCountByMonth;
+                SqliteCommand command = new SqliteCommand(query, connection);
+                command.Parameters.AddWithValue(nameof(DailyModeTableModel.Date), requestModel.Date);
+                var scaler = await command.ExecuteScalarAsync();
+                var count = Convert.ToInt32(scaler);
+                if (count == 0)
+                {
+                    return result;
+                }
+
+                query = DailyModeTableRequests.SelectByMonthQuery;
+                command = new SqliteCommand(query, connection);
+                command.Parameters.AddWithValue(nameof(DailyModeTableModel.Date), requestModel.Date);
+                var reader = await command.ExecuteReaderAsync();
+
+                while (await reader.ReadAsync())
+                {
+                    var entry = new DailyModeTableModel();
+                    entry.Id = Convert.ToInt32(reader[0]);
+                    entry.Date = Convert.ToString(reader[1]);
+                    entry.Mode = Convert.ToString(reader[2]);
+                    entry.ModeIndex = Convert.ToInt32(reader[3]);
+                    entry.IsComplete = Convert.ToBoolean(reader[4]);
+                    entry.PlayedTasks = Convert.ToInt32(reader[5]);
+                    entry.CorrectAnswers = Convert.ToInt32(reader[6]);
+                    entry.CorrectRate = Convert.ToInt32(reader[7]);
+                    entry.Duration = Convert.ToDouble(reader[8]);
+                    entry.TotalTasks = Convert.ToInt32(reader[9]);
+                    entry.TasksIds = Convert.ToString(reader[10]);
+
+                    var data = entry.ConvertToData();
+                    result.Add(data);
+                }
+                reader.Close();
+                connection.Close();
+                connection.Dispose();
+
+                return result;
+            }
         }
 
         public async override UniTask TryCreateTable()
@@ -169,6 +191,5 @@ namespace Mathy.Services.Data
             }
         }
     }
-
 }
 

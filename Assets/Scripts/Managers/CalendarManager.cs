@@ -8,10 +8,9 @@ using Mathy.Data;
 using Mathy.UI;
 using System;
 using TMPro;
-using System.Collections;
 using Zenject;
 using Mathy.Services;
-using UnityEngine.Analytics;
+
 
 public class CalendarManager : StaticInstance<CalendarManager>
 {
@@ -428,32 +427,29 @@ public class CalendarManager : StaticInstance<CalendarManager>
     {
 		monthYearText.text = $"{SelectedDate.Year} {cultureInfo.DateTimeFormat.GetMonthName(SelectedDate.Month)}";
 
-		//List<CalendarData> calendarDatas = await DataManager.Instance.GetCalendarData(selectedMonth, selectedYear);
+		var monthData = await dataService.TaskData.GetMonthData(SelectedDate);
 
-		foreach (var calendarCell in calendarCellButtons)
+        foreach (var calendarCell in calendarCellButtons)
 		{
 			int cellDay = calendarCell.CurrentNumber;
 
 			if (cellDay > 0 && cellDay <= DaysInMonth)
 			{
-                //if (calendarDatas.Any(x => x.Date.Day == cellDay))
-                //{
-                //	calendarCell.CalendarData = calendarDatas.FirstOrDefault(x => x.Date.Day == cellDay);
-                //}
-                //else
-                //{
-                //var dailyData = await dataService.TaskData.GetDailyData(new DateTime(selectedYear, selectedMonth, cellDay));
                 CalendarData emptyCalendarData = new CalendarData(new DateTime(selectedYear, selectedMonth, cellDay));
 					foreach (TaskMode mode in (TaskMode[])Enum.GetValues(typeof(TaskMode)))
 					{
-					var dailyData = await dataService.TaskData.GetDailyModeData(new DateTime(selectedYear, selectedMonth, cellDay), mode);
-						//var dailyMode = dailyData.FirstOrDefault(x => x.Mode == mode);
+						var date = new DateTime(selectedYear, selectedMonth, cellDay);
+                        DailyModeData dailyData = monthData.FirstOrDefault(d => d.Date == date && d.Mode == mode);
+						if (dailyData == null)
+						{
+							dailyData = new DailyModeData();
+						}
+
 						var modeCompleted = dailyData.IsComplete; 
 						emptyCalendarData.ModeData.Add(mode, modeCompleted);
 					}
 
 					calendarCell.CalendarData = emptyCalendarData;
-				//}
 			}
 
 			calendarCell.Init(SelectedDate);
