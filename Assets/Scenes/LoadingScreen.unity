@@ -692,7 +692,7 @@ MonoBehaviour:
   rewardedAdId: ca-app-pub-9340983276950968/3664103918
   debugTextLable: {fileID: 1434596518}
   preloadedAdsAmount: 1
-  isTesting: 0
+  isTesting: 1
   OnAdLoadedEvent:
     m_PersistentCalls:
       m_Calls: []

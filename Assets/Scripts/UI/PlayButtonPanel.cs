@@ -231,13 +231,13 @@ public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
         }
 
         //temp solution until challenge is not part of new DB
-        var calendarData = await DataManager.Instance.GetCalendarData(DateTime.UtcNow.Date);
-        if (calendarData.ModeData.ContainsKey(TaskMode.Challenge))
-        {
-            var mode = modeData.FirstOrDefault(x => x.Mode == TaskMode.Challenge);
-            bool isComplete = calendarData.ModeData[TaskMode.Challenge];
-            mode.IsComplete = isComplete;
-        }
+        //var calendarData = await DataManager.Instance.GetCalendarData(DateTime.UtcNow.Date);
+        //if (calendarData.ModeData.ContainsKey(TaskMode.Challenge))
+        //{
+        //    var mode = modeData.FirstOrDefault(x => x.Mode == TaskMode.Challenge);
+        //    bool isComplete = calendarData.ModeData[TaskMode.Challenge];
+        //    mode.IsComplete = isComplete;
+        //}
 
         List<bool> modeStatuses = modeData.Where(x => x.Mode != TaskMode.Practic).Select(x => x.IsComplete).ToList();
 
