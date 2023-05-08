@@ -15,6 +15,7 @@ namespace Mathy.Services.Data
         UniTask UpdateDailyMode(DailyModeData data);
         UniTask<DailyModeData> GetDailyModeData(DateTime date, TaskMode mode);
         UniTask<List<DailyModeData>> GetMonthData(DateTime date);
+        UniTask<SkillStatisticData> GetSkillStatistic(SkillType skillType, int grade);
     }
 
 

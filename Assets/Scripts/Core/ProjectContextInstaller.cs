@@ -7,6 +7,7 @@ using Mathy.Services;
 using Mathy.UI;
 using System.Collections.Generic;
 using Mathy.Data;
+using Mathy.Services.Data;
 
 public class ProjectContextInstaller : MonoInstaller
 {
@@ -30,6 +31,7 @@ public class ProjectContextInstaller : MonoInstaller
         BindTaskControllers();
         BindScenarious();
         BindPopupsControllers();
+        BindPlayerDataServices();
     }
 
     private void BindTaskControllers()
@@ -58,6 +60,13 @@ public class ProjectContextInstaller : MonoInstaller
     private void BindPopupsControllers()
     {
         Container.Bind<ParentGatePopupController>().To<ParentGatePopupController>().AsTransient();
+    }
+
+    private void BindPlayerDataServices()
+    {
+        Container.Bind<IPlayerDataService>().To<PlayerDataService>().AsSingle();
+        Container.Bind<IAchievementsHandler>().To<AchievementsHandler>().AsSingle();
+        Container.Bind<IProgressHandler>().To<ProgressHandler>().AsSingle();
     }
 }
 

@@ -8,7 +8,6 @@ namespace Mathy.Services.Data
     public interface ISkillStatisticProvider : IDataProvider
     {
         UniTask<SkillStatisticData> GetSkillStatistic(SkillType skillType, int grade);
-        //UniTask UpdateSkillStatistic(SkillType skillType, int grade, bool isCorrect);
         UniTask UpdateSkillStatistic(SkillStatisticData data);
     }
 

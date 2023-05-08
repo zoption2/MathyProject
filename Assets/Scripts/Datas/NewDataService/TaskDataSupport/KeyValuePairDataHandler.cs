@@ -12,6 +12,7 @@ namespace Mathy.Services.Data
         UniTask SaveIntValue(string key, int value);
         UniTask SaveIntValue(KeyValueIntegerKeys keyType, int value);
         UniTask IncrementIntValue(string key);
+        UniTask IncrementIntValue(KeyValueIntegerKeys keyType);
     }
 
 
@@ -61,6 +62,12 @@ namespace Mathy.Services.Data
         {
             var currentDateTime = DateTime.UtcNow;
             await _intProvider.IncrementValue(key, currentDateTime);
+        }
+
+        public async UniTask IncrementIntValue(KeyValueIntegerKeys keyType)
+        {
+            var key = keyType.ToString();
+            await IncrementIntValue(key);
         }
 
         public async UniTask Init()

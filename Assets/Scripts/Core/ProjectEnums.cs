@@ -22,6 +22,7 @@
     public enum Popups
     {
         ParentGate = 1,
+        ResultScreen = 2,
     }
 
     public enum TaskElementType
@@ -209,6 +210,10 @@
         TotalTasksDuration = 4,
         Experience = 5,
         PlayerRank = 6,
+        GoldMedals = 10,
+        SilverMedals = 11,
+        BronzeMedals = 12,
+        ChallengeCups = 13,
 
         DatabaseControl = 100,
     }
