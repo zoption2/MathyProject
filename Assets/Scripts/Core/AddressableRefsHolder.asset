@@ -761,3 +761,9 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 2
+      <Reference>k__BackingField:
+        m_AssetGUID: e5c39cfced02a4a4c8c2dcf2cd46173f
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0

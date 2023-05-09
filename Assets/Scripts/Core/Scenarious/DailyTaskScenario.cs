@@ -20,8 +20,10 @@ namespace Mathy.Core.Tasks
         protected DailyTaskScenario(ITaskFactory taskFactory
             ,ITaskBackgroundSevice backgroundHandler
             ,IAddressableRefsHolder addressableRefs
-            ,IDataService dataService) 
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService)
+            ,IDataService dataService
+            , IResultScreenMediator resultScreen
+            ) 
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
         {
         }
 
@@ -88,17 +90,24 @@ namespace Mathy.Core.Tasks
         protected override void EndGameplay()
         {
             base.EndGameplay();
-            GameObject.Destroy(counterView.gameObject);
-            var resultsView = scenePointer.ResultsWindow;
-            resultsView.gameObject.SetActive(true);
-            float correctRate = correctAnswers / (float)TotalTasks * 100f;
-            resultsView.DisplayResult(correctAnswers, TotalTasks, correctRate, false);
+            //var resultsView = scenePointer.ResultsWindow;
+            //resultsView.gameObject.SetActive(true);
+            //float correctRate = correctAnswers / (float)TotalTasks * 100f;
+            //resultsView.DisplayResult(correctAnswers, TotalTasks, correctRate, false);
+            resultScreen.Show(()=>
+            {
+                GameObject.Destroy(counterView.gameObject);
+                GameManager.Instance.ChangeState(GameState.MainMenu);
+            });
         }
 
         protected override void ClickOnExitFromGameplay()
         {
-            GameObject.Destroy(counterView.gameObject);
-            base.ClickOnExitFromGameplay();
+            resultScreen.Show(() =>
+            {
+                GameObject.Destroy(counterView.gameObject);
+                base.ClickOnExitFromGameplay();
+            });
         }
 
         protected async void InitCounter()
@@ -128,8 +137,10 @@ namespace Mathy.Core.Tasks
         protected SmallScenario(ITaskFactory taskFactory
             , ITaskBackgroundSevice backgroundHandler
             , IAddressableRefsHolder addressableRefs
-            , IDataService dataService)
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService)
+            , IDataService dataService
+            , IResultScreenMediator resultScreen
+            )
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
         {
         }
     }
@@ -144,8 +155,10 @@ namespace Mathy.Core.Tasks
         protected MediumScenario(ITaskFactory taskFactory
             , ITaskBackgroundSevice backgroundHandler
             , IAddressableRefsHolder addressableRefs
-            , IDataService dataService)
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService)
+            , IDataService dataService
+            , IResultScreenMediator resultScreen
+            )
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
         {
         }
     }
@@ -160,8 +173,10 @@ namespace Mathy.Core.Tasks
         protected LargeScenario(ITaskFactory taskFactory
             , ITaskBackgroundSevice backgroundHandler
             , IAddressableRefsHolder addressableRefs
-            , IDataService dataService)
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService)
+            , IDataService dataService
+            , IResultScreenMediator resultScreen
+            )
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
         {
         }
     }

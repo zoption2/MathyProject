@@ -8,6 +8,7 @@ using Mathy.UI;
 using System.Collections.Generic;
 using Mathy.Data;
 using Mathy.Services.Data;
+using Mathy.Services.UI;
 
 public class ProjectContextInstaller : MonoInstaller
 {
@@ -25,6 +26,7 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<IParentGateService>().To<ParentGateService>().AsSingle();
         Container.Bind<IDataService>().To<DataService>().AsSingle().NonLazy();
         Container.Bind<ISkillPlanService>().To<SkillPlanService>().AsSingle();
+        Container.Bind<IUIManager>().To<UIManager>().AsSingle();
 
         Container.Bind<List<GradeSettings>>().FromInstance(gradeSettingsHolder.GradeSettings).AsSingle();
 
@@ -32,6 +34,7 @@ public class ProjectContextInstaller : MonoInstaller
         BindScenarious();
         BindPopupsControllers();
         BindPlayerDataServices();
+        BindResultScreen();
     }
 
     private void BindTaskControllers()
@@ -67,6 +70,12 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<IPlayerDataService>().To<PlayerDataService>().AsSingle();
         Container.Bind<IAchievementsHandler>().To<AchievementsHandler>().AsSingle();
         Container.Bind<IProgressHandler>().To<ProgressHandler>().AsSingle();
+    }
+
+    private void BindResultScreen()
+    {
+        Container.Bind<IResultScreenMediator>().To<ResultScreenMediator>().AsTransient();
+        Container.Bind<IResultScreenSkillsController>().To<ResultScreenSkillsController>().AsTransient();
     }
 }
 

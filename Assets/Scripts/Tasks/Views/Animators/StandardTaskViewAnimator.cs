@@ -6,9 +6,8 @@ namespace Mathy.UI
 {
     public class StandardTaskViewAnimator : BaseViewAnimator
     {
-        private const float kFadeTime = .5f;
-
         [SerializeField] private CanvasGroup canvasGroup;
+        [SerializeField] private float fadeTime = 0.5f;
 
         public override void AnimateShowing(Action onComplete)
         {
@@ -17,7 +16,7 @@ namespace Mathy.UI
 
         public override void AnimateHiding(Action onComplete)
         {
-            canvasGroup.DOFade(0, kFadeTime).SetEase(Ease.Linear).SetId(transform).OnComplete(() =>
+            canvasGroup.DOFade(0, fadeTime).SetEase(Ease.Linear).SetId(transform).OnComplete(() =>
             {
                 onComplete?.Invoke();
             });

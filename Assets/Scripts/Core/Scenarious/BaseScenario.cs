@@ -1,6 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
 using Mathy.Core.Tasks.DailyTasks;
-using Mathy.Data;
 using Mathy.Services;
 using System;
 using System.Collections.Generic;
@@ -25,6 +24,7 @@ namespace Mathy.Core.Tasks
         protected ITaskBackgroundSevice backgroundService;
         protected IAddressableRefsHolder addressableRefs;
         protected IDataService dataService;
+        protected IResultScreenMediator resultScreen;
         protected TaskManager taskManager;
         protected GameplayScenePointer scenePointer;
         protected int taskIndexer = 0;
@@ -38,12 +38,14 @@ namespace Mathy.Core.Tasks
         public BaseScenario(ITaskFactory taskFactory
             , ITaskBackgroundSevice backgroundHandler
             , IAddressableRefsHolder addressableRefs
-            , IDataService dataService)
+            , IDataService dataService
+            , IResultScreenMediator resultScreen)
         {
             this.taskFactory = taskFactory;
             this.backgroundService = backgroundHandler;
             this.addressableRefs = addressableRefs;
             this.dataService = dataService;
+            this.resultScreen = resultScreen;
         }
 
         protected abstract UniTask DoOnStart();

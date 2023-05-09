@@ -13,8 +13,10 @@ namespace Mathy.Core.Tasks
         protected PracticeScenario(ITaskFactory taskFactory
             , ITaskBackgroundSevice backgroundHandler
             , IAddressableRefsHolder addressableRefs
-            , IDataService dataService)
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService)
+            , IDataService dataService
+            , IResultScreenMediator resultScreen
+            )
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
         {
         }
 
@@ -52,17 +54,24 @@ namespace Mathy.Core.Tasks
 
         protected override void ClickOnExitFromGameplay()
         {
-            ClearTasks();
-            EndGameplay();
+            resultScreen.Show(() =>
+            {
+                ClearTasks();
+                GameManager.Instance.ChangeState(GameState.MainMenu);
+            });
         }
 
         protected override void EndGameplay()
         {
             base.EndGameplay();
-            var resultsView = scenePointer.ResultsWindow;
-            resultsView.gameObject.SetActive(true);
-            float correctRate = correctAnswers / (float)(taskIndexer) * 100f;
-            resultsView.DisplayResult(correctAnswers, taskIndexer, correctRate, false);
+            //var resultsView = scenePointer.ResultsWindow;
+            //resultsView.gameObject.SetActive(true);
+            //float correctRate = correctAnswers / (float)(taskIndexer) * 100f;
+            //resultsView.DisplayResult(correctAnswers, taskIndexer, correctRate, false);
+            resultScreen.Show(() =>
+            {
+                GameManager.Instance.ChangeState(GameState.MainMenu);
+            });
         }
 
         private void ClearQueue()
