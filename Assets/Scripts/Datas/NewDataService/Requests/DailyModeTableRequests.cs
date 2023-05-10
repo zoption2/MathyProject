@@ -1,4 +1,7 @@
-﻿namespace Mathy.Services.Data
+﻿using System.ComponentModel.Design.Serialization;
+using UnityEngine;
+
+namespace Mathy.Services.Data
 {
     public static class DailyModeTableRequests
     {
@@ -135,6 +138,5 @@
             drop table if exists {kDailyModeTable}
             ";
     }
-
 }
 

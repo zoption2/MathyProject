@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using Mathy.Data;
-
+using System;
 
 namespace Mathy.Services.Data
 {
@@ -9,6 +9,8 @@ namespace Mathy.Services.Data
         UniTask<GeneralTasksViewData> GetGeneralTasksDataAsync();
         UniTask<DetailedTasksViewData> GetDetailedTasksDataAsync(TaskType taskType);
         UniTask<DailyModeViewData> GetDailyModeDataAsync(TaskMode mode);
+        UniTask CompleteTodayLessons(Achievements reward, int middleRate);
+        UniTask<DayResultData> GetDayResult(DateTime date);
     }
 
 
@@ -16,6 +18,7 @@ namespace Mathy.Services.Data
     {
         private readonly IDetailedTaskStatisticProvider _detailedTaskStatisticProvider;
         private readonly IDailyModeStatisticProvider _dailyModeStatisticProvider;
+        private readonly IDayResultProvider _dayResultsProvider;
         private readonly DataService _dataService;
         private readonly string _filePath;
 
@@ -26,6 +29,7 @@ namespace Mathy.Services.Data
 
             _detailedTaskStatisticProvider = new DetailedTaskStatisticProvider(_filePath);
             _dailyModeStatisticProvider = new DailyModeStatisticProvider(_filePath);
+            _dayResultsProvider = new DayResultProvider(_filePath);
         }
 
         public async UniTask<GeneralTasksViewData> GetGeneralTasksDataAsync()
@@ -49,6 +53,18 @@ namespace Mathy.Services.Data
         public async UniTask<DailyModeViewData> GetDailyModeDataAsync(TaskMode mode)
         {
             return await _dailyModeStatisticProvider.GetDailyModeDataAsync(mode);
+        }
+
+        public async UniTask CompleteTodayLessons(Achievements reward, int middleRate)
+        {
+            DateTime date = DateTime.UtcNow;
+            bool isComplete = true;
+            await _dayResultsProvider.AddDayResult(date, isComplete, reward, middleRate);
+        }
+
+        public async UniTask<DayResultData> GetDayResult(DateTime date)
+        {
+            return await _dayResultsProvider.GetDayResult(date);
         }
 
         public async UniTask Init()

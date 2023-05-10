@@ -84,7 +84,7 @@ namespace Mathy.Services.Data
                 command.Parameters.AddWithValue(nameof(DailyModeTableModel.Date), requestModel.Date);
                 command.Parameters.AddWithValue(nameof(DailyModeTableModel.Mode), requestModel.Mode);
                 var reader = await command.ExecuteReaderAsync();
-                 
+
                 var result = new DailyModeTableModel();
                 while (await reader.ReadAsync())
                 {
@@ -102,7 +102,7 @@ namespace Mathy.Services.Data
                 }
                 reader.Close();
 
-                if(result.Id == 0)
+                if (result.Id == 0)
                 {
                     return requestData;
                 }

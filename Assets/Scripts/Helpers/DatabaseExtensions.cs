@@ -275,40 +275,29 @@ namespace Mathy.Services.Data
         }
         #endregion
 
-        //private static string SerializeDictionary<TEnum, TValue>(Dictionary<TEnum, TValue> dic) where TEnum : Enum
-        //{
-        //    int count = dic.Count;
-        //    Dictionary<string, TValue> convertedDic = new(count);
-        //    foreach (var key in dic.Keys)
-        //    {
-        //        convertedDic.Add(key.ToString(), dic[key]);
-        //    }
-        //    var result = JsonConvert.SerializeObject(convertedDic);
-        //    return result;
-        //}
+        public static DayResultTableModel ConvertToModel (this DayResultData data)
+        {
+            var result = new DayResultTableModel();
+            result.Date = data.Date.ToString(kDataFormat);
+            result.IsComplete = data.IsCompleted;
+            result.Reward = data.Reward.ToString();
+            result.RewardIndex = (int)data.Reward;
+            result.MiddleRate = data.MiddleRate;
 
-        //private static Dictionary<TEnum, TValue> DeserializeDictionaryJson<TEnum, TValue>(string json) where TEnum : Enum
-        //{
-        //    Dictionary<string, TValue> convertedDic = JsonConvert.DeserializeObject<Dictionary<string, TValue>>(json);
-        //    Dictionary<TEnum, TValue> result = new();
+            return result;
+        }
 
-        //    foreach (var key in convertedDic.Keys)
-        //    {
-        //        try
-        //        {
-        //            var parsedKey = Enum.Parse<TEnum>(key);
-        //            result.Add(parsedKey, convertedDic[key]);
-        //        }
-        //        catch (Exception)
-        //        {
-        //            UnityEngine.Debug.LogFormat($"Current version of {nameof(TEnum)} does not contains {key}, " +
-        //                $"so it will not be included at general results, getted from database");
-        //            throw;
-        //        }
-        //    }
+        public static DayResultData ConvertToData(this DayResultTableModel model)
+        {
+            var result = new DayResultData();
+            result.Date = DateTime.ParseExact(model.Date, kDataFormat, CultureInfo.InvariantCulture);
+            result.IsCompleted = model.IsComplete;
+            var rewardName = Enum.GetName(typeof(Achievements), model.RewardIndex);
+            result.Reward = Enum.Parse<Achievements>(rewardName);
+            result.MiddleRate = model.MiddleRate;
 
-        //    return result;
-        //}
+            return result;
+        }
     }
 }
 

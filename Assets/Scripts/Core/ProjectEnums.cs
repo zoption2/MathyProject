@@ -216,6 +216,7 @@
 
     public enum Achievements
     {
+        none = 0,
         GoldMedal = 1,
         SilverMedal = 2,
         BronzeMedal = 3,
