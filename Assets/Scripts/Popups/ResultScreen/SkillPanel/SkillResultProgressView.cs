@@ -1,16 +1,18 @@
-﻿using Mathy.Data;
+﻿using DG.Tweening;
+using Mathy.Data;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Mathy.Services
+namespace Mathy.UI
 {
     public interface ISkillResultProgressView
     {
         SkillType Skill { get; }
         void Init();
         void SetTitle(string title);
-        void SetProgressRate(int progress);
+        void SetProgressBar(int target, int previous, bool isAnimated = true);
         void SetResults(string results);
         void ShowChangedValue(string value);
     }
@@ -18,21 +20,41 @@ namespace Mathy.Services
 
     public class SkillResultProgressView : MonoBehaviour, ISkillResultProgressView
     {
+        private const float kSliderStepDuration = 0.03f;
+
         [SerializeField] private Slider _progressBar;
         [SerializeField] private TMP_Text _title;
         [SerializeField] private TMP_Text _resultsText;
         [SerializeField] private TMP_Text _changableValueText;
         [SerializeField] private GameObject _changableHolder;
+
         [field: SerializeField] public SkillType Skill { get; private set; }
+
 
         public void Init()
         {
+            DOTween.Kill(transform);
             _changableHolder.SetActive(false);
         }
 
-        public void SetProgressRate(int progress)
+        private void OnDisable()
         {
-            _progressBar.value = progress;
+            DOTween.Kill(transform);
+        }
+
+        public void SetProgressBar(int target, int previous, bool isAnimated = true)
+        {
+            if (!isAnimated)
+            {
+                _progressBar.value = target;
+                return;
+            }
+            _progressBar.value = previous;
+
+            var maxValue = MathF.Max(target, previous);
+            var minValue = MathF.Min(target, previous);
+            var duration = (maxValue - minValue) * kSliderStepDuration;
+            _progressBar.DOValue(target, duration).SetEase(Ease.Linear).SetId(transform);
         }
 
         public void SetTitle(string  title)

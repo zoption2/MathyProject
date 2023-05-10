@@ -109,9 +109,9 @@ RectTransform:
   m_Father: {fileID: 1773102568326170415}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.48000002, y: 0.7}
-  m_AnchorMax: {x: 0.48000002, y: 0.7}
-  m_AnchoredPosition: {x: 0, y: -3}
+  m_AnchorMin: {x: 0.4867914, y: 0.6003932}
+  m_AnchorMax: {x: 0.4867914, y: 0.6003932}
+  m_AnchoredPosition: {x: -0.9275912, y: -2.0944862}
   m_SizeDelta: {x: 124, y: 124}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9034760675994063906
@@ -296,6 +296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1773102568326170415}
+  - component: {fileID: 7526917747737788476}
   m_Layer: 0
   m_Name: Achievement
   m_TagString: Untagged
@@ -323,6 +324,20 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -407, y: 28}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7526917747737788476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4177846145682670268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a44717265061b4cb8baa8a273a5005, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Achievement>k__BackingField: 1
+  _value: {fileID: 9185052462970086894}

@@ -1,90 +1,21 @@
 ﻿using Cysharp.Threading.Tasks;
 using Mathy.Data;
-using System;
 using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
 using System.Linq;
+using Mathy.Services;
 
 
-namespace Mathy.Services
+namespace Mathy.UI
 {
-    public interface IResultScreenSkillsPanelView : IView
+    public interface IResultScreenSkillsController : IBaseMediatedController
     {
-        void SetTitle(string title);
-        void SetTotalLocalized(string text);
-        void SetTotalResults(string text);
-        ISkillResultProgressView[] ProgressViews { get; }
-    }
-
-    public class ResultScreenSkillsPanelView : MonoBehaviour, IResultScreenSkillsPanelView
-    {
-        [SerializeField] private TMP_Text _title;
-        [SerializeField] private TMP_Text _totalText;
-        [SerializeField] private TMP_Text _totalResultText;
-        [SerializeField] private SkillResultProgressView[] _progressViews;
-
-        public ISkillResultProgressView[] ProgressViews => _progressViews;
-
-        public void Show(Action onShow)
-        {
-            gameObject.SetActive(true);
-        }
-
-        public void Hide(Action onHide)
-        {
-            gameObject.SetActive(false);
-        }
-
-        public void Release()
-        {
-            
-        }
-
-        public void SetTitle(string title)
-        {
-            _title.text = title;
-        }
-
-        public void SetTotalLocalized(string text)
-        {
-            _totalText.text = text;
-        }
-
-        public void SetTotalResults(string text)
-        {
-            _totalResultText.text = text;
-        }
+        
     }
 
 
-    public class ResultScreenSkillPanelModel
-    {
-        public string LocalizedTitle;
-        public string TotalLocalized;
-        public int TotalTasks;
-        public int TotalCorrect;
-        public int MiddleRate;
-        public Dictionary<SkillType, SkillResultProgressModel> SkillsProgressModels;
-    }
-
-    public class SkillResultProgressModel : IModel
-    {
-        public SkillType SkillType;
-        public string LocalizedTitle;
-        public int TotalPlayed;
-        public int TotalCorrect;
-        public int CorrectRate;
-    }
-
-
-
-    public interface IResultScreenSkillsController
-    {
-        void Init(IResultScreenSkillsPanelView view);
-    }
-
-    public class ResultScreenSkillsController : IResultScreenSkillsController
+    public class ResultScreenSkillsController 
+        : BaseMediatedController<IResultScreenSkillsPanelView, ResultScreenSkillPanelModel>
+        , IResultScreenSkillsController
     {
         private const int kGrade = 1;
         private const string kResultScreenTable = "ResultScreen";
@@ -95,21 +26,18 @@ namespace Mathy.Services
         private const string kSkillNameFormat = "{0} Skill";
         private const string kSkillResultFormat = "{0}%  {1}/{2}";
         private const string kLastShowedSkillsFormat = "{0}LastShowed";
+        private const string kLastShowedRateFormat = "{0}LastShowedRate";
         private const string kUpdateFormat = "+{0}";
 
         private readonly IDataService _dataService;
-        private ResultScreenSkillPanelModel _model;
-        private IResultScreenSkillsPanelView _view;
 
         public ResultScreenSkillsController(IDataService dataService)
         {
             _dataService = dataService;
         }
 
-        public async void Init(IResultScreenSkillsPanelView view)
+        protected async override void DoOnInit(IResultScreenSkillsPanelView view)
         {
-            _view = view;
-            _model = await BuildModel();
             _view.SetTitle(_model.LocalizedTitle);
             _view.SetTotalLocalized(_model.TotalLocalized);
             var results = string.Format(kSkillResultFormat
@@ -123,25 +51,37 @@ namespace Mathy.Services
                 var skillView = skills[i];
                 skillView.Init();
                 var skillModel = _model.SkillsProgressModels[skillView.Skill];
-                skillView.SetProgressRate(skillModel.CorrectRate);
                 var skillResult = string.Format(kSkillResultFormat
                     , skillModel.CorrectRate
                     , skillModel.TotalCorrect
                     , skillModel.TotalPlayed);
                 skillView.SetResults(skillResult);
                 var lastShowedKey = string.Format(kLastShowedSkillsFormat, skillView.Skill);
-                var lastShowed = await _dataService.KeyValueStorage.GetIntValue(lastShowedKey);
-                if (lastShowed < skillModel.TotalCorrect)
+                var lastShowedTotalCorrect = await _dataService.KeyValueStorage.GetIntValue(lastShowedKey);
+                if (lastShowedTotalCorrect < skillModel.TotalCorrect)
                 {
-                    var value = skillModel.TotalCorrect - lastShowed;
+                    var value = skillModel.TotalCorrect - lastShowedTotalCorrect;
                     var formatedValue = string.Format(kUpdateFormat, value);
                     skillView.ShowChangedValue(formatedValue);
                     await _dataService.KeyValueStorage.SaveIntValue(lastShowedKey, skillModel.TotalCorrect);
                 }
+
+                var lastRateKey = string.Format(kLastShowedRateFormat, skillView.Skill);
+                var lastRateValue = await _dataService.KeyValueStorage.GetIntValue(lastRateKey);
+
+                var needAnimate = false;
+                if (skillModel.CorrectRate != lastRateValue)
+                {
+                    await _dataService.KeyValueStorage.SaveIntValue(lastRateKey, skillModel.CorrectRate);
+                    needAnimate = true;
+                }
+                skillView.SetProgressBar(skillModel.CorrectRate, lastRateValue, needAnimate);
             }
+
+            _view.Show(null);
         }
 
-        private async UniTask<ResultScreenSkillPanelModel> BuildModel()
+        protected async override UniTask<ResultScreenSkillPanelModel> BuildModel()
         {
             int totalTasks = 0;
             int totalCorrect = 0;

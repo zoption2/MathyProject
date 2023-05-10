@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using DG.Tweening;
+using UnityEngine.UI;
 
 namespace Mathy.UI
 {

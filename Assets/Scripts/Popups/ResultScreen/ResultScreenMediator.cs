@@ -1,7 +1,7 @@
-﻿using Cysharp.Threading.Tasks;
-using Mathy.Services.UI;
+﻿using Mathy.Services.UI;
 using System;
 using UnityEngine;
+using Mathy.UI;
 
 namespace Mathy.Services
 {
@@ -17,15 +17,18 @@ namespace Mathy.Services
 
         private readonly IAddressableRefsHolder _refsHolder;
         private readonly IUIManager _uiManager;
-        private readonly IResultScreenSkillsController _skillResults;
+        private readonly IResultScreenSkillsController _skillController;
+        private readonly IResultScreenAchievementsController _achievementController;
         private IResultScreenView _view;
 
         public ResultScreenMediator(IAddressableRefsHolder refsHolder
-            , IResultScreenSkillsController skillResults
+            , IResultScreenSkillsController skillController
+            , IResultScreenAchievementsController achievementController
             , IUIManager uIManager)
         {
             _refsHolder = refsHolder;
-            _skillResults = skillResults;
+            _skillController = skillController;
+            _achievementController = achievementController;
             _uiManager = uIManager;
         }
 
@@ -35,6 +38,7 @@ namespace Mathy.Services
             _view.ON_CLOSE_CLICK += DoOnCloseClick;
             _view.Init(camera);
             InitSkillResults();
+            InitAchievementResults();
             _view.Show(onComplete);
         }
 
@@ -43,10 +47,16 @@ namespace Mathy.Services
             _uiManager.OpenView(this, UIBehaviour.Disposable, onShow);
         }
 
-        public void InitSkillResults()
+        private void InitSkillResults()
         {
             IResultScreenSkillsPanelView view = _view.SkillResults;
-            _skillResults.Init(view);
+            _skillController.Init(view);
+        }
+
+        private void InitAchievementResults()
+        {
+            IResultScreenAchievementsView view = _view.AchievementResults;
+            _achievementController.Init(view);
         }
 
         public void Hide(Action onHide)

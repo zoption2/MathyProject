@@ -210,12 +210,16 @@
         TotalTasksDuration = 4,
         Experience = 5,
         PlayerRank = 6,
-        GoldMedals = 10,
-        SilverMedals = 11,
-        BronzeMedals = 12,
-        ChallengeCups = 13,
 
         DatabaseControl = 100,
+    }
+
+    public enum Achievements
+    {
+        GoldMedal = 1,
+        SilverMedal = 2,
+        BronzeMedal = 3,
+        ChallengeCup = 4,
     }
 }
 

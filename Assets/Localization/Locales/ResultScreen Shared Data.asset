@@ -23,6 +23,10 @@ MonoBehaviour:
     m_Key: Total
     m_Metadata:
       m_Items: []
+  - m_Id: 670415694594048
+    m_Key: AchievementsKey
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

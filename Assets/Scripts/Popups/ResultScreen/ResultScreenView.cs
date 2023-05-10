@@ -12,6 +12,7 @@ namespace Mathy.Services
         event Action ON_CLOSE_CLICK;
         void Init(Camera camera);
         IResultScreenSkillsPanelView SkillResults { get; }
+        IResultScreenAchievementsView AchievementResults { get; }
     }
 
 
@@ -22,9 +23,11 @@ namespace Mathy.Services
         [SerializeField] private Button _closeButton;
         [SerializeField] private Canvas _canvas;
         [SerializeField] private ResultScreenSkillsPanelView _skillResults;
+        [SerializeField] private ResultScreenAchievementsView _achievementResults;
         [SerializeField] private BaseViewAnimator _animator;
 
         public IResultScreenSkillsPanelView SkillResults => _skillResults;
+        public IResultScreenAchievementsView AchievementResults => _achievementResults;
 
         public void Init(Camera camera)
         {
