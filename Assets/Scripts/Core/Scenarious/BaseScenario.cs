@@ -29,6 +29,7 @@ namespace Mathy.Core.Tasks
         protected GameplayScenePointer scenePointer;
         protected int taskIndexer = 0;
         protected int correctAnswers;
+        protected double totalDuration;
         protected List<ScriptableTask> availableTasks;
         protected DailyModeData dailyModeData;
 
@@ -60,6 +61,7 @@ namespace Mathy.Core.Tasks
             dailyModeData = await dataService.TaskData.GetDailyModeData(DateTime.UtcNow, TaskMode);
             taskIndexer = dailyModeData.PlayedCount;
             correctAnswers = dailyModeData.CorrectAnswers;
+            totalDuration = dailyModeData.Duration;
             tasks = new(kMaxTasksLoadedAtOnce);
             this.availableTasks = availableTasks;
 
@@ -113,6 +115,7 @@ namespace Mathy.Core.Tasks
             result.Date = DateTime.Now;
             result.Mode = TaskMode;
             taskIndexer++;
+            totalDuration += result.Duration;
 
             var taskId = await dataService.TaskData.SaveTask(result);
 
@@ -125,7 +128,7 @@ namespace Mathy.Core.Tasks
             dailyModeData.PlayedCount = taskIndexer;
             dailyModeData.CorrectAnswers = correctAnswers;
             dailyModeData.CorrectRate = (correctAnswers * 100) / taskIndexer;
-            dailyModeData.Duration = result.Duration;
+            dailyModeData.Duration = totalDuration;
             dailyModeData.TasksIds.Add(taskId);
 
             await dataService.TaskData.UpdateDailyMode(dailyModeData);

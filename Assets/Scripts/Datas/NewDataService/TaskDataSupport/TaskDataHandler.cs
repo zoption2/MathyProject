@@ -16,14 +16,18 @@ namespace Mathy.Services.Data
         UniTask<DailyModeData> GetDailyModeData(DateTime date, TaskMode mode);
         UniTask<List<DailyModeData>> GetMonthData(DateTime date);
         UniTask<SkillStatisticData> GetSkillStatistic(SkillType skillType, int grade);
+        UniTask<DayResultData> GetDayResult(DateTime date);
     }
 
 
     public class TaskDataHandler : ITaskDataHandler
     {
+        private const int kModesToDayComplete = 4;
+
         private readonly ITaskResultsProvider _taskProvider;
         private readonly IDailyModeProvider _dailyModeProvider;
         private readonly ISkillStatisticProvider _skillStatisticProvider;
+        private readonly IDayResultProvider _dayResultsProvider;
         private readonly ITaskResultFormatProcessor _resultFormatProcessor;
         private readonly DataService _dataService;
 
@@ -36,6 +40,7 @@ namespace Mathy.Services.Data
             _taskProvider = new TaskResultsProvider(filePath);
             _dailyModeProvider = new DailyModeProvider(filePath);
             _skillStatisticProvider = new SkillStatisticProvider(filePath);
+            _dayResultsProvider = new DayResultProvider(filePath);
             _resultFormatProcessor = new TaskResultFormatProcessor();
         }
 
@@ -79,6 +84,7 @@ namespace Mathy.Services.Data
         public async UniTask UpdateDailyMode(DailyModeData data)
         {
             await _dailyModeProvider.UpdateDailyMode(data);
+            await UpdateDayResultData(data);
         }
 
         public async UniTask<DailyModeData> GetDailyModeData(DateTime date, TaskMode mode)
@@ -98,6 +104,11 @@ namespace Mathy.Services.Data
             return result;
         }
 
+        public async UniTask<DayResultData> GetDayResult(DateTime date)
+        {
+            return await _dayResultsProvider.GetDayResult(date);
+        }
+
         public async UniTask Init()
         {
             await TryCreateTables();
@@ -108,6 +119,7 @@ namespace Mathy.Services.Data
             await _taskProvider.DeleteTable();
             await _dailyModeProvider.DeleteTable();
             await _skillStatisticProvider.DeleteTable();
+            await _dayResultsProvider.DeleteTable();
         }
 
         protected async UniTask TryCreateTables()
@@ -115,6 +127,7 @@ namespace Mathy.Services.Data
             await _taskProvider.TryCreateTable();
             await _dailyModeProvider.TryCreateTable();
             await _skillStatisticProvider.TryCreateTable();
+            await _dayResultsProvider.TryCreateTable();
         }
 
         private async UniTask UpdateSkillStatistic(TaskResultData task)
@@ -130,6 +143,27 @@ namespace Mathy.Services.Data
                 : 0;
             stat.Duration += task.Duration;
             await _skillStatisticProvider.UpdateSkillStatistic(stat);
+        }
+
+        private async UniTask UpdateDayResultData(DailyModeData data)
+        {
+            var dayResult = await _dayResultsProvider.GetDayResult(data.Date);
+            dayResult.Date = data.Date;
+            if (data.IsComplete && !dayResult.CompletedModes.Contains(data.Mode))
+            {
+                dayResult.CompletedModes.Add(data.Mode);
+                dayResult.TotalTasks += data.TotalTasks;
+                dayResult.CorrectTasks += data.CorrectAnswers;
+                dayResult.MiddleRate = (dayResult.CorrectTasks * 100) / dayResult.TotalTasks;
+                dayResult.Duration += data.Duration;
+            }
+
+            if(dayResult.CompletedModes.Count == kModesToDayComplete)
+            {
+                dayResult.IsCompleted = true;
+            }
+
+            await _dayResultsProvider.UpdateDayResult(dayResult);
         }
     }
 }

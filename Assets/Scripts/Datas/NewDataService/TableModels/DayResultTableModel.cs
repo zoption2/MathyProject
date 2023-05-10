@@ -10,7 +10,11 @@ namespace Mathy.Services.Data
         public bool IsComplete { get; set; }
         public string Reward { get; set; }
         public int RewardIndex { get; set; }
+        public int TotalTasks { get; set; }
+        public int CorrectTasks { get; set; }
         public int MiddleRate { get; set; }
+        public string CompletedModes { get; set; }
+        public double Duration { get; set; }
     }
 }
 

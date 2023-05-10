@@ -50,24 +50,6 @@ namespace Mathy.Services.Data
             ";
 
 
-        public static readonly string UpdateOrInsertDailyQuery = $@"
-        INSERT OR REPLACE INTO {kDailyModeTable}
-        ({kDate}, {kMode}, {kModeIndex}, {kIsModeDone}, {kPlayedCount})
-        SELECT
-            @{nameof(DailyModeTableModel.Date)},
-            @{nameof(DailyModeTableModel.Mode)},
-            @{nameof(DailyModeTableModel.ModeIndex)},
-            @{nameof(DailyModeTableModel.IsComplete)},
-            @{nameof(DailyModeTableModel.PlayedTasks)}
-        WHERE NOT EXISTS (
-            SELECT 1 FROM {kDailyModeTable}
-            WHERE {kDate} = @{nameof(DailyModeTableModel.Date)}
-            AND {kModeIndex} = @{nameof(DailyModeTableModel.ModeIndex)}
-        )
-        OR {kDate} = @{nameof(DailyModeTableModel.Date)}
-        AND {kModeIndex} = @{nameof(DailyModeTableModel.ModeIndex)}
-    ";
-
 
         public static readonly string InsertDailyQuery = $@"insert into {kDailyModeTable}
             ({kDate}, {kMode}, {kModeIndex}, {kIsModeDone}, {kPlayedCount}, {kCorrect},
@@ -90,7 +72,7 @@ namespace Mathy.Services.Data
                 {kPlayedCount} = @{nameof(DailyModeTableModel.PlayedTasks)},
                 {kCorrect} = @{nameof(DailyModeTableModel.CorrectAnswers)},
                 {kCorrectRate} = @{nameof(DailyModeTableModel.CorrectRate)},
-                {kDuration} = {kDuration} + @{nameof(DailyModeTableModel.Duration)},
+                {kDuration} = @{nameof(DailyModeTableModel.Duration)},
                 {kTotalTasks} = @{nameof(DailyModeTableModel.TotalTasks)},
                 {kTasksIds} = @{nameof(DailyModeTableModel.TasksIds)}
             WHERE {kDate} = @{nameof(DailyModeTableModel.Date)}

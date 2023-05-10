@@ -282,7 +282,11 @@ namespace Mathy.Services.Data
             result.IsComplete = data.IsCompleted;
             result.Reward = data.Reward.ToString();
             result.RewardIndex = (int)data.Reward;
+            result.TotalTasks = data.TotalTasks;
+            result.CorrectTasks = data.CorrectTasks;
             result.MiddleRate = data.MiddleRate;
+            result.CompletedModes = string.Join(",", data.CompletedModes);
+            result.Duration = data.Duration;
 
             return result;
         }
@@ -294,7 +298,12 @@ namespace Mathy.Services.Data
             result.IsCompleted = model.IsComplete;
             var rewardName = Enum.GetName(typeof(Achievements), model.RewardIndex);
             result.Reward = Enum.Parse<Achievements>(rewardName);
+            result.TotalTasks = model.TotalTasks;
+            result.CorrectTasks = model.CorrectTasks;
             result.MiddleRate = model.MiddleRate;
+            result.CompletedModes = model.CompletedModes.Split(',')
+                .Select(mode => (TaskMode)Enum.Parse(typeof(TaskMode), mode)).ToList();
+            result.Duration = model.Duration;
 
             return result;
         }

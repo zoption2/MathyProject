@@ -9,7 +9,12 @@
         private const string kIsComplete = "IsComplete";
         private const string kReward = "Reward";
         private const string kRewardIndex = "RewardIndex";
+        private const string kTotalTasks = "PlayedTasks";
+        private const string kCorrectTasks = "CorrectTasks";
         private const string kRate = "Rate";
+        private const string kCompletedModes = "CompletedModes";
+        private const string kDuration = "Duration";
+
 
         public static readonly string CreateTableQuery = $@"
             create table if not exists {kTableName}
@@ -19,7 +24,11 @@
                 {kIsComplete} BOOLEAN NOT NULL,
                 {kReward} STRING NOT NULL,
                 {kRewardIndex} INTEGER NOT NULL,
-                {kRate} INTEGER NOT NULL
+                {kTotalTasks} INTEGER NOT NULL,
+                {kCorrectTasks} INTEGER NOT NULL,
+                {kRate} INTEGER NOT NULL,
+                {kCompletedModes} STRING NOT NULL,
+                {kDuration} DOUBLE NOT NULL
             )";
 
 
@@ -31,14 +40,19 @@
         public static readonly string InsertQuery = $@"
             insert into {kTableName}
             (
-                {kDate}, {kIsComplete}, {kReward}, {kRewardIndex}, {kRate}
+                {kDate}, {kIsComplete}, {kReward}, {kRewardIndex}, {kTotalTasks}
+                , {kCorrectTasks}, {kRate}, {kCompletedModes}, {kDuration}
             )
             values(
                 @{nameof(DayResultTableModel.Date)},
                 @{nameof(DayResultTableModel.IsComplete)},
                 @{nameof(DayResultTableModel.Reward)},
                 @{nameof(DayResultTableModel.RewardIndex)},
-                @{nameof(DayResultTableModel.MiddleRate)}
+                @{nameof(DayResultTableModel.TotalTasks)},
+                @{nameof(DayResultTableModel.CorrectTasks)},
+                @{nameof(DayResultTableModel.MiddleRate)},
+                @{nameof(DayResultTableModel.CompletedModes)},
+                @{nameof(DayResultTableModel.Duration)}
             )";
 
 
@@ -49,7 +63,11 @@
                 {kIsComplete} as {nameof(DayResultTableModel.IsComplete)},
                 {kReward} as {nameof(DayResultTableModel.Reward)},
                 {kRewardIndex} as {nameof(DayResultTableModel.RewardIndex)},
-                {kRate} as {nameof(DayResultTableModel.MiddleRate)}
+                {kTotalTasks} as {nameof(DayResultTableModel.TotalTasks)},
+                {kCorrectTasks} as {nameof(DayResultTableModel.CorrectTasks)},
+                {kRate} as {nameof(DayResultTableModel.MiddleRate)},
+                {kCompletedModes} as {nameof(DayResultTableModel.CompletedModes)},
+                {kDuration} as {nameof(DayResultTableModel.Duration)}
             from {kTableName}
             where {kDate} = @{nameof(DayResultTableModel.Date)}
             ";
@@ -61,7 +79,11 @@
                 {kIsComplete} = @{nameof(DayResultTableModel.IsComplete)},
                 {kReward} = @{nameof(DayResultTableModel.Reward)},
                 {kRewardIndex} = @{nameof(DayResultTableModel.RewardIndex)},
-                {kRate} = @{nameof(DayResultTableModel.MiddleRate)}
+                {kTotalTasks} = @{nameof(DayResultTableModel.TotalTasks)},
+                {kCorrectTasks} = @{nameof(DayResultTableModel.CorrectTasks)},
+                {kRate} = @{nameof(DayResultTableModel.MiddleRate)},
+                {kCompletedModes} = @{nameof(DayResultTableModel.CompletedModes)},
+                {kDuration} = @{nameof(DayResultTableModel.Duration)}
             where {kDate} = @{nameof(DayResultTableModel.Date)}
             ";
 

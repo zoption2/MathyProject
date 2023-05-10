@@ -7,7 +7,7 @@ namespace Mathy.Services.Data
 {
     public interface IDayResultProvider : IDataProvider
     {
-        UniTask AddDayResult(DateTime date, bool isComplete, Achievements reward, int middleRate);
+        UniTask UpdateDayResult(DayResultData data);
         UniTask<DayResultData> GetDayResult(DateTime date);
     }
 
@@ -18,37 +18,33 @@ namespace Mathy.Services.Data
         {
         }
 
-        public async UniTask AddDayResult(DateTime date, bool isComplete, Achievements reward, int middleRate)
+        public async UniTask UpdateDayResult(DayResultData data)
         {
             using (var connection = new SqliteConnection(_dbFilePath))
             {
                 connection.Open();
-                var requestData = new DayResultData()
-                {
-                    Date = date,
-                    IsCompleted = isComplete,
-                    Reward = reward,
-                    MiddleRate = middleRate
-                };
-                var requestModel = requestData.ConvertToModel();
+                var requestModel = data.ConvertToModel();
 
                 var query = DayResultsTableRequests.GetCountQyery;
                 SqliteCommand command = new SqliteCommand(query, connection);
                 command.Parameters.AddWithValue(nameof(DayResultTableModel.Date), requestModel.Date);
                 var scaler = await command.ExecuteScalarAsync();
                 var count = Convert.ToInt32(scaler);
-                if (count != 0)
-                {
-                    return;
-                }
 
-                query = DayResultsTableRequests.InsertQuery;
+                query = count == 0
+                    ? DayResultsTableRequests.InsertQuery
+                    : DayResultsTableRequests.UpdateQuery;
+
                 command = new SqliteCommand(query, connection);
                 command.Parameters.AddWithValue(nameof(DayResultTableModel.Date), requestModel.Date);
                 command.Parameters.AddWithValue(nameof(DayResultTableModel.IsComplete), requestModel.IsComplete);
                 command.Parameters.AddWithValue(nameof(DayResultTableModel.Reward), requestModel.Reward);
                 command.Parameters.AddWithValue(nameof(DayResultTableModel.RewardIndex), requestModel.RewardIndex);
+                command.Parameters.AddWithValue(nameof(DayResultTableModel.TotalTasks), requestModel.TotalTasks);
+                command.Parameters.AddWithValue(nameof(DayResultTableModel.CorrectTasks), requestModel.CorrectTasks);
                 command.Parameters.AddWithValue(nameof(DayResultTableModel.MiddleRate), requestModel.MiddleRate);
+                command.Parameters.AddWithValue(nameof(DayResultTableModel.CompletedModes), requestModel.CompletedModes);
+                command.Parameters.AddWithValue(nameof(DayResultTableModel.Duration), requestModel.Duration);
                 await command.ExecuteScalarAsync();
 
                 connection.Close();
@@ -87,7 +83,11 @@ namespace Mathy.Services.Data
                     requestModel.IsComplete = Convert.ToBoolean(reader[2]);
                     requestModel.Reward = Convert.ToString(reader[3]);
                     requestModel.RewardIndex = Convert.ToInt32(reader[4]);
-                    requestModel.MiddleRate = Convert.ToInt32(reader[5]);
+                    requestModel.TotalTasks = Convert.ToInt32(reader[5]);
+                    requestModel.CorrectTasks = Convert.ToInt32(reader[6]);
+                    requestModel.MiddleRate = Convert.ToInt32(reader[7]);
+                    requestModel.CompletedModes = Convert.ToString(reader[8]);
+                    requestModel.Duration = Convert.ToDouble(reader[9]);
                 }
                 reader.Close();
 
