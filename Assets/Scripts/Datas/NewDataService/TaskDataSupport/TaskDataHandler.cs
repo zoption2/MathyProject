@@ -148,11 +148,17 @@ namespace Mathy.Services.Data
         private async UniTask UpdateDayResultData(DailyModeData data)
         {
             var dayResult = await _dayResultsProvider.GetDayResult(data.Date);
+            if(dayResult.IsCompleted)
+            {
+                return;
+            }
+
             dayResult.Date = data.Date;
+            dayResult.Reward = Achievements.none;
             if (data.IsComplete && !dayResult.CompletedModes.Contains(data.Mode))
             {
                 dayResult.CompletedModes.Add(data.Mode);
-                dayResult.TotalTasks += data.TotalTasks;
+                dayResult.TotalTasks += data.PlayedCount;
                 dayResult.CorrectTasks += data.CorrectAnswers;
                 dayResult.MiddleRate = (dayResult.CorrectTasks * 100) / dayResult.TotalTasks;
                 dayResult.Duration += data.Duration;
@@ -161,6 +167,8 @@ namespace Mathy.Services.Data
             if(dayResult.CompletedModes.Count == kModesToDayComplete)
             {
                 dayResult.IsCompleted = true;
+                var reward = PointsHelper.GetDayReward(dayResult.MiddleRate);
+                dayResult.Reward = reward;
             }
 
             await _dayResultsProvider.UpdateDayResult(dayResult);

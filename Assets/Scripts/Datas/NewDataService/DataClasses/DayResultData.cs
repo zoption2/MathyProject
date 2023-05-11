@@ -12,7 +12,7 @@ namespace Mathy.Services
         public int TotalTasks { get; set; }
         public int CorrectTasks { get; set; }
         public int MiddleRate { get; set; }
-        public List<TaskMode> CompletedModes { get; set; }
+        public List<TaskMode> CompletedModes { get; set; } = new();
         public double Duration { get; set; }
     }
 }

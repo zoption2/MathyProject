@@ -78,18 +78,20 @@ namespace Mathy.Services.Data
                 var resultModel = new DayResultTableModel();
                 while (await reader.ReadAsync())
                 {
-                    requestModel.Id = Convert.ToInt32(reader[0]);
-                    requestModel.Date = Convert.ToString(reader[1]);
-                    requestModel.IsComplete = Convert.ToBoolean(reader[2]);
-                    requestModel.Reward = Convert.ToString(reader[3]);
-                    requestModel.RewardIndex = Convert.ToInt32(reader[4]);
-                    requestModel.TotalTasks = Convert.ToInt32(reader[5]);
-                    requestModel.CorrectTasks = Convert.ToInt32(reader[6]);
-                    requestModel.MiddleRate = Convert.ToInt32(reader[7]);
-                    requestModel.CompletedModes = Convert.ToString(reader[8]);
-                    requestModel.Duration = Convert.ToDouble(reader[9]);
+                    resultModel.Id = Convert.ToInt32(reader[0]);
+                    resultModel.Date = Convert.ToString(reader[1]);
+                    resultModel.IsComplete = Convert.ToBoolean(reader[2]);
+                    resultModel.Reward = Convert.ToString(reader[3]);
+                    resultModel.RewardIndex = Convert.ToInt32(reader[4]);
+                    resultModel.TotalTasks = Convert.ToInt32(reader[5]);
+                    resultModel.CorrectTasks = Convert.ToInt32(reader[6]);
+                    resultModel.MiddleRate = Convert.ToInt32(reader[7]);
+                    resultModel.CompletedModes = Convert.ToString(reader[8]);
+                    resultModel.Duration = Convert.ToDouble(reader[9]);
                 }
                 reader.Close();
+                connection.Close();
+                connection.Dispose();
 
                 var result = resultModel.ConvertToData();
                 return result;

@@ -49,6 +49,7 @@ namespace Mathy.Core.Tasks
 
             results.Mode = TaskMode;
             taskIndexer++;
+            totalDuration += results.Duration;
 
             var taskId = await dataService.TaskData.SaveTask(results);
 
@@ -61,7 +62,7 @@ namespace Mathy.Core.Tasks
             dailyModeData.PlayedCount = taskIndexer;
             dailyModeData.CorrectAnswers = correctAnswers;
             dailyModeData.CorrectRate = (correctAnswers * 100) / taskIndexer;
-            dailyModeData.Duration = results.Duration;
+            dailyModeData.Duration = totalDuration;
             dailyModeData.TasksIds.Add(taskId);
 
             await dataService.TaskData.UpdateDailyMode(dailyModeData);

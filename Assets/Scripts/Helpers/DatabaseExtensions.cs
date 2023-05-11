@@ -6,6 +6,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Data;
+using System.Runtime;
 
 
 namespace Mathy.Services.Data
@@ -285,6 +286,9 @@ namespace Mathy.Services.Data
             result.TotalTasks = data.TotalTasks;
             result.CorrectTasks = data.CorrectTasks;
             result.MiddleRate = data.MiddleRate;
+            //result.CompletedModes = data.CompletedModes.Count > 0
+            //    ? string.Join(",", data.CompletedModes)
+            //    : string.Empty;
             result.CompletedModes = string.Join(",", data.CompletedModes);
             result.Duration = data.Duration;
 
@@ -301,8 +305,11 @@ namespace Mathy.Services.Data
             result.TotalTasks = model.TotalTasks;
             result.CorrectTasks = model.CorrectTasks;
             result.MiddleRate = model.MiddleRate;
-            result.CompletedModes = model.CompletedModes.Split(',')
-                .Select(mode => (TaskMode)Enum.Parse(typeof(TaskMode), mode)).ToList();
+            if (string.IsNullOrEmpty(model.CompletedModes) == false)
+            {
+                result.CompletedModes = model.CompletedModes.Split(',')
+                        .Select(mode => (TaskMode)Enum.Parse(typeof(TaskMode), mode)).ToList();
+            }
             result.Duration = model.Duration;
 
             return result;

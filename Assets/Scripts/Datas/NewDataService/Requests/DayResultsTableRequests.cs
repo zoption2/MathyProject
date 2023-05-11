@@ -70,7 +70,7 @@
                 {kDuration} as {nameof(DayResultTableModel.Duration)}
             from {kTableName}
             where {kDate} = @{nameof(DayResultTableModel.Date)}
-            ";
+            ;";
 
 
         public static readonly string UpdateQuery = $@"
