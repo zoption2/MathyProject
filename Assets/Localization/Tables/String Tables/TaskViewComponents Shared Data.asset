@@ -27,6 +27,14 @@ MonoBehaviour:
     m_Key: thereAreKey
     m_Metadata:
       m_Items: []
+  - m_Id: 11247399960756224
+    m_Key: tens
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11247538070798336
+    m_Key: ones
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

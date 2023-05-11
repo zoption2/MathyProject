@@ -118,6 +118,10 @@ MonoBehaviour:
     m_Localized: bottles
     m_Metadata:
       m_Items: []
+  - m_Id: 15183840000524288
+    m_Localized: blocks
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

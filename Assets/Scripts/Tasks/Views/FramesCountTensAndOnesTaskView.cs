@@ -14,6 +14,8 @@ namespace Mathy.Core.Tasks.DailyTasks
         ITaskViewComponent ResultField { get; }
         void SetHeaderImage(Sprite sprite);
         void SetInputsHolderImage(Sprite sprite);
+        void SetTens(string text);
+        void SetOnes(string text);
     }
 
 
@@ -26,6 +28,8 @@ namespace Mathy.Core.Tasks.DailyTasks
         [SerializeField] private Image[] inputsHolderImages;
         [SerializeField] private Image headerImage;
         [SerializeField] private TaskElementViewClickable[] inputButtons;
+        [SerializeField] private TMP_Text tens;
+        [SerializeField] private TMP_Text ones;
 
         public ITaskElementHolderView[] ElementsHolder => holders;
         public ITaskViewComponent InputFieldElementTens => inputFieldTens;
@@ -44,6 +48,15 @@ namespace Mathy.Core.Tasks.DailyTasks
             {
                 inputsHolderImages[i].sprite = sprite;
             }
+        }
+        public void SetTens(string text)
+        {
+            tens.text = text;
+        }
+
+        public void SetOnes(string text)
+        {
+            ones.text = text;
         }
     }
 }

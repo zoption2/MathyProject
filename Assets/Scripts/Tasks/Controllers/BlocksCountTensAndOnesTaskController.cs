@@ -7,13 +7,13 @@ using static UnityEngine.Rendering.DebugUI;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
-    public class FramesCountTensAndOnesTaskController : BaseTaskController<IFramesCountTensAndOnesTaskView, ICountToAmountTaskModel>
+    public class BlocksCountTensAndOnesTaskController : BaseTaskController<IFramesCountTensAndOnesTaskView, ICountToAmountTaskModel>
     {
         private const string kSpritesTableKey = "CountedImages";
         private const string kViewElementsTableKey = "TaskViewComponents";
         private const string kTens = "tens";
         private const string kOnes = "ones";
-        private const int kHolderCapacity = 10;
+        private const int kHolderCapacity = 20;
         private const int kMaxTaskElements = 20;
         private const int kCorrectAnswerIndex = 0;
         private const int kWrongAnswerIndex = 1;
@@ -38,7 +38,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         protected override string LocalizationTableKey => "TaskTitles";
 
 
-        public FramesCountTensAndOnesTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice) : base(refsHolder, backgroundSevice)
+        public BlocksCountTensAndOnesTaskController(IAddressableRefsHolder refsHolder, ITaskBackgroundSevice backgroundSevice) : base(refsHolder, backgroundSevice)
         {
         }
 
@@ -51,7 +51,6 @@ namespace Mathy.Core.Tasks.DailyTasks
             View.SetInputsHolderImage(backgroundData.HolderSprite);
             View.SetTens(GetLocalizedTens());
             View.SetOnes(GetLocalizedOnes());
-
 
             correctValue = Model.CountToShow;
             correctValueString = correctValue < 10 
@@ -74,11 +73,11 @@ namespace Mathy.Core.Tasks.DailyTasks
                 frames[i].Init(i);
             }
 
-            var imageValues = Enum.GetValues(typeof(CountedImageType));
-            var selectedImageType = (CountedImageType)imageValues.GetValue(random.Next(imageValues.Length));
+            var imageValues = Enum.GetValues(typeof(CountedBlocksImageType));
+            var selectedImageType = (CountedBlocksImageType)imageValues.GetValue(random.Next(imageValues.Length));
             localizedObjectName = GetLocalizedObjectName(selectedImageType.ToString());
 
-            Sprite sprite = await refsHolder.TaskCountedImageProvider.GetSpriteByType(selectedImageType);
+            Sprite sprite = await refsHolder.TaskCountedBlocksImageProvider.GetSpriteByType(selectedImageType);
             if (sprite == null)
             {
                 Debug.LogFormat("Sprite from addresables is null");
@@ -91,16 +90,6 @@ namespace Mathy.Core.Tasks.DailyTasks
             {
                 var element = await refsHolder.UIComponentProvider
                     .InstantiateFromReference<ITaskSimpleImageElement>(UIComponentType.SimpleImageElement, frames[0].Parent);
-                element.Init(i, i.ToString(), sprite);
-                elements.Add(element);
-                remainingValue--;
-            }
-
-            //filling holder 2
-            for (int i = 0; i < kHolderCapacity && remainingValue > 0; i++)
-            {
-                var element = await refsHolder.UIComponentProvider
-                    .InstantiateFromReference<ITaskSimpleImageElement>(UIComponentType.SimpleImageElement, frames[1].Parent);
                 element.Init(i, i.ToString(), sprite);
                 elements.Add(element);
                 remainingValue--;
@@ -122,8 +111,8 @@ namespace Mathy.Core.Tasks.DailyTasks
         private void DoOnInputClick(ITaskViewComponent input)
         {
             var inputedValueString = input.Value;
-            var totalValueString = tens == true 
-                ? inputedValueString + inputFieldElementOnes.Value 
+            var totalValueString = tens == true
+                ? inputedValueString + inputFieldElementOnes.Value
                 : inputFieldElementTens.Value + inputedValueString;
             int totalValue = 0;
             if (totalValueString != "")
@@ -174,6 +163,7 @@ namespace Mathy.Core.Tasks.DailyTasks
 
             void Fail()
             {
+                
                 UnsubscribeInputs();
                 inputFieldElementTens.ChangeState(UI.Tasks.TaskElementState.Wrong);
                 inputFieldElementOnes.ChangeState(UI.Tasks.TaskElementState.Wrong);
@@ -186,7 +176,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             }
 
             void Success()
-            {   
+            {
                 UnsubscribeInputs();
                 inputFieldElementTens.ChangeState(UI.Tasks.TaskElementState.Correct);
                 inputFieldElementOnes.ChangeState(UI.Tasks.TaskElementState.Correct);
@@ -204,7 +194,6 @@ namespace Mathy.Core.Tasks.DailyTasks
             var localizedTitleFormat = LocalizationManager.GetLocalizedString(LocalizationTableKey, Model.TitleKey);
             return string.Format(localizedTitleFormat, localizedObjectName);
         }
-
         private string FinalValueString(string inputedValueString)
         {
             var tempValue = inputedValueString != "0" ? "0" : inputedValueString;

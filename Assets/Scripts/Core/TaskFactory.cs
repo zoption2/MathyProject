@@ -169,6 +169,13 @@ namespace Mathy
                     await controller.Init(model, view);
                     return controller;
 
+                case TaskType.CountBlocksToTensAndOnes:
+                    model = new FramesCountTensAndOnesTaskModel(taskSettings);
+                    controller = container.Resolve<BlocksCountTensAndOnesTaskController>();
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<IFramesCountTensAndOnesTaskView>(TaskType.CountBlocksToTensAndOnes, viewParent);
+                    await controller.Init(model, view);
+                    return controller;
+
                 case TaskType.Multiplication:
 
                 case TaskType.Division:

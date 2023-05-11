@@ -301,6 +301,14 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/TaskView/6.CountingFramesTensAndOnesTaskView.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 9ca36a6cbe8acb84fbfab06387c2723f
+    m_Address: Assets/Prefabs/TaskView/7.CountingBlocksTensAndOnesTaskView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7c6d66ab577c6924985d7e15b6f8ce11
+    m_Address: Assets/Sprites/Counting Objects/Blue block.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 76746eb55ddbd544c89bef47883242cf, type: 2}
   m_SchemaSet:
