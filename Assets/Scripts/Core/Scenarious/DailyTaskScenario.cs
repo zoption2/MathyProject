@@ -5,7 +5,6 @@ using Mathy.Services;
 using Mathy.UI;
 using System;
 using System.Linq;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mathy.Core.Tasks
@@ -18,12 +17,13 @@ namespace Mathy.Core.Tasks
         protected abstract int TotalTasks { get; }
 
         protected DailyTaskScenario(ITaskFactory taskFactory
-            ,ITaskBackgroundSevice backgroundHandler
-            ,IAddressableRefsHolder addressableRefs
-            ,IDataService dataService
+            , ITaskBackgroundSevice backgroundHandler
+            , IAddressableRefsHolder addressableRefs
+            , IDataService dataService
+            , IPlayerDataService playerDataService
             , IResultScreenMediator resultScreen
             ) 
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, playerDataService, resultScreen)
         {
         }
 
@@ -88,9 +88,11 @@ namespace Mathy.Core.Tasks
             }
         }
 
-        protected override void EndGameplay()
+        protected async override void EndGameplay()
         {
             base.EndGameplay();
+            var gainedExperience = PointsHelper.GetExperiencePointsByRate(dailyModeData.CorrectRate);
+            await playerDataService.Progress.AddExperience(gainedExperience);
             //var resultsView = scenePointer.ResultsWindow;
             //resultsView.gameObject.SetActive(true);
             //float correctRate = correctAnswers / (float)TotalTasks * 100f;
@@ -139,9 +141,10 @@ namespace Mathy.Core.Tasks
             , ITaskBackgroundSevice backgroundHandler
             , IAddressableRefsHolder addressableRefs
             , IDataService dataService
+            , IPlayerDataService playerDataService
             , IResultScreenMediator resultScreen
             )
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, playerDataService, resultScreen)
         {
         }
     }
@@ -157,9 +160,10 @@ namespace Mathy.Core.Tasks
             , ITaskBackgroundSevice backgroundHandler
             , IAddressableRefsHolder addressableRefs
             , IDataService dataService
+            , IPlayerDataService playerDataService
             , IResultScreenMediator resultScreen
             )
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, playerDataService, resultScreen)
         {
         }
     }
@@ -175,9 +179,10 @@ namespace Mathy.Core.Tasks
             , ITaskBackgroundSevice backgroundHandler
             , IAddressableRefsHolder addressableRefs
             , IDataService dataService
+            , IPlayerDataService playerDataService
             , IResultScreenMediator resultScreen
             )
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, playerDataService, resultScreen)
         {
         }
     }

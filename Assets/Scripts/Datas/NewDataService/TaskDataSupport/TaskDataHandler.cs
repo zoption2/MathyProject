@@ -169,6 +169,11 @@ namespace Mathy.Services.Data
                 dayResult.IsCompleted = true;
                 var reward = PointsHelper.GetDayReward(dayResult.MiddleRate);
                 dayResult.Reward = reward;
+                if (reward != Achievements.none)
+                {
+                    var key = reward.ToString();
+                    await _dataService.KeyValueStorage.IncrementIntValue(key);
+                }
             }
 
             await _dayResultsProvider.UpdateDayResult(dayResult);

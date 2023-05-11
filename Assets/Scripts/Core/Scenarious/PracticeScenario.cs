@@ -14,9 +14,10 @@ namespace Mathy.Core.Tasks
             , ITaskBackgroundSevice backgroundHandler
             , IAddressableRefsHolder addressableRefs
             , IDataService dataService
+            , IPlayerDataService playerDataService
             , IResultScreenMediator resultScreen
             )
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, playerDataService, resultScreen)
         {
         }
 

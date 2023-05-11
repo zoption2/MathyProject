@@ -246,7 +246,7 @@ public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
         {
             Debug.Log("All modes done!");
             DailyStatusPanel.Instance.AllModesDone = true;
-            if(gameObject.activeInHierarchy) DailyStatusPanel.Instance.OpenPanel();
+            //if(gameObject.activeInHierarchy) DailyStatusPanel.Instance.OpenPanel();
             State = PlayPanelState.Completed;
         }
     }

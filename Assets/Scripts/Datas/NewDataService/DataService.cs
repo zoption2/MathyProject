@@ -9,6 +9,7 @@ namespace Mathy.Services
 {
     public interface IDataService
     {
+        public bool IsInited { get; }
         event Action ON_RESET;
         ITaskDataHandler TaskData { get; }
         ISkillPlanHandler SkillPlan { get; }
@@ -38,6 +39,7 @@ namespace Mathy.Services
         private string _saveFilePath;
         private bool _isFirstCreation;
 
+        public bool IsInited { get; private set; }
         public string DatabasePath => _taskDBFilePath;
 
         public ITaskDataHandler TaskData => _taskDataHandler;
@@ -80,6 +82,7 @@ namespace Mathy.Services
         private async void InitHandlers()
         {
             await InitHandlersAsync();
+            IsInited = true;
             //var needToClear = await TryToClearDatabase(kDatabaseControl);
             //if (!needToClear)
             //{

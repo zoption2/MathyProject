@@ -145,7 +145,7 @@ public class GameSettingsManager : StaticInstance<GameSettingsManager>
         ////Here in the reset process we need to show a modal window to the user and ask him if he really wants to delete all his progress
         //await SceneManager.LoadSceneAsync("LoadingScreen");
 
-        DailyStatusPanel.Instance.AllModesDone = false;
+        //DailyStatusPanel.Instance.AllModesDone = false;
         PlayerPrefs.DeleteAll();
         await dataService.ResetProgress();
         GameManager.Instance.ChangeState(GameState.MainMenu);

@@ -9,6 +9,8 @@ using Cysharp.Threading.Tasks;
 using Mathy.Core.Tasks;
 using TMPro;
 using Mathy.Data;
+using Zenject;
+using Mathy.Services;
 
 namespace Mathy.Core
 {
@@ -28,6 +30,7 @@ namespace Mathy.Core
         public bool isLoadingScreenOpened { get; private set; }
 
         #endregion
+        [Inject] private IDataService dataService;
 
         #region INITIALIZATION AND MONO
 
@@ -44,7 +47,8 @@ namespace Mathy.Core
         private async UniTask LoadAllScenesAsync()
         {
             await UnloadAllScenesExcept("LoadingScreen");
-            await UniTask.WaitUntil(() => DataManager.Instance != null);
+            //await UniTask.WaitUntil(() => DataManager.Instance != null);
+            await UniTask.WaitUntil(() => dataService.IsInited);
             await UniTask.Delay(100);
             AsyncOperation asyncLoadMainMenu = SceneManager.LoadSceneAsync("MainMenu", LoadSceneMode.Additive);
             await UniTask.WaitUntil(() => asyncLoadMainMenu.isDone).ContinueWith(LoadGameplayScenes);
