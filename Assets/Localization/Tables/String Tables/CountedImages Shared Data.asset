@@ -115,6 +115,10 @@ MonoBehaviour:
     m_Key: BottleVariant_3
     m_Metadata:
       m_Items: []
+  - m_Id: 15183840000524288
+    m_Key: Block
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

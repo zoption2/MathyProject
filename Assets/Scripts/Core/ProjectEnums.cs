@@ -169,6 +169,11 @@
         Strawberry = 7,
     }
 
+    public enum CountedBlocksImageType
+    {
+        Block,
+    }
+
     public enum SelectFromThreeImageType
     {
         BottleVariant_1 = 10,
