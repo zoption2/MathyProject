@@ -109,7 +109,9 @@ namespace Mathy.UI
 
             model.TotalTasks = totalTasks;
             model.TotalCorrect = totalCorrect;
-            model.MiddleRate = (totalCorrect * 100) / totalTasks;
+            model.MiddleRate = totalTasks > 0
+                ? (totalCorrect * 100) / totalTasks
+                : 0;
 
             return model;
         }

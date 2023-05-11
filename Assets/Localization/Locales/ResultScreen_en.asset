@@ -30,6 +30,10 @@ MonoBehaviour:
     m_Localized: achievements
     m_Metadata:
       m_Items: []
+  - m_Id: 1098945888780288
+    m_Localized: Level rewards
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

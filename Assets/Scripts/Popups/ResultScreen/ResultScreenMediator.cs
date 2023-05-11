@@ -19,16 +19,19 @@ namespace Mathy.Services
         private readonly IUIManager _uiManager;
         private readonly IResultScreenSkillsController _skillController;
         private readonly IResultScreenAchievementsController _achievementController;
+        private readonly IResultScreenRewardController _rewardController;
         private IResultScreenView _view;
 
         public ResultScreenMediator(IAddressableRefsHolder refsHolder
             , IResultScreenSkillsController skillController
             , IResultScreenAchievementsController achievementController
+            , IResultScreenRewardController rewardController
             , IUIManager uIManager)
         {
             _refsHolder = refsHolder;
             _skillController = skillController;
             _achievementController = achievementController;
+            _rewardController = rewardController;
             _uiManager = uIManager;
         }
 
@@ -37,8 +40,9 @@ namespace Mathy.Services
             _view = await _refsHolder.PopupsProvider.InstantiateFromReference<IResultScreenView>(Popups.ResultScreen, parent);
             _view.ON_CLOSE_CLICK += DoOnCloseClick;
             _view.Init(camera);
-            InitSkillResults();
-            InitAchievementResults();
+            InitSkillController();
+            InitAchievementController();
+            InitRewardController();
             _view.Show(onComplete);
         }
 
@@ -47,16 +51,22 @@ namespace Mathy.Services
             _uiManager.OpenView(this, UIBehaviour.Disposable, onShow);
         }
 
-        private void InitSkillResults()
+        private void InitSkillController()
         {
-            IResultScreenSkillsPanelView view = _view.SkillResults;
+            IResultScreenSkillsPanelView view = _view.SkillView;
             _skillController.Init(view);
         }
 
-        private void InitAchievementResults()
+        private void InitAchievementController()
         {
-            IResultScreenAchievementsView view = _view.AchievementResults;
+            IResultScreenAchievementsView view = _view.AchievementView;
             _achievementController.Init(view);
+        }
+
+        private void InitRewardController()
+        {
+            IResultScreenRewardView view = _view.RewardView;
+            _rewardController.Init(view);
         }
 
         public void Hide(Action onHide)

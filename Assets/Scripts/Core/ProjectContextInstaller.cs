@@ -77,6 +77,7 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<IResultScreenMediator>().To<ResultScreenMediator>().AsTransient();
         Container.Bind<IResultScreenSkillsController>().To<ResultScreenSkillsController>().AsTransient();
         Container.Bind<IResultScreenAchievementsController>().To<ResultScreenAchievementsController>().AsTransient();
+        Container.Bind<IResultScreenRewardController>().To<ResultScreenRewardController>().AsTransient();
     }
 }
 

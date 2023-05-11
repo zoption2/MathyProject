@@ -27,6 +27,10 @@ MonoBehaviour:
     m_Key: AchievementsKey
     m_Metadata:
       m_Items: []
+  - m_Id: 1098945888780288
+    m_Key: RewardKey
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

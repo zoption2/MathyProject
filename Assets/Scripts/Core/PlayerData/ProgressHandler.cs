@@ -4,9 +4,9 @@ namespace Mathy.Services.Data
 {
     public interface IProgressHandler
     {
-        UniTask<int> GetPlayerExperience();
-        UniTask AddExperience(int addedValue);
-        UniTask SetExpirience(int totalValue);
+        UniTask<int> GetPlayerExperienceAsync();
+        UniTask AddExperienceAsync(int addedValue);
+        UniTask SetExpirienceAsync(int totalValue);
     }
 
 
@@ -19,19 +19,19 @@ namespace Mathy.Services.Data
             _dataService = dataService;
         }
 
-        public async UniTask<int> GetPlayerExperience()
+        public async UniTask<int> GetPlayerExperienceAsync()
         {
             return await _dataService.KeyValueStorage.GetIntValue(KeyValueIntegerKeys.Experience);
         }
 
-        public async UniTask AddExperience(int addedValue)
+        public async UniTask AddExperienceAsync(int addedValue)
         {
             var current = await _dataService.KeyValueStorage.GetIntValue(KeyValueIntegerKeys.Experience);
             current += addedValue;
             await _dataService.KeyValueStorage.SaveIntValue(KeyValueIntegerKeys.Experience, current);
         }
 
-        public async UniTask SetExpirience(int totalValue)
+        public async UniTask SetExpirienceAsync(int totalValue)
         {
             await _dataService.KeyValueStorage.SaveIntValue(KeyValueIntegerKeys.Experience, totalValue);
         }

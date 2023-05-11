@@ -7,6 +7,8 @@ using System;
 using Mathy.Data;
 using Mathy.UI;
 using Mathy.Core;
+using Zenject;
+using Mathy.Services;
 
 /// <summary>
 /// Generating the Tasks list, managing task data for Save Manager
@@ -14,6 +16,8 @@ using Mathy.Core;
 public class ChallengesManager : StaticInstance<ChallengesManager>//, ISaveable
 {
     #region Fields
+    [Inject] private IResultScreenMediator _resultScreen;
+    [Inject] private IPlayerDataService _playerDataService;
 
     [Header("Task config:")]
     [SerializeField] private List<ScriptableTask> taskList;
@@ -194,17 +198,23 @@ public class ChallengesManager : StaticInstance<ChallengesManager>//, ISaveable
         bgImage.sprite = bgImages[index];
     }
 
-    public void ShowResult(bool isActive)
+    public async void ShowResult(bool isActive)
     {
-        int index = currentTaskIndex > 0 ? currentTaskIndex - 1 : currentTaskIndex;
-        bool isChallenge = TaskSystemOLD.Instance.IsChallengeOfTypeExits(taskList[index].TaskType);
-        resultWindow.gameObject.SetActive(isActive);
+        await _playerDataService.Progress.AddExperienceAsync(200);
+        _resultScreen.Show(() =>
+        {
+            GameManager.Instance.ChangeState(GameState.MainMenu);
+        });
 
-        float correctRate = isChallenge 
-            ? (activeTask as ChallengeOLD).GetCorrectRate() 
-            : correctAnswers / (float)TasksAmount * 100f;
+        //int index = currentTaskIndex > 0 ? currentTaskIndex - 1 : currentTaskIndex;
+        //bool isChallenge = TaskSystemOLD.Instance.IsChallengeOfTypeExits(taskList[index].TaskType);
+        //resultWindow.gameObject.SetActive(isActive);
 
-        if (isActive) resultWindow.DisplayResult(correctAnswers, TasksAmount, correctRate, isChallenge);
+        //float correctRate = isChallenge 
+        //    ? (activeTask as ChallengeOLD).GetCorrectRate() 
+        //    : correctAnswers / (float)TasksAmount * 100f;
+
+        //if (isActive) resultWindow.DisplayResult(correctAnswers, TasksAmount, correctRate, isChallenge);
         
         /*
         if (!IsPractice)

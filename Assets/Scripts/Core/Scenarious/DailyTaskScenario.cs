@@ -1,6 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
 using Mathy.Core.Tasks.DailyTasks;
-using Mathy.Data;
 using Mathy.Services;
 using Mathy.UI;
 using System;
@@ -92,7 +91,7 @@ namespace Mathy.Core.Tasks
         {
             base.EndGameplay();
             var gainedExperience = PointsHelper.GetExperiencePointsByRate(dailyModeData.CorrectRate);
-            await playerDataService.Progress.AddExperience(gainedExperience);
+            await playerDataService.Progress.AddExperienceAsync(gainedExperience);
             //var resultsView = scenePointer.ResultsWindow;
             //resultsView.gameObject.SetActive(true);
             //float correctRate = correctAnswers / (float)TotalTasks * 100f;
