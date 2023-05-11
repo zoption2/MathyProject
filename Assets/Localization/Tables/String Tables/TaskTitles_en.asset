@@ -34,6 +34,10 @@ MonoBehaviour:
     m_Localized: How many {0} are on the frames?
     m_Metadata:
       m_Items: []
+  - m_Id: 9784265857220608
+    m_Localized: Count the {0}. Then fill in the missing numbers.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
