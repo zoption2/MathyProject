@@ -110,6 +110,12 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 26
+      <Reference>k__BackingField:
+        m_AssetGUID: dd1747959c922614fa641a7b98c55c54
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
   <UIComponentProvider>k__BackingField:
     references:
     - <Type>k__BackingField: 0

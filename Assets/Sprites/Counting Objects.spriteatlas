@@ -95,6 +95,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 82788a4d076bbfe40906f41150b4e390, type: 3}
   - {fileID: 21300000, guid: 9027bd4dea9f4254ba0ca50ecd27cda8, type: 3}
   - {fileID: 21300000, guid: 04b73f7d53b96a44ca7f812da93cfe1f, type: 3}
+  - {fileID: 21300000, guid: ad30034f3491c7746a6e9af896a09f8e, type: 3}
   - {fileID: 21300000, guid: 4c838abfa2d69ca4cb6448b7d461b104, type: 3}
   m_PackedSpriteNamesToIndex:
   - Arrow
@@ -139,6 +140,7 @@ SpriteAtlas:
   - GreenHolder
   - Object Frame base
   - Cheese countable object
+  - InputFrame_input
   - Blue_button
   m_RenderDataMap: {}
   m_Tag: Counting Objects

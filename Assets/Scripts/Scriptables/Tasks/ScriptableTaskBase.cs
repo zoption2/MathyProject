@@ -42,6 +42,7 @@ public enum TaskType
     CountTo10WhichShows = 23,
     CountTo10Frames = 24,
     CountTo20Frames = 25,
+    CountToTensAndOnes = 26,
 }
 
 public abstract class ScriptableTaskBase : ScriptableObject
