@@ -1178,7 +1178,7 @@ RectTransform:
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.02, y: 0.25}
-  m_AnchorMax: {x: 0.36071, y: 0.887}
+  m_AnchorMax: {x: 0.36, y: 0.9}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1273,7 +1273,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 244.83694, y: 0, z: 8.853241, w: 0}
+  m_margin: {x: 209.29605, y: 0, z: 8.853241, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2607,6 +2607,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3767173008332216204}
     m_Modifications:
+    - target: {fileID: 6274540283055885691, guid: d559d45e9e53e2147a08140686e2ad9d, type: 3}
+      propertyPath: m_text
+      value: "\u043F\u043E\u043C\u043E\u0449\u044C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274540283055885691, guid: d559d45e9e53e2147a08140686e2ad9d, type: 3}
+      propertyPath: m_fontSize
+      value: 34.35
+      objectReference: {fileID: 0}
     - target: {fileID: 6274540283708809363, guid: d559d45e9e53e2147a08140686e2ad9d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2833,6 +2841,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3767173008332216204}
     m_Modifications:
+    - target: {fileID: 7387449989945058893, guid: 342379b77bc748a40b71a831134268ef, type: 3}
+      propertyPath: m_text
+      value: "\u043D\u0430\u0437\u0430\u0434"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387449989945058893, guid: 342379b77bc748a40b71a831134268ef, type: 3}
+      propertyPath: m_fontSize
+      value: 46.45
+      objectReference: {fileID: 0}
     - target: {fileID: 7874598918752884062, guid: 342379b77bc748a40b71a831134268ef, type: 3}
       propertyPath: m_Name
       value: Back_button
