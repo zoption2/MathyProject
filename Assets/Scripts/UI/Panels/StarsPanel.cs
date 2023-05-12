@@ -11,7 +11,7 @@ public class StarsPanel : HeaderBar
     protected override async UniTask AsyncUpdateText()
     {
         await UniTask.WaitUntil(() => PlayerDataManager.Instance != null);
-        int stars = PlayerDataManager.Instance.PlayerStars;
-        SetText(stars);
+        //int stars = PlayerDataManager.Instance.PlayerStars;
+        //SetText(stars);
     }
 }

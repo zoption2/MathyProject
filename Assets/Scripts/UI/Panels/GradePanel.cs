@@ -5,9 +5,13 @@ using System.Collections;
 using UnityEngine;
 using DG.Tweening;
 using TMPro;
+using Zenject;
+using Mathy.Services;
 
 public class GradePanel : PopupPanel
 {
+    [Inject] private IPlayerDataService _playerDataService;
+
     [SerializeField] TMP_Text gradeCenterText;
     [SerializeField] BGCurve progressPath;
     [SerializeField] BGCurve progressPathFill;
@@ -29,11 +33,12 @@ public class GradePanel : PopupPanel
         pathFillMat = renderer.material;
     }
 
-    protected override void OnComplete(bool isOpened)
+    protected async override void OnComplete(bool isOpened)
     {
         if (isOpened)
         {
-            if (gameObject.activeSelf) StartCoroutine(AnimateGrades());
+            int rank = await _playerDataService.Progress.GetRankAsynk();
+            if (gameObject.activeSelf) StartCoroutine(AnimateGrades(rank));
         }
         else
         {
@@ -41,12 +46,13 @@ public class GradePanel : PopupPanel
         }
     }
 
-    private IEnumerator AnimateGrades()
+    private IEnumerator AnimateGrades(int rank)
     {
         float elapsedTime = 0;
         float waitTime = 2f;
         float currentCursorValue = lastCursorValue;
-        int rankIndex = PlayerDataManager.Instance.PlayerRank - 1;
+        //int rankIndex = PlayerDataManager.Instance.PlayerRank - 1;
+        int rankIndex = rank - 1;
         float targetCursorValue = rankIndex < 0 ? 0 : cursorDistantValues[rankIndex];
 
         while (elapsedTime < waitTime)

@@ -155,7 +155,7 @@ public class DatePanel : ButtonFX
         challengeIcon.SetActive(completedModes.Contains(TaskMode.Challenge));
         var rewardIndex = GetAwardIndex(dayResult.Reward);
         rewardIcon.gameObject.SetActive(rewardIndex != -1);
-        if (dayResult.IsCompleted)
+        if (dayResult.IsCompleted && rewardIndex != -1)
         {
             rewardIcon.sprite = rewardSprites[rewardIndex];
         }

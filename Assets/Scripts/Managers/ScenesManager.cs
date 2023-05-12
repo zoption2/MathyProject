@@ -22,6 +22,11 @@ namespace Mathy.Core
             base.Awake();
         }
 
+        public void DisableTaskScene()
+        {
+            TaskScene.IsActive = false;
+        }
+
         //private string[] AllScenes()
         //{
         //    int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings;

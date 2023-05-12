@@ -296,7 +296,7 @@ public class ResultWindow : MonoBehaviour
             TweenSlider(grade);
         }
 
-        PlayerDataManager.Instance.AddExperience(experience);
+        //PlayerDataManager.Instance.AddExperience(experience);
         lastExperienceReward = experience;
         awardValue = "+" + experience + " XP";
         UpdateTextLabels();

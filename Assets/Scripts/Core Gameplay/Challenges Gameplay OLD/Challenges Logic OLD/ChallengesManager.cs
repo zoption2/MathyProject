@@ -9,6 +9,7 @@ using Mathy.UI;
 using Mathy.Core;
 using Zenject;
 using Mathy.Services;
+using Mathy;
 
 /// <summary>
 /// Generating the Tasks list, managing task data for Save Manager
@@ -201,6 +202,12 @@ public class ChallengesManager : StaticInstance<ChallengesManager>//, ISaveable
     public async void ShowResult(bool isActive)
     {
         await _playerDataService.Progress.AddExperienceAsync(200);
+
+        var totalExp = await _playerDataService.Progress.GetPlayerExperienceAsync();
+        var rank = PointsHelper.GetRankByExperience(totalExp);
+        await _playerDataService.Progress.SaveRankAsynk(rank);
+        await _playerDataService.Achievements.IncrementAchievementValue(Achievements.ChallengeCup);
+
         _resultScreen.Show(() =>
         {
             GameManager.Instance.ChangeState(GameState.MainMenu);

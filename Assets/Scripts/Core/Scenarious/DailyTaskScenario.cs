@@ -92,6 +92,10 @@ namespace Mathy.Core.Tasks
             base.EndGameplay();
             var gainedExperience = PointsHelper.GetExperiencePointsByRate(dailyModeData.CorrectRate);
             await playerDataService.Progress.AddExperienceAsync(gainedExperience);
+
+            var totalExp = await playerDataService.Progress.GetPlayerExperienceAsync();
+            var rank = PointsHelper.GetRankByExperience(totalExp);
+            await playerDataService.Progress.SaveRankAsynk(rank);
             //var resultsView = scenePointer.ResultsWindow;
             //resultsView.gameObject.SetActive(true);
             //float correctRate = correctAnswers / (float)TotalTasks * 100f;
@@ -99,8 +103,16 @@ namespace Mathy.Core.Tasks
             resultScreen.Show(()=>
             {
                 GameObject.Destroy(counterView.gameObject);
-                GameManager.Instance.ChangeState(GameState.MainMenu);
+                ScenesManager.Instance.DisableTaskScene();
+                //GameManager.Instance.ChangeState(GameState.MainMenu);
             });
+            resultScreen.ON_CLOSE_CLICK += ChangeScene;
+        }
+
+        private void ChangeScene()
+        {
+            resultScreen.ON_CLOSE_CLICK -= ChangeScene;
+            GameManager.Instance.ChangeState(GameState.MainMenu);
         }
 
         protected override void ClickOnExitFromGameplay()

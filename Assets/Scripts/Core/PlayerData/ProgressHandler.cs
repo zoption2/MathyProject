@@ -7,6 +7,8 @@ namespace Mathy.Services.Data
         UniTask<int> GetPlayerExperienceAsync();
         UniTask AddExperienceAsync(int addedValue);
         UniTask SetExpirienceAsync(int totalValue);
+        UniTask<int> GetRankAsynk();
+        UniTask SaveRankAsynk(int rank);
     }
 
 
@@ -34,6 +36,16 @@ namespace Mathy.Services.Data
         public async UniTask SetExpirienceAsync(int totalValue)
         {
             await _dataService.KeyValueStorage.SaveIntValue(KeyValueIntegerKeys.Experience, totalValue);
+        }
+
+        public async UniTask<int> GetRankAsynk()
+        {
+            return await _dataService.KeyValueStorage.GetIntValue(KeyValueIntegerKeys.PlayerRank);
+        }
+
+        public async UniTask SaveRankAsynk(int rank)
+        {
+            await _dataService.KeyValueStorage.SaveIntValue(KeyValueIntegerKeys.PlayerRank, rank);
         }
     }
 

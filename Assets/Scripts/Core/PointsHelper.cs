@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mathy
@@ -41,6 +42,33 @@ namespace Mathy
                 default:
                     return 0;
             }
+        }
+
+
+        private static readonly List<int> levelUpValues = new List<int>
+        { 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000,
+        10000, 11000, 12000, 13000, 14000, 15000, 16000, 17000, 18000, 19000};
+
+        public static int GetMaxExperienceOfRank(int rank)
+        {
+            var lastRankValue = levelUpValues[levelUpValues.Count - 1];
+            rank = Mathf.Clamp(rank, 0, lastRankValue);
+            return levelUpValues[rank];
+        }
+
+        public static int GetRankByExperience(int value)
+        {
+            int rank = 0;
+            for (int i = 0, j = levelUpValues.Count; i < j; i++)
+            {
+                var xp = levelUpValues[i];
+                if (value >= xp)
+                {
+                    rank = i + 1;
+                }
+                else break;
+            }
+            return rank;
         }
     }
 }

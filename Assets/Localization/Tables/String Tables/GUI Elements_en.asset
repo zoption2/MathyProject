@@ -110,7 +110,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 22456015142121472
-    m_Localized: It's okay. You can do better!
+    m_Localized: 'It''s okay. You can do better!
+
+      Come back tomorrow!'
     m_Metadata:
       m_Items: []
   - m_Id: 22455989443620864

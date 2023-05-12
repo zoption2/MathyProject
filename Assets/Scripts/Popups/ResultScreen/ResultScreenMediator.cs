@@ -7,12 +7,14 @@ namespace Mathy.Services
 {
     public interface IResultScreenMediator : IPopupView
     {
-        
+        event Action ON_CLOSE_CLICK;
     }
 
 
     public class ResultScreenMediator : IResultScreenMediator
     {
+        public event Action ON_CLOSE_CLICK;
+
         private const string kResultScreenTable = "ResultScreen";
 
         private readonly IAddressableRefsHolder _refsHolder;
@@ -82,6 +84,7 @@ namespace Mathy.Services
         private void DoOnCloseClick()
         {
             _view.ON_CLOSE_CLICK -= DoOnCloseClick;
+            ON_CLOSE_CLICK?.Invoke();
             _uiManager.CloseView(this);
         }
     }

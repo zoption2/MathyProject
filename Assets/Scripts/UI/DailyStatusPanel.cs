@@ -15,6 +15,8 @@ public class DailyStatusPanel : StaticInstance<DailyStatusPanel>
     #region FIELDS
     [Inject] private IDataService dataService;
     [SerializeField] private ParticleSystem vfx;
+    [SerializeField] private GameObject successPanel;
+    [SerializeField] private GameObject failPanel;
 
     [Header("Components:")]
     [SerializeField] private Image awardImage;
@@ -64,16 +66,23 @@ public class DailyStatusPanel : StaticInstance<DailyStatusPanel>
             var rewardIndex = GetAwardIndex(dayResult.Reward);
             if (rewardIndex == -1)
             {
-                return;
+                successPanel.SetActive(false);
+                failPanel.SetActive(true);
+            }
+            else
+            {
+                successPanel.SetActive(true);
+                failPanel.SetActive(false);
+                SetAwardImage(rewardIndex);
             }
 
-            SetAwardImage(rewardIndex);
             OpenPanel();
         }
     }
 
     private void OnDisable()
     {
+        rTransform.anchoredPosition = new Vector2(rTransform.anchoredPosition.x, 1625);
         LocalizationManager.OnLanguageChanged.RemoveListener(LocalizeTextImages);
     }
 

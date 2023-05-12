@@ -80,9 +80,9 @@ namespace Mathy.Core
             OnAfterStateChanged?.Invoke(newState);
         }
 
-        private async void HandleStarting()
+        private void HandleStarting()
         {
-            await PlayerDataManager.Instance.LoadPlayerData(); //Load from PlayerPrefs values of the player's experience and stars
+            //await PlayerDataManager.Instance.LoadPlayerData(); //Load from PlayerPrefs values of the player's experience and stars
             GameSettingsManager.Instance.LoadSettings();
             AudioManager.Instance.PlayMusic();
             InitializePanels();

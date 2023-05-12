@@ -9,9 +9,12 @@ using UnityEngine;
 using System;
 using TMPro;
 using System.Linq;
+using Zenject;
+using Mathy.Services;
 
 public class AdManager : PersistentSingleton<AdManager>
 {
+    [Inject] private IPlayerDataService _playerDataService;
     #region FIELDS
     //
     private BannerView bannerView;
@@ -227,9 +230,10 @@ public class AdManager : PersistentSingleton<AdManager>
         ShowRewardedAd();
     }
 
-    public void AddReward()
+    public async void AddReward()
     {
-        PlayerDataManager.Instance.AddExperience(rewarValue);
+        await _playerDataService.Progress.AddExperienceAsync(rewarValue);
+        //PlayerDataManager.Instance.AddExperience(rewarValue);
     }
 
     public void RewardedAdFailed()
