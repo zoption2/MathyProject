@@ -13601,7 +13601,6 @@ Transform:
   - {fileID: 1473574168}
   - {fileID: 265663308}
   - {fileID: 1706309666}
-  - {fileID: 1376189152}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -58586,7 +58585,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5506907834815217831, guid: 4d84f28a3bbebb644810211209bd89e3, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 110
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5506907834815217831, guid: 4d84f28a3bbebb644810211209bd89e3, type: 3}
       propertyPath: m_SizeDelta.y
@@ -58822,8 +58821,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1376189152}
   - component: {fileID: 1376189153}
+  - component: {fileID: 1376189154}
   m_Layer: 5
-  m_Name: ParentGateEnter
+  m_Name: EnterPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58836,13 +58836,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1376189151}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 322699013}
-  m_RootOrder: 9
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1376189153
 MonoBehaviour:
@@ -58856,6 +58856,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f76e4431c9eb404b97f6ddcc79989ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1376189154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1376189151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d3cfbfb2fced004fae941046f5dba5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _debugConsole: {fileID: 1495104180}
 --- !u!1 &1380221940
 GameObject:
   m_ObjectHideFlags: 0
@@ -64624,6 +64637,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
+--- !u!1 &1495104180 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 132536, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
+  m_PrefabInstance: {fileID: 1495104179}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1496509168
 GameObject:
   m_ObjectHideFlags: 0
@@ -90847,7 +90865,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 110, y: 110}
+  m_SizeDelta: {x: 0, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &77476443451089844
 MonoBehaviour:
@@ -94972,7 +94990,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 110, y: 110}
+  m_SizeDelta: {x: 0, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5506907833935322823
 GameObject:
