@@ -51,6 +51,7 @@ namespace Mathy.UI
                 var skillView = skills[i];
                 skillView.Init();
                 var skillModel = _model.SkillsProgressModels[skillView.Skill];
+                skillView.SetTitle(skillModel.LocalizedTitle);
                 var skillResult = string.Format(kSkillResultFormat
                     , skillModel.CorrectRate
                     , skillModel.TotalCorrect
