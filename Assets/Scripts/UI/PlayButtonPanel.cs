@@ -9,10 +9,13 @@ using Mathy.Core;
 using Mathy.UI;
 using Zenject;
 using Mathy.Services;
+using System;
 
 public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
 {
     [Inject] private IGameplayService gameplayService;
+    [Inject] private IDataService dataService;
+    [Inject] private ISkillPlanService skillPlanService;
     public enum PlayPanelState
     {
         Default = 0,
@@ -110,11 +113,18 @@ public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
 
     private async UniTask UpdateModeButtons()
     {
-        var calendarData = await DataManager.Instance.GetCalendarData(System.DateTime.UtcNow.Date);
-        foreach (TaskMode mode in calendarData.ModeData.Keys)
+        //calendarData = await DataManager.Instance.GetCalendarData(System.DateTime.UtcNow.Date);
+       // var calendarData = await dataService.TaskData.GetDailyData(DateTime.UtcNow);
+        var modes = (TaskMode[])Enum.GetValues(typeof(TaskMode));
+        foreach (TaskMode mode in modes)
         {
-            if(mode != TaskMode.Practic)
-                modeButtons[(int)mode].gameObject.SetActive(!calendarData.ModeData[mode]);
+            //var modeData = calendarData.FirstOrDefault(x => x.Mode == mode);
+            //var modeCompleted = modeData != null && modeData.IsComplete;
+            var modeResults = await dataService.TaskData.GetDailyModeData(DateTime.UtcNow.Date, mode);
+            if (mode != TaskMode.Practic)
+            {
+                modeButtons[(int)mode].gameObject.SetActive(!modeResults.IsComplete);
+            }
         }
     }
 
@@ -131,15 +141,20 @@ public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
                 button.IsInteractable = true;
             }
         }
-        _ = CheckSkills();
+        CheckSkills();
+        skillPlanService.ON_SKILL_PLAN_UPDATED += CheckSkills;
     }
 
-    public async UniTask CheckSkills()
+    private void OnDisable()
     {
-        await UniTask.WaitUntil(() => GradeManager.Instance.IsInitialized);
+        skillPlanService.ON_SKILL_PLAN_UPDATED -= CheckSkills;
+    }
+
+    public void CheckSkills()
+    {
         if(IsAllModesDone)
             State = PlayPanelState.Completed;
-        else if (GradeManager.Instance.IsAnySkillActivated)
+        else if (skillPlanService.IsAnySkillActivated)
             State = PlayPanelState.Default;
         else
             State = PlayPanelState.Inactive;
@@ -207,19 +222,31 @@ public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
 
     public async UniTask AllModesDone()
     {
-        var calendarData = await DataManager.Instance.GetCalendarData(System.DateTime.UtcNow.Date);
-        List<bool> modeStatuses = new List<bool>();
-        foreach (TaskMode mode in calendarData.ModeData.Keys)
+        List<DailyModeData> modeData = new();
+        foreach (TaskMode mode in (TaskMode[])Enum.GetValues(typeof(TaskMode)))
         {
-            if (mode != TaskMode.Practic)
-                modeStatuses.Add(calendarData.ModeData[mode]);
+            var dailyData = await dataService.TaskData.GetDailyModeData(DateTime.UtcNow, mode);
+            var modeCompleted = dailyData.IsComplete;
+            modeData.Add(dailyData);
         }
+
+        //temp solution until challenge is not part of new DB
+        //var calendarData = await DataManager.Instance.GetCalendarData(DateTime.UtcNow.Date);
+        //if (calendarData.ModeData.ContainsKey(TaskMode.Challenge))
+        //{
+        //    var mode = modeData.FirstOrDefault(x => x.Mode == TaskMode.Challenge);
+        //    bool isComplete = calendarData.ModeData[TaskMode.Challenge];
+        //    mode.IsComplete = isComplete;
+        //}
+
+        List<bool> modeStatuses = modeData.Where(x => x.Mode != TaskMode.Practic).Select(x => x.IsComplete).ToList();
+
         IsAllModesDone = modeStatuses.Count == 4 && modeStatuses.All(x => x == true);
         if (IsAllModesDone)
         {
             Debug.Log("All modes done!");
             DailyStatusPanel.Instance.AllModesDone = true;
-            if(gameObject.activeInHierarchy) DailyStatusPanel.Instance.OpenPanel();
+            //if(gameObject.activeInHierarchy) DailyStatusPanel.Instance.OpenPanel();
             State = PlayPanelState.Completed;
         }
     }
@@ -233,17 +260,19 @@ public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
     private async System.Threading.Tasks.Task<int> modeStatusIndex(TaskMode mode)
     {
         int status;
-        if (mode != TaskMode.Challenge)
-        {
+        //if (mode != TaskMode.Challenge)
+        //{
             //Debug.LogError("Here was TodayDoneTasksAmount");
-            int doneTaskAmount = await DataManager.Instance.TodayDoneTasksAmount(mode);
+            //int doneTaskAmount = await DataManager.Instance.TodayDoneTasksAmount(mode);
+            var modeResult = await dataService.TaskData.GetDailyModeData(DateTime.UtcNow, mode);
+            int doneTaskAmount = modeResult.PlayedCount;
             //int doneTaskAmount = 0;
             status = (doneTaskAmount == 0) ? 0 : (doneTaskAmount == tasksAmountValues[(int)mode]) ? 2 : 1;
-        }
-        else
-        {
-            status = await DataManager.Instance.TodayChallengeStatus() ? 2 : 0;
-        }
+        //}
+        //else
+        //{
+        //    status = await DataManager.Instance.TodayChallengeStatus() ? 2 : 0;
+        //}
         return status;
     }
 
@@ -255,17 +284,17 @@ public class PlayButtonPanel : StaticInstance<PlayButtonPanel>
         }
     }
 
-    public void RunTask()
-    {
-        AudioSystem.Instance.FadeMusic(0, 1f, true);
-        _ = ScenesManager.Instance.CreateTasks(tasksAmount); // generate tasks
-    }
+    //public void RunTask()
+    //{
+    //    AudioSystem.Instance.FadeMusic(0, 1f, true);
+    //    _ = ScenesManager.Instance.CreateTasks(tasksAmount); // generate tasks
+    //}
 
     public async void Play()
     {
         AudioSystem.Instance.FadeMusic(0, 1f, true);
         _ = ScenesManager.Instance.SetGameplaySceneActive();
-        var settings = GradeManager.Instance.AvailableTaskSettings();
+        var settings = skillPlanService.GetAvailableTaskSettings();
         gameplayService.StartGame(SelectedTaskMode, settings);
         await UniTask.Delay(2000);
         LoadingManager.Instance.ClosePanel();

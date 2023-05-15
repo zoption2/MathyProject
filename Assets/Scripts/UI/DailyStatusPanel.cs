@@ -1,15 +1,22 @@
 using DG.Tweening;
+using Mathy;
 using Mathy.Data;
+using Mathy.Services;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
+using Zenject;
 
 public class DailyStatusPanel : StaticInstance<DailyStatusPanel>
 {
     #region FIELDS
+    [Inject] private IDataService dataService;
+    [SerializeField] private ParticleSystem vfx;
+    [SerializeField] private GameObject successPanel;
+    [SerializeField] private GameObject failPanel;
 
     [Header("Components:")]
     [SerializeField] private Image awardImage;
@@ -23,7 +30,7 @@ public class DailyStatusPanel : StaticInstance<DailyStatusPanel>
 
     private RectTransform rTransform;
     private bool allModesDone = false;
-    public static UnityEvent OnAllModesDone = new UnityEvent();
+    //public static UnityEvent OnAllModesDone = new UnityEvent();
 
     public bool AllModesDone
     {
@@ -34,7 +41,7 @@ public class DailyStatusPanel : StaticInstance<DailyStatusPanel>
         set
         {
             allModesDone = value;
-            OnAllModesDone.Invoke();
+            //OnAllModesDone.Invoke();
         }
     }
 
@@ -44,28 +51,56 @@ public class DailyStatusPanel : StaticInstance<DailyStatusPanel>
     {
         base.Awake();
         rTransform = (RectTransform)transform;
-        LocalizationManager.OnLanguageChanged.AddListener(LocalizeTextImages);
-        OnAllModesDone.AddListener(AllModesDoneReward);
+        vfx.Stop();
     }
 
-    private void AllModesDoneReward()
+    private async void OnEnable()
     {
-        Debug.Log("AllModesDoneReward Called!");
-        if (!DataManager.Instance.WasTodayAwardGot)
+        LocalizeTextImages();
+        LocalizationManager.OnLanguageChanged.AddListener(LocalizeTextImages);
+        var today = System.DateTime.UtcNow;
+        var dayResult = await dataService.TaskData.GetDayResult(today);
+        if (dayResult.IsCompleted)
         {
-            PlayerDataManager.Instance.AllModesDoneReward();
-            DataManager.Instance.WasTodayAwardGot = true;
-            Debug.Log("GoldenAmount was ++");
+            Debug.LogFormat("Day completed! Your reward is {0}", dayResult.Reward);
+            var rewardIndex = GetAwardIndex(dayResult.Reward);
+            if (rewardIndex == -1)
+            {
+                successPanel.SetActive(false);
+                failPanel.SetActive(true);
+            }
+            else
+            {
+                successPanel.SetActive(true);
+                failPanel.SetActive(false);
+                SetAwardImage(rewardIndex);
+            }
+
+            OpenPanel();
         }
     }
+
+    private void OnDisable()
+    {
+        rTransform.anchoredPosition = new Vector2(rTransform.anchoredPosition.x, 1625);
+        LocalizationManager.OnLanguageChanged.RemoveListener(LocalizeTextImages);
+    }
+
+    //private void AllModesDoneReward()
+    //{
+    //    Debug.Log("AllModesDoneReward Called!");
+    //    if (!DataManager.Instance.WasTodayAwardGot)
+    //    {
+    //        PlayerDataManager.Instance.AllModesDoneReward();
+    //        DataManager.Instance.WasTodayAwardGot = true;
+    //        Debug.Log("GoldenAmount was ++");
+    //    }
+    //}
 
     public void OpenPanel()
     {
-        if (allModesDone)
-        {
-            //rTransform.anchoredPosition = new Vector2(36, 0);
-            rTransform.DOAnchorPosY(-755, 0.25f).SetEase(Ease.InOutQuad);
-        }
+        vfx.Play();
+        rTransform.DOAnchorPosY(193, 0.5f).SetEase(Ease.InOutQuad);
     }
 
     public void ClosePanel()
@@ -99,8 +134,21 @@ public class DailyStatusPanel : StaticInstance<DailyStatusPanel>
         }
     }
 
-    public void SetAwardImage(int resultIndex)
+    private void SetAwardImage(int resultIndex)
     {
         awardImage.sprite = awardMedals[resultIndex];
+    }
+
+    private int GetAwardIndex(Achievements reward)
+    {
+        switch (reward)
+        {
+            case Achievements.GoldMedal: return 0;
+            case Achievements.SilverMedal: return 1;
+            case Achievements.BronzeMedal:return 2;
+
+            default:
+                return -1;
+        }
     }
 }

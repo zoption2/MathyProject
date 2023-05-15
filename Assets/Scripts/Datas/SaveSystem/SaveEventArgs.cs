@@ -6,9 +6,9 @@ namespace Mathy.Data
     {
         public SaveEventArgs()
         {  
-            this.TaskData = new TaskData();
+            this.TaskData = new TaskResultData();
         }
-        public TaskData TaskData { get; set; }
+        public TaskResultData TaskData { get; set; }
 
 
         public new static readonly SaveEventArgs Empty = null;

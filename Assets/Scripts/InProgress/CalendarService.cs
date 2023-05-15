@@ -99,8 +99,8 @@ public class CalendarService : MonoBehaviour, ICalendarService
     private async UniTask<ModeData> GetPersistantData(TaskMode mode, DateTime date)
     {
         ModeData result = new ModeData();
-        result.CorrectAnswers = await DataManager.Instance.GetCorrectAnswersOfModeByDate(mode, date);
-        result.LessonsTime = await DataManager.Instance.GetTimeOfModeAndDate(mode, date);
+        //result.CorrectAnswers = await DataManager.Instance.GetCorrectAnswersOfModeByDate(mode, date);
+        //result.LessonsTime = await DataManager.Instance.GetTimeOfModeAndDate(mode, date);
         var totalTasks = GetTotalTasksByMode(mode);
         result.Rate = (int) (((float)result.CorrectAnswers / (float)totalTasks) * 100);
         return result;

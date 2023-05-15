@@ -16,6 +16,9 @@ MonoBehaviour:
   VariantsAmount: 4
   MinNumber: 0
   MaxNumber: 20
+  MinLimit: 0
+  MaxLimit: 100
   Title: True_False
   Description: Task description here
   TaskType: 14
+  SkillType: 6

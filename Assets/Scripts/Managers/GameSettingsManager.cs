@@ -8,10 +8,13 @@ using Mathy.Core;
 using UnityEngine.SceneManagement;
 using Mathy.Core.Tasks;
 using Randoms.DailyReward;
+using Zenject;
+using Mathy.Services;
 
 public class GameSettingsManager : StaticInstance<GameSettingsManager>
 {
     #region FIELDS
+    [Inject] private IDataService dataService;
 
     [Header("GUI Components:")]
 
@@ -39,7 +42,7 @@ public class GameSettingsManager : StaticInstance<GameSettingsManager>
         {
             gameModeMaxNumber = value;
             PlayerPrefs.SetInt(maxNumberKey, value);
-            _ = TaskManager.Instance.GenerateAllTasks();
+            //_ = TaskManager.Instance.GenerateAllTasks();
         }
     }
 
@@ -130,14 +133,24 @@ public class GameSettingsManager : StaticInstance<GameSettingsManager>
 
     public async void ResetProgress()
     {
-        DailyRewardManager.Instance.ResetToDefault();
-        DataManager.Instance.WasTodayAwardGot = false;
-        DataManager.Instance.ResetAllBestScores();
-        DailyStatusPanel.Instance.AllModesDone = false;
-        await DataManager.Instance.ResetSaveFile();
+        //DailyRewardManager.Instance.ResetToDefault();
+        //DataManager.Instance.WasTodayAwardGot = false;
+        //DataManager.Instance.ResetAllBestScores();
+        //DailyStatusPanel.Instance.AllModesDone = false;
+        //await DataManager.Instance.ResetSaveFile();
+        //GameManager.Instance.ChangeState(GameState.MainMenu);
+        //CalendarManager.Instance.ResetToDefault();
+        //PlayerDataManager.Instance.ResetToDefault();
+        //IAPManager.Instance.ResetToDefault();
+        ////Here in the reset process we need to show a modal window to the user and ask him if he really wants to delete all his progress
+        //await SceneManager.LoadSceneAsync("LoadingScreen");
+
+        //DailyStatusPanel.Instance.AllModesDone = false;
+        PlayerPrefs.DeleteAll();
+        await dataService.ResetProgress();
         GameManager.Instance.ChangeState(GameState.MainMenu);
         CalendarManager.Instance.ResetToDefault();
-        PlayerDataManager.Instance.ResetToDefault();
+        //PlayerDataManager.Instance.ResetToDefault();
         IAPManager.Instance.ResetToDefault();
         //Here in the reset process we need to show a modal window to the user and ask him if he really wants to delete all his progress
         await SceneManager.LoadSceneAsync("LoadingScreen");

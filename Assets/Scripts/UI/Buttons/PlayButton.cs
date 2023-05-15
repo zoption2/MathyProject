@@ -5,10 +5,14 @@ using UnityEngine;
 using Mathy.Data;
 using TMPro;
 using UnityEngine.Localization.Settings;
+using Mathy.Services;
+using Zenject;
+using System;
 
 public class PlayButton : ButtonFX
 {
     #region FIELDS
+    [Inject] private IDataService dataService;
 
     [Header("Components:")]
 
@@ -92,17 +96,18 @@ public class PlayButton : ButtonFX
 
     private async void UpdateText()
     {
-        
+
         //DataManager.Instance.Test();
-        int taskAmount = await DataManager.Instance.TodayDoneTasksAmount(PlayButtonPanel.Instance.SelectedTaskMode);
+        var modeData = await dataService.TaskData.GetDailyModeData(DateTime.UtcNow, PlayButtonPanel.Instance.SelectedTaskMode);
+        int taskAmount = modeData.PlayedCount;
         //Debug.LogError("Here was TodayDoneTasksAmount");
         //int taskAmount = 0;
         //bool isModeCompleted = false;
-        
-        bool isModeCompleted = PlayButtonPanel.Instance.SelectedTaskMode != TaskMode.Challenge ? 
-            await DataManager.Instance.IsTodayModeCompleted(PlayButtonPanel.Instance.SelectedTaskMode) :
-            await DataManager.Instance.TodayChallengeStatus();
-        
+        bool isModeCompleted = modeData.IsComplete;
+        //bool isModeCompleted = PlayButtonPanel.Instance.SelectedTaskMode != TaskMode.Challenge ? 
+        //    modeData.IsComplete :
+        //    await DataManager.Instance.TodayChallengeStatus();
+
 
         string text;
         if (taskAmount == 0)

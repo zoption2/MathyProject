@@ -36,7 +36,6 @@ namespace Mathy.Data
         
         private List<ISaveable> Savables = new List<ISaveable>();
 
-        public DatabaseHandler DbHandler;
 
         //!! move to the DatabseHandler
         //Check if we can manipulate the save file (delete it as exemple)
@@ -73,16 +72,16 @@ namespace Mathy.Data
 
         #region MONO AND INITIALIZATION
 
-        public void Subscribe(ISaveable savable)
-        {
-            Savables.Add(savable);
-            savable.OnSaveEvent += GetData;
-        }
-        public void Unsubscribe(ISaveable savable)
-        {
-            Savables.Remove(savable);
-            savable.OnSaveEvent -= GetData;
-        }
+        //public void Subscribe(ISaveable savable)
+        //{
+        //    Savables.Add(savable);
+        //    savable.OnSaveEvent += GetData;
+        //}
+        //public void Unsubscribe(ISaveable savable)
+        //{
+        //    Savables.Remove(savable);
+        //    savable.OnSaveEvent -= GetData;
+        //}
 
         protected override void Awake()
         {
@@ -90,7 +89,7 @@ namespace Mathy.Data
 
             Initialize();
 
-            CheckLastTimeChallenge();
+            //CheckLastTimeChallenge();
             CheckLastTimeAwarded();
 
             //Debug.LogError("HERE!!");
@@ -99,231 +98,235 @@ namespace Mathy.Data
 
         private async void Initialize()
         {
-            this.DbHandler = DatabaseHandler.Instance;
+            //this.DbHandler = DatabaseHandler.Instance;
         }
         #endregion
 
         #region SAVE 
 
         //Getting data from sender to save it later
-        private void GetData(object sender, EventArgs args)
-        {
-            switch (sender)
-            {
-                case TaskManager t:
-                    {
-                        SaveEventArgs saveEvent = (SaveEventArgs)args;
-                        if (saveEvent != null)
-                        {
-                            DbHandler.DataToSave = saveEvent.TaskData;
-                        }
-                        break;
-                    }
-                default:
-                    Debug.LogError("Somethin went wrong");
-                    break;
-            }
-        }
+        //private void GetData(object sender, EventArgs args)
+        //{
+        //    switch (sender)
+        //    {
+        //        case TaskManager t:
+        //            {
+        //                SaveEventArgs saveEvent = (SaveEventArgs)args;
+        //                if (saveEvent != null)
+        //                {
+        //                    DbHandler.DataToSave = saveEvent.TaskData;
+        //                }
+        //                break;
+        //            }
+        //        default:
+        //            Debug.LogError("Somethin went wrong");
+        //            break;
+        //    }
+        //}
 
-        public async void SaveTaskData(TaskData data)
-        {
-            DbHandler.DataToSave = data;
-            if (await DbHandler.IsTodayModeExist(DbHandler.DataToSave.Mode))
-            {
-                if (!await DbHandler.IsTodayModeCompleted(DbHandler.DataToSave.Mode))
-                {
-                    await System.Threading.Tasks.Task.Run(() => DbHandler.UpdateData());
-                }
-            }
-            else
-            {
-                await System.Threading.Tasks.Task.Run(() => DbHandler.SaveTaskData());
-            }
-        }
+        //public async void SaveTaskData(TaskData data)
+        //{
+        //    DbHandler.DataToSave = data;
+        //    if (await DbHandler.IsTodayModeExist(DbHandler.DataToSave.Mode))
+        //    {
+        //        if (!await DbHandler.IsTodayModeCompleted(DbHandler.DataToSave.Mode))
+        //        {
+        //            await System.Threading.Tasks.Task.Run(() => DbHandler.UpdateData());
+        //        }
+        //    }
+        //    else
+        //    {
+        //        await System.Threading.Tasks.Task.Run(() => DbHandler.SaveTaskData());
+        //    }
+        //}
 
         /// <summary>
         /// Ping changes and saving data to the database  
         /// </summary>
-        public async void Save()
-        {
-            //Getting all data from all Savables
-            foreach (var savable in Savables)
-            {
-                savable.Save();
-            }
+        //public async void Save()
+        //{
+        //    //Getting all data from all Savables
+        //    foreach (var savable in Savables)
+        //    {
+        //        savable.Save();
+        //    }
 
-            if (await DbHandler.IsTodayModeExist(DbHandler.DataToSave.Mode))
-            {
-                if (!await DbHandler.IsTodayModeCompleted(DbHandler.DataToSave.Mode))
-                {
-                    await System.Threading.Tasks.Task.Run(() => DbHandler.UpdateData());
-                }
-            }
-            else
-            {
-                await System.Threading.Tasks.Task.Run(() => DbHandler.SaveTaskData());
-            }
-        }
+        //    if (await DbHandler.IsTodayModeExist(DbHandler.DataToSave.Mode))
+        //    {
+        //        if (!await DbHandler.IsTodayModeCompleted(DbHandler.DataToSave.Mode))
+        //        {
+        //            await System.Threading.Tasks.Task.Run(() => DbHandler.UpdateData());
+        //        }
+        //    }
+        //    else
+        //    {
+        //        await System.Threading.Tasks.Task.Run(() => DbHandler.SaveTaskData());
+        //    }
+        //}
 
-        public async void SaveChallenge(ChallengeData data)
-        {
-            await this.DbHandler.SaveChallengeData(data);
-        }
+        //public async void SaveChallenge(ChallengeData data)
+        //{
+        //    await this.DbHandler.SaveChallengeData(data);
+        //}
 
         #endregion
 
         #region SAVE GRADE SETTINGS
 
-        public async System.Threading.Tasks.Task SaveGradeDatas(List<GradeData> gradeDatas)
-        {
-            await DbHandler.SaveGradeDatas(gradeDatas);
-        }
+        //public async System.Threading.Tasks.Task SaveGradeDatas(List<GradeData> gradeDatas)
+        //{
+        //    await DbHandler.SaveGradeDatas(gradeDatas);
+        //}
 
         #endregion
 
         #region LOAD GRADE SETTINGS
 
-        public async Task<List<GradeData>> GetGradeDatas(List<GradeSettings> gradeSettings)
-        {
-            return await DbHandler.GetGradeDatas(gradeSettings);
-        }
+        //public async Task<List<GradeData>> GetGradeDatas(List<GradeSettings> gradeSettings)
+        //{
+        //    return await DbHandler.GetGradeDatas(gradeSettings);
+        //}
 
         #endregion
 
-        public async Task<bool> IsTodayModeCompleted(TaskMode mode)
-        {
-            return await DbHandler.IsTodayModeCompleted(mode);
-        }
+        //public async Task<bool> IsTodayModeCompleted(TaskMode mode)
+        //{
+        //    return await DbHandler.IsTodayModeCompleted(mode);
+        //}
 
-        public async Task<bool> IsDateModeCompleted(TaskMode mode, DateTime date)
-        {
-            return await DbHandler.IsDateModeCompleted(mode, date);
-        }
+        //public async Task<bool> IsDateModeCompleted(TaskMode mode, DateTime date)
+        //{
+        //    return await DbHandler.IsDateModeCompleted(mode, date);
+        //}
 
-        public async Task<bool> IsTodayModeExist(TaskMode mode)
-        {
-            return await DbHandler.IsTodayModeExist(mode);
-        }
+        //public async Task<bool> IsTodayModeExist(TaskMode mode)
+        //{
+        //    return await DbHandler.IsTodayModeExist(mode);
+        //}
 
-        public async Task<int> GetLastTaskIndexOfMode(TaskMode mode)
-        { 
-            return (await DbHandler.TodayDoneTasksAmount(mode));
-        }
+        //public async Task<int> GetLastTaskIndexOfMode(TaskMode mode)
+        //{ 
+        //    return (await DbHandler.TodayDoneTasksAmount(mode));
+        //}
 
         #region CALENDAR
 
         public async System.Threading.Tasks.Task<CalendarData> GetCalendarData(DateTime date)
         {
-            return await DbHandler.GetCalendarData(date);
+            throw new NotImplementedException();
+            //return await DbHandler.GetCalendarData(date);
         }
 
         public async System.Threading.Tasks.Task<List<CalendarData>> GetCalendarData(int month)
         {
-            return await DbHandler.GetCalendarData(month);
+            throw new NotImplementedException();
+            //return await DbHandler.GetCalendarData(month);
         }
         
         public async System.Threading.Tasks.Task<List<CalendarData>> GetCalendarData(int month, int year)
         {
-            return await DbHandler.GetCalendarData(month,year);
+            throw new NotImplementedException();
+            //return await DbHandler.GetCalendarData(month,year);
         }
 
         #endregion
 
         #region STATISTICS
 
-        public async System.Threading.Tasks.Task<int> GetCorrectAnswersOfModeByDate(TaskMode mode, DateTime date)
-        {
-            return await DbHandler.GetCorrectAnswersOfModeByDate(mode, date);
-        }
+        //public async System.Threading.Tasks.Task<int> GetCorrectAnswersOfModeByDate(TaskMode mode, DateTime date)
+        //{
+        //    return await DbHandler.GetCorrectAnswersOfModeByDate(mode, date);
+        //}
 
-        public async System.Threading.Tasks.Task<double> GetCorrectRateOfMode(TaskMode mode)
-        {
-            return await DbHandler.GetCorrectRateOfMode(mode);
-        }
+        //public async System.Threading.Tasks.Task<double> GetCorrectRateOfMode(TaskMode mode)
+        //{
+        //    return await DbHandler.GetCorrectRateOfMode(mode);
+        //}
 
-        public async System.Threading.Tasks.Task<double> GetCorrectRateOfTaskType(TaskType type)
-        {
-            return await DbHandler.GetCorrectRateOfTaskType(type);
-        }
+        //public async System.Threading.Tasks.Task<double> GetCorrectRateOfTaskType(TaskType type)
+        //{
+        //    return await DbHandler.GetCorrectRateOfTaskType(type);
+        //}
 
-        public async Task<List<string>> GetTaskResults(TaskMode mode, DateTime date)
-        {
-            return await this.DbHandler.GetTaskResults(mode, date);
-        }
-        public async Task<List<bool>> GetAnswers(TaskMode mode, DateTime date)
-        {
-            return await this.DbHandler.GetAnswers(mode, date);
-        }
+        //public async Task<List<string>> GetTaskResults(TaskMode mode, DateTime date)
+        //{
+        //    return await this.DbHandler.GetTaskResults(mode, date);
+        //}
+        //public async Task<List<bool>> GetAnswers(TaskMode mode, DateTime date)
+        //{
+        //    return await this.DbHandler.GetAnswers(mode, date);
+        //}
 
-        public async Task<List<TimeSpan>> GetTimeSpansByModeAndDate(TaskMode mode, DateTime date)
-        {
-            return await this.DbHandler.GetTimeSpansByModeAndDate(mode, date);
-        }
+        //public async Task<List<TimeSpan>> GetTimeSpansByModeAndDate(TaskMode mode, DateTime date)
+        //{
+        //    return await this.DbHandler.GetTimeSpansByModeAndDate(mode, date);
+        //}
 
-        public async Task<List<bool>> GetTodayAnswers(TaskMode mode)
-        {
-            return await this.DbHandler.GetAnswers(mode, DateTime.UtcNow);
-        }
+        //public async Task<List<bool>> GetTodayAnswers(TaskMode mode)
+        //{
+        //    return await this.DbHandler.GetAnswers(mode, DateTime.UtcNow);
+        //}
 
-        public async Task<int> TodayDoneTasksAmount(TaskMode mode)
-        {
-            return await this.DbHandler.TodayDoneTasksAmount(mode);
-        }
+        //public async Task<int> TodayDoneTasksAmount(TaskMode mode)
+        //{
+        //    return await this.DbHandler.TodayDoneTasksAmount(mode);
+        //}
 
         //return value in milliseconds
-        public async System.Threading.Tasks.Task<long> GetTimeOfModeAndDate(TaskMode mode, DateTime date)
-        {
-            return await DbHandler.GetTimeOfModeAndDate(mode, date);
-        }
+        //public async System.Threading.Tasks.Task<long> GetTimeOfModeAndDate(TaskMode mode, DateTime date)
+        //{
+        //    return await DbHandler.GetTimeOfModeAndDate(mode, date);
+        //}
 
         #endregion
 
         #region DAILY CHALLENGE STATUS
 
-        public async System.Threading.Tasks.Task<bool> TodayChallengeStatus()
-        {
-            /*
-            set
-            {
-                PlayerPrefs.SetInt(statusKey, value.ToInt());
-                if (TodayChallengeStatus == true) PlayerPrefs.SetString(lastTimeChallenge, DateTime.Now.Date.ToString());
-            }
-            */
-            /*
-            get
-            {
-                //return PlayerPrefs.GetInt(statusKey, 0).ToBool();
-                return await IsTodayModeExist(TaskMode.Challenge);
-            }*/
-            return await IsTodayModeExist(TaskMode.Challenge);
-        }
+        //public async System.Threading.Tasks.Task<bool> TodayChallengeStatus()
+        //{
+        //    /*
+        //    set
+        //    {
+        //        PlayerPrefs.SetInt(statusKey, value.ToInt());
+        //        if (TodayChallengeStatus == true) PlayerPrefs.SetString(lastTimeChallenge, DateTime.Now.Date.ToString());
+        //    }
+        //    */
+        //    /*
+        //    get
+        //    {
+        //        //return PlayerPrefs.GetInt(statusKey, 0).ToBool();
+        //        return await IsTodayModeExist(TaskMode.Challenge);
+        //    }*/
+        //    return await IsTodayModeExist(TaskMode.Challenge);
+        //}
 
         //useless
-        private void CheckLastTimeChallenge()
-        {
-            /*
-            if (IsDayPassed())
-            {
-                TodayChallengeStatus = false;
-            }
-            */
-        }
+        //private void CheckLastTimeChallenge()
+        //{
+        //    /*
+        //    if (IsDayPassed())
+        //    {
+        //        TodayChallengeStatus = false;
+        //    }
+        //    */
+        //}
 
-        public bool IsDayPassed()
-        {
-            if (GetLastTimeChallenge() == "")
-                return true;
+        //public bool IsDayPassed()
+        //{
+        //    Debug.Log("This useless method invoked from somewhere. ");
+        //    if (GetLastTimeChallenge() == "")
+        //        return true;
 
-            bool isPassed = DateTime.Now.Date != DateTime.Parse(GetLastTimeChallenge());
-            return isPassed;
-        }
+        //    bool isPassed = DateTime.Now.Date != DateTime.Parse(GetLastTimeChallenge());
+        //    return isPassed;
+        //}
 
-        private string GetLastTimeChallenge()
-        {
-            if (PlayerPrefs.HasKey(lastTimeChallenge))
-                return PlayerPrefs.GetString(lastTimeChallenge);
-            return "";
-        }
+        //private string GetLastTimeChallenge()
+        //{
+        //    if (PlayerPrefs.HasKey(lastTimeChallenge))
+        //        return PlayerPrefs.GetString(lastTimeChallenge);
+        //    return "";
+        //}
 
         #endregion
 
@@ -370,26 +373,26 @@ namespace Mathy.Data
 
         #region RESET
         //Reset need to be in the DatabaseHandler, нужно переименовать тут 
-        public async UniTask ResetSaveFile()
-        {
-            await DbHandler.ResetSaveFile();
-            PlayerPrefs.DeleteAll();
-        }
+        //public async UniTask ResetSaveFile()
+        //{
+        //    await DbHandler.ResetSaveFile();
+        //    PlayerPrefs.DeleteAll();
+        //}
 
-        public void ResetAllBestScores()
-        {
-            for (int i = 0; i < bestScoreKeys.Count; i++)
-            {
-                for (int difficultyIndex = 0; difficultyIndex < 4; difficultyIndex++)
-                {
-                    string bestScoreKey = bestScoreKeys[i] + "BestScore" + difficultyIndex;
-                    if (PlayerPrefs.HasKey(bestScoreKey))
-                    {
-                        PlayerPrefs.DeleteKey(bestScoreKey);
-                    }
-                }
-            }
-        }
+        //public void ResetAllBestScores()
+        //{
+        //    for (int i = 0; i < bestScoreKeys.Count; i++)
+        //    {
+        //        for (int difficultyIndex = 0; difficultyIndex < 4; difficultyIndex++)
+        //        {
+        //            string bestScoreKey = bestScoreKeys[i] + "BestScore" + difficultyIndex;
+        //            if (PlayerPrefs.HasKey(bestScoreKey))
+        //            {
+        //                PlayerPrefs.DeleteKey(bestScoreKey);
+        //            }
+        //        }
+        //    }
+        //}
 
         #endregion
     }

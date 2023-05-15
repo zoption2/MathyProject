@@ -1,12 +1,15 @@
 using Cysharp.Threading.Tasks;
+using Mathy.Services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 public class StatisticsPanel : MonoBehaviour
 {
+    [Inject] private IPlayerDataService _playerDataService;
     #region Fields
 
     [Header("DAILY MODE BARS:")]
@@ -57,7 +60,7 @@ public class StatisticsPanel : MonoBehaviour
     private async UniTask UpdateStatistics()
     {
 		loadingIndicator.SetActive(true);
-        await UniTask.WaitUntil(() => PlayerDataManager.Instance != null);
+        //await UniTask.WaitUntil(() => PlayerDataManager.Instance != null);
 
 		UpdateAwardsText();
 		
@@ -106,12 +109,20 @@ public class StatisticsPanel : MonoBehaviour
         comparisonLabel.text = CalculateGrade(comparisonCorrectRate);
     }
 
-    private void UpdateAwardsText()
+    private async void UpdateAwardsText()
     {
-        goldenLabel.text = playerData.GoldenAmount.ToString();
-        silverLabel.text = playerData.SilverAmount.ToString();
-        bronzeLabel.text = playerData.BronzeAmount.ToString();
-        challengeModeLabel.text = playerData.ChallengesDoneAmount.ToString();
+        //goldenLabel.text = playerData.GoldenAmount.ToString();
+        //silverLabel.text = playerData.SilverAmount.ToString();
+        //bronzeLabel.text = playerData.BronzeAmount.ToString();
+        //challengeModeLabel.text = playerData.ChallengesDoneAmount.ToString();
+        var goldCount = await _playerDataService.Achievements.GetGoldMedals();
+        var silverCount = await _playerDataService.Achievements.GetSilverMedals();
+        var bronzeCount = await _playerDataService.Achievements.GetBronzeMedals();
+        var cupsCount = await _playerDataService.Achievements.GetChallengeCups();
+        goldenLabel.text = goldCount.ToString();
+        silverLabel.text = silverCount.ToString();
+        bronzeLabel.text = bronzeCount.ToString();
+        challengeModeLabel.text = cupsCount.ToString();
     }
 
     private string CalculateGrade(int correctRate)

@@ -8,10 +8,13 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 using System.Linq;
+using Zenject;
+using Mathy.Services;
 
 public class CalendarPanel : PopupPanel
 {
     #region FIELDS
+    [Inject] private IDataService  dataService;
 
     [Header("COMPONENTS:")]
     [SerializeField] private Transform sidePanel;
@@ -105,10 +108,13 @@ public class CalendarPanel : PopupPanel
     public async void UpdateViewButtons()
     {
         for (int i = 0; i < 3; i++)
-        {           
-            bool isDone = await DataManager.Instance.IsDateModeCompleted((TaskMode)i,
-                CalendarManager.Instance.SelectedDate);
-            
+        {
+            //bool isDone = await DataManager.Instance.IsDateModeCompleted((TaskMode)i,
+            //    CalendarManager.Instance.SelectedDate);
+            var modeData = await dataService.TaskData.GetDailyModeData(CalendarManager.Instance.SelectedDate, (TaskMode)i);
+            bool isDone = modeData.IsComplete;
+
+
             viewButtons[i].gameObject.SetActive(isDone);
         }
         bool hasPlayedThisDay = viewButtons.Any(b => b.gameObject.activeInHierarchy);

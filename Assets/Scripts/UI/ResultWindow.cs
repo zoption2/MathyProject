@@ -7,6 +7,7 @@ using System.Linq;
 using Mathy.Core;
 using Mathy.Core.Tasks;
 using UnityEngine.Localization.Settings;
+using Cysharp.Threading.Tasks;
 
 public class ResultWindow : MonoBehaviour
 {
@@ -295,17 +296,35 @@ public class ResultWindow : MonoBehaviour
             TweenSlider(grade);
         }
 
-        PlayerDataManager.Instance.AddExperience(experience);
+        //PlayerDataManager.Instance.AddExperience(experience);
         lastExperienceReward = experience;
         awardValue = "+" + experience + " XP";
         UpdateTextLabels();
         UpdateTextImages();
     }
 
-    public void DoubleReward()
+    public async void DoubleReward()
     {
+        doubleButton.IsInteractable = false;
         AdManager.Instance.OnUserEarnedRewardEvent.AddListener(RewardedAdEarned);
+        AdManager.Instance.OnAdFailedToShowEvent.AddListener(OnShowFailed);
+        AdManager.Instance.OnAdFailedToLoadEvent.AddListener(OnLoadFailed);
         AdManager.Instance.ShowRewardedAd(lastExperienceReward);
+        await UniTask.Delay(2000);
+    }
+
+    private void OnShowFailed()
+    {
+        doubleButton.IsInteractable = true;
+        Debug.LogError("Fail to show ADs");
+        AdManager.Instance.OnAdFailedToShowEvent.RemoveListener(OnShowFailed);
+    }
+
+    private void OnLoadFailed()
+    {
+        doubleButton.IsInteractable = true;
+        Debug.LogError("Fail to load ADs");
+        AdManager.Instance.OnAdFailedToLoadEvent.RemoveListener(OnLoadFailed);
     }
 
     private void RewardedAdEarned()

@@ -10,6 +10,8 @@ using System.Linq;
 using Mathy.Core;
 using UnityEngine.UI;
 using DG.Tweening;
+using Zenject;
+using Mathy.Services;
 
 namespace Mathy.UI
 {
@@ -56,6 +58,7 @@ namespace Mathy.UI
         private bool isTaskRegenerated;
 
         #endregion
+        [Inject] private IDataService dataService;
 
         public async void Initialize(TaskMode taskMode, bool isTodayTasks)
         {
@@ -87,20 +90,23 @@ namespace Mathy.UI
 
             DateTime date = isTodayTasks ? DateTime.UtcNow : CalendarManager.Instance.SelectedDate;
 
-            if (await DataManager.Instance.IsDateModeCompleted(SelectedTaskMode, date))//await DatabaseHandler.IsDateModeCompleted(SelectedTaskMode, date))
+            var modeData = await dataService.TaskData.GetDailyModeData(date, SelectedTaskMode);
+
+            if (modeData.IsComplete) //await DataManager.Instance.IsDateModeCompleted(SelectedTaskMode, date))//await DatabaseHandler.IsDateModeCompleted(SelectedTaskMode, date))
             {
                 //Debug.LogError("DailyResultPanel request");
-
-                List<string> results = await DataManager.Instance.GetTaskResults(SelectedTaskMode, date);
-                List<bool> answers = await DataManager.Instance.GetAnswers(SelectedTaskMode, date);
-
+                var tasksResults = await dataService.TaskData.GetResultsByModeAndDate(SelectedTaskMode, date);
+                List<string> results = await dataService.TaskData.GetTaskResultsFormatted(SelectedTaskMode, date);
+                //List<bool> answers = await DataManager.Instance.GetAnswers(SelectedTaskMode, date);
+                List<bool> answers = tasksResults.Select(x => x.IsAnswerCorrect).ToList();
                 //foreach (var result in results)
                 //{
                 //    Debug.Log(result);
                 //}
 
                 taskAmount = answers.Count();
-                List<TimeSpan> timeSpanes = await DataManager.Instance.GetTimeSpansByModeAndDate(SelectedTaskMode, date);
+                //List<TimeSpan> timeSpanes = await DataManager.Instance.GetTimeSpansByModeAndDate(SelectedTaskMode, date);
+                List<TimeSpan> timeSpanes = tasksResults.Select(x => TimeSpan.FromMilliseconds(x.Duration)).ToList();
                 //Создаем кнокпи снизу в результ панели и вешаем на них переходы на запуск нужных тасок
                 for (int i = 0; i < results.Count; i++)
                 {
@@ -137,7 +143,7 @@ namespace Mathy.UI
             isTaskRegenerated = true;
         }
 
-        public void UpdateInfoPanel(int correctRate, long modeTime, string completedTasks)
+        public void UpdateInfoPanel(int correctRate, double modeTime, string completedTasks)
         {
             gradeIcon.sprite = gradeIcons[CalculateGrade(correctRate)];
             var timeSpan = TimeSpan.FromMilliseconds(modeTime);

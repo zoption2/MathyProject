@@ -22,6 +22,7 @@
     public enum Popups
     {
         ParentGate = 1,
+        ResultScreen = 2,
     }
 
     public enum TaskElementType
@@ -204,5 +205,27 @@
     }
 
     #endregion
+
+    public enum KeyValueIntegerKeys
+    {
+        none = 0,
+        TotalTasksIndexer = 1,
+        TotalCorrectAnswers = 2,
+        TotalWrongAnswers = 3,
+        TotalTasksDuration = 4,
+        Experience = 5,
+        PlayerRank = 6,
+
+        DatabaseControl = 100,
+    }
+
+    public enum Achievements
+    {
+        none = 0,
+        GoldMedal = 1,
+        SilverMedal = 2,
+        BronzeMedal = 3,
+        ChallengeCup = 4,
+    }
 }
 

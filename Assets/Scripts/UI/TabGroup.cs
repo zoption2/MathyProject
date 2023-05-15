@@ -10,7 +10,7 @@ public class TabGroup : MonoBehaviour
     [SerializeField] protected TextMeshProUGUI title;
     [SerializeField] protected int selectedTabIndex;
     protected TabPanelButton selectedTab;
-    private string todayTitleText = "Daily Challenge";
+    private string todayTitleText = "Daily Lessons";
     private string practiceTitleText = "Practice";
     private string theoryText = "Theory";
 

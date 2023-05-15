@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Mathy.UI.Tasks;
-using Mathy.Data;
-using Mathy;
-using System.Linq;
+
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
@@ -14,6 +12,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         private ITaskViewComponent correctVariant;
         private string userAnswer;
         private string correctAnswer;
+
 
         protected override bool IsAnswerCorrect { get; set; }
         protected override List<int> SelectedAnswerIndexes { get; set; }

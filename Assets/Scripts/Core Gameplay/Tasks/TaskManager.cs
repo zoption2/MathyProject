@@ -73,7 +73,7 @@ namespace Mathy.Core.Tasks
 
 
         private ChallengeData currenChallengeData { get; set; } = new ChallengeData();
-        private TaskData currenTaskData { get; set; } = new TaskData();
+        private TaskResultData currenTaskData { get; set; } = new TaskResultData();
         public bool IsTasksGenerated { get; private set; } = false;
 
         private int currentTaskIndex = 0;
@@ -120,7 +120,6 @@ namespace Mathy.Core.Tasks
 
         private void Initialize()
         {
-            DataManager.Instance.Subscribe(this);
             IsPractice = false;
         }
 
@@ -132,11 +131,10 @@ namespace Mathy.Core.Tasks
 
         public void SaveTaskData(TaskType taskType, bool isCorrect, List<int> selectedVariantIndexes, List<int> corectVariantIndexes, List<Element> elements, List<Operator> operators, List<Variant> variants)
         {
-            currenTaskData.TaskModeIndex = currentTaskIndex;
+            //currenTaskData.TaskModeIndex = currentTaskIndex;
             currenTaskData.SelectedAnswerIndexes = selectedVariantIndexes;
             currenTaskData.CorrectAnswerIndexes = corectVariantIndexes;
             currenTaskData.IsAnswerCorrect = isCorrect;
-            currenTaskData.Seed = activeTask.Seed;
             currenTaskData.TaskType = taskType;
             currenTaskData.ElementValues = elements.ConvertAll<string>(x => x.Value.ToString());
             currenTaskData.VariantValues = variants.ConvertAll<string>(x => x.Value.ToString());
@@ -147,8 +145,8 @@ namespace Mathy.Core.Tasks
             }
 
             bool isDone = TasksAmount == currentTaskIndex && currenTaskData.Mode != TaskMode.Practic;
-            currenTaskData.IsModeDone = isDone;
-            DataManager.Instance.Save();
+            //currenTaskData.IsModeDone = isDone;
+            //DataManager.Instance.Save();
         }
 
         //ISaveable method
@@ -160,74 +158,74 @@ namespace Mathy.Core.Tasks
             OnSaveEvent.Invoke(this, args);
         }
 
-        public async void CreateTaskList(TaskMode mode)
-        {
-            currenTaskData = new TaskData();
-            currenTaskData.Mode = mode;
+        //public async void CreateTaskList(TaskMode mode)
+        //{
+        //    currenTaskData = new TaskData();
+        //    currenTaskData.Mode = mode;
 
-            bool isTodayDateExists = await DataManager.Instance.IsTodayModeExist(mode);
+        //    bool isTodayDateExists = await DataManager.Instance.IsTodayModeExist(mode);
 
-            if (isTodayDateExists)
-            {
-                int taskIndex = await DataManager.Instance.GetLastTaskIndexOfMode(mode);
-                currentTaskIndex = taskIndex + 1;
-            }
-            else
-            {
-                currentTaskIndex = 0;
-            }
+        //    if (isTodayDateExists)
+        //    {
+        //        int taskIndex = await DataManager.Instance.GetLastTaskIndexOfMode(mode);
+        //        currentTaskIndex = taskIndex + 1;
+        //    }
+        //    else
+        //    {
+        //        currentTaskIndex = 0;
+        //    }
 
-            await GenerateAllTasks();
+        //    await GenerateAllTasks();
 
-            switch (mode)
-            {
-                case TaskMode.Small:
-                    taskList = taskListSmall;
-                    break;
-                case TaskMode.Medium:
-                    taskList = taskListMedium;
-                    break;
-                case TaskMode.Large:
-                    taskList = taskListLarge;
-                    break;
-                default:
-                    goto case TaskMode.Small;
-            }
-            //await UniTask.WaitUntil(() => taskList.Count > 0);
-            await PreloadAllTaskViewsOfMode(mode);
-        }
+        //    switch (mode)
+        //    {
+        //        case TaskMode.Small:
+        //            taskList = taskListSmall;
+        //            break;
+        //        case TaskMode.Medium:
+        //            taskList = taskListMedium;
+        //            break;
+        //        case TaskMode.Large:
+        //            taskList = taskListLarge;
+        //            break;
+        //        default:
+        //            goto case TaskMode.Small;
+        //    }
+        //    //await UniTask.WaitUntil(() => taskList.Count > 0);
+        //    await PreloadAllTaskViewsOfMode(mode);
+        //}
 
-        public async UniTask GenerateAllTasks()
-        {
-            await DestroyAllTasks();
+        //public async UniTask GenerateAllTasks()
+        //{
+        //    await DestroyAllTasks();
             
-            if (await DataManager.Instance.IsTodayModeCompleted(TaskMode.Small))
-            {
-                taskListSmall = null;
-            }
-            else
-            {
-                taskListSmall = await GenerateAllTasksOfMode(TaskMode.Small);
-            }
+        //    if (await DataManager.Instance.IsTodayModeCompleted(TaskMode.Small))
+        //    {
+        //        taskListSmall = null;
+        //    }
+        //    else
+        //    {
+        //        taskListSmall = await GenerateAllTasksOfMode(TaskMode.Small);
+        //    }
 
-            if (await DataManager.Instance.IsTodayModeCompleted(TaskMode.Medium))
-            {
-                taskListMedium = null;
-            }
-            else
-            {
-                taskListMedium = await GenerateAllTasksOfMode(TaskMode.Medium);
-            }
+        //    if (await DataManager.Instance.IsTodayModeCompleted(TaskMode.Medium))
+        //    {
+        //        taskListMedium = null;
+        //    }
+        //    else
+        //    {
+        //        taskListMedium = await GenerateAllTasksOfMode(TaskMode.Medium);
+        //    }
 
-            if (await DataManager.Instance.IsTodayModeCompleted(TaskMode.Large))
-            {
-                taskListLarge = null;
-            }
-            else
-            {
-                taskListLarge = await GenerateAllTasksOfMode(TaskMode.Large);
-            }
-        }
+        //    if (await DataManager.Instance.IsTodayModeCompleted(TaskMode.Large))
+        //    {
+        //        taskListLarge = null;
+        //    }
+        //    else
+        //    {
+        //        taskListLarge = await GenerateAllTasksOfMode(TaskMode.Large);
+        //    }
+        //}
 
         private async UniTask DestroyAllTasks()
         {
@@ -257,54 +255,54 @@ namespace Mathy.Core.Tasks
             }
         }
 
-        private async System.Threading.Tasks.Task<List<Task>> GenerateAllTasksOfMode(TaskMode mode)
-        {
-            return await CreateTaskList(GetTasksAmountOfMode(mode), mode);
-        }
+        //private async System.Threading.Tasks.Task<List<Task>> GenerateAllTasksOfMode(TaskMode mode)
+        //{
+        //    return await CreateTaskList(GetTasksAmountOfMode(mode), mode);
+        //}
 
-        private async System.Threading.Tasks.Task<List<Task>> CreateTaskList(int amount, TaskMode mode)
-        {
-            bool isTodayModeCompleted = await DataManager.Instance.IsDateModeCompleted(mode, DateTime.Now);
+        //private async System.Threading.Tasks.Task<List<Task>> CreateTaskList(int amount, TaskMode mode)
+        //{
+        //    bool isTodayModeCompleted = await DataManager.Instance.IsDateModeCompleted(mode, DateTime.Now);
 
-            List<Task> tasks = new List<Task>();
+        //    List<Task> tasks = new List<Task>();
 
-            if (!isTodayModeCompleted)
-            {
-                bool isTodayDateExists = await DataManager.Instance.IsTodayModeExist(mode);
+        //    if (!isTodayModeCompleted)
+        //    {
+        //        bool isTodayDateExists = await DataManager.Instance.IsTodayModeExist(mode);
 
-                if (isTodayDateExists)
-                {
-                    bool isCompleted = await DataManager.Instance.IsTodayModeCompleted(mode);
-                    if (!isCompleted || currenTaskData.Mode == TaskMode.Practic)
-                    {
-                        int lastTaskIndex = await DataManager.Instance.GetLastTaskIndexOfMode(mode);
-                        int additionalTasksCount = GetTasksAmountOfMode(mode) - (lastTaskIndex + 1);
+        //        if (isTodayDateExists)
+        //        {
+        //            bool isCompleted = await DataManager.Instance.IsTodayModeCompleted(mode);
+        //            if (!isCompleted || currenTaskData.Mode == TaskMode.Practic)
+        //            {
+        //                int lastTaskIndex = await DataManager.Instance.GetLastTaskIndexOfMode(mode);
+        //                int additionalTasksCount = GetTasksAmountOfMode(mode) - (lastTaskIndex + 1);
 
-                        for(int i = 0; i <= lastTaskIndex; i++)
-                        {
-                            //временная заглушка
-                            tasks.Add(new Addition( 1, new ScriptableTask()) );
-                        }
+        //                for(int i = 0; i <= lastTaskIndex; i++)
+        //                {
+        //                    //временная заглушка
+        //                    tasks.Add(new Addition( 1, new ScriptableTask()) );
+        //                }
 
-                        using (TaskGenerator taskGenerator = new TaskGenerator())
-                        {
-                            tasks.AddRange(await taskGenerator.GenerateByAvailableSkills(additionalTasksCount));
-                        }
+        //                using (TaskGenerator taskGenerator = new TaskGenerator())
+        //                {
+        //                    tasks.AddRange(await taskGenerator.GenerateByAvailableSkills(additionalTasksCount));
+        //                }
 
-                        //+1 coz we store only last task done index
-                        currentTaskIndex = lastTaskIndex + 1;
-                    }
-                }
-                else
-                {
-                    using (TaskGenerator taskGenerator = new TaskGenerator())
-                    {
-                        //tasks = await taskGenerator.Generate(amount);
-                        tasks = await taskGenerator.GenerateByAvailableSkills(amount);
-                    }
-                    currentTaskIndex = 0;
-                }
-            }
+        //                //+1 coz we store only last task done index
+        //                currentTaskIndex = lastTaskIndex + 1;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            using (TaskGenerator taskGenerator = new TaskGenerator())
+        //            {
+        //                //tasks = await taskGenerator.Generate(amount);
+        //                tasks = await taskGenerator.GenerateByAvailableSkills(amount);
+        //            }
+        //            currentTaskIndex = 0;
+        //        }
+        //    }
 
             //Debug.Log($"{mode}");
             //Debug.Log($"Tasks count = {tasks.Count}");
@@ -314,57 +312,57 @@ namespace Mathy.Core.Tasks
             //}
             //Debug.Log("________________________________________________");
 
-            return tasks;
-        }
+        //    return tasks;
+        //}
 
-        public async UniTask PreloadAllTaskViewsOfMode(TaskMode mode)
-        {
-            await ClearAllTaskViews();
+        //public async UniTask PreloadAllTaskViewsOfMode(TaskMode mode)
+        //{
+        //    await ClearAllTaskViews();
 
-            for (int i = 0; i < taskList.Count; i++)
-            {
-                Task task = taskList[i];
-                await task.CreateTaskView(GameplayPanel);
-            }
+        //    for (int i = 0; i < taskList.Count; i++)
+        //    {
+        //        Task task = taskList[i];
+        //        await task.CreateTaskView(GameplayPanel);
+        //    }
 
-            for (int i = 0; i < taskList.Count; i++)
-            {
-                DefaultTaskBehaviour taskBehaviour = (DefaultTaskBehaviour)taskList[i].TaskBehaviour;
-                taskBehaviour.SetActiveViewPanels(false);
-                taskBehaviour.SetActiveProgressBar(false);
-                taskBehaviour.gameObject.name = taskBehaviour.Task.TaskType.ToString();
-            }
+        //    for (int i = 0; i < taskList.Count; i++)
+        //    {
+        //        DefaultTaskBehaviour taskBehaviour = (DefaultTaskBehaviour)taskList[i].TaskBehaviour;
+        //        taskBehaviour.SetActiveViewPanels(false);
+        //        taskBehaviour.SetActiveProgressBar(false);
+        //        taskBehaviour.gameObject.name = taskBehaviour.Task.TaskType.ToString();
+        //    }
 
-            if(await DataManager.Instance.IsTodayModeExist(mode))
-            {
-                currentTaskIndex = await DataManager.Instance.GetLastTaskIndexOfMode(mode) + 1;
-            }
+        //    if(await DataManager.Instance.IsTodayModeExist(mode))
+        //    {
+        //        currentTaskIndex = await DataManager.Instance.GetLastTaskIndexOfMode(mode) + 1;
+        //    }
 
-            await ActivateTaskAsync(currentTaskIndex);
+        //    await ActivateTaskAsync(currentTaskIndex);
 
-            await UniTask.Delay(1000);
-            LoadingManager.Instance.ClosePanel();
-        }
+        //    await UniTask.Delay(1000);
+        //    LoadingManager.Instance.ClosePanel();
+        //}
 
-        private int GetTasksAmountOfMode(TaskMode mode)
-        {
-            int amount;
-            switch (mode)
-            {
-                case TaskMode.Small:
-                    amount = 10;
-                    break;
-                case TaskMode.Medium:
-                    amount = 20;
-                    break;
-                case TaskMode.Large:
-                    amount = 30;
-                    break;
-                default:
-                    goto case TaskMode.Small;
-            }
-            return amount;
-        }
+        //private int GetTasksAmountOfMode(TaskMode mode)
+        //{
+        //    int amount;
+        //    switch (mode)
+        //    {
+        //        case TaskMode.Small:
+        //            amount = 10;
+        //            break;
+        //        case TaskMode.Medium:
+        //            amount = 20;
+        //            break;
+        //        case TaskMode.Large:
+        //            amount = 30;
+        //            break;
+        //        default:
+        //            goto case TaskMode.Small;
+        //    }
+        //    return amount;
+        //}
 
         public async void StartTaskPractice(ScriptableTask taskParam, int amount)
         {  

@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using Mathy.Core.Tasks.DailyTasks;
+using Mathy.Services;
 using UnityEngine;
 
 namespace Mathy.Core.Tasks
@@ -9,10 +10,14 @@ namespace Mathy.Core.Tasks
         private bool isFailed;
         public override TaskMode TaskMode => TaskMode.Practic;
 
-        protected PracticeScenario(ITaskFactory taskFactory,
-            ITaskBackgroundSevice backgroundHandler,
-            IAddressableRefsHolder addressableRefs)
-            : base(taskFactory, backgroundHandler, addressableRefs)
+        protected PracticeScenario(ITaskFactory taskFactory
+            , ITaskBackgroundSevice backgroundHandler
+            , IAddressableRefsHolder addressableRefs
+            , IDataService dataService
+            , IPlayerDataService playerDataService
+            , IResultScreenMediator resultScreen
+            )
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, playerDataService, resultScreen)
         {
         }
 
@@ -50,17 +55,24 @@ namespace Mathy.Core.Tasks
 
         protected override void ClickOnExitFromGameplay()
         {
-            ClearTasks();
-            EndGameplay();
+            resultScreen.Show(() =>
+            {
+                ClearTasks();
+                GameManager.Instance.ChangeState(GameState.MainMenu);
+            });
         }
 
         protected override void EndGameplay()
         {
             base.EndGameplay();
-            var resultsView = scenePointer.ResultsWindow;
-            resultsView.gameObject.SetActive(true);
-            float correctRate = correctAnswers / (float)(taskIndexer) * 100f;
-            resultsView.DisplayResult(correctAnswers, taskIndexer, correctRate, false);
+            //var resultsView = scenePointer.ResultsWindow;
+            //resultsView.gameObject.SetActive(true);
+            //float correctRate = correctAnswers / (float)(taskIndexer) * 100f;
+            //resultsView.DisplayResult(correctAnswers, taskIndexer, correctRate, false);
+            resultScreen.Show(() =>
+            {
+                GameManager.Instance.ChangeState(GameState.MainMenu);
+            });
         }
 
         private void ClearQueue()

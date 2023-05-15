@@ -75,3 +75,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   refsHolder: {fileID: 11400000, guid: 2a16d53f1cd3ced41b179eb0b1eac0c9, type: 2}
+  gradeSettingsHolder: {fileID: 763498926073653712, guid: 8e76862ef74704a4b97fd263ab2e532e, type: 3}

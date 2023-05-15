@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4764158491501693116, guid: a6ac80906b6e5aa4c97b17442cba229a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: beaf1ea98c4c8be4486ee0dc38c5376f, type: 3}
     - target: {fileID: 4764158492591579211, guid: a6ac80906b6e5aa4c97b17442cba229a, type: 3}
       propertyPath: taskConfigs.Array.size
       value: 1
@@ -17,7 +21,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e667c3b0bbddafa4fb8ea2813e527eae, type: 2}
     - target: {fileID: 4764158492591579572, guid: a6ac80906b6e5aa4c97b17442cba229a, type: 3}
       propertyPath: m_Name
-      value: CountTensAndOnes
+      value: CountTensAndOnes Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4764158492591579573, guid: a6ac80906b6e5aa4c97b17442cba229a, type: 3}
       propertyPath: m_Pivot.x
@@ -54,6 +58,14 @@ PrefabInstance:
     - target: {fileID: 4764158492591579573, guid: a6ac80906b6e5aa4c97b17442cba229a, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4764158492591579573, guid: a6ac80906b6e5aa4c97b17442cba229a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4764158492591579573, guid: a6ac80906b6e5aa4c97b17442cba229a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 4764158492591579573, guid: a6ac80906b6e5aa4c97b17442cba229a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -105,8 +117,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4764158493214056739, guid: a6ac80906b6e5aa4c97b17442cba229a, type: 3}
       propertyPath: m_text
-      value: Game
+      value: Counting frames tens and ones
       objectReference: {fileID: 0}
+    - target: {fileID: 4764158493214056739, guid: a6ac80906b6e5aa4c97b17442cba229a, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 98d8e54dacf835842b908f065dab48a1, type: 2}
+    - target: {fileID: 4764158493214056739, guid: a6ac80906b6e5aa4c97b17442cba229a, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -8542393744163677806, guid: 98d8e54dacf835842b908f065dab48a1, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6ac80906b6e5aa4c97b17442cba229a, type: 3}
 --- !u!1 &4205142854373228723 stripped

@@ -16,6 +16,9 @@ MonoBehaviour:
   VariantsAmount: 4
   MinNumber: 0
   MaxNumber: 20
+  MinLimit: 0
+  MaxLimit: 100
   Title: Comparison
   Description: Task description here
   TaskType: 1
+  SkillType: 3

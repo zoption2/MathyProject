@@ -95,28 +95,29 @@ namespace Randoms.DailyReward
         void Init ()
         {
             //Debug.Log($"dailyRewardBtns.Count = {DailyRewardBtn.dailyRewardBtns.Count}");
-            foreach (var btn in DailyRewardBtn.dailyRewardBtns)
-            {
-                btn.Init ();
-                var (canClaim, status) = DailyRewardInternal.GetDailyRewardStatus (btn.day);
-                //Debug.Log($"Day {btn.day} button - canClaim = " + canClaim);
-                switch (status)
-                {
-                    case DailyRewardStatus.CLAIMED:  btn.OnClaimedState?.Invoke (); break;
-                    case DailyRewardStatus.UNCLAIMED_UNAVAILABLE:  btn.OnClaimUnAvailableState?.Invoke();  break;
-                }
-                
-                // ative btn
-                if (status == DailyRewardStatus.UNCLAIMED_AVAILABLE && canClaim)
-                {
-                    activeBtn = btn;
-                    btn.OnClaimState?.Invoke ();
-                    btn.btn.onClick.AddListener (()=> DailyRewardInternal.ClaimTodayReward (()=> {
-                        Init ();
-                        btn.onClick?.Invoke (); 
-                    }));
-                }
-            }
+            //foreach (var btn in DailyRewardBtn.dailyRewardBtns)
+            //{
+            //    btn.Init();
+            //    var (canClaim, status) = DailyRewardInternal.GetDailyRewardStatus(btn.day);
+            //    //Debug.Log($"Day {btn.day} button - canClaim = " + canClaim);
+            //    switch (status)
+            //    {
+            //        case DailyRewardStatus.CLAIMED: btn.OnClaimedState?.Invoke(); break;
+            //        case DailyRewardStatus.UNCLAIMED_UNAVAILABLE: btn.OnClaimUnAvailableState?.Invoke(); break;
+            //    }
+
+            //    // ative btn
+            //    if (status == DailyRewardStatus.UNCLAIMED_AVAILABLE && canClaim)
+            //    {
+            //        activeBtn = btn;
+            //        btn.OnClaimState?.Invoke();
+            //        btn.btn.onClick.AddListener(() => DailyRewardInternal.ClaimTodayReward(() =>
+            //        {
+            //            Init();
+            //            btn.onClick?.Invoke();
+            //        }));
+            //    }
+            //}
         }   
         
         IEnumerator CountTimer ()

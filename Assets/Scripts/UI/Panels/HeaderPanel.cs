@@ -19,38 +19,38 @@ public class HeaderPanel : MonoBehaviour
         UpdateButtonsVisability();
     }
 
-    private void OnEnable()
-    {
-        SubscribeOnPlayerDataManager(true);
-        UpdatePanels();
-    }
+    //private void OnEnable()
+    //{
+    //    SubscribeOnPlayerDataManager(true);
+    //    UpdatePanels();
+    //}
 
-    private void OnDisable()
-    {
-        SubscribeOnPlayerDataManager(false);
-    }
+    //private void OnDisable()
+    //{
+    //    SubscribeOnPlayerDataManager(false);
+    //}
 
-    private void SubscribeOnPlayerDataManager(bool isSubscribed)
-    {
-        if (isSubscribed)
-        {
-            PlayerDataManager.OnPlayerStatsUpdated.AddListener(UpdatePanels);
-        }
-        else
-        {
-            PlayerDataManager.OnPlayerStatsUpdated.RemoveListener(UpdatePanels);
-        }
-    }
+    //private void SubscribeOnPlayerDataManager(bool isSubscribed)
+    //{
+    //    if (isSubscribed)
+    //    {
+    //        PlayerDataManager.OnPlayerStatsUpdated.AddListener(UpdatePanels);
+    //    }
+    //    else
+    //    {
+    //        PlayerDataManager.OnPlayerStatsUpdated.RemoveListener(UpdatePanels);
+    //    }
+    //}
 
     #endregion
 
-    public void UpdatePanels()
-    {
-        foreach (HeaderBar panel in headerPanels)
-        {
-            panel.UpdateText();
-        }
-    }
+    //public void UpdatePanels()
+    //{
+    //    foreach (HeaderBar panel in headerPanels)
+    //    {
+    //        panel.UpdateText();
+    //    }
+    //}
 
     public void UpdateButtonsVisability()
     {

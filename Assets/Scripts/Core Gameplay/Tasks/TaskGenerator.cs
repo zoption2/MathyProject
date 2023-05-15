@@ -162,25 +162,25 @@ namespace Mathy.Data
         //    }
         //}
 
-        public async System.Threading.Tasks.Task<List<Task>> GenerateByAvailableSkills(int amount)
-        {
-            if (amount > 0)
-            {
-                List<Task> tasks = new List<Task>();
-                List<ScriptableTask> tastSettings;
-                tastSettings = GradeManager.Instance.AvailableTaskSettings();
-                for (int i = 0; i < amount; i++)
-                {
-                    tasks.Add(await GenerateSingleFromSkillList(tastSettings));
-                }
-                return tasks;
-            }
-            else
-            {
-                Debug.LogError("The number of requested tasks is less or equal 0");
-                throw new ArgumentException();
-            }
-        }
+        //public async System.Threading.Tasks.Task<List<Task>> GenerateByAvailableSkills(int amount)
+        //{
+        //    if (amount > 0)
+        //    {
+        //        List<Task> tasks = new List<Task>();
+        //        List<ScriptableTask> tastSettings;
+        //        tastSettings = GradeManager.Instance.AvailableTaskSettings();
+        //        for (int i = 0; i < amount; i++)
+        //        {
+        //            tasks.Add(await GenerateSingleFromSkillList(tastSettings));
+        //        }
+        //        return tasks;
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError("The number of requested tasks is less or equal 0");
+        //        throw new ArgumentException();
+        //    }
+        //}
 
         public async System.Threading.Tasks.Task<List<Task>> GenerateBySetting(ScriptableTask taskSetting, int amount)
         {

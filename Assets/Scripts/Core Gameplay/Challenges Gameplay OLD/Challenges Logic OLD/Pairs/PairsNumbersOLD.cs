@@ -7,6 +7,8 @@ using System.Linq;
 using Mathy.Core;
 using Mathy.Data;
 using System;
+using Mathy.Services;
+using Zenject;
 
 public class PairsNumbersOLD : ChallengeOLD
 {
@@ -17,6 +19,7 @@ public class PairsNumbersOLD : ChallengeOLD
     private const string bestTimeKey = "PairsNumbersBestTime";
 
     #endregion
+    [Inject] private IDataService dataService;
 
     public override void RunTask()
     {
@@ -107,7 +110,21 @@ public class PairsNumbersOLD : ChallengeOLD
             data.IsDone = true;
             data.CorrectRate = this.GetCorrectRate();
 
-            ChallengesManager.Instance.SaveTaskData(data);
+            var modeData = new DailyModeData();
+            modeData.Mode = TaskMode.Challenge;
+            modeData.Date = DateTime.UtcNow;
+            modeData.IsComplete = true;
+            modeData.PlayedCount = 1;
+            modeData.CorrectAnswers = 1;
+            modeData.CorrectRate = 100;
+            var duration = TimeSpan.FromSeconds(StopTimer(true));
+            modeData.Duration = duration.TotalMilliseconds;
+            modeData.TotalTasks = 1;
+            modeData.TasksIds.Add(0);
+
+            dataService.TaskData.UpdateDailyMode(modeData);
+
+            //ChallengesManager.Instance.SaveTaskData(data);
             ChallengesManager.Instance.ShowResult(true);
             //Debug.LogError("SAVE HERE!!");
         }

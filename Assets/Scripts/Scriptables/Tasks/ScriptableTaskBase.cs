@@ -39,7 +39,7 @@ public enum TaskType
     SumOfNumbers = 19,
     MissingExpression = 20,
     CountTo10Images = 22,
-    SelectFromThreeCount = 23,
+    CountTo10WhichShows = 23,
     CountTo10Frames = 24,
     CountTo20Frames = 25,
     CountToTensAndOnes = 26,

@@ -82,7 +82,7 @@ namespace Mathy.Core
 
         private void HandleStarting()
         {
-            PlayerDataManager.Instance.LoadPlayerData(); //Load from PlayerPrefs values of the player's experience and stars
+            //await PlayerDataManager.Instance.LoadPlayerData(); //Load from PlayerPrefs values of the player's experience and stars
             GameSettingsManager.Instance.LoadSettings();
             AudioManager.Instance.PlayMusic();
             InitializePanels();

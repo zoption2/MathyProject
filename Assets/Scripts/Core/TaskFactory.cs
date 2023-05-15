@@ -141,10 +141,10 @@ namespace Mathy
                     await controller.Init(model, view);
                     return controller;
 
-                case TaskType.SelectFromThreeCount:
+                case TaskType.CountTo10WhichShows:
                     model = new SelectFromThreeCountTaskModel(taskSettings);
                     controller = container.Resolve<SelectFromThreeCountTaskController>();
-                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<ISelectFromThreeCountTaskView>(TaskType.SelectFromThreeCount, viewParent);
+                    view = await refsHolder.TaskViewProvider.InstantiateFromReference<ISelectFromThreeCountTaskView>(TaskType.CountTo10WhichShows, viewParent);
                     await controller.Init(model, view);
                     return controller;
 

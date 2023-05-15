@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using Mathy.Core.Tasks.DailyTasks;
-using Mathy.Data;
+using Mathy.Services;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,37 +23,48 @@ namespace Mathy.Core.Tasks
         protected ITaskFactory taskFactory;
         protected ITaskBackgroundSevice backgroundService;
         protected IAddressableRefsHolder addressableRefs;
+        protected IDataService dataService;
+        protected IPlayerDataService playerDataService;
+        protected IResultScreenMediator resultScreen;
         protected TaskManager taskManager;
         protected GameplayScenePointer scenePointer;
-        protected DataManager dataManager;
         protected int taskIndexer = 0;
         protected int correctAnswers;
+        protected double totalDuration;
         protected List<ScriptableTask> availableTasks;
+        protected DailyModeData dailyModeData;
 
         protected int TasksInQueue => tasks.Count;
         public abstract TaskMode TaskMode { get;}
 
         public BaseScenario(ITaskFactory taskFactory
             , ITaskBackgroundSevice backgroundHandler
-            , IAddressableRefsHolder addressableRefs)
+            , IAddressableRefsHolder addressableRefs
+            , IDataService dataService
+            , IPlayerDataService playerDataService
+            , IResultScreenMediator resultScreen)
         {
             this.taskFactory = taskFactory;
             this.backgroundService = backgroundHandler;
             this.addressableRefs = addressableRefs;
+            this.dataService = dataService;
+            this.playerDataService = playerDataService;
+            this.resultScreen = resultScreen;
         }
 
         protected abstract UniTask DoOnStart();
         protected abstract UniTask UpdateTasksQueue();
 
 
-        public async virtual void StartScenario(List<ScriptableTask> availableTasks)
+        public async void StartScenario(List<ScriptableTask> availableTasks)
         {
             taskManager = TaskManager.Instance;
-            dataManager = DataManager.Instance;
             scenePointer = GameplayScenePointer.Instance;
 
-            correctAnswers = 0;
-            taskIndexer = 0;
+            dailyModeData = await dataService.TaskData.GetDailyModeData(DateTime.UtcNow, TaskMode);
+            taskIndexer = dailyModeData.PlayedCount;
+            correctAnswers = dailyModeData.CorrectAnswers;
+            totalDuration = dailyModeData.Duration;
             tasks = new(kMaxTasksLoadedAtOnce);
             this.availableTasks = availableTasks;
 
@@ -78,16 +90,7 @@ namespace Mathy.Core.Tasks
         {
             controller.ON_COMPLETE -= OnTaskComplete;
             controller.ON_FORCE_EXIT -= ClickOnExitFromGameplay;
-            var result = controller.GetResults();
-            result.Mode = TaskMode;
-            taskIndexer++;
-            result.TaskModeIndex = taskIndexer;
-            dataManager.SaveTaskData(result);
-
-            if (result.IsAnswerCorrect)
-            {
-                correctAnswers++;
-            }
+            await UpdateResultAndSave(controller);
 
             await UpdateTasksQueue();
 
@@ -107,6 +110,31 @@ namespace Mathy.Core.Tasks
                 }
                 GameObject.Destroy(controller.ViewParent.gameObject);
             });
+        }
+
+        protected virtual async UniTask UpdateResultAndSave(ITaskController controller)
+        {
+            var result = controller.GetResults();
+            result.Date = DateTime.Now;
+            result.Mode = TaskMode;
+            taskIndexer++;
+            totalDuration += result.Duration;
+
+            var taskId = await dataService.TaskData.SaveTask(result);
+
+            if (result.IsAnswerCorrect)
+            {
+                correctAnswers++;
+            }
+
+            dailyModeData.IsComplete = false;
+            dailyModeData.PlayedCount = taskIndexer;
+            dailyModeData.CorrectAnswers = correctAnswers;
+            dailyModeData.CorrectRate = (correctAnswers * 100) / taskIndexer;
+            dailyModeData.Duration = totalDuration;
+            dailyModeData.TasksIds.Add(taskId);
+
+            await dataService.TaskData.UpdateDailyMode(dailyModeData);
         }
 
         protected virtual bool TryStartTask()

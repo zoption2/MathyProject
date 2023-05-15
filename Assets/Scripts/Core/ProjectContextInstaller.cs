@@ -5,10 +5,15 @@ using Mathy.Core.Tasks.DailyTasks;
 using Mathy.Core.Tasks;
 using Mathy.Services;
 using Mathy.UI;
+using System.Collections.Generic;
+using Mathy.Data;
+using Mathy.Services.Data;
+using Mathy.Services.UI;
 
 public class ProjectContextInstaller : MonoInstaller
 {
     [SerializeField] private AddressableRefsHolder refsHolder;
+    [SerializeField] private GradeSettingsHolder gradeSettingsHolder;
 
     public override void InstallBindings()
     {
@@ -19,10 +24,17 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<ITaskViewComponentsProvider>().To<TaskViewComponentsProvider>().AsSingle();
         Container.Bind<ITaskBackgroundSevice>().To<TaskBackgroundService>().AsSingle();
         Container.Bind<IParentGateService>().To<ParentGateService>().AsSingle();
+        Container.Bind<IDataService>().To<DataService>().AsSingle().NonLazy();
+        Container.Bind<ISkillPlanService>().To<SkillPlanService>().AsSingle();
+        Container.Bind<IUIManager>().To<UIManager>().AsSingle();
+
+        Container.Bind<List<GradeSettings>>().FromInstance(gradeSettingsHolder.GradeSettings).AsSingle();
 
         BindTaskControllers();
         BindScenarious();
         BindPopupsControllers();
+        BindPlayerDataServices();
+        BindResultScreen();
     }
 
     private void BindTaskControllers()
@@ -53,6 +65,21 @@ public class ProjectContextInstaller : MonoInstaller
     private void BindPopupsControllers()
     {
         Container.Bind<ParentGatePopupController>().To<ParentGatePopupController>().AsTransient();
+    }
+
+    private void BindPlayerDataServices()
+    {
+        Container.Bind<IPlayerDataService>().To<PlayerDataService>().AsSingle();
+        Container.Bind<IAchievementsHandler>().To<AchievementsHandler>().AsSingle();
+        Container.Bind<IProgressHandler>().To<ProgressHandler>().AsSingle();
+    }
+
+    private void BindResultScreen()
+    {
+        Container.Bind<IResultScreenMediator>().To<ResultScreenMediator>().AsTransient();
+        Container.Bind<IResultScreenSkillsController>().To<ResultScreenSkillsController>().AsTransient();
+        Container.Bind<IResultScreenAchievementsController>().To<ResultScreenAchievementsController>().AsTransient();
+        Container.Bind<IResultScreenRewardController>().To<ResultScreenRewardController>().AsTransient();
     }
 }
 

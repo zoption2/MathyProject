@@ -5,11 +5,14 @@ using Mathy.Data;
 using System;
 using TMPro;
 using Cysharp.Threading.Tasks;
+using Zenject;
+using Mathy.Services;
 
 namespace Mathy.UI
 {
     public class SkillsPanel : PopupPanel
     {
+        [Inject] private ISkillPlanService service;
         #region FIELDS
 
         [Header("COMPONENTS:")]
@@ -30,36 +33,35 @@ namespace Mathy.UI
         [SerializeField] private string selectAllKey = "Skills Panel Select All";
         [SerializeField] private string deselectAllKey = "Skills Panel Deselect All";
 
-        private GradeData selectedGradeData;
+        private List<SkillData> selectedGradeData;
         private int selectedTabIndex = -1;
         private int selectedSkillsCount = 0;
         private int availableSkillsCount;
+        private Dictionary<SkillType, SkillSettingsData> skillSettingsDatas = new();
 
         #endregion
 
-        private void Awake()
+
+        protected override void OnEnable()
         {
+            base.OnEnable();
             Initialize();
+            var tab = selectedTabIndex == -1 ? defaultTabIndex : selectedTabIndex;
+            SelectTab(tab);
+            selectAllToggle.onValueChanged.AddListener(SelectAllSkills);
+            closeButton.onClick.AddListener(ClosePanel);
         }
 
-        private async void Start()
+        private void OnDisable()
         {
-            await UniTask.WaitUntil(() => GradeManager.Instance != null);
-            SelectTab(defaultTabIndex);
-        }
-
-        private void Localize()
-        {
-            var skillDatas = selectedGradeData.SkillDatas;
-            if (skillDatas.Count <= 0) return;
-            for (int i = 0; i < availableSkillsCount; i++)
+            selectAllToggle.onValueChanged.RemoveListener(SelectAllSkills);
+            closeButton.onClick.RemoveListener(ClosePanel);
+            for (int i = 0; i < availableGrades; i++)
             {
-                var skill = skillDatas[i];
-                var settings = skillSettingsElements[i];
-                settings.Localize(GetSkillTitle(skill.SkillType));
+                gradeTabButtons[i].Button.onClick.RemoveListener
+                    (() => { SelectTab(i); });
             }
-            selectAllTitle.text = LocalizationManager.GetLocalizedString(tableName,
-                selectAllToggle.isOn ? deselectAllKey : selectAllKey);
+            TryUnsubscribeFromSkillSettings();
         }
 
         private void Initialize()
@@ -69,79 +71,18 @@ namespace Mathy.UI
 
             for (int i = 0; i < availableGrades; i++)
             {
-                int tabIndex = i;
                 gradeTabButtons[i].gameObject.SetActive(true);
                 gradeTabButtons[i].UpdateDisplayStyle(availableGrades > 3);
                 gradeTabButtons[i].Button.onClick.AddListener
-                    (() => { SelectTab(tabIndex); });
+                    (() => { SelectTab(i); });
             }
             for (int i = availableGrades; i < gradeTabButtons.Count; i++)
             {
                 gradeTabButtons[i].gameObject.SetActive(false);
             }
-            
-            selectAllToggle.onValueChanged.AddListener(SelectAllSkills);
-            closeButton.onClick.AddListener(ClosePanel);
-            LocalizationManager.OnLanguageChanged.AddListener(Localize);
-        }
 
-        private void UpdateDisplayedSkills()
-        {
-            selectedGradeData = GradeManager.Instance.GradeDatas[selectedTabIndex];
-            var skillDatas = selectedGradeData.SkillDatas;
-            availableSkillsCount = skillDatas.Count;
-
-            //Initialization of all skill settings GUI depending on the available skill datas
-            for (int i = 0; i < availableSkillsCount; i++)
-            {
-                var skill = skillDatas[i];
-                var settings = skillSettingsElements[i];
-
-                settings.gameObject.SetActive(true);
-                settings.Initialize(GetSkillTitle(skill.SkillType),
-                    skill.MaxNumber, skill.IsActive);
-                if (skill.IsActive)
-                    selectedSkillsCount++;
-            }
-
-            //Deactivation of the rest skill settings GUI
-            for (int i = availableSkillsCount; i < skillSettingsElements.Count; i++)
-            {
-                skillSettingsElements[i].gameObject.SetActive(false);
-            }
-
-            selectAllToggle.isOn = selectedSkillsCount == availableSkillsCount;
-            SubscribeToSkillSettings();
-        }
-
-        private void SubscribeToSkillSettings()
-        {
-            for (int i = 0; i < availableSkillsCount; i++)
-            //for (int i = 0; i < 5; i++)
-            {
-                int gradeIndex = selectedTabIndex + 1;
-                int skillIndex = i;
-                skillSettingsElements[i].OnTogglePressed.AddListener(
-                (isAvailable) => GradeManager.Instance.SetSkillIsActive(
-                    gradeIndex, skillIndex, isAvailable));
-                skillSettingsElements[i].OnTogglePressed.AddListener((isEnabled) => this.SkillChecked(isEnabled));
-                skillSettingsElements[i].OnSliderValueChanged.AddListener(
-                (maxNumber) => GradeManager.Instance.SetSkillMaxNumber(
-                    gradeIndex, skillIndex, maxNumber));
-            }
-        }
-
-        /// <summary>
-        /// Returns a localized title for a skill GUI element based on the specified SkillType.
-        /// </summary>
-        /// <param name="type">The type of the skill.</param>
-        /// <returns>The localized title of the skill.</returns>
-        private string GetSkillTitle(SkillType type)
-        {
-            string skillKey = $"{Enum.GetName(typeof(SkillType), type)} Skill";
-            string title = $"{LocalizationManager.GetLocalizedString(tableName, skillKey)} " +
-                $"{LocalizationManager.GetLocalizedString(tableName, upToKey)}";
-            return title;
+            selectAllTitle.text = LocalizationManager.GetLocalizedString(tableName,
+                selectAllToggle.isOn ? deselectAllKey : selectAllKey);
         }
 
         public void SelectTab(int tabToSelectIndex)
@@ -163,33 +104,149 @@ namespace Mathy.UI
             }
 
             selectedTabIndex = tabToSelectIndex;
+            service.SelectedGrade = tabToSelectIndex + 1;
             UpdateDisplayedSkills();
         }
 
-        private void SkillChecked(bool isEnabled)
+        private void UpdateDisplayedSkills()
         {
-            selectedSkillsCount += isEnabled ? 1 : -1;
-            selectedSkillsCount = Mathf.Clamp(selectedSkillsCount, 0, availableSkillsCount);
+            selectedGradeData = service.GetSelectedGradeSkillDatas();
+            FillDictionaryWithSkills(selectedGradeData);
+            availableSkillsCount = selectedGradeData.Count;
+
+            selectedSkillsCount = 0;
+            //Initialization of all skill settings GUI depending on the available skill datas
+            for (int i = 0; i < availableSkillsCount; i++)
+            {
+                var skill = selectedGradeData[i];
+                var settings = skillSettingsElements[i];
+
+                settings.gameObject.SetActive(true);
+                var skillSettings = skill.Settings;
+                var localizedName = GetSkillTitle(skillSettings.Skill);
+                settings.Initialize(skillSettings.Skill, localizedName
+                                    , skillSettings.Value, skillSettings.IsEnabled);
+                if (skillSettings.IsEnabled)
+                    selectedSkillsCount++;
+            }
+
+            //Deactivation of the rest skill settings GUI
+            for (int i = availableSkillsCount; i < skillSettingsElements.Count; i++)
+            {
+                skillSettingsElements[i].gameObject.SetActive(false);
+            }
+
             selectAllToggle.isOn = selectedSkillsCount == availableSkillsCount;
-            _ = PlayButtonPanel.Instance.CheckSkills();
+            
+            selectAllTitle.text = LocalizationManager.GetLocalizedString(tableName,
+                                 selectAllToggle.isOn ? deselectAllKey : selectAllKey);
+            
+            TryUnsubscribeFromSkillSettings();
+            SubscribeToSkillSettings();
+        }
+
+        private void SubscribeToSkillSettings()
+        {
+            for (int i = 0; i < availableSkillsCount; i++)
+            {
+                skillSettingsElements[i].OnTogglePressed.AddListener(UpdateSkillActivityInternal);
+                skillSettingsElements[i].OnSliderValueChanged.AddListener(UpdateSkillValueInternal);
+            }
+        }
+
+        private void TryUnsubscribeFromSkillSettings()
+        {
+            for (int i = 0; i < availableSkillsCount; i++)
+            {
+                skillSettingsElements[i].OnTogglePressed.RemoveListener(UpdateSkillActivityInternal);
+                skillSettingsElements[i].OnSliderValueChanged.RemoveListener(UpdateSkillValueInternal);
+                skillSettingsElements[i].Release();
+            }
+        }
+
+        private void FillDictionaryWithSkills(List<SkillData> storedData)
+        {
+            skillSettingsDatas.Clear();
+            foreach (var skill in storedData)
+            {
+                skillSettingsDatas.Add(skill.Settings.Skill, skill.Settings);
+            }
+        }
+
+        private void UpdateSkillActivityInternal(SkillType skillType, bool isEnable)
+        {
+            if (isEnable != skillSettingsDatas[skillType].IsEnabled)
+            {
+                selectedSkillsCount = isEnable
+                    ? ++selectedSkillsCount
+                    : --selectedSkillsCount;
+            }
+
+            if (skillSettingsDatas.ContainsKey(skillType))
+            {
+                skillSettingsDatas[skillType].IsEnabled = isEnable;
+            }
+        }
+
+        private void UpdateSkillValueInternal(SkillType skillType, int value)
+        {
+            if (skillSettingsDatas.ContainsKey(skillType))
+            {
+                skillSettingsDatas[skillType].Value = value;
+            }
+        }
+
+        public override void ClosePanel()
+        {
+            SaveSkillsSettings();
+            base.ClosePanel();
+        }
+
+        private async void SaveSkillsSettings()
+        {
+            foreach (var skillData in skillSettingsDatas.Values)
+            {
+                await service.SaveSkillSettings(skillData);
+            }
+            skillSettingsDatas.Clear();
+        }
+
+        /// <summary>
+        /// Returns a localized title for a skill GUI element based on the specified SkillType.
+        /// </summary>
+        /// <param name="type">The type of the skill.</param>
+        /// <returns>The localized title of the skill.</returns>
+        private string GetSkillTitle(SkillType type)
+        {
+            var skill = Enum.GetName(typeof(SkillType), type);
+            string skillKey = string.Format("{0} Skill", skill);
+            string localizedSkill = LocalizationManager.GetLocalizedString(tableName, skillKey);
+            string localizedSufix = LocalizationManager.GetLocalizedString(tableName, upToKey);
+            string title = string.Format("{0} {1}", localizedSkill, localizedSufix);
+            return title;
         }
 
         private void SelectAllSkills(bool isActive)
         {
-            if (isActive)
+            //if (isActive)
+            //{
+            //    for (int i = 0; i < availableSkillsCount; i++)
+            //    {
+            //        skillSettingsElements[i].SetActive(true);
+            //    }
+            //}
+            //else if (selectedSkillsCount == availableSkillsCount)
+            //{
+            //    for (int i = 0; i < availableSkillsCount; i++)
+            //    {
+            //        skillSettingsElements[i].SetActive(false);
+            //    }
+            //}
+            for (int i = 0; i < availableSkillsCount; i++)
             {
-                for (int i = 0; i < availableSkillsCount; i++)
-                {
-                    skillSettingsElements[i].SetActive(true);
-                }
+                skillSettingsElements[i].SetActive(isActive);
             }
-            else if (selectedSkillsCount == availableSkillsCount)
-            {
-                for (int i = 0; i < availableSkillsCount; i++)
-                {
-                    skillSettingsElements[i].SetActive(false);
-                }
-            }
+
             selectAllTitle.text = LocalizationManager.GetLocalizedString(tableName,
                 isActive ? deselectAllKey: selectAllKey);
         }

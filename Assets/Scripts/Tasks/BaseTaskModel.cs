@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using Mathy.Data;
 using System.Linq;
+using Mathy.Services;
 
 namespace Mathy.Core.Tasks
 {
@@ -11,7 +12,7 @@ namespace Mathy.Core.Tasks
         string DescriptionKey { get;}
         ScriptableTask TaskSettings { get; }
         TaskType TaskType { get;}
-        TaskData GetResult();
+        TaskResultData GetResult();
         void Release();
     }
 
@@ -24,6 +25,7 @@ namespace Mathy.Core.Tasks
 
     public abstract class BaseTaskModel : ITaskModel
     {
+        protected const string kUnknownSign = "?";
         public virtual string TitleKey => taskSettings.Title;
         public virtual string DescriptionKey => taskSettings.Description;
         public TaskType TaskType => taskSettings.TaskType;
@@ -45,8 +47,6 @@ namespace Mathy.Core.Tasks
         protected int amountOfVariants;
         protected Random random;
 
-        protected const string kUnknownElement = "?";
-
         public BaseTaskModel(ScriptableTask taskSettings)
         {
             this.taskSettings = taskSettings;
@@ -59,14 +59,18 @@ namespace Mathy.Core.Tasks
             random = new Random();
         }
 
-        public virtual TaskData GetResult()
+        public virtual TaskResultData GetResult()
         {
-            var result = new TaskData();
+            var result = new TaskResultData();
             result.TaskType = TaskType;
+            result.SkillType = taskSettings.SkillType;
             result.ElementValues = elements;
             result.OperatorValues = operators;
             result.VariantValues = variants;
             result.CorrectAnswerIndexes = correctAnswersIndexes;
+            result.MaxValue = maxValue;
+            result.Grade = taskSettings.Grade;
+
             return result;
         }
 
@@ -134,7 +138,7 @@ namespace Mathy.Core.Tasks
         {
             elements = expression
                 .Where(e => e.Type == TaskElementType.Value)
-                .Select(e => e.IsUnknown ? kUnknownElement : e.Value)
+                .Select(e => e.IsUnknown ? kUnknownSign : e.Value)
                 .ToList();
 
             operators = expression

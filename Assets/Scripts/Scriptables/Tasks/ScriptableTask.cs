@@ -1,3 +1,4 @@
+using Mathy.Data;
 using UnityEngine;
 
 /// <summary>
@@ -6,6 +7,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Scriptable Task", menuName = "ScriptableObjects/Task Preset")]
 public class ScriptableTask : ScriptableTaskBase
 {
-    [SerializeField]
     public TaskType TaskType;
+    public SkillType SkillType;
+    public int Grade = 1;
 }

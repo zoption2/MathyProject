@@ -56,7 +56,7 @@ public class TaskPracriceButton : TweenedButton
                 AudioSystem.Instance.FadeMusic(0, 1f, true);
                 _ = ScenesManager.Instance.SetGameplaySceneActive();
                 gameplayService.StartGame(TaskMode.Practic, taskConfigs);
-                await UniTask.Delay(1000);
+                await UniTask.Delay(1500);
                 LoadingManager.Instance.ClosePanel();
             }
         }

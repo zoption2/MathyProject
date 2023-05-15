@@ -65,7 +65,7 @@ namespace Mathy.Core.Tasks
 
             operators = new List<string>()
             {
-                expression[1].Value,
+                kUnknownSign,
                 expression[3].Value
             };
         }

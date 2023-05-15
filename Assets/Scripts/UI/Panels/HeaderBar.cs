@@ -15,16 +15,23 @@ public class HeaderBar : MonoBehaviour
 
     #endregion
 
-    void Start()
-    {
-        Initialization();
-    }
 
-    private void Initialization()
+    private void OnEnable()
     {
         if (title == null) title = GetComponentInChildren<TMP_Text>();
         UpdateText();
     }
+
+    //void Start()
+    //{
+    //    Initialization();
+    //}
+
+    //private void Initialization()
+    //{
+        
+    //    UpdateText();
+    //}
 
     public virtual void UpdateText()
     {

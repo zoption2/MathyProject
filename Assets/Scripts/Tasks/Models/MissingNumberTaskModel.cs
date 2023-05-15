@@ -46,10 +46,6 @@ namespace Mathy.Core.Tasks
                     expression.Add(new ExpressionElement(TaskElementType.Value, startValue - i, isUnknown));
                 }
             }
-            UnityEngine.Debug.Log("Start value: " + startValue.ToString());
-            UnityEngine.Debug.Log("Correct value: " + correctValue.ToString());
-            UnityEngine.Debug.Log("Unknown index: " + unknownIndex.ToString());
-            UnityEngine.Debug.Log("Is positive: " + isPositive.ToString());
 
             GetExpressionValues(expression, out elements, out operators);
 

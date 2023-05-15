@@ -1,6 +1,6 @@
 using System;
 
-public class ReactiveProperty<T> : IDisposable
+public class ReactiveProperty<T>
 {
     public event Action<T> ON_VALUE_CHANGED;
 
@@ -23,9 +23,13 @@ public class ReactiveProperty<T> : IDisposable
         value = initValue;
     }
 
-    public void Dispose()
+    public void Subscribe(Action<T> action)
     {
-        ON_VALUE_CHANGED = null;
-        value = default;
+        ON_VALUE_CHANGED += action;
+    }
+
+    public void UnSubscribe(Action<T> action)
+    {
+        ON_VALUE_CHANGED -= action;
     }
 }

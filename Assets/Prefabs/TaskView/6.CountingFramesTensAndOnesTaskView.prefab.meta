@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Core/GradeSettingsHolder.prefab.meta
+guid: 7103cf733ce29f34f855b55777aa7e08
+========
 guid: dd1747959c922614fa641a7b98c55c54
+>>>>>>>> 1d625f2 (TaskTensAndOnes):Assets/Prefabs/TaskView/6.CountingFramesTensAndOnesTaskView.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 
