@@ -30,6 +30,14 @@ MonoBehaviour:
     m_Localized: There are
     m_Metadata:
       m_Items: []
+  - m_Id: 11247399960756224
+    m_Localized: tens
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11247538070798336
+    m_Localized: ones
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

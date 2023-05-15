@@ -135,6 +135,14 @@ MonoBehaviour:
     m_Key: Counting frames up to 20
     m_Metadata:
       m_Items: []
+  - m_Id: 124597612300910592
+    m_Key: Counting tens and ones
+    m_Metadata:
+      m_Items: []
+  - m_Id: 127170588649111552
+    m_Key: Counting blocks tens and ones
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -50,6 +50,8 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<SelectFromThreeCountTaskController>().To<SelectFromThreeCountTaskController>().AsTransient();
         Container.Bind<FramesCountToTenTaskController>().To<FramesCountToTenTaskController>().AsTransient();
         Container.Bind<FramesCountToTwentyTaskController>().To<FramesCountToTwentyTaskController>().AsTransient();
+        Container.Bind<FramesCountTensAndOnesTaskController>().To<FramesCountTensAndOnesTaskController>().AsTransient();
+        Container.Bind<BlocksCountTensAndOnesTaskController>().To<BlocksCountTensAndOnesTaskController>().AsTransient();
     }
 
     private void BindScenarious()

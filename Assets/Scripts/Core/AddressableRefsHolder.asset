@@ -110,6 +110,18 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 26
+      <Reference>k__BackingField:
+        m_AssetGUID: 7103cf733ce29f34f855b55777aa7e08
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 27
+      <Reference>k__BackingField:
+        m_AssetGUID: 9ca36a6cbe8acb84fbfab06387c2723f
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
   <UIComponentProvider>k__BackingField:
     references:
     - <Type>k__BackingField: 0
@@ -750,6 +762,15 @@ MonoBehaviour:
       <Reference>k__BackingField:
         m_AssetGUID: e58516417b5ccf94ab57dc250ca22095
         m_SubObjectName: Pie
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+  <TaskCountedBlocksImageProvider>k__BackingField:
+    references:
+    - <Type>k__BackingField: 0
+      <Reference>k__BackingField:
+        m_AssetGUID: 7c6d66ab577c6924985d7e15b6f8ce11
+        m_SubObjectName: Blue block
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
         m_EditorAssetChanged: 0

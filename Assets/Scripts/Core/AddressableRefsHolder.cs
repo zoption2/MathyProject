@@ -18,7 +18,8 @@ namespace Mathy
         TaskFeaturesAddressableRef GameplayScenePopupsProvider { get; }
         PopupsAddressableRef PopupsProvider { get; }
         TaskCountedImageAdressableRef TaskCountedImageProvider { get; }
-    }
+        TaskCountedBlocksImageAdressableRef TaskCountedBlocksImageProvider { get; }
+        }
 
 
     [CreateAssetMenu(fileName = "AddressableRefsHolder", menuName = "ScriptableObjects/AddressableRefsHolder")]
@@ -29,6 +30,7 @@ namespace Mathy
         [field: SerializeField] public TaskFeaturesAddressableRef GameplayScenePopupsProvider { get; private set; }
         [field: SerializeField] public BackgroundAddressableRef BackgroundProvider { get; private set; }
         [field: SerializeField] public TaskCountedImageAdressableRef TaskCountedImageProvider { get; private set; }
+        [field: SerializeField] public TaskCountedBlocksImageAdressableRef TaskCountedBlocksImageProvider { get; private set; }
         [field: SerializeField] public PopupsAddressableRef PopupsProvider { get; private set; }
     }
 
@@ -200,6 +202,27 @@ namespace Mathy
         }
 
         public async UniTask<Sprite> GetSpriteByType(CountedImageType type)
+        {
+            var random = new System.Random();
+            var availableRefs = references.Where(x => x.Type == type).Select(x => x.Reference).ToArray();
+            var randomIndex = random.Next(0, availableRefs.Length);
+            var persistRef = availableRefs[randomIndex];
+            return await LoadByRefAsync<Sprite>(persistRef);
+        }
+    }
+
+    [Serializable]
+    public class TaskCountedBlocksImageAdressableRef : AddressableRefsProvider<CountedBlocksImageType, AssetReferenceSprite>
+    {
+        public async UniTask<Sprite> GetRandomSprite()
+        {
+            var random = new System.Random();
+            var values = Enum.GetValues(typeof(CountedBlocksImageType));
+            var type = (CountedBlocksImageType)values.GetValue(random.Next(values.Length));
+            return await LoadAsync<Sprite>(type);
+        }
+
+        public async UniTask<Sprite> GetSpriteByType(CountedBlocksImageType type)
         {
             var random = new System.Random();
             var availableRefs = references.Where(x => x.Type == type).Select(x => x.Reference).ToArray();
