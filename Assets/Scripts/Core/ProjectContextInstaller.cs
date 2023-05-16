@@ -36,6 +36,7 @@ public class ProjectContextInstaller : MonoInstaller
         BindPlayerDataServices();
         BindResultScreen();
         BindParentGateScreen();
+        BindEnterNamePopup();
     }
 
     private void BindTaskControllers()
@@ -73,6 +74,7 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<IPlayerDataService>().To<PlayerDataService>().AsSingle();
         Container.Bind<IAchievementsHandler>().To<AchievementsHandler>().AsSingle();
         Container.Bind<IProgressHandler>().To<ProgressHandler>().AsSingle();
+        Container.Bind<IAccountHandler>().To<AccountHandler>().AsSingle();
     }
 
     private void BindResultScreen()
@@ -87,6 +89,12 @@ public class ProjectContextInstaller : MonoInstaller
     {
         Container.Bind<IParentGatePopupMediator>().To<ParentGatePopupMediator>().AsTransient();
         Container.Bind<IParentGatePopupController>().To<ParentGatePopupController>().AsTransient();
+    }
+
+    private void BindEnterNamePopup()
+    {
+        Container.Bind<IEnterNamePopupMediator>().To<EnterNamePopupMediator>().AsTransient();
+        Container.Bind<IEnterNamePopupController>().To<EnterNamePopupController>().AsTransient();
     }
 }
 

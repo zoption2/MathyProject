@@ -90,7 +90,8 @@ namespace Mathy.Services.UI
             if (!_popups.Contains(viewInfo))
             {
                 _popups.Add(viewInfo);
-                view.Init(_camera, Holder, onShow, priority);
+                view.InitPopup(_camera, Holder, priority);
+                view.Show(onShow);
             }
         }
 

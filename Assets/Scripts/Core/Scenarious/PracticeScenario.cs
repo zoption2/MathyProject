@@ -2,6 +2,7 @@
 using Mathy.Core.Tasks.DailyTasks;
 using Mathy.Services;
 using UnityEngine;
+using Mathy.UI;
 
 namespace Mathy.Core.Tasks
 {
@@ -65,11 +66,8 @@ namespace Mathy.Core.Tasks
         protected override void EndGameplay()
         {
             base.EndGameplay();
-            //var resultsView = scenePointer.ResultsWindow;
-            //resultsView.gameObject.SetActive(true);
-            //float correctRate = correctAnswers / (float)(taskIndexer) * 100f;
-            //resultsView.DisplayResult(correctAnswers, taskIndexer, correctRate, false);
-            resultScreen.Show(() =>
+
+            resultScreen.CreatePopup(() =>
             {
                 GameManager.Instance.ChangeState(GameState.MainMenu);
             });

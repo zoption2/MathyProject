@@ -23,6 +23,7 @@
     {
         ParentGate = 1,
         ResultScreen = 2,
+        EnterName = 3,
     }
 
     public enum TaskElementType

@@ -82,8 +82,6 @@ namespace Mathy.Services.Data
                 var requestData = new KeyValueIntegerData() { Key = key, Value = value , Date = date};
                 var requestModel = requestData.ConvertToModel();
 
-                //var query = KeyValueIntegerTableRequests.SelectByKeyQuery;
-
                 var query = KeyValueIntegerTableRequests.GetCountQyery;
                 SqliteCommand command = new SqliteCommand(query, connection);
                 command.Parameters.AddWithValue(nameof(KeyValueIntegerDataModel.Key), requestModel.Key);
@@ -151,6 +149,5 @@ namespace Mathy.Services.Data
             }
         }
     }
-
 }
 

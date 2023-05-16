@@ -96,15 +96,11 @@ namespace Mathy.Core.Tasks
             var totalExp = await playerDataService.Progress.GetPlayerExperienceAsync();
             var rank = PointsHelper.GetRankByExperience(totalExp);
             await playerDataService.Progress.SaveRankAsynk(rank);
-            //var resultsView = scenePointer.ResultsWindow;
-            //resultsView.gameObject.SetActive(true);
-            //float correctRate = correctAnswers / (float)TotalTasks * 100f;
-            //resultsView.DisplayResult(correctAnswers, TotalTasks, correctRate, false);
-            resultScreen.Show(()=>
+
+            resultScreen.CreatePopup(()=>
             {
                 GameObject.Destroy(counterView.gameObject);
                 ScenesManager.Instance.DisableTaskScene();
-                //GameManager.Instance.ChangeState(GameState.MainMenu);
             });
             resultScreen.ON_CLOSE_CLICK += ChangeScene;
         }

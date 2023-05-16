@@ -83,7 +83,6 @@ namespace Mathy.Services.Data
             await _dataService.KeyValueStorage.IncrementIntValue(_silverKey);
         }
     }
-
 }
 
 
