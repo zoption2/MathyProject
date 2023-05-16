@@ -6,10 +6,14 @@ namespace Mathy
 {
     public class ParentGateEnter : MonoBehaviour
     {
-        [Inject] private IParentGateService _service;
+        [Inject] private DiContainer _container;
+        private IParentGateService _service;
+        private IDataService _dataService;
 
         private void Start ()
         {
+            _service = _container.Resolve<IParentGateService>();
+            _dataService = _container.Resolve<IDataService>();
 #if UNITY_IOS || UNITY_EDITOR
             _= _service.CheckAccess();
 #endif
@@ -17,11 +21,12 @@ namespace Mathy
 
 
         [ContextMenu("ResetParentGate")]
-        private void ResetParentGate()
+        private async void ResetParentGate()
         {
-            if (PlayerPrefs.GetInt("ParentGateAccess", 0) == 1)
+            var value = await _dataService.KeyValueStorage.GetIntValue(KeyValueIntegerKeys.ParentGate);
+            if (value == 1)
             {
-                PlayerPrefs.DeleteKey("ParentGateAccess");
+                await _dataService.KeyValueStorage.SaveIntValue(KeyValueIntegerKeys.ParentGate, 0);
             }
         }
     }

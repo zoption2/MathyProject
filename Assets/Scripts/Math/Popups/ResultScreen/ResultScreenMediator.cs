@@ -7,7 +7,7 @@ namespace Mathy.Services
 {
     public interface IResultScreenMediator : IPopupView
     {
-        event Action ON_CLOSE_CLICK;
+        public event Action ON_CLOSE_CLICK;
     }
 
 
@@ -37,11 +37,11 @@ namespace Mathy.Services
             _uiManager = uIManager;
         }
 
-        public async void Init(Camera camera, Transform parent, Action onComplete)
+        public async void Init(Camera camera, Transform parent, Action onComplete, int priority = 0)
         {
             _view = await _refsHolder.PopupsProvider.InstantiateFromReference<IResultScreenView>(Popups.ResultScreen, parent);
             _view.ON_CLOSE_CLICK += DoOnCloseClick;
-            _view.Init(camera);
+            _view.Init(camera, priority);
             InitSkillController();
             InitAchievementController();
             InitRewardController();
@@ -50,7 +50,7 @@ namespace Mathy.Services
 
         public void Show(Action onShow)
         {
-            _uiManager.OpenView(this, UIBehaviour.Disposable, onShow);
+            _uiManager.OpenView(this, viewBehaviour: UIBehaviour.StayWithNew, onShow: onShow);
         }
 
         private void InitSkillController()

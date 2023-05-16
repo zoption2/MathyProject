@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 using System;
 using UnityEngine;
 using UnityEngine.Purchasing;
-using UnityEngine.Purchasing.Security;
 using System.Text;
-using Zenject;
+
 
 namespace Mathy.Services
 {
@@ -21,52 +20,50 @@ namespace Mathy.Services
 
     public class ParentGateService : IParentGateService
     {
-        private const string kAccessKey = "ParentGateAccess";
-        private DiContainer container;
+        private const string isSubscribedKey = "isSubscriptionBought";
+
         private UniTaskCompletionSource tcs = new();
         private CancellationTokenSource cancelTokenSource = new();
-        private IAddressableRefsHolder refsHolder;
-        private ParentGatePopupController controller;
+        private IDataService _dataService;
+        private IParentGatePopupMediator _mediator;
 
-        public ParentGateService(DiContainer container, IAddressableRefsHolder refsHolder)
+        public ParentGateService(IDataService dataService, IParentGatePopupMediator mediator)
         {
-            this.container = container;
-            this.refsHolder = refsHolder;
+            _dataService = dataService;
+            _mediator = mediator;
         }
 
         public async UniTask CheckAccess()
         {
-            //tcs.TrySetCanceled(cancelTokenSource.Token);
-
-            if(PlayerPrefs.GetInt(kAccessKey, 0) == 1)
+            var value = await _dataService.KeyValueStorage.GetIntValue(KeyValueIntegerKeys.ParentGate);
+            var isSub = PlayerPrefs.GetInt(isSubscribedKey, 0);
+            if (value == 1 && isSub == 1)
             {
                 tcs.TrySetResult();
             }
             else
             {
-                var model = new ParentGatePopupModel();
-                var view = await refsHolder.PopupsProvider.InstantiateFromReference<IParentGatePopupView>(Popups.ParentGate, null);
-                controller = container.Resolve<ParentGatePopupController>();
-                await controller.Init(model, view);
+                _mediator.Show(null);
+                _mediator.ON_COMPLETE += Complete;
+                _mediator.ON_CANCEL += Cancel;
             }
 
             await tcs.Task;
         }
 
-        public void Complete()
+        public async void Complete()
         {
-            PlayerPrefs.SetInt(kAccessKey, 1);
-            controller.Hide(() =>
-            {
-                controller.Release();
-            });
+            _mediator.ON_COMPLETE -= Complete;
+            _mediator.Close();
+            await _dataService.KeyValueStorage.SaveIntValue(KeyValueIntegerKeys.ParentGate, 1);
             tcs.TrySetResult();
         }
 
         public void Cancel()
         {
+            _mediator.ON_CANCEL -= Cancel;
             cancelTokenSource.Cancel();
-            controller.Release();
+            _mediator.Close();
             Application.Quit();
         }
     }

@@ -215,6 +215,7 @@
         TotalTasksDuration = 4,
         Experience = 5,
         PlayerRank = 6,
+        ParentGate = 7,
 
         DatabaseControl = 100,
     }

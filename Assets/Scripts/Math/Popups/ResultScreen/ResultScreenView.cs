@@ -10,7 +10,7 @@ namespace Mathy.Services
     public interface IResultScreenView : IView
     {
         event Action ON_CLOSE_CLICK;
-        void Init(Camera camera);
+        void Init(Camera camera, int priority);
         IResultScreenSkillsPanelView SkillView { get; }
         IResultScreenAchievementsView AchievementView { get; }
         IResultScreenRewardView RewardView { get; }
@@ -32,9 +32,10 @@ namespace Mathy.Services
         public IResultScreenAchievementsView AchievementView => _achievementView;
         public IResultScreenRewardView RewardView => _rewardView;
 
-        public void Init(Camera camera)
+        public void Init(Camera camera, int priority)
         {
             _canvas.worldCamera = camera;
+            _canvas.sortingOrder = priority;
         }
 
         public void Show(Action onShow)

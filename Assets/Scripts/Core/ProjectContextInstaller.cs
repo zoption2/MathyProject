@@ -35,6 +35,7 @@ public class ProjectContextInstaller : MonoInstaller
         BindPopupsControllers();
         BindPlayerDataServices();
         BindResultScreen();
+        BindParentGateScreen();
     }
 
     private void BindTaskControllers()
@@ -80,6 +81,12 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<IResultScreenSkillsController>().To<ResultScreenSkillsController>().AsTransient();
         Container.Bind<IResultScreenAchievementsController>().To<ResultScreenAchievementsController>().AsTransient();
         Container.Bind<IResultScreenRewardController>().To<ResultScreenRewardController>().AsTransient();
+    }
+
+    private void BindParentGateScreen()
+    {
+        Container.Bind<IParentGatePopupMediator>().To<ParentGatePopupMediator>().AsTransient();
+        Container.Bind<IParentGatePopupController>().To<ParentGatePopupController>().AsTransient();
     }
 }
 

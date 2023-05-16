@@ -10,6 +10,7 @@ namespace Mathy.UI
         public event Action<string> ON_OK_CLICK;
         public event Action ON_CANCEL_CLICK;
 
+        public void Init(Camera camera, int orderLayer);
         public void SetLabelText(string text);
         public void SetCapchaText(string text);
         public void SetOkText(string text);
@@ -32,9 +33,16 @@ namespace Mathy.UI
         [SerializeField] private Button cancelButton;
         [SerializeField] private Button okButton;
         [SerializeField] private BaseViewAnimator animator;
+        [SerializeField] private Canvas canvas;
 
         private string inputedValue = "";
 
+
+        public void Init(Camera camera, int orderLayer)
+        {
+            canvas.worldCamera = camera;
+            canvas.sortingOrder = orderLayer;
+        }
 
         public void Show(Action onShow)
         {

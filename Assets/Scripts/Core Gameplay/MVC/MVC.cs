@@ -10,7 +10,7 @@ public interface IView
 
 public interface IPopupView : IView
 {
-    void Init(Camera camera, Transform parent, Action onComplete);
+    void Init(Camera camera, Transform parent, Action onComplete, int orderLayer = 0);
 }
 
 public interface IModel
