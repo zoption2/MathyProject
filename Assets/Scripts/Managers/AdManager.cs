@@ -14,7 +14,7 @@ using Mathy.Services;
 
 public class AdManager : PersistentSingleton<AdManager>
 {
-    [Inject] private IPlayerDataService _playerDataService;
+    [Inject] private IDataService _dataService;
     #region FIELDS
     //
     private BannerView bannerView;
@@ -232,7 +232,7 @@ public class AdManager : PersistentSingleton<AdManager>
 
     public async void AddReward()
     {
-        await _playerDataService.Progress.AddExperienceAsync(rewarValue);
+        await _dataService.PlayerData.Progress.AddExperienceAsync(rewarValue);
         //PlayerDataManager.Instance.AddExperience(rewarValue);
     }
 

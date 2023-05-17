@@ -1,22 +1,30 @@
 ﻿using UnityEngine;
 using Zenject;
 using Mathy.Services;
+using Mathy.UI;
+using Cysharp.Threading.Tasks;
 
 namespace Mathy
 {
-    public class ParentGateEnter : MonoBehaviour
+    public class EnterPoint : MonoBehaviour
     {
+        [SerializeField] private SkillsPanel _skillPanel;
+        [SerializeField] private SubscriptionScreen _subscriptionScreen;
+
         [Inject] private DiContainer _container;
-        private IParentGateService _service;
+        private IAccountService _accountService;
         private IDataService _dataService;
 
-        private void Start ()
+        private async void Start ()
         {
-            _service = _container.Resolve<IParentGateService>();
+            _accountService = _container.Resolve<IAccountService>();
             _dataService = _container.Resolve<IDataService>();
-#if UNITY_IOS || UNITY_EDITOR
-            _= _service.CheckAccess();
-#endif
+
+            _accountService.SetSkillPlanStub(_skillPanel);
+            _accountService.SetSubscriptionScreenStub(_subscriptionScreen);
+
+            await UniTask.Delay(500);
+            await _accountService.CheckAllAsync();
         }
 
 

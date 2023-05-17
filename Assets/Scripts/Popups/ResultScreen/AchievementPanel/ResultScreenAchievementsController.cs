@@ -18,11 +18,11 @@ namespace Mathy.UI
     {
         private const string kResultScreenTable = "ResultScreen";
         private const string kAchievementsKey = "AchievementsKey";
-        private readonly IPlayerDataService _playerService;
+        private readonly IDataService _dataService;
 
-        public ResultScreenAchievementsController(IPlayerDataService playerService)
+        public ResultScreenAchievementsController(IDataService dataService)
         {
-            _playerService = playerService;
+            _dataService = dataService;
         }
 
         protected override void DoOnInit(IResultScreenAchievementsView view)
@@ -50,7 +50,7 @@ namespace Mathy.UI
             {
                 var achievementModel = new AchievementModel();
                 var name = achievements[i];
-                var value = await _playerService.Achievements.GetAchievementValue(name);
+                var value = await _dataService.PlayerData.Achievements.GetAchievementValue(name);
                 achievementModel.Achievement = name;
                 achievementModel.Value = value;
 

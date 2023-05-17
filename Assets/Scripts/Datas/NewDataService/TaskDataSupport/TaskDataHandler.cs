@@ -171,8 +171,7 @@ namespace Mathy.Services.Data
                 dayResult.Reward = reward;
                 if (reward != Achievements.none)
                 {
-                    var key = reward.ToString();
-                    await _dataService.KeyValueStorage.IncrementIntValue(key);
+                    await _dataService.PlayerData.Achievements.IncrementAchievementValue(reward);
                 }
             }
 

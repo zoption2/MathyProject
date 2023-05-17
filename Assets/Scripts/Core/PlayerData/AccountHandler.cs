@@ -2,19 +2,20 @@
 
 namespace Mathy.Services.Data
 {
-    public interface IAccountHandler
+    public interface IPlayerAccountInfoProvider
     {
         UniTask<string> GetPlayerName();
         UniTask SetPlayerName(string name);
     }
 
-    public class AccountHandler : IAccountHandler
+
+    public class PlayerAccountInfoProvider : IPlayerAccountInfoProvider
     {
         private const string kPlayerNameKey = "PlayerName";
 
         private readonly IDataService _dataService;
 
-        public AccountHandler(IDataService dataService)
+        public PlayerAccountInfoProvider(IDataService dataService)
         {
             _dataService = dataService;
         }

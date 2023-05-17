@@ -53,7 +53,6 @@ namespace Mathy.UI
                 _closeButton.onClick.AddListener(DoOnCloseButtonClick);
                 _saveButton.onClick.AddListener(DoOnSaveButtonClick);
                 _inputField.onValueChanged.AddListener(DoOnNameChanged);
-                _defaultName = _defaultPlayerName.text;
                 onShow?.Invoke();
             });
         }
@@ -74,6 +73,7 @@ namespace Mathy.UI
         public void SetDefaultPlayerName(string playerName)
         {
             _defaultPlayerName.text = playerName;
+            _defaultName = playerName;
         }
 
         public void SetEnterNameText(string text)
@@ -98,7 +98,7 @@ namespace Mathy.UI
 
         private void DoOnNameChanged(string name)
         {
-            bool isNameValid = name.Length < kMinNameCharacters || name.Length > kMaxNameCharacters;
+            bool isNameValid = name.Length > kMinNameCharacters && name.Length < kMaxNameCharacters;
             _saveButton.interactable = isNameValid;
         }
 

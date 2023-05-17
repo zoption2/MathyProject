@@ -41,7 +41,7 @@ namespace Mathy.Services
             }
             else
             {
-                _mediator.Show(null);
+                _mediator.CreatePopup(null);
                 _mediator.ON_COMPLETE += Complete;
                 _mediator.ON_CANCEL += Cancel;
             }

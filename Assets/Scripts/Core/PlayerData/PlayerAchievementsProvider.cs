@@ -2,7 +2,7 @@
 
 namespace Mathy.Services.Data
 {
-    public interface IAchievementsHandler
+    public interface IPlayerAchievementsProvider
     {
         UniTask<int> GetAchievementValue(Achievements achievement);
         UniTask IncrementAchievementValue(Achievements achievement);
@@ -16,7 +16,7 @@ namespace Mathy.Services.Data
         UniTask IncrementCupsMedals();
     }
 
-    public class AchievementsHandler : IAchievementsHandler
+    public class PlayerAchievementsProvider : IPlayerAchievementsProvider
     {
         private readonly IDataService _dataService;
 
@@ -25,7 +25,7 @@ namespace Mathy.Services.Data
         private string _bronzeKey => Achievements.BronzeMedal.ToString();
         private string _cupKey => Achievements.ChallengeCup.ToString();
 
-        public AchievementsHandler(IDataService dataService)
+        public PlayerAchievementsProvider(IDataService dataService)
         {
             _dataService = dataService;
         }

@@ -18,7 +18,7 @@ public class ChallengesManager : StaticInstance<ChallengesManager>//, ISaveable
 {
     #region Fields
     [Inject] private IResultScreenMediator _resultScreen;
-    [Inject] private IPlayerDataService _playerDataService;
+    [Inject] private IDataService _dataService;
 
     [Header("Task config:")]
     [SerializeField] private List<ScriptableTask> taskList;
@@ -68,46 +68,6 @@ public class ChallengesManager : StaticInstance<ChallengesManager>//, ISaveable
     private void OnEnable()
     {
         taskList = new List<ScriptableTask>();
-    }
-
-    public void SaveTaskData(ChallengeData data)
-    {
-        //var currentTask = taskList[currentTaskIndex];
-
-        //currenData.Seed = 0;
-        //currenData.TaskType = activeTask.TaskType;
-
-
-        //DataManager.Instance.TodayChallengeStatus = true;
-        //PlayerDataManager.Instance.ChallengesDoneAmount++;
-        //if (!isPractice)
-        //{
-        //    PlayerDataManager.Instance.ChallengesDoneAmount++;
-        //    DataManager.Instance.SaveChallenge(data);
-        //}
-        
-
-        //currenData.CurrentTaskIndex = currentTaskIndex;
-        
-        //currenData.SelectedAnswers.Add(currentTaskIndex, activeTask.selectedVariantIndex);
-
-        /*
-        if (taskList.Count == currentTaskIndex + 1)
-        {
-            //currenData.IsModeDone = true;
-            //currenData.CurrentTaskIndex = null;
-
-            //DataManager.Instance.Save();
-            //Here supposed to be an immediate Save withou any timeouts, 
-            //that need to cancell all debounced saves if they exists
-            //DataManager.Instance.ImmediateSave();
-        }
-        else
-        {
-            //Saving data, later will be with some timeout
-            //DataManager.Instance.Save();
-        }
-        */
     }
 
     public void CreateTaskList(ScriptableTask task, int tasksAmount)
@@ -201,39 +161,24 @@ public class ChallengesManager : StaticInstance<ChallengesManager>//, ISaveable
 
     public async void ShowResult(bool isActive)
     {
-        await _playerDataService.Progress.AddExperienceAsync(200);
+        await _dataService.PlayerData.Progress.AddExperienceAsync(200);
 
-        var totalExp = await _playerDataService.Progress.GetPlayerExperienceAsync();
+        var totalExp = await _dataService.PlayerData.Progress.GetPlayerExperienceAsync();
         var rank = PointsHelper.GetRankByExperience(totalExp);
-        await _playerDataService.Progress.SaveRankAsynk(rank);
-        await _playerDataService.Achievements.IncrementAchievementValue(Achievements.ChallengeCup);
+        await _dataService.PlayerData.Progress.SaveRankAsynk(rank);
+        await _dataService.PlayerData.Achievements.IncrementAchievementValue(Achievements.ChallengeCup);
 
-        _resultScreen.Show(() =>
+        _resultScreen.CreatePopup(() =>
         {
             GameManager.Instance.ChangeState(GameState.MainMenu);
         });
+        _resultScreen.ON_CLOSE_CLICK += TryShowASD;
+    }
 
-        //int index = currentTaskIndex > 0 ? currentTaskIndex - 1 : currentTaskIndex;
-        //bool isChallenge = TaskSystemOLD.Instance.IsChallengeOfTypeExits(taskList[index].TaskType);
-        //resultWindow.gameObject.SetActive(isActive);
-
-        //float correctRate = isChallenge 
-        //    ? (activeTask as ChallengeOLD).GetCorrectRate() 
-        //    : correctAnswers / (float)TasksAmount * 100f;
-
-        //if (isActive) resultWindow.DisplayResult(correctAnswers, TasksAmount, correctRate, isChallenge);
-        
-        /*
-        if (!IsPractice)
-        {
-            if (correctRate > 0)
-            {
-                //SaveTaskData();
-                DataManager.Instance.TodayChallengeStatus = true;
-                PlayerDataManager.Instance.ChallengesDoneAmount++;
-            }
-        }
-        */
+    private void TryShowASD()
+    {
+        _resultScreen.ON_CLOSE_CLICK -= TryShowASD;
+        AdManager.Instance.ShowAdWithProbability(AdManager.Instance.ShowInterstitialAd, 30);
     }
 
     public void ResetToDefault()

@@ -49,7 +49,7 @@ namespace Mathy.Services.UI
         }
 
 
-        public void OpenView(IPopupView view
+        public async void OpenView(IPopupView view
             , UIBehaviour viewBehaviour = UIBehaviour.StayWithNew
             , Action onShow = null
             , int manualPriority = -1)
@@ -90,7 +90,7 @@ namespace Mathy.Services.UI
             if (!_popups.Contains(viewInfo))
             {
                 _popups.Add(viewInfo);
-                view.InitPopup(_camera, Holder, priority);
+                await view.InitPopup(_camera, Holder, priority);
                 view.Show(onShow);
             }
         }

@@ -11,7 +11,6 @@ using Cysharp.Threading.Tasks;
 public class RankPanel : MonoBehaviour
 {
     private const string kLastShowedKeyFormat = "{0}LastShowedMainMenu";
-    [Inject] private IPlayerDataService _playerDataService;
     [Inject] private IDataService _dataService;
     [Header("Components:")]
 
@@ -49,11 +48,11 @@ public class RankPanel : MonoBehaviour
 
     private async UniTask CompletedMethod()
     {
-        int experience = await _playerDataService.Progress.GetPlayerExperienceAsync();
+        int experience = await _dataService.PlayerData.Progress.GetPlayerExperienceAsync();
         var lastShowedExpKey = string.Format(kLastShowedKeyFormat, KeyValueIntegerKeys.Experience);
         int lastShowedExp = await _dataService.KeyValueStorage.GetIntValue(lastShowedExpKey);
 
-        int rank = await _playerDataService.Progress.GetRankAsynk();
+        int rank = await _dataService.PlayerData.Progress.GetRankAsynk();
 
         if (experience == lastShowedExp)
         {

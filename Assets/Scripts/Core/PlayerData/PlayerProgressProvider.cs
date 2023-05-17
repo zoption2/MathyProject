@@ -2,7 +2,7 @@
 
 namespace Mathy.Services.Data
 {
-    public interface IProgressHandler
+    public interface IPlayerProgressProvider
     {
         UniTask<int> GetPlayerExperienceAsync();
         UniTask AddExperienceAsync(int addedValue);
@@ -12,11 +12,11 @@ namespace Mathy.Services.Data
     }
 
 
-    public class ProgressHandler : IProgressHandler
+    public class PlayerProgressProvider : IPlayerProgressProvider
     {
         private readonly IDataService _dataService;
 
-        public ProgressHandler(IDataService dataService)
+        public PlayerProgressProvider(IDataService dataService)
         {
             _dataService = dataService;
         }

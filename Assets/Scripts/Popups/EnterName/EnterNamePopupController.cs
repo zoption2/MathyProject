@@ -6,8 +6,7 @@ namespace Mathy.UI
 {
     public interface IEnterNamePopupController : IBaseMediatedController, IView
     {
-        public event Action<string> ON_CLOSE_CLICK;
-        public event Action<string> ON_SAVE_CLICK;
+        public event Action<string> ON_NAME_CHANGED;
     }
 
 
@@ -16,20 +15,14 @@ namespace Mathy.UI
         , IEnterNamePopupController
 
     {
-        public event Action<string> ON_CLOSE_CLICK;
-        public event Action<string> ON_SAVE_CLICK;
+        public event Action<string> ON_NAME_CHANGED;
 
         private const string kEnterNameTable = "EnterNamePopup";
         private const string kTitleKey = "TitleKey";
         private const string kEnterNameKey = "EnterNameKey";
         private const string kDefaultPlayerKey = "DefaultPlayerKey";
         private const string kSaveKey = "SaveKey";
-        private readonly IPlayerDataService _playerService;
 
-        public EnterNamePopupController(IPlayerDataService playerService)
-        {
-            _playerService = playerService;
-        }
 
         public void Show(Action onShow)
         {
@@ -68,16 +61,16 @@ namespace Mathy.UI
             _view.ON_SAVE_CLICK += DoOnSaveClick;
         }
 
-        private async void DoOnSaveClick(string name)
+        private void DoOnSaveClick(string name)
         {
             _view.ON_SAVE_CLICK -= DoOnSaveClick;
-            await _playerService.Account.SetPlayerName(name);
+            ON_NAME_CHANGED?.Invoke(name);
         }
 
-        private async void DoOnCloseClick(string defaultName)
+        private void DoOnCloseClick(string defaultName)
         {
             _view.ON_CLOSE_CLICK -= DoOnCloseClick;
-            await _playerService.Account.SetPlayerName(defaultName);
+            ON_NAME_CHANGED?.Invoke(defaultName);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Mathy.Services.UI;
+﻿using Cysharp.Threading.Tasks;
+using Mathy.Services.UI;
 using System;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace Mathy.UI
     }
 
 
-    public class ResultScreenMediator : IResultScreenMediator
+    public class ResultScreenMediator : IResultScreenMediator, IPopupView
     {
         public event Action ON_CLOSE_CLICK;
 
@@ -42,7 +43,7 @@ namespace Mathy.UI
             _uiManager.OpenView(this, viewBehaviour: UIBehaviour.StayWithNew, onShow: onComplete);
         }
 
-        public async void InitPopup(Camera camera, Transform parent, int priority = 0)
+        public async UniTask InitPopup(Camera camera, Transform parent, int priority = 0)
         {
             _view = await _refsHolder.PopupsProvider.InstantiateFromReference<IResultScreenView>(Popups.ResultScreen, parent);
             _view.ON_CLOSE_CLICK += DoOnCloseClick;

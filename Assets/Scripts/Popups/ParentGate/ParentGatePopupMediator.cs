@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Mathy.Services.UI;
 using System;
+using Cysharp.Threading.Tasks;
 
 namespace Mathy.UI
 {
@@ -11,7 +12,7 @@ namespace Mathy.UI
     }
 
 
-    public class ParentGatePopupMediator : IParentGatePopupMediator
+    public class ParentGatePopupMediator : IParentGatePopupMediator, IPopupView
     {
         private const int kPopupPriority = 100;
 
@@ -51,7 +52,7 @@ namespace Mathy.UI
             _uiManager.CloseView(this, callback);
         }
 
-        public async void InitPopup(Camera camera, Transform parent, int orderLayer = 0)
+        public async UniTask InitPopup(Camera camera, Transform parent, int orderLayer = 0)
         {
             var model = new ParentGatePopupModel();
             var view = await _refsHolder.PopupsProvider.InstantiateFromReference<IParentGatePopupView>(Popups.ParentGate, parent);

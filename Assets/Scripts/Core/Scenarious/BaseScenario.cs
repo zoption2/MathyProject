@@ -25,7 +25,6 @@ namespace Mathy.Core.Tasks
         protected ITaskBackgroundSevice backgroundService;
         protected IAddressableRefsHolder addressableRefs;
         protected IDataService dataService;
-        protected IPlayerDataService playerDataService;
         protected IResultScreenMediator resultScreen;
         protected TaskManager taskManager;
         protected GameplayScenePointer scenePointer;
@@ -42,14 +41,12 @@ namespace Mathy.Core.Tasks
             , ITaskBackgroundSevice backgroundHandler
             , IAddressableRefsHolder addressableRefs
             , IDataService dataService
-            , IPlayerDataService playerDataService
             , IResultScreenMediator resultScreen)
         {
             this.taskFactory = taskFactory;
             this.backgroundService = backgroundHandler;
             this.addressableRefs = addressableRefs;
             this.dataService = dataService;
-            this.playerDataService = playerDataService;
             this.resultScreen = resultScreen;
         }
 

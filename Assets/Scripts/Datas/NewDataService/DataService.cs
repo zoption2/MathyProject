@@ -15,6 +15,7 @@ namespace Mathy.Services
         ISkillPlanHandler SkillPlan { get; }
         IKeyValuePairDataHandler KeyValueStorage { get; }
         IGeneralStatisticHandler GeneralStatistic { get; }
+        IPlayerDataHolder PlayerData { get; }
         UniTask ResetProgress();
     }
 
@@ -34,6 +35,7 @@ namespace Mathy.Services
         private TaskDataHandler _taskDataHandler;
         private SkillPlanHandler _skillPlanHandler;
         private KeyValuePairDataHandler _keyValuehandler;
+        private PlayerDataHolder _playerDataHolder;
         private string _saveDirectoryPath;
         private string _taskDBFilePath;
         private string _saveFilePath;
@@ -46,6 +48,7 @@ namespace Mathy.Services
         public ISkillPlanHandler SkillPlan => _skillPlanHandler;
         public IKeyValuePairDataHandler KeyValueStorage => _keyValuehandler;
         public IGeneralStatisticHandler GeneralStatistic => _statisticHandler;
+        public IPlayerDataHolder PlayerData => _playerDataHolder;
 
 
         public DataService()
@@ -63,6 +66,7 @@ namespace Mathy.Services
             _skillPlanHandler = new SkillPlanHandler(this);
             _keyValuehandler = new KeyValuePairDataHandler(this);
             _statisticHandler = new GeneralStatisticHandler(this);
+            _playerDataHolder = new PlayerDataHolder(this);
             InitHandlers();
         }
 

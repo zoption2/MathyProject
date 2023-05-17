@@ -784,6 +784,7 @@ MonoBehaviour:
   _closeButton: {fileID: 2095900445450935479}
   _saveButton: {fileID: 4551244449049386233}
   _inputField: {fileID: 96657151209874682}
+  _canvas: {fileID: 3832904564838482389}
   _animator: {fileID: 4092575552512865097}
 --- !u!114 &4092575552512865097
 MonoBehaviour:

@@ -18,12 +18,10 @@ namespace Mathy.UI
 
         private const string kLastShowedExpFormat = "{0}LastShowed";
 
-        private readonly IPlayerDataService _playerService;
         private readonly IDataService _dataService;
 
-        public ResultScreenRewardController(IPlayerDataService playerService, IDataService dataService)
+        public ResultScreenRewardController(IDataService dataService)
         {
-            _playerService = playerService;
             _dataService = dataService;
         }
 
@@ -40,7 +38,7 @@ namespace Mathy.UI
         {
             var model = new ResultScreenRewardModel();
             model.LocalizedTitle = LocalizationManager.GetLocalizedString(kResultScreenTable, kRewardTitleKey);
-            var expValue = await _playerService.Progress.GetPlayerExperienceAsync();
+            var expValue = await _dataService.PlayerData.Progress.GetPlayerExperienceAsync();
             model.RewardValue = expValue;
             var lastExpKey = string.Format(kLastShowedExpFormat, KeyValueIntegerKeys.Experience);
             var previousExp = await _dataService.KeyValueStorage.GetIntValue(lastExpKey);

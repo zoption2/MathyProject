@@ -55,7 +55,7 @@ namespace Mathy.Core
             if (IsFirstLaunch)
             {
                 await UniTask.Delay(1000);
-                skillPlanWindow.gameObject.SetActive(true);
+               // skillPlanWindow.gameObject.SetActive(true);
             }
         }
 

@@ -11,6 +11,8 @@ using TMPro;
 
 public class IAPManager : StaticInstance<IAPManager>, IStoreListener
 {
+    public event Action ON_PURCHASE_COMPLETE;
+    public event Action ON_PURCHASE_RESTORED;
     #region FIELDS
 
     [Header("BUTTONS:")]
@@ -38,7 +40,7 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
     private IAppleExtensions appleExtensions;
     //private IGooglePlayStoreExtensions googleExtensions;
 
-    public bool isSubscribed()
+    private bool isSubscribed()
     {
         bool isSubscribed;
 
@@ -63,7 +65,7 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
         }
     }
 
-    public async Task<bool> IsSubscribed()
+    public async UniTask<bool> IsSubscribed()
     {
         if (await IsInternetConnectedAsync())
         {
@@ -325,7 +327,8 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
             if (result)
             {
                 Log("Restore purchases succeeded!");
-                _ = UpdateGUIAsync();
+                ON_PURCHASE_RESTORED?.Invoke();
+                //_ = UpdateGUIAsync();
             }
             else
             {
@@ -400,10 +403,11 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
     {
         PlayerPrefs.SetInt(isSubscribedKey, 1);
         Log($"isSubscribed PlayerPrefs = {PlayerPrefs.GetInt(isSubscribedKey, 0).ToBool()}");
-        SubscriptionScreen.Instance.
-            SetGFXActive(!PlayerPrefs.GetInt(isSubscribedKey, 0).ToBool());
+        //SubscriptionScreen.Instance.
+        //    SetGFXActive(!PlayerPrefs.GetInt(isSubscribedKey, 0).ToBool());
         Log("Subscription has been BOUGHT!");
         Log("You are SUBSCRIBED");
+        ON_PURCHASE_COMPLETE?.Invoke();
     }
 
     private bool IsSubscribedTo(Product subscription)

@@ -27,13 +27,13 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<IDataService>().To<DataService>().AsSingle().NonLazy();
         Container.Bind<ISkillPlanService>().To<SkillPlanService>().AsSingle();
         Container.Bind<IUIManager>().To<UIManager>().AsSingle();
+        Container.Bind<IAccountService>().To<AccountService>().AsSingle();
 
         Container.Bind<List<GradeSettings>>().FromInstance(gradeSettingsHolder.GradeSettings).AsSingle();
 
         BindTaskControllers();
         BindScenarious();
         BindPopupsControllers();
-        BindPlayerDataServices();
         BindResultScreen();
         BindParentGateScreen();
         BindEnterNamePopup();
@@ -67,14 +67,6 @@ public class ProjectContextInstaller : MonoInstaller
     private void BindPopupsControllers()
     {
         Container.Bind<ParentGatePopupController>().To<ParentGatePopupController>().AsTransient();
-    }
-
-    private void BindPlayerDataServices()
-    {
-        Container.Bind<IPlayerDataService>().To<PlayerDataService>().AsSingle();
-        Container.Bind<IAchievementsHandler>().To<AchievementsHandler>().AsSingle();
-        Container.Bind<IProgressHandler>().To<ProgressHandler>().AsSingle();
-        Container.Bind<IAccountHandler>().To<AccountHandler>().AsSingle();
     }
 
     private void BindResultScreen()
