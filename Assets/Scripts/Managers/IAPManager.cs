@@ -8,6 +8,9 @@ using Mathy.Core;
 using Mathy.UI;
 using System;
 using TMPro;
+#if RECEIPT_VALIDATION
+using UnityEngine.Purchasing.Security;
+#endif
 
 public class IAPManager : StaticInstance<IAPManager>, IStoreListener
 {
@@ -62,6 +65,23 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
                 "For more information, see README.md");
             isSubscribed = PlayerPrefs.GetInt(isSubscribedKey, 0).ToBool();
             return isSubscribed;
+        }
+    }
+
+    public bool HasSubscription()
+    {
+        bool isConnection = CheckInternetConnection();
+        if (isConnection)
+        {
+            Log("INTERNET CONNECTION IS AVAILABLE");
+            Log("CHECKING SUBSCRIPTION STATUS ONLINE CONNECTING THE STORE");
+            return isSubscribed();
+        }
+        else
+        {
+            Log("INTERNET CONNECTION IS NOT AVAILABLE");
+            Log("CHECKING SUBSCRIPTION STATUS LOCAL USING PLAYER PREFS");
+            return PlayerPrefs.GetInt(isSubscribedKey, 0).ToBool();
         }
     }
 
@@ -276,6 +296,8 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
     // Automatically Called by Unity IAP when
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
+        var validPurchase = true;
+#if !UNITY_EDITOR && RECEIPT_VALIDATION
         try
         {
             var validator = new CrossPlatformValidator(GooglePlayTangle.Data(), AppleTangle.Data(), Application.identifier);
@@ -288,10 +310,12 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
                 //Debug.Log($"Purchase Complete - Product: {productReceipt.productID}");
             }
         }
-        catch (Exception e)
+        catch (IAPSecurityException e)
         {
             Log("Error is " + e.Message.ToString());
+            validPurchase = false;
         }
+#endif
 
         Log(string.Format("ProcessPurchase: " + args.purchasedProduct.definition.id));
         OnPurchaseCompleted(args.purchasedProduct);
@@ -342,9 +366,9 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
         SubscriptionScreen.Instance.SetGFXActive(!await IsSubscribed());
     }
 
-    #endregion
+#endregion
 
-    #region REMOVE ADS
+#region REMOVE ADS
 
     public void BuyFullVersion()
     {
@@ -390,9 +414,9 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
         return isAdsRemoved;
     }
 
-    #endregion
+#endregion
 
-    #region SUBSCRIPTION
+#region SUBSCRIPTION
 
     public void BuySubscription()
     {
@@ -449,5 +473,5 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
         return "7";
     }
 
-    #endregion
+#endregion
 }

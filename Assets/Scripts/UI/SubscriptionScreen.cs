@@ -36,7 +36,7 @@ namespace Mathy.UI
         {
             _tcs = new UniTaskCompletionSource();
             UpdateSubscriptionInfo();
-            var result = await CheckSubAsync();
+            var result = CheckSubAsync();
             if (!result)
             {
                 gameObject.SetActive(true);
@@ -88,21 +88,36 @@ namespace Mathy.UI
             }
         }
 
-        private async UniTask<bool> CheckSubAsync()
-        {
-            bool result;
-            int attempts = 5;
-            for (int i = attempts; i > 0; i--)
-            {
-                Debug.Log("Attempts to get subscription info left: " + attempts.ToString());
+        //private async UniTask<bool> CheckSubAsync()
+        //{
+        //    bool result;
+        //    int attempts = 5;
+        //    for (int i = attempts; i > 0; i--)
+        //    {
+        //        Debug.Log("Attempts to get subscription info left: " + attempts.ToString());
 
-                result = await IAPManager.Instance.IsSubscribed();
-                if (result)
-                {
-                    Debug.Log("User is subscribed");
-                    return true;
-                }
+        //        result = await IAPManager.Instance.IsSubscribed();
+        //        if (result)
+        //        {
+        //            Debug.Log("User is subscribed");
+        //            return true;
+        //        }
+        //    }
+        //    gameObject.SetActive(true);
+        //    SetGFXActive(true);
+        //    Debug.Log("User is NOT subscribed");
+        //    return false;
+        //}
+
+        private bool CheckSubAsync()
+        {
+            var result = IAPManager.Instance.HasSubscription();
+            if (result)
+            {
+                Debug.Log("User is subscribed");
+                return true;
             }
+            
             gameObject.SetActive(true);
             SetGFXActive(true);
             Debug.Log("User is NOT subscribed");
