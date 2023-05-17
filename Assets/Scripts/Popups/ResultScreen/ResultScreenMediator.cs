@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Mathy.UI
 {
-    public interface IResultScreenMediator : IPopupView
+    public interface IResultScreenMediator : IPopupMediator
     {
         public event Action ON_CLOSE_CLICK;
     }

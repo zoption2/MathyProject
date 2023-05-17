@@ -26,7 +26,7 @@ namespace Mathy.Services.Data
 
         public async UniTask SetPlayerName(string name)
         {
-            await _dataService.KeyValueStorage.SetValue(kPlayerNameKey, name);
+            await _dataService.KeyValueStorage.SetStringValue(kPlayerNameKey, name);
         }
     }
 }

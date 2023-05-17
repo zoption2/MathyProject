@@ -14,8 +14,6 @@ namespace Mathy.Services
     public interface IParentGateService
     {
         public UniTask CheckAccess();
-        public void Complete();
-        public void Cancel();
     }
 
     public class ParentGateService : IParentGateService
@@ -51,19 +49,19 @@ namespace Mathy.Services
             await tcs.Task;
         }
 
-        public async void Complete()
+        private async void Complete()
         {
             _mediator.ON_COMPLETE -= Complete;
-            _mediator.Close();
+            _mediator.ClosePopup();
             await _dataService.KeyValueStorage.SaveIntValue(KeyValueIntegerKeys.ParentGate, 1);
             tcs.TrySetResult();
         }
 
-        public void Cancel()
+        private void Cancel()
         {
             _mediator.ON_CANCEL -= Cancel;
             cancelTokenSource.Cancel();
-            _mediator.Close();
+            _mediator.ClosePopup();
             Application.Quit();
         }
     }

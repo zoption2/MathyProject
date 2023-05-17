@@ -4,11 +4,10 @@ using System;
 
 namespace Mathy.UI
 {
-    public interface IParentGatePopupMediator : IPopupView
+    public interface IParentGatePopupMediator : IPopupMediator
     {
         public event Action ON_CANCEL;
         public event Action ON_COMPLETE;
-        public void Close(Action callback = null);
     }
 
 
@@ -47,12 +46,12 @@ namespace Mathy.UI
             _controller.Hide(onHide);
         }
 
-        public void Close(Action callback = null)
+        public void ClosePopup(Action callback = null)
         {
             _uiManager.CloseView(this, callback);
         }
 
-        public async void InitPopup(Camera camera, Transform parent, Action onComplete, int orderLayer = 0)
+        public async void InitPopup(Camera camera, Transform parent, int orderLayer = 0)
         {
             var model = new ParentGatePopupModel();
             var view = await _refsHolder.PopupsProvider.InstantiateFromReference<IParentGatePopupView>(Popups.ParentGate, parent);
