@@ -33,20 +33,17 @@ namespace Mathy.Services
 
         public async UniTask CheckAccess()
         {
+            tcs = new UniTaskCompletionSource();
             var value = await _dataService.KeyValueStorage.GetIntValue(KeyValueIntegerKeys.ParentGate);
             var isSub = PlayerPrefs.GetInt(isSubscribedKey, 0);
-            if (value == 1 && isSub == 1)
-            {
-                tcs.TrySetResult();
-            }
-            else
+            if (value == 0 || isSub == 0)
             {
                 _mediator.CreatePopup(null);
                 _mediator.ON_COMPLETE += Complete;
                 _mediator.ON_CANCEL += Cancel;
-            }
 
-            await tcs.Task;
+                await tcs.Task;
+            }
         }
 
         private async void Complete()

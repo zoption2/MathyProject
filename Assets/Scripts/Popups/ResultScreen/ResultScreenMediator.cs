@@ -23,18 +23,21 @@ namespace Mathy.UI
         private readonly IResultScreenSkillsController _skillController;
         private readonly IResultScreenAchievementsController _achievementController;
         private readonly IResultScreenRewardController _rewardController;
-        private IResultScreenView _view;
+        private readonly IResultScreenPlayerInfoController _playerInfoController;
+        private IResultScreenView _generalView;
 
         public ResultScreenMediator(IAddressableRefsHolder refsHolder
             , IResultScreenSkillsController skillController
             , IResultScreenAchievementsController achievementController
             , IResultScreenRewardController rewardController
+            , IResultScreenPlayerInfoController playerInfoController
             , IUIManager uIManager)
         {
             _refsHolder = refsHolder;
             _skillController = skillController;
             _achievementController = achievementController;
             _rewardController = rewardController;
+            _playerInfoController = playerInfoController;
             _uiManager = uIManager;
         }
 
@@ -45,17 +48,18 @@ namespace Mathy.UI
 
         public async UniTask InitPopup(Camera camera, Transform parent, int priority = 0)
         {
-            _view = await _refsHolder.PopupsProvider.InstantiateFromReference<IResultScreenView>(Popups.ResultScreen, parent);
-            _view.ON_CLOSE_CLICK += DoOnCloseClick;
-            _view.Init(camera, priority);
+            _generalView = await _refsHolder.PopupsProvider.InstantiateFromReference<IResultScreenView>(Popups.ResultScreen, parent);
+            _generalView.ON_CLOSE_CLICK += DoOnCloseClick;
+            _generalView.Init(camera, priority);
             InitSkillController();
             InitAchievementController();
             InitRewardController();
+            InitPlayerInfoController();
         }
 
         public void Show(Action onShow)
         {
-            _view.Show(onShow);
+            _generalView.Show(onShow);
         }
 
         public void ClosePopup(Action onComplete = null)
@@ -66,35 +70,41 @@ namespace Mathy.UI
 
         private void InitSkillController()
         {
-            IResultScreenSkillsPanelView view = _view.SkillView;
+            IResultScreenSkillsPanelView view = _generalView.SkillView;
             _skillController.Init(view);
         }
 
         private void InitAchievementController()
         {
-            IResultScreenAchievementsView view = _view.AchievementView;
+            IResultScreenAchievementsView view = _generalView.AchievementView;
             _achievementController.Init(view);
         }
 
         private void InitRewardController()
         {
-            IResultScreenRewardView view = _view.RewardView;
+            IResultScreenRewardView view = _generalView.RewardView;
             _rewardController.Init(view);
+        }
+
+        private void InitPlayerInfoController()
+        {
+            IResultScreenPlayerInfoView view = _generalView.PlayerInfoView;
+            _playerInfoController.Init(view);
         }
 
         public void Hide(Action onHide)
         {
-            _view.Hide(onHide);
+            _generalView.Hide(onHide);
         }
 
         public void Release()
         {
-            _view.Release();
+            _generalView.Release();
         }
 
         private void DoOnCloseClick()
         {
-            _view.ON_CLOSE_CLICK -= DoOnCloseClick;
+            _generalView.ON_CLOSE_CLICK -= DoOnCloseClick;
             ON_CLOSE_CLICK?.Invoke();
             ClosePopup();
         }

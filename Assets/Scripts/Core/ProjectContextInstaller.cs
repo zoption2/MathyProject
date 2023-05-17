@@ -75,6 +75,7 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<IResultScreenSkillsController>().To<ResultScreenSkillsController>().AsTransient();
         Container.Bind<IResultScreenAchievementsController>().To<ResultScreenAchievementsController>().AsTransient();
         Container.Bind<IResultScreenRewardController>().To<ResultScreenRewardController>().AsTransient();
+        Container.Bind<IResultScreenPlayerInfoController>().To<ResultScreenPlayerInfoController>().AsTransient();
     }
 
     private void BindParentGateScreen()

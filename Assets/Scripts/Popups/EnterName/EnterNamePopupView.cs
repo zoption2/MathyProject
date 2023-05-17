@@ -98,7 +98,7 @@ namespace Mathy.UI
 
         private void DoOnNameChanged(string name)
         {
-            bool isNameValid = name.Length > kMinNameCharacters && name.Length < kMaxNameCharacters;
+            bool isNameValid = ValidateName(name);
             _saveButton.interactable = isNameValid;
         }
 
@@ -106,6 +106,35 @@ namespace Mathy.UI
         {
             var name = _inputField.text;
             ON_SAVE_CLICK?.Invoke(name);
+        }
+
+        private bool ValidateName(string name)
+        {
+            // Check if the name is not empty
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return false;
+            }
+
+            // Check if the name in correct characters range length
+            if (name.Length < kMinNameCharacters && name.Length > kMaxNameCharacters)
+            {
+                return false;
+            }
+
+            // Check if the name starts with a space
+            if (name.StartsWith(" "))
+            {
+                return false;
+            }
+
+            // Check if the name has double spaces
+            if (name.Contains("  "))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

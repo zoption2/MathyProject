@@ -42,29 +42,23 @@ namespace Mathy.UI
                 gameObject.SetActive(true);
                 IAPManager.Instance.ON_PURCHASE_COMPLETE += DoOnPurchaseComplete;
                 IAPManager.Instance.ON_PURCHASE_RESTORED += DoOnPurchaseRestored;
-            }
-            else
-            {
-                _tcs.TrySetResult();
-            }
 
-            await _tcs.Task;
-            SetGFXActive(false);
-            IAPManager.Instance.ON_PURCHASE_COMPLETE -= DoOnPurchaseComplete;
-            IAPManager.Instance.ON_PURCHASE_RESTORED -= DoOnPurchaseRestored;
+                await _tcs.Task;
+                SetGFXActive(false);
+                IAPManager.Instance.ON_PURCHASE_COMPLETE -= DoOnPurchaseComplete;
+                IAPManager.Instance.ON_PURCHASE_RESTORED -= DoOnPurchaseRestored;
+            }
         }
 
         private void DoOnPurchaseComplete()
         {
             IAPManager.Instance.ON_PURCHASE_COMPLETE -= DoOnPurchaseComplete;
-            SetGFXActive(false);
             _tcs.TrySetResult();
         }
 
         private void DoOnPurchaseRestored()
         {
             IAPManager.Instance.ON_PURCHASE_RESTORED -= DoOnPurchaseRestored;
-            SetGFXActive(false);
             _tcs.TrySetResult();
         }
 

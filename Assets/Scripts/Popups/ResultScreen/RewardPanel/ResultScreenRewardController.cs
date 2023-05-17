@@ -8,7 +8,6 @@ namespace Mathy.UI
 
     }
 
-
     public class ResultScreenRewardController
         : BaseMediatedController<IResultScreenRewardView, ResultScreenRewardModel>
         , IResultScreenRewardController

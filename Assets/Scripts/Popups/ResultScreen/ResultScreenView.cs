@@ -11,6 +11,7 @@ namespace Mathy.UI
         IResultScreenSkillsPanelView SkillView { get; }
         IResultScreenAchievementsView AchievementView { get; }
         IResultScreenRewardView RewardView { get; }
+        IResultScreenPlayerInfoView PlayerInfoView { get; }
     }
 
 
@@ -23,11 +24,13 @@ namespace Mathy.UI
         [SerializeField] private ResultScreenSkillsPanelView _skillView;
         [SerializeField] private ResultScreenAchievementsView _achievementView;
         [SerializeField] private ResultScreenRewardView _rewardView;
+        [SerializeField] private ResultScreenPlayerInfoView _playerInfoView;
         [SerializeField] private BaseViewAnimator _animator;
 
         public IResultScreenSkillsPanelView SkillView => _skillView;
         public IResultScreenAchievementsView AchievementView => _achievementView;
         public IResultScreenRewardView RewardView => _rewardView;
+        public IResultScreenPlayerInfoView PlayerInfoView => _playerInfoView;
 
         public void Init(Camera camera, int priority)
         {
