@@ -27,14 +27,16 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<IDataService>().To<DataService>().AsSingle().NonLazy();
         Container.Bind<ISkillPlanService>().To<SkillPlanService>().AsSingle();
         Container.Bind<IUIManager>().To<UIManager>().AsSingle();
+        Container.Bind<IAccountService>().To<AccountService>().AsSingle();
 
         Container.Bind<List<GradeSettings>>().FromInstance(gradeSettingsHolder.GradeSettings).AsSingle();
 
         BindTaskControllers();
         BindScenarious();
         BindPopupsControllers();
-        BindPlayerDataServices();
         BindResultScreen();
+        BindParentGateScreen();
+        BindEnterNamePopup();
     }
 
     private void BindTaskControllers()
@@ -67,19 +69,25 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<ParentGatePopupController>().To<ParentGatePopupController>().AsTransient();
     }
 
-    private void BindPlayerDataServices()
-    {
-        Container.Bind<IPlayerDataService>().To<PlayerDataService>().AsSingle();
-        Container.Bind<IAchievementsHandler>().To<AchievementsHandler>().AsSingle();
-        Container.Bind<IProgressHandler>().To<ProgressHandler>().AsSingle();
-    }
-
     private void BindResultScreen()
     {
         Container.Bind<IResultScreenMediator>().To<ResultScreenMediator>().AsTransient();
         Container.Bind<IResultScreenSkillsController>().To<ResultScreenSkillsController>().AsTransient();
         Container.Bind<IResultScreenAchievementsController>().To<ResultScreenAchievementsController>().AsTransient();
         Container.Bind<IResultScreenRewardController>().To<ResultScreenRewardController>().AsTransient();
+        Container.Bind<IResultScreenPlayerInfoController>().To<ResultScreenPlayerInfoController>().AsTransient();
+    }
+
+    private void BindParentGateScreen()
+    {
+        Container.Bind<IParentGatePopupMediator>().To<ParentGatePopupMediator>().AsTransient();
+        Container.Bind<IParentGatePopupController>().To<ParentGatePopupController>().AsTransient();
+    }
+
+    private void BindEnterNamePopup()
+    {
+        Container.Bind<IEnterNamePopupMediator>().To<EnterNamePopupMediator>().AsTransient();
+        Container.Bind<IEnterNamePopupController>().To<EnterNamePopupController>().AsTransient();
     }
 }
 

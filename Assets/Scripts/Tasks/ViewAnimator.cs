@@ -1,7 +1,6 @@
-using System.Collections;
 using UnityEngine;
 using System;
-using UnityEngine.UI;
+using DG.Tweening;
 
 namespace Mathy.UI
 {
@@ -15,6 +14,11 @@ namespace Mathy.UI
     {
         public abstract void AnimateHiding(Action onComplete);
         public abstract void AnimateShowing(Action onComplete);
+
+        protected virtual void OnDisable()
+        {
+            DOTween.Kill(transform);
+        }
     }
 }
 

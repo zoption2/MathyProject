@@ -246,6 +246,28 @@ namespace Mathy.Services.Data
         }
         #endregion
 
+        #region KeyValueStringTable
+        public static KeyValueStringDataModel ConvertToModel(this KeyValueStringData data)
+        {
+            var result = new KeyValueStringDataModel();
+            result.Key = data.Key;
+            result.Value = data.Value;
+            result.Date = data.Date.ToString(kDataTimeFormat);
+
+            return result;
+        }
+
+        public static KeyValueStringData ConvertToData(this KeyValueStringDataModel model)
+        {
+            var result = new KeyValueStringData();
+            result.Key = model.Key;
+            result.Value = model.Value;
+            result.Date = DateTime.ParseExact(model.Date, kDataTimeFormat, CultureInfo.InvariantCulture);
+
+            return result;
+        }
+        #endregion
+
         #region SkillStatisticTable
         public static SkillStatisticModel ConvertToModel(this SkillStatisticData data)
         {

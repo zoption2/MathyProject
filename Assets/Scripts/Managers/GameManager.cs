@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Mathy.Core.Tasks;
 using System;
 using System.Collections.Generic;
@@ -47,13 +48,14 @@ namespace Mathy.Core
 
         #endregion
 
-        private void Start()
+        private async void Start()
         {
             ChangeState(GameState.Starting);
 
             if (IsFirstLaunch)
             {
-                skillPlanWindow.gameObject.SetActive(true);
+                await UniTask.Delay(1000);
+               // skillPlanWindow.gameObject.SetActive(true);
             }
         }
 

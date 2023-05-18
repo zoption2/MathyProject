@@ -30,7 +30,6 @@ public class DailyStatusPanel : StaticInstance<DailyStatusPanel>
 
     private RectTransform rTransform;
     private bool allModesDone = false;
-    //public static UnityEvent OnAllModesDone = new UnityEvent();
 
     public bool AllModesDone
     {
@@ -41,7 +40,6 @@ public class DailyStatusPanel : StaticInstance<DailyStatusPanel>
         set
         {
             allModesDone = value;
-            //OnAllModesDone.Invoke();
         }
     }
 
@@ -86,17 +84,6 @@ public class DailyStatusPanel : StaticInstance<DailyStatusPanel>
         LocalizationManager.OnLanguageChanged.RemoveListener(LocalizeTextImages);
     }
 
-    //private void AllModesDoneReward()
-    //{
-    //    Debug.Log("AllModesDoneReward Called!");
-    //    if (!DataManager.Instance.WasTodayAwardGot)
-    //    {
-    //        PlayerDataManager.Instance.AllModesDoneReward();
-    //        DataManager.Instance.WasTodayAwardGot = true;
-    //        Debug.Log("GoldenAmount was ++");
-    //    }
-    //}
-
     public void OpenPanel()
     {
         vfx.Play();
@@ -107,7 +94,6 @@ public class DailyStatusPanel : StaticInstance<DailyStatusPanel>
     {
         if (allModesDone)
         {
-            //rTransform.anchoredPosition = new Vector2(36, -755);
             rTransform.DOAnchorPosY(0, 0.2f).SetEase(Ease.InOutQuad);
         }
     }

@@ -10,7 +10,7 @@ using Mathy.Services;
 
 public class GradePanel : PopupPanel
 {
-    [Inject] private IPlayerDataService _playerDataService;
+    [Inject] private IDataService _dataService;
 
     [SerializeField] TMP_Text gradeCenterText;
     [SerializeField] BGCurve progressPath;
@@ -37,7 +37,7 @@ public class GradePanel : PopupPanel
     {
         if (isOpened)
         {
-            int rank = await _playerDataService.Progress.GetRankAsynk();
+            int rank = await _dataService.PlayerData.Progress.GetRankAsynk();
             if (gameObject.activeSelf) StartCoroutine(AnimateGrades(rank));
         }
         else

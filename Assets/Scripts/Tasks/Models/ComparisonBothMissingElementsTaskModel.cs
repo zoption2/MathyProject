@@ -60,6 +60,7 @@ namespace Mathy.Core.Tasks
             var result = new TaskResultData();
             result.TaskType = TaskType;
             result.ElementValues = elements;
+            result.SkillType = taskSettings.SkillType;
             result.OperatorValues = operators;
             result.VariantValues = variants;
             result.MaxValue = maxValue;

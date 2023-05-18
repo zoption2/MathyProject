@@ -1147,7 +1147,7 @@ RectTransform:
   m_GameObject: {fileID: 6458543999094550160}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6458543998421213081}
@@ -1169,7 +1169,7 @@ Canvas:
   m_GameObject: {fileID: 6458543999094550160}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -1178,7 +1178,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 0
+  m_SortingLayerID: 1702642761
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &6458543999094550162
@@ -1241,6 +1241,7 @@ MonoBehaviour:
   cancelButton: {fileID: 6458543999078231191}
   okButton: {fileID: 6458543998002933748}
   animator: {fileID: 2357703896333158363}
+  canvas: {fileID: 6458543999094550173}
 --- !u!114 &2357703896333158363
 MonoBehaviour:
   m_ObjectHideFlags: 0

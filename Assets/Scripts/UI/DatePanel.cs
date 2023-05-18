@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using Mathy.Data;
 using DG.Tweening;
@@ -15,8 +14,6 @@ using Mathy;
 public class DatePanel : ButtonFX
 {
     [Inject] private IDataService dataService;
-    //[SerializeField] private CalendarManager calendar;
-    //[SerializeField] private List<DailyModeIndicator> modeIndicators;
 
     [SerializeField] private GameObject smallIcon;
     [SerializeField] private GameObject mediumIcon;
@@ -25,11 +22,9 @@ public class DatePanel : ButtonFX
     [SerializeField] private Image rewardIcon;
     [SerializeField] private Sprite[] rewardSprites;
 
-    //[SerializeField] private DailyModeIndicator awardIndicator;
     [SerializeField] private TMP_Text dateLable;
 
     private bool isInitialization = true;
-    //private bool isOpened = false;
     private CalendarData calendarData;
 
     public CalendarData CalendarData
@@ -41,7 +36,6 @@ public class DatePanel : ButtonFX
         set
         {
             calendarData = value;
-            //UpdateVisual();
         }
     }
 
@@ -63,13 +57,6 @@ public class DatePanel : ButtonFX
             }
         }
     }
-
-
-    //protected override void Awake()
-    //{
-    //    base.Awake();
-    //    DailyStatusPanel.OnAllModesDone.AddListener(UpdateIndicator);
-    //}
 
     private async void OnEnable()
     {
@@ -102,8 +89,6 @@ public class DatePanel : ButtonFX
     private async void Initializing()
     {
         CalendarData = await GetTodayCalendarDate();
-        //calendar.SelectCurrentDate();
-        //UpdateIndicator(); //Temp solution, need to update award icon on start
         isInitialization = false;
     }
 
@@ -111,31 +96,10 @@ public class DatePanel : ButtonFX
     {
         dateLable.text = $"{cultureInfo.DateTimeFormat.GetMonthName(DateTime.UtcNow.Month)} {DateTime.UtcNow.Day}";
     }
-	
-    private void ModeDone(TaskMode mode, bool isDone)
-    {
-        var status = isDone ? DailyModeStatus.Done : DailyModeStatus.InProgress;
-        //if(mode != TaskMode.Practic)
-        //{
-        //    modeIndicators[(int)mode].Status = status;
-        //}
-    }
-
-    //private void UpdateVisual()
-    //{
-    //    foreach (TaskMode mode in calendarData.ModeData.Keys)
-    //    {
-    //        ModeDone(mode, calendarData.ModeData[mode]);
-    //    }
-    //    //Temp solution, need to refactor using CalendarData
-    //   // ModeDone(TaskMode.Challenge, await DataManager.Instance.TodayChallengeStatus());
-    //}
 
     public void OpenPanel()
     {
         rTransform.DOAnchorPosY(-138, 0.25f).SetEase(Ease.InOutQuad);
-        //DailyStatusPanel.Instance.OpenPanel();
-        //UpdateIndicator();
     }
 
     public void ClosePanel()
@@ -159,8 +123,6 @@ public class DatePanel : ButtonFX
         {
             rewardIcon.sprite = rewardSprites[rewardIndex];
         }
-        //var status = DailyStatusPanel.Instance.AllModesDone ? DailyModeStatus.Done : DailyModeStatus.InProgress;
-        //awardIndicator.Status = status;
     }
 
     private async UniTask<CalendarData> GetTodayCalendarDate()

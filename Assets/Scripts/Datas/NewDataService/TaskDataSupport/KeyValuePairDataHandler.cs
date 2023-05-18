@@ -6,19 +6,24 @@ namespace Mathy.Services.Data
 {
     public interface IKeyValuePairDataHandler
     {
-        UniTask<KeyValueIntegerData> GetKeyValueIntegerData(string key, int defaultValue = 0);
+        UniTask<KeyValueIntegerData> GetIntegerDataByKey(string key, int defaultValue = 0);
         UniTask<int> GetIntValue(string key, int defaultValue = 0);
         UniTask<int> GetIntValue(KeyValueIntegerKeys keyType, int defaultValue = 0);
         UniTask SaveIntValue(string key, int value);
         UniTask SaveIntValue(KeyValueIntegerKeys keyType, int value);
         UniTask IncrementIntValue(string key);
         UniTask IncrementIntValue(KeyValueIntegerKeys keyType);
+
+        UniTask<KeyValueStringData> GetStringDataByKey(string key, string defaultValue = "");
+        UniTask<string> GetStringOrDefaultByKey(string key, string defaultValue = "");
+        UniTask SetStringValue(string key, string value);
     }
 
 
     public class KeyValuePairDataHandler : IKeyValuePairDataHandler
     {
         private IKeyValuePairIntegerProvider _intProvider;
+        private IKeyValuePairStringProvider _stringProvider;
         private readonly DataService _dataService;
 
         public KeyValuePairDataHandler(DataService dataService)
@@ -27,9 +32,10 @@ namespace Mathy.Services.Data
             var filePath = dataService.DatabasePath;
 
             _intProvider = new KeyValuePairIntegerProvider(filePath);
+            _stringProvider = new KeyValuePairStringProvider(filePath);
         }
 
-        public async UniTask<KeyValueIntegerData> GetKeyValueIntegerData(string key, int defaultValue = 0)
+        public async UniTask<KeyValueIntegerData> GetIntegerDataByKey(string key, int defaultValue = 0)
         {
             return await _intProvider.GetDataByKey(key, defaultValue);
         }
@@ -70,6 +76,22 @@ namespace Mathy.Services.Data
             await IncrementIntValue(key);
         }
 
+        public async UniTask<KeyValueStringData> GetStringDataByKey(string key, string defaultValue = "")
+        {
+            return await _stringProvider.GetDataByKey(key, defaultValue);
+        }
+
+        public async UniTask<string> GetStringOrDefaultByKey(string key, string defaultValue = "")
+        {
+            return await _stringProvider.GetStringOrDefaultByKey(key, defaultValue);
+        }
+
+        public async UniTask SetStringValue(string key, string value)
+        {
+            var date = DateTime.UtcNow;
+            await _stringProvider.SetValue(key, value, date);
+        }
+
         public async UniTask Init()
         {
             await TryCreateTables();
@@ -78,11 +100,13 @@ namespace Mathy.Services.Data
         public async UniTask ClearData()
         {
             await _intProvider.DeleteTable();
+            await _stringProvider.DeleteTable();
         }
 
         protected async UniTask TryCreateTables()
         {
             await _intProvider.TryCreateTable();
+            await _stringProvider.TryCreateTable();
         }
     }
 }

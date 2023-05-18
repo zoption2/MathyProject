@@ -133,25 +133,13 @@ public class GameSettingsManager : StaticInstance<GameSettingsManager>
 
     public async void ResetProgress()
     {
-        //DailyRewardManager.Instance.ResetToDefault();
-        //DataManager.Instance.WasTodayAwardGot = false;
-        //DataManager.Instance.ResetAllBestScores();
-        //DailyStatusPanel.Instance.AllModesDone = false;
-        //await DataManager.Instance.ResetSaveFile();
-        //GameManager.Instance.ChangeState(GameState.MainMenu);
-        //CalendarManager.Instance.ResetToDefault();
-        //PlayerDataManager.Instance.ResetToDefault();
-        //IAPManager.Instance.ResetToDefault();
-        ////Here in the reset process we need to show a modal window to the user and ask him if he really wants to delete all his progress
-        //await SceneManager.LoadSceneAsync("LoadingScreen");
 
-        //DailyStatusPanel.Instance.AllModesDone = false;
-        PlayerPrefs.DeleteAll();
         await dataService.ResetProgress();
         GameManager.Instance.ChangeState(GameState.MainMenu);
         CalendarManager.Instance.ResetToDefault();
         //PlayerDataManager.Instance.ResetToDefault();
         IAPManager.Instance.ResetToDefault();
+        PlayerPrefs.DeleteAll();
         //Here in the reset process we need to show a modal window to the user and ask him if he really wants to delete all his progress
         await SceneManager.LoadSceneAsync("LoadingScreen");
     }

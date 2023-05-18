@@ -10,7 +10,12 @@ using Mathy.Services;
 
 namespace Mathy.UI
 {
-    public class SkillsPanel : PopupPanel
+    public interface ISkillPlanPopupStub
+    {
+        UniTask DoSkillPlanUIWorkStub();
+    }
+
+    public class SkillsPanel : PopupPanel, ISkillPlanPopupStub
     {
         [Inject] private ISkillPlanService service;
         #region FIELDS
@@ -39,8 +44,16 @@ namespace Mathy.UI
         private int availableSkillsCount;
         private Dictionary<SkillType, SkillSettingsData> skillSettingsDatas = new();
 
+        private UniTaskCompletionSource _tcs;
         #endregion
 
+        public async UniTask DoSkillPlanUIWorkStub()
+        {
+            _tcs = new UniTaskCompletionSource();
+            gameObject.SetActive(true);
+
+            await _tcs.Task;
+        }
 
         protected override void OnEnable()
         {
@@ -62,6 +75,7 @@ namespace Mathy.UI
                     (() => { SelectTab(i); });
             }
             TryUnsubscribeFromSkillSettings();
+            _tcs.TrySetCanceled();
         }
 
         private void Initialize()
@@ -200,6 +214,7 @@ namespace Mathy.UI
         {
             SaveSkillsSettings();
             base.ClosePanel();
+            _tcs.TrySetResult();
         }
 
         private async void SaveSkillsSettings()
@@ -228,20 +243,6 @@ namespace Mathy.UI
 
         private void SelectAllSkills(bool isActive)
         {
-            //if (isActive)
-            //{
-            //    for (int i = 0; i < availableSkillsCount; i++)
-            //    {
-            //        skillSettingsElements[i].SetActive(true);
-            //    }
-            //}
-            //else if (selectedSkillsCount == availableSkillsCount)
-            //{
-            //    for (int i = 0; i < availableSkillsCount; i++)
-            //    {
-            //        skillSettingsElements[i].SetActive(false);
-            //    }
-            //}
             for (int i = 0; i < availableSkillsCount; i++)
             {
                 skillSettingsElements[i].SetActive(isActive);

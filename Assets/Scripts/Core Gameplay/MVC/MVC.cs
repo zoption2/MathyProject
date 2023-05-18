@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
 
 public interface IView
@@ -10,8 +11,15 @@ public interface IView
 
 public interface IPopupView : IView
 {
-    void Init(Camera camera, Transform parent, Action onComplete);
+    UniTask InitPopup(Camera camera, Transform parent, int orderLayer = 0);
 }
+
+public interface IPopupMediator
+{
+    void CreatePopup(Action onComplete = null);
+    void ClosePopup(Action onComplete = null);
+}
+
 
 public interface IModel
 {

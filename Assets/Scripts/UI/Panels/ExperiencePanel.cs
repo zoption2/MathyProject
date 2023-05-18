@@ -13,7 +13,6 @@ public class ExperiencePanel : HeaderBar
 {
     private const string kLastShowedKeyFormat = "{0}LastShowedMainMenu";
 
-    [Inject] private IPlayerDataService _playerDataService;
     [Inject] private IDataService _dataService;
     #region Fields
 
@@ -28,18 +27,14 @@ public class ExperiencePanel : HeaderBar
 
     protected override async UniTask AsyncUpdateText()
     {
-        //await UniTask.WaitUntil(() => PlayerDataManager.Instance != null);
-        //int experience = PlayerDataManager.Instance.PlayerExperience;
-        int experience = await _playerDataService.Progress.GetPlayerExperienceAsync();
+        int experience = await _dataService.PlayerData.Progress.GetPlayerExperienceAsync();
         SetText(experience);
     }
 
     public override async void SetText(int newValue)
     {
         string currentExp = newValue.ToString();
-        //string nextLevelExp = PlayerDataManager.Instance.NextLevelExp.ToString();
-        int rank = await _playerDataService.Progress.GetRankAsynk();
-        //string nextLevelExp = PlayerDataManager.Instance.NextLevelExp.ToString();
+        int rank = await _dataService.PlayerData.Progress.GetRankAsynk();
         string nextLevelExp = PointsHelper.GetMaxExperienceOfRank(rank).ToString();
         string value = currentExp + "/" + nextLevelExp;
         if (title.text != value)
@@ -54,8 +49,6 @@ public class ExperiencePanel : HeaderBar
         var lastShowedExpKey = string.Format(kLastShowedKeyFormat, KeyValueIntegerKeys.Experience);
         int prevLevelExp = await _dataService.KeyValueStorage.GetIntValue(lastShowedExpKey);
         await _dataService.KeyValueStorage.SaveIntValue(lastShowedExpKey, currentExp);
-        //float currentExp = PlayerDataManager.Instance.PlayerExperience;
-        //float prevLevelExp = PlayerDataManager.Instance.PrevLevelExp;
 
         var lastShowedRankKey = string.Format(kLastShowedKeyFormat, KeyValueIntegerKeys.PlayerRank);
         var lastShowedRank = await _dataService.KeyValueStorage.GetIntValue(lastShowedRankKey);
@@ -82,15 +75,6 @@ public class ExperiencePanel : HeaderBar
             await AnimateProgress(currentProgress, targetProgress);
             currentProgress = 0;
         }
-
-
-        //float nextLevelExp = PlayerDataManager.Instance.NextLevelExp;
-        //float endValue = (currentExp - prevLevelExp) / (nextLevelExp - prevLevelExp);
-        //progressBar.value = prevLevelExp;
-        //var sequence = DOTween.Sequence();
-        //sequence.Join(progressBar.DOValue(currentExp, 1f).SetEase(Ease.InOutQuad));
-        //sequence.Append(title.transform.DOPunchScale(new Vector2(0.25f, -0.1f), 0.5f).SetEase(Ease.InOutQuad))
-        //    .OnComplete(() => title.transform.localScale = Vector2.one);
     }
 
     private async UniTask AnimateProgress(int startValue, int endValue)

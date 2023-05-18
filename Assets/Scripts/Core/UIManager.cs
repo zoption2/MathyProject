@@ -7,13 +7,14 @@ namespace Mathy.Services.UI
 {
     public enum UIBehaviour
     {
-        Disposable,
-        Reusable,
+        StayWithNew = 1,
+        HideOnNew = 2,
+        CloseOnNew = 3,
     }
 
     public interface IUIManager
     {
-        void OpenView(IPopupView view, UIBehaviour viewBehaviour = UIBehaviour.Disposable, Action onShow = null);
+        void OpenView(IPopupView view, UIBehaviour viewBehaviour = UIBehaviour.StayWithNew, Action onShow = null, int manualPriopity = -1);
         void CloseView(IPopupView view, Action onHide = null);
     }
 
@@ -22,8 +23,9 @@ namespace Mathy.Services.UI
     {
         private const string kGOName = "UIManager";
         private Transform _popupsHolder;
-        private List<IPopupView> _popups;
-        private IPopupView _disposableView;
+        private List<ViewInfo> _popups;
+
+        private int _priority => _popups.Count;
 
         private Camera _camera => Camera.main;
 
@@ -43,54 +45,93 @@ namespace Mathy.Services.UI
 
         public UIManager()
         {
-            _popups = new List<IPopupView>();
+            _popups = new List<ViewInfo>();
         }
 
 
-        public void OpenView(IPopupView view
-            , UIBehaviour viewBehaviour = UIBehaviour.Disposable
-            , Action onShow = null)
+        public async void OpenView(IPopupView view
+            , UIBehaviour viewBehaviour = UIBehaviour.StayWithNew
+            , Action onShow = null
+            , int manualPriority = -1)
         {
-            if (viewBehaviour == UIBehaviour.Disposable)
+            var viewInfo = new ViewInfo();
+            viewInfo.View = view;
+            viewInfo.Behaviour = viewBehaviour;
+
+            var popups = _popups.Count;
+            if (popups > 0)
             {
-                _disposableView = view;
-                _disposableView.Init(_camera, Holder, onShow);
-            }
-            else
-            {
-                if (!_popups.Contains(view))
+                var previousViewInfo = _popups[popups - 1];
+                var previousViewBehaviour = previousViewInfo.Behaviour;
+                var previousView = previousViewInfo.View;
+                switch (previousViewBehaviour)
                 {
-                    _popups.Add(view);
+                    case UIBehaviour.HideOnNew:
+                        previousView.Hide(null);
+                        break;
+
+                    case UIBehaviour.CloseOnNew:
+                        _popups.Remove(previousViewInfo);
+                        previousView.Hide(() =>
+                        {
+                            previousView.Release();
+                        });
+                        break;
+
+                    default:
+                        break;
                 }
-                var selectedView = _popups.FirstOrDefault(x => x == view);
-                selectedView.Init(_camera, Holder, onShow);
+            }
+
+            var priority = manualPriority == -1
+                ? _priority
+                : manualPriority;
+
+            if (!_popups.Contains(viewInfo))
+            {
+                _popups.Add(viewInfo);
+                await view.InitPopup(_camera, Holder, priority);
+                view.Show(onShow);
             }
         }
 
         public void CloseView(IPopupView view, Action onHide = null)
         {
-            if (_disposableView == view)
+            var selectedViewInfo = _popups.FirstOrDefault(x => x.View == view);
+            var selectedView = selectedViewInfo.View;
+            selectedView.Hide(() =>
             {
-                _disposableView.Hide(() =>
-                {
-                    _disposableView.Release();
-                    _disposableView = null;
-                    onHide?.Invoke();
-                });
-            }
-            else
+                _popups.Remove(selectedViewInfo);
+                selectedView.Release();
+                onHide?.Invoke();
+                OnHide();
+            });
+
+            void OnHide()
             {
-                if (_popups.Contains(view))
+                var popups = _popups.Count;
+                if (popups > 0)
                 {
-                    var selectedView = _popups.FirstOrDefault(x => x == view);
-                    _popups.Remove(view);
-                    selectedView.Hide(() =>
+                    var previousViewInfo = _popups[popups - 1];
+                    var previousViewBehaviour = previousViewInfo.Behaviour;
+                    var previousView = previousViewInfo.View;
+                    switch (previousViewBehaviour)
                     {
-                        selectedView.Release();
-                        onHide?.Invoke();
-                    });
+                        case UIBehaviour.HideOnNew:
+                            previousView.Show(null);
+                            break;
+
+                        default:
+                            break;
+                    }
                 }
             }
+        }
+
+        private class ViewInfo
+        {
+            public IPopupView View { get; set; }
+            public UIBehaviour Behaviour { get; set; }
         }
     }
 }

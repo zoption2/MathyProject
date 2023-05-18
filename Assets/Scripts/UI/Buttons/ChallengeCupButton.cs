@@ -48,13 +48,11 @@ public class ChallengeCupButton : ButtonFX
     {
         base.Initialization();
         playTransform = playText.transform;
-        //UpdateChallengeStatus();
     }
 
     public async void UpdateChallengeStatus()
     {
         var data = await dataService.TaskData.GetDailyModeData(DateTime.UtcNow, TaskMode.Challenge);
-        //isCompleted = await DataManager.Instance.TodayChallengeStatus();
         isCompleted = data.IsComplete;
         UpdateDisplayStyle();
     }
@@ -66,7 +64,7 @@ public class ChallengeCupButton : ButtonFX
         ribbon.enabled = isCompleted;
         if (isCompleted)
         {
-            //StartCoroutine(PlayFX(winFX));
+            
         }
         else
         {

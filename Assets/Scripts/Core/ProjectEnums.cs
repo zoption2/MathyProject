@@ -23,6 +23,7 @@
     {
         ParentGate = 1,
         ResultScreen = 2,
+        EnterName = 3,
     }
 
     public enum TaskElementType
@@ -215,6 +216,7 @@
         TotalTasksDuration = 4,
         Experience = 5,
         PlayerRank = 6,
+        ParentGate = 7,
 
         DatabaseControl = 100,
     }

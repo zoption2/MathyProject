@@ -19,10 +19,9 @@ namespace Mathy.Core.Tasks
             , ITaskBackgroundSevice backgroundHandler
             , IAddressableRefsHolder addressableRefs
             , IDataService dataService
-            , IPlayerDataService playerDataService
             , IResultScreenMediator resultScreen
             ) 
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService, playerDataService, resultScreen)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
         {
         }
 
@@ -91,22 +90,19 @@ namespace Mathy.Core.Tasks
         {
             base.EndGameplay();
             var gainedExperience = PointsHelper.GetExperiencePointsByRate(dailyModeData.CorrectRate);
-            await playerDataService.Progress.AddExperienceAsync(gainedExperience);
+            await dataService.PlayerData.Progress.AddExperienceAsync(gainedExperience);
 
-            var totalExp = await playerDataService.Progress.GetPlayerExperienceAsync();
+            var totalExp = await dataService.PlayerData.Progress.GetPlayerExperienceAsync();
             var rank = PointsHelper.GetRankByExperience(totalExp);
-            await playerDataService.Progress.SaveRankAsynk(rank);
-            //var resultsView = scenePointer.ResultsWindow;
-            //resultsView.gameObject.SetActive(true);
-            //float correctRate = correctAnswers / (float)TotalTasks * 100f;
-            //resultsView.DisplayResult(correctAnswers, TotalTasks, correctRate, false);
-            resultScreen.Show(()=>
+            await dataService.PlayerData.Progress.SaveRankAsynk(rank);
+
+            resultScreen.CreatePopup(()=>
             {
                 GameObject.Destroy(counterView.gameObject);
                 ScenesManager.Instance.DisableTaskScene();
-                //GameManager.Instance.ChangeState(GameState.MainMenu);
             });
             resultScreen.ON_CLOSE_CLICK += ChangeScene;
+            resultScreen.ON_CLOSE_CLICK += TryShowASD;
         }
 
         private void ChangeScene()
@@ -115,9 +111,15 @@ namespace Mathy.Core.Tasks
             GameManager.Instance.ChangeState(GameState.MainMenu);
         }
 
+        private void TryShowASD()
+        {
+            resultScreen.ON_CLOSE_CLICK -= TryShowASD;
+            AdManager.Instance.ShowAdWithProbability(AdManager.Instance.ShowInterstitialAd, 30);
+        }
+
         protected override void ClickOnExitFromGameplay()
         {
-            resultScreen.Show(() =>
+            resultScreen.CreatePopup(() =>
             {
                 GameObject.Destroy(counterView.gameObject);
                 base.ClickOnExitFromGameplay();
@@ -152,10 +154,9 @@ namespace Mathy.Core.Tasks
             , ITaskBackgroundSevice backgroundHandler
             , IAddressableRefsHolder addressableRefs
             , IDataService dataService
-            , IPlayerDataService playerDataService
             , IResultScreenMediator resultScreen
             )
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService, playerDataService, resultScreen)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
         {
         }
     }
@@ -171,10 +172,9 @@ namespace Mathy.Core.Tasks
             , ITaskBackgroundSevice backgroundHandler
             , IAddressableRefsHolder addressableRefs
             , IDataService dataService
-            , IPlayerDataService playerDataService
             , IResultScreenMediator resultScreen
             )
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService, playerDataService, resultScreen)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
         {
         }
     }
@@ -190,10 +190,9 @@ namespace Mathy.Core.Tasks
             , ITaskBackgroundSevice backgroundHandler
             , IAddressableRefsHolder addressableRefs
             , IDataService dataService
-            , IPlayerDataService playerDataService
             , IResultScreenMediator resultScreen
             )
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService, playerDataService, resultScreen)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
         {
         }
     }

@@ -11,7 +11,6 @@ using Cysharp.Threading.Tasks;
 public class RankPanel : MonoBehaviour
 {
     private const string kLastShowedKeyFormat = "{0}LastShowedMainMenu";
-    [Inject] private IPlayerDataService _playerDataService;
     [Inject] private IDataService _dataService;
     [Header("Components:")]
 
@@ -44,18 +43,16 @@ public class RankPanel : MonoBehaviour
 
     public async void UpdateDisplayStyle()
     {
-        //int index = await _playerDataService.Progress.GetRankAsynk();
-        //rankText.text = index.ToString();
         await CompletedMethod();
     }
 
     private async UniTask CompletedMethod()
     {
-        int experience = await _playerDataService.Progress.GetPlayerExperienceAsync();
+        int experience = await _dataService.PlayerData.Progress.GetPlayerExperienceAsync();
         var lastShowedExpKey = string.Format(kLastShowedKeyFormat, KeyValueIntegerKeys.Experience);
         int lastShowedExp = await _dataService.KeyValueStorage.GetIntValue(lastShowedExpKey);
 
-        int rank = await _playerDataService.Progress.GetRankAsynk();
+        int rank = await _dataService.PlayerData.Progress.GetRankAsynk();
 
         if (experience == lastShowedExp)
         {
@@ -102,29 +99,6 @@ public class RankPanel : MonoBehaviour
         SetProgressText(progressValue);
     }
 
-    //private async UniTask UpdateProgressAsync()
-    //{
-    //    //await UniTask.WaitUntil(() => PlayerDataManager.Instance != null);
-    //    //int experience = PlayerDataManager.Instance.PlayerExperience;
-    //    int experience = await _playerDataService.Progress.GetPlayerExperienceAsync();
-    //    UpdateProgress(experience);
-    //}
-
-    //private async void UpdateProgress(int newValue)
-    //{
-    //    string currentExp = newValue.ToString();
-    //    //string nextLevelExp = PlayerDataManager.Instance.NextLevelExp.ToString();
-    //    int rank = await _playerDataService.Progress.GetRankAsynk();
-    //    //string nextLevelExp = PlayerDataManager.Instance.NextLevelExp.ToString();
-    //    string nextLevelExp = PointsHelper.GetMaxExperienceOfRank(rank).ToString();
-    //    string value = currentExp + "/" + nextLevelExp;
-    //    if (progressText.text != value)
-    //    {
-    //        progressText.text = value;
-    //        AnimateProgressBar(newValue, rank);
-    //    }
-    //}
-
     private async void AnimateProgressBar(int currentExp, int lastExp, int currentRank, int lastRank)
     {
         ShowComplexProgress(lastRank, currentExp);
@@ -159,41 +133,6 @@ public class RankPanel : MonoBehaviour
             currentProgress = 0;
         }
     }
-
-    //private async void AnimateProgressBar(int currentExp, int rank)
-    //{
-    //    var lastShowedExpKey = string.Format(kLastShowedKeyFormat, KeyValueIntegerKeys.Experience);
-    //    int prevLevelExp = await _dataService.KeyValueStorage.GetIntValue(lastShowedExpKey);
-    //    await _dataService.KeyValueStorage.SaveIntValue(lastShowedExpKey, currentExp);
-    //    //float currentExp = PlayerDataManager.Instance.PlayerExperience;
-    //    //float prevLevelExp = PlayerDataManager.Instance.PrevLevelExp;
-
-    //    var lastShowedRankKey = string.Format(kLastShowedKeyFormat, KeyValueIntegerKeys.PlayerRank);
-    //    var lastShowedRank = await _dataService.KeyValueStorage.GetIntValue(lastShowedRankKey);
-    //    await _dataService.KeyValueStorage.SaveIntValue(lastShowedRankKey, rank);
-
-    //    List<int> ranksToProcess = new List<int>();
-    //    for (int i = lastShowedRank; i < rank; i++)
-    //    {
-    //        ranksToProcess.Add(i);
-    //    }
-    //    ranksToProcess.Add(rank);
-
-    //    int currentProgress = prevLevelExp;
-    //    for (int i = 0, j = ranksToProcess.Count; i < j; i++)
-    //    {
-    //        var selectedRank = ranksToProcess[i];
-    //        var rankExpLimit = PointsHelper.GetMaxExperienceOfRank(selectedRank);
-    //        progressBar.maxValue = rankExpLimit;
-    //        progressBar.value = currentProgress;
-    //        var targetProgress = currentExp > rankExpLimit
-    //            ? rankExpLimit
-    //            : currentExp;
-
-    //        await AnimateProgress(currentProgress, targetProgress);
-    //        currentProgress = 0;
-    //    }
-    //}
 
     private async UniTask AnimateProgress(int startValue, int endValue)
     {

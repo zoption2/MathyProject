@@ -2,6 +2,7 @@
 using Mathy.Core.Tasks.DailyTasks;
 using Mathy.Services;
 using UnityEngine;
+using Mathy.UI;
 
 namespace Mathy.Core.Tasks
 {
@@ -14,10 +15,9 @@ namespace Mathy.Core.Tasks
             , ITaskBackgroundSevice backgroundHandler
             , IAddressableRefsHolder addressableRefs
             , IDataService dataService
-            , IPlayerDataService playerDataService
             , IResultScreenMediator resultScreen
             )
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService, playerDataService, resultScreen)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
         {
         }
 
@@ -55,7 +55,7 @@ namespace Mathy.Core.Tasks
 
         protected override void ClickOnExitFromGameplay()
         {
-            resultScreen.Show(() =>
+            resultScreen.CreatePopup(() =>
             {
                 ClearTasks();
                 GameManager.Instance.ChangeState(GameState.MainMenu);
@@ -65,14 +65,18 @@ namespace Mathy.Core.Tasks
         protected override void EndGameplay()
         {
             base.EndGameplay();
-            //var resultsView = scenePointer.ResultsWindow;
-            //resultsView.gameObject.SetActive(true);
-            //float correctRate = correctAnswers / (float)(taskIndexer) * 100f;
-            //resultsView.DisplayResult(correctAnswers, taskIndexer, correctRate, false);
-            resultScreen.Show(() =>
+
+            resultScreen.CreatePopup(() =>
             {
                 GameManager.Instance.ChangeState(GameState.MainMenu);
             });
+            resultScreen.ON_CLOSE_CLICK += TryShowASD;
+        }
+
+        private void TryShowASD()
+        {
+            resultScreen.ON_CLOSE_CLICK -= TryShowASD;
+            AdManager.Instance.ShowAdWithProbability(AdManager.Instance.ShowInterstitialAd, 35);
         }
 
         private void ClearQueue()
