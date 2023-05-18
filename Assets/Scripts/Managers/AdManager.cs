@@ -21,7 +21,9 @@ public class AdManager : PersistentSingleton<AdManager>
     private RewardedAd rewardedAd;
     private InterstitialAd interstitialAd;
     private List<RewardedAd> rewardedAdPool;
-    private List<InterstitialAd> interstitialAdPool;    
+    private List<InterstitialAd> interstitialAdPool;
+
+    public bool IsInterstitialReady => interstitialAd != null && interstitialAd.IsLoaded();
 
     [Header("Ad IDs:")]
 
@@ -123,7 +125,7 @@ public class AdManager : PersistentSingleton<AdManager>
 
     private void RequestInterstitialAd()
     {
-        string adUnitId = isTesting ? testInterstitialAdId : interstitialAdId;
+        
 
         // Clean up interstitial before using it
         //DestroyInterstitialAd();
@@ -138,8 +140,10 @@ public class AdManager : PersistentSingleton<AdManager>
             interstitialAd.Destroy();
         }
 
+        //string adUnitId = GetInterstitialKey();
+        string adUnitId = interstitialAdId;
         interstitialAd = new InterstitialAd(adUnitId);
-        AdRequest request = new AdRequest.Builder().AddKeyword("unity-admob-sample").Build();
+        AdRequest request = new AdRequest.Builder().Build();
         interstitialAd.LoadAd(request);
         
 
@@ -154,7 +158,14 @@ public class AdManager : PersistentSingleton<AdManager>
         //interstitialAd.LoadAd(CreateAdRequest());
 
         // Wait until an interstitial ad will be loaded and add it to the pool
-        _ = AsyncPoolInterstitialAd(interstitialAd);
+        //_ = AsyncPoolInterstitialAd(interstitialAd);
+
+        if (interstitialAdPool == null)
+        {
+            interstitialAdPool = new List<InterstitialAd>();
+        }
+
+        interstitialAdPool.Add(interstitialAd);
     }
 
     private void Interstitial_OnAdFailedToShow(object sender, AdErrorEventArgs e)
@@ -163,10 +174,42 @@ public class AdManager : PersistentSingleton<AdManager>
         OnAdFailedToShowEvent.Invoke();
     }
 
-    private void Interstitial_OnAdFailedToLoad(object sender, AdFailedToLoadEventArgs e)
+    private void Interstitial_OnAdFailedToLoad(object sender, AdFailedToLoadEventArgs args)
     {
         Debug.LogError("ADS LOADING FAILED");
+
+        LoadAdError loadAdError = args.LoadAdError;
+
+        // Gets the domain from which the error came.
+        string domain = loadAdError.GetDomain();
+
+        // Gets the error code. See
+        // https://developers.google.com/android/reference/com/google/android/gms/ads/AdRequest
+        // and https://developers.google.com/admob/ios/api/reference/Enums/GADErrorCode
+        // for a list of possible codes.
+        int code = loadAdError.GetCode();
+
+        // Gets an error message.
+        // For example "Account not approved yet". See
+        // https://support.google.com/admob/answer/9905175 for explanations of
+        // common errors.
+        string message = loadAdError.GetMessage();
+
+        // Gets the cause of the error, if available.
+        AdError underlyingError = loadAdError.GetCause();
+
+        // All of this information is available via the error's toString() method.
+        Debug.Log("Load error string: " + loadAdError.ToString());
+
+        // Get response information, which may include results of mediation requests.
+        ResponseInfo responseInfo = loadAdError.GetResponseInfo();
+        Debug.Log("Response info: " + responseInfo.ToString());
         OnAdFailedToLoadEvent.Invoke();
+    }
+
+    public void ShowInterstitial()
+    {
+        interstitialAd.Show();
     }
 
     public void ShowInterstitialAd()
@@ -302,4 +345,5 @@ public class AdManager : PersistentSingleton<AdManager>
     }
 
     #endregion
+
 }

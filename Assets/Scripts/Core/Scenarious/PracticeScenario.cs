@@ -78,7 +78,7 @@ namespace Mathy.Core.Tasks
         private void TryShowASD()
         {
             resultScreen.ON_CLOSE_CLICK -= TryShowASD;
-            AdManager.Instance.ShowAdWithProbability(AdManager.Instance.ShowInterstitialAd, 35);
+            AdManager.Instance.ShowAdWithProbability(AdManager.Instance.ShowInterstitial, 35);
         }
 
         private void ClearQueue()
