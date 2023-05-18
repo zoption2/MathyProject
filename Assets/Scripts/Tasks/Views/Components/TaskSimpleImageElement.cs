@@ -1,4 +1,5 @@
 ﻿using Mathy.UI.Tasks;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,8 @@ namespace Mathy.Core.Tasks.DailyTasks
 
     public class TaskSimpleImageElement : MonoBehaviour, ITaskSimpleImageElement
     {
+        public event Action<TaskElementState> ON_STATE_CHANGE;
+
         [SerializeField] private Image objectImage;
         [SerializeField] private RectTransform objectHolder;
         private TaskElementState state;
@@ -32,12 +35,12 @@ namespace Mathy.Core.Tasks.DailyTasks
         {
             this.index = index;
             this.value = value;
-            state = initedState;
+            ChangeState(initedState);
         }
 
         public void ChangeState(TaskElementState state)
         {
-            
+            ON_STATE_CHANGE?.Invoke(state);
         }
 
         public void ChangeValue(string value)

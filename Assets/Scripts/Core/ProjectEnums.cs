@@ -229,5 +229,13 @@
         BronzeMedal = 3,
         ChallengeCup = 4,
     }
+
+    public enum TaskElementState
+    {
+        Default = 0,
+        Correct = 1,
+        Wrong = 2,
+        Unknown = 3,
+    }
 }
 

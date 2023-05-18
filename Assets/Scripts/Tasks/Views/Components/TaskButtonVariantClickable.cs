@@ -9,6 +9,7 @@ namespace Mathy.Core.Tasks.DailyTasks
     public class TaskButtonVariantClickable : MonoBehaviour, ITaskViewComponentClickable
     {
         public event Action<ITaskViewComponent> ON_CLICK;
+        public event Action<TaskElementState> ON_STATE_CHANGE;
 
         private const int kDefaultColorIndex = 0;
         private const int kCorrectColorIndex = 1;
@@ -31,7 +32,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         {
             this.index = index;
             this.value = value;
-            state = initedState;
+            ChangeState(initedState);
             stateImage.color = stateColors[(int)initedState];
             button.onClick.AddListener(DoOnClick);
         }
@@ -47,6 +48,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             {
                 stateImage.color = stateColors[(int)state];
                 AnimatePress();
+                DoOnStateChange(state);
             }
         }
 
@@ -69,6 +71,11 @@ namespace Mathy.Core.Tasks.DailyTasks
         private void DoOnClick()
         {
             ON_CLICK?.Invoke(this);
+        }
+
+        private void DoOnStateChange(TaskElementState state)
+        {
+            ON_STATE_CHANGE?.Invoke(state);
         }
     }
 }

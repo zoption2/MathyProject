@@ -119,7 +119,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             {
                 totalValue = int.Parse(totalValueString);
             }
-            inputFieldElementTens.ChangeState(UI.Tasks.TaskElementState.Default);
+            inputFieldElementTens.ChangeState(TaskElementState.Default);
             resultField.ChangeValue(totalValue.ToString());
             
             //var totalValue = int.Parse(inputFieldElementTens.Value + inputFieldElementOnes.Value);
@@ -128,7 +128,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             {
                 inputFieldElementTens.ChangeValue(inputedValueString);
                 tens = false;
-                inputFieldElementOnes.ChangeState(UI.Tasks.TaskElementState.Unknown);
+                inputFieldElementOnes.ChangeState(TaskElementState.Unknown);
                 inputFieldElementOnes.ChangeValue("?");
             }
             else
@@ -165,9 +165,9 @@ namespace Mathy.Core.Tasks.DailyTasks
             {
                 
                 UnsubscribeInputs();
-                inputFieldElementTens.ChangeState(UI.Tasks.TaskElementState.Wrong);
-                inputFieldElementOnes.ChangeState(UI.Tasks.TaskElementState.Wrong);
-                resultField.ChangeState(UI.Tasks.TaskElementState.Wrong);
+                inputFieldElementTens.ChangeState(TaskElementState.Wrong);
+                inputFieldElementOnes.ChangeState(TaskElementState.Wrong);
+                resultField.ChangeState(TaskElementState.Wrong);
                 IsAnswerCorrect = false;
                 taskData.VariantValues.Add(FinalValueString(inputedValueString));
                 SelectedAnswerIndexes.Add(kWrongAnswerIndex);
@@ -178,9 +178,9 @@ namespace Mathy.Core.Tasks.DailyTasks
             void Success()
             {
                 UnsubscribeInputs();
-                inputFieldElementTens.ChangeState(UI.Tasks.TaskElementState.Correct);
-                inputFieldElementOnes.ChangeState(UI.Tasks.TaskElementState.Correct);
-                resultField.ChangeState(UI.Tasks.TaskElementState.Correct);
+                inputFieldElementTens.ChangeState(TaskElementState.Correct);
+                inputFieldElementOnes.ChangeState(TaskElementState.Correct);
+                resultField.ChangeState(TaskElementState.Correct);
                 IsAnswerCorrect = true;
                 taskData.VariantValues.Add(FinalValueString(inputedValueString));
                 SelectedAnswerIndexes.Add(kCorrectAnswerIndex);

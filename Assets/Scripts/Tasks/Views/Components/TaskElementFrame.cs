@@ -16,6 +16,8 @@ namespace Mathy.Core.Tasks.DailyTasks
 
     public class TaskElementFrame : MonoBehaviour, ITaskElementFrame
     {
+        public event Action<TaskElementState> ON_STATE_CHANGE;
+
         private const int kDefaultColorIndex = 0;
         private const int kCorrectColorIndex = 1;
         private const int kWrongColorIndex = 2;
@@ -33,6 +35,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         private TaskElementState state;
         private int index;
         private string value;
+
 
         private Transform tweenID => transform;
         public int Index => index;
@@ -120,6 +123,8 @@ namespace Mathy.Core.Tasks.DailyTasks
                         string.Format("State {0} not inplemented for {1}", state, typeof(TaskElementFrame))
                         );
             }
+
+            ON_STATE_CHANGE?.Invoke(state);
         }
 
         private void AnimateObjectHolder()

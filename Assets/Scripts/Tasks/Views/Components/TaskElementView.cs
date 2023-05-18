@@ -3,11 +3,13 @@ using UnityEngine.UI;
 using TMPro;
 using Mathy.UI.Tasks;
 using DG.Tweening;
+using System;
 
 namespace Mathy.Core.Tasks.DailyTasks
 {
     public interface ITaskViewComponent
     {
+        event Action<TaskElementState> ON_STATE_CHANGE;
         public int Index { get; }
         public string Value { get; }
         void Init(int index, string value, TaskElementState initedState = TaskElementState.Default);
@@ -18,6 +20,8 @@ namespace Mathy.Core.Tasks.DailyTasks
 
     public class TaskElementView : MonoBehaviour, ITaskViewComponent
     {
+        public event Action<TaskElementState> ON_STATE_CHANGE;
+
         private const int kDefaultSpriteIndex = 0;
         private const int kCorrectSpriteIndex = 1;
         private const int kWrongSpriteIndex = 2;
@@ -39,6 +43,8 @@ namespace Mathy.Core.Tasks.DailyTasks
             valueText.text = value;
             state = initedState;
             stateImage.sprite = stateSprites[(int)initedState];
+
+            ON_STATE_CHANGE?.Invoke(initedState);
         }
 
         public void ChangeValue(string value)
@@ -54,6 +60,7 @@ namespace Mathy.Core.Tasks.DailyTasks
                 stateImage.sprite = stateSprites[(int)state];
                 AnimatePress();
                 DoOnStateChanged(state);
+                ON_STATE_CHANGE?.Invoke(state);
             }
         }
 

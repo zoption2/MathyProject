@@ -3,18 +3,10 @@ using UnityEngine;
 using DG.Tweening;
 using TMPro;
 using System.Collections.Generic;
-using Mathy.Core.Tasks;
+
 
 namespace Mathy.UI.Tasks
 {
-    public enum TaskElementState
-    {
-        Default = 0,
-        Correct = 1,
-        Wrong = 2,
-        Unknown = 3,
-    }
-
     public class TextTaskViewElement : TaskViewElement
     {
         [SerializeField] protected TextMeshProUGUI textLable;

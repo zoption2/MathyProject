@@ -143,7 +143,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             void Fail()
             {
                 UnsubscribeInputs();
-                inputFieldElement.ChangeState(UI.Tasks.TaskElementState.Wrong);
+                inputFieldElement.ChangeState(TaskElementState.Wrong);
                 IsAnswerCorrect = false;
                 taskData.VariantValues.Add(totalValueString);
                 SelectedAnswerIndexes.Add(kWrongAnswerIndex);
@@ -154,7 +154,7 @@ namespace Mathy.Core.Tasks.DailyTasks
             void Success()
             {
                 UnsubscribeInputs();
-                inputFieldElement.ChangeState(UI.Tasks.TaskElementState.Correct);
+                inputFieldElement.ChangeState(TaskElementState.Correct);
                 IsAnswerCorrect = true;
                 taskData.VariantValues.Add(totalValueString);
                 SelectedAnswerIndexes.Add(kCorrectAnswerIndex);
