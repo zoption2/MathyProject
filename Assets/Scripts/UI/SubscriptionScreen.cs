@@ -5,6 +5,7 @@ using UnityEngine;
 using DG.Tweening;
 using TMPro;
 using System.Collections;
+using System;
 
 namespace Mathy.UI
 {
@@ -34,19 +35,23 @@ namespace Mathy.UI
 
         public async UniTask CheckSubscription()
         {
-            _tcs = new UniTaskCompletionSource();
             UpdateSubscriptionInfo();
             var result = CheckSubAsync();
             if (!result)
             {
+                _tcs = new UniTaskCompletionSource();
                 gameObject.SetActive(true);
+                SetGFXActive(true);
                 IAPManager.Instance.ON_PURCHASE_COMPLETE += DoOnPurchaseComplete;
                 IAPManager.Instance.ON_PURCHASE_RESTORED += DoOnPurchaseRestored;
 
                 await _tcs.Task;
-                SetGFXActive(false);
-                IAPManager.Instance.ON_PURCHASE_COMPLETE -= DoOnPurchaseComplete;
-                IAPManager.Instance.ON_PURCHASE_RESTORED -= DoOnPurchaseRestored;
+                SetGFXActive(false, () =>
+                {
+                    IAPManager.Instance.ON_PURCHASE_COMPLETE -= DoOnPurchaseComplete;
+                    IAPManager.Instance.ON_PURCHASE_RESTORED -= DoOnPurchaseRestored;
+                    gameObject.SetActive(false);
+                });
             }
         }
 
@@ -118,8 +123,6 @@ namespace Mathy.UI
                 return true;
             }
             
-            gameObject.SetActive(true);
-            SetGFXActive(true);
             Debug.Log("User is NOT subscribed");
             return false;
         }
@@ -132,7 +135,7 @@ namespace Mathy.UI
                 LocalizationSettings.StringDatabase.GetLocalizedString("In-App Purchasing", "SubscriptionApple_FreePeriod");
         }
 
-        public void SetGFXActive(bool isActive)
+        public void SetGFXActive(bool isActive, Action onComplete = null)
         {
             if (!IsOpened)
                 gfxCanvasGroup.gameObject.SetActive(true);
@@ -152,7 +155,11 @@ namespace Mathy.UI
                 sequence.Join(popupWindow.DOScale(Vector2.zero, 0.25f).SetEase(Ease.InOutQuad));
                 sequence.Append(gfxCanvasGroup.DOFade(0, 0.25f).SetEase(Ease.InOutQuad));
             }
-            sequence.OnComplete(() => OnTweenComplete(isActive));
+            sequence.OnComplete(() =>
+            {
+                OnTweenComplete(isActive);
+                onComplete?.Invoke();
+            });
         }
 
         private void OnTweenComplete(bool isActive)
