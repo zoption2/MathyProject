@@ -59,8 +59,10 @@ public class AdManager : PersistentSingleton<AdManager>
 
     private void Start()
     {
-        MobileAds.Initialize(initStatus => { });
-        PreloadAds();
+        MobileAds.Initialize(initStatus => 
+        {
+            PreloadAds();
+        });
     }
 
     #endif
@@ -95,15 +97,17 @@ public class AdManager : PersistentSingleton<AdManager>
 
     public void ShowAdWithProbability(Action ShowAdCallback, int probability = 1)
     {
-    #if UNITY_ANDROID
+    #if UNITY_ANDROID || UNITY_EDITOR
         if (!IAPManager.Instance.IsAdsRemoved())
         {
             System.Random random = new System.Random();
             float rnd = random.Next(1, 101);
+            Debug.LogFormat("ADS RANDOMIZER! RANDOME VALUE = >>{0}<< SHOULD BE LESS THEN PROBABILITY : {1}", rnd, probability);
 
             if (rnd <= probability)
             {
                 ShowAdCallback?.Invoke();
+                Debug.Log("ADS WAS CALLED!");
             }
         }
         else
@@ -123,19 +127,46 @@ public class AdManager : PersistentSingleton<AdManager>
 
         // Clean up interstitial before using it
         //DestroyInterstitialAd();
+
+        if (interstitialAd != null)
+        {
+            interstitialAd.OnAdLoaded -= (sender, args) => OnAdLoadedEvent.Invoke();
+            interstitialAd.OnAdOpening -= (sender, args) => OnAdOpeningEvent.Invoke();
+            interstitialAd.OnAdClosed -= (sender, args) => OnAdClosedEvent.Invoke();
+            interstitialAd.OnAdFailedToLoad -= Interstitial_OnAdFailedToLoad;
+            interstitialAd.OnAdFailedToShow -= Interstitial_OnAdFailedToShow;
+            interstitialAd.Destroy();
+        }
+
         interstitialAd = new InterstitialAd(adUnitId);
+        AdRequest request = new AdRequest.Builder().AddKeyword("unity-admob-sample").Build();
+        interstitialAd.LoadAd(request);
+        
 
         // Add Event Handlers
         interstitialAd.OnAdLoaded += (sender, args) => OnAdLoadedEvent.Invoke();
-        interstitialAd.OnAdFailedToLoad += (sender, args) => OnAdFailedToLoadEvent.Invoke();
         interstitialAd.OnAdOpening += (sender, args) => OnAdOpeningEvent.Invoke();
         interstitialAd.OnAdClosed += (sender, args) => OnAdClosedEvent.Invoke();
+        interstitialAd.OnAdFailedToLoad += Interstitial_OnAdFailedToLoad;
+        interstitialAd.OnAdFailedToShow += Interstitial_OnAdFailedToShow;
 
         // Load an interstitial ad
-        interstitialAd.LoadAd(CreateAdRequest());
+        //interstitialAd.LoadAd(CreateAdRequest());
 
         // Wait until an interstitial ad will be loaded and add it to the pool
         _ = AsyncPoolInterstitialAd(interstitialAd);
+    }
+
+    private void Interstitial_OnAdFailedToShow(object sender, AdErrorEventArgs e)
+    {
+        Debug.LogError("ADS SHOWING FAILED");
+        OnAdFailedToShowEvent.Invoke();
+    }
+
+    private void Interstitial_OnAdFailedToLoad(object sender, AdFailedToLoadEventArgs e)
+    {
+        Debug.LogError("ADS LOADING FAILED");
+        OnAdFailedToLoadEvent.Invoke();
     }
 
     public void ShowInterstitialAd()

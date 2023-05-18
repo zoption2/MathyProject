@@ -1,0 +1,163 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8ee6305af0d7074dad0554d57d559a1, type: 3}
+  m_Name: ImagesAddressableRefsHolder
+  m_EditorClassIdentifier: 
+  _playerRank:
+    references:
+    - <Type>k__BackingField: 0
+      <Reference>k__BackingField:
+        m_AssetGUID: 6bbbbbe131285054aa07c452d42f46b0
+        m_SubObjectName: rank-00-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 1
+      <Reference>k__BackingField:
+        m_AssetGUID: ebb2ac4ee9d82f1469eb38dba6b2fb51
+        m_SubObjectName: rank-01-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 2
+      <Reference>k__BackingField:
+        m_AssetGUID: 9ad74bbcafdf8ea45a70f8a787351af7
+        m_SubObjectName: rank-02-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 3
+      <Reference>k__BackingField:
+        m_AssetGUID: 0949698dc5b04d84d8bca29ef1990b80
+        m_SubObjectName: rank-03-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 4
+      <Reference>k__BackingField:
+        m_AssetGUID: c34d2c9273fe3204d898909990fcf4bd
+        m_SubObjectName: rank-04-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 5
+      <Reference>k__BackingField:
+        m_AssetGUID: 8f5311e360b9aaf40a1f5fd1455247ac
+        m_SubObjectName: rank-05-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 6
+      <Reference>k__BackingField:
+        m_AssetGUID: 381ccbbeb35e3e34f93af76cf655d955
+        m_SubObjectName: rank-06-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 7
+      <Reference>k__BackingField:
+        m_AssetGUID: 340047f9a78582f48b5c7bf13168a46c
+        m_SubObjectName: rank-07-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 8
+      <Reference>k__BackingField:
+        m_AssetGUID: 38f16a4cc3366ad4aa055e19f87a5d39
+        m_SubObjectName: rank-08-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 9
+      <Reference>k__BackingField:
+        m_AssetGUID: ee998591a01235a4e90fec697a12b46b
+        m_SubObjectName: rank-09-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 10
+      <Reference>k__BackingField:
+        m_AssetGUID: 2a4922d5a263b7e489b9ef5fce1e9212
+        m_SubObjectName: rank-10-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 11
+      <Reference>k__BackingField:
+        m_AssetGUID: 880d51c5521e30d4fb44d57555ce7b1e
+        m_SubObjectName: rank-11-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 12
+      <Reference>k__BackingField:
+        m_AssetGUID: c6b795119ed84fb4cbea2ce6b7e11229
+        m_SubObjectName: rank-12-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 13
+      <Reference>k__BackingField:
+        m_AssetGUID: 08a3af75d3324a9479861a1e36668f7a
+        m_SubObjectName: rank-13-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 14
+      <Reference>k__BackingField:
+        m_AssetGUID: b96604da95edfb243af8417d90ffe5e3
+        m_SubObjectName: rank-14-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 15
+      <Reference>k__BackingField:
+        m_AssetGUID: 5bc6b3cd089489640bb85a5b71fe380f
+        m_SubObjectName: rank-15-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 16
+      <Reference>k__BackingField:
+        m_AssetGUID: 89379141eb783b647aabf7a9dae25d8e
+        m_SubObjectName: rank-16-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 17
+      <Reference>k__BackingField:
+        m_AssetGUID: b1e0c573c0260fd4981b89c6cd5061fd
+        m_SubObjectName: rank-17-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 18
+      <Reference>k__BackingField:
+        m_AssetGUID: cec5725d05336bb48b85cd171bc9899d
+        m_SubObjectName: rank-18-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 19
+      <Reference>k__BackingField:
+        m_AssetGUID: a9d1b556c3a2d51478eb25ad13d18c3f
+        m_SubObjectName: rank-19-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0
+    - <Type>k__BackingField: 20
+      <Reference>k__BackingField:
+        m_AssetGUID: f87368e0cd9a44040bfabbad51456cad
+        m_SubObjectName: rank-20-icon
+        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 0

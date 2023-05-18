@@ -75,7 +75,7 @@ namespace Mathy.UI
                     (() => { SelectTab(i); });
             }
             TryUnsubscribeFromSkillSettings();
-            _tcs.TrySetCanceled();
+            _tcs?.TrySetCanceled();
         }
 
         private void Initialize()
@@ -214,7 +214,7 @@ namespace Mathy.UI
         {
             SaveSkillsSettings();
             base.ClosePanel();
-            _tcs.TrySetResult();
+            _tcs?.TrySetResult();
         }
 
         private async void SaveSkillsSettings()

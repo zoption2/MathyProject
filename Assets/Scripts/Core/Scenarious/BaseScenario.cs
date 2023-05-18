@@ -161,8 +161,8 @@ namespace Mathy.Core.Tasks
             ClearTasks();
             ClearAddressablesCache();
             TaskManager.Instance.ResetToDefault();
-            GameManager.Instance.ChangeState(GameState.MainMenu);
-            AdManager.Instance.ShowAdWithProbability(AdManager.Instance.ShowInterstitialAd, 10);
+            //GameManager.Instance.ChangeState(GameState.MainMenu);
+            //AdManager.Instance.ShowAdWithProbability(AdManager.Instance.ShowInterstitialAd, 10);
             Debug.Log("Request to TaskService to Exit from gameplay");
         }
 

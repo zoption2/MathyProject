@@ -89,6 +89,7 @@ namespace Mathy.Core.Tasks
         protected async override void EndGameplay()
         {
             base.EndGameplay();
+            TryShowASD();
             var gainedExperience = PointsHelper.GetExperiencePointsByRate(dailyModeData.CorrectRate);
             await dataService.PlayerData.Progress.AddExperienceAsync(gainedExperience);
 
@@ -102,7 +103,7 @@ namespace Mathy.Core.Tasks
                 ScenesManager.Instance.DisableTaskScene();
             });
             resultScreen.ON_CLOSE_CLICK += ChangeScene;
-            resultScreen.ON_CLOSE_CLICK += TryShowASD;
+           // resultScreen.ON_CLOSE_CLICK += TryShowASD;
         }
 
         private void ChangeScene()
@@ -119,10 +120,12 @@ namespace Mathy.Core.Tasks
 
         protected override void ClickOnExitFromGameplay()
         {
+            base.ClickOnExitFromGameplay();
+            TryShowASD();
             resultScreen.CreatePopup(() =>
             {
+                GameManager.Instance.ChangeState(GameState.MainMenu);
                 GameObject.Destroy(counterView.gameObject);
-                base.ClickOnExitFromGameplay();
             });
         }
 

@@ -317,6 +317,90 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/Popups/EnterNamePopup.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 6bbbbbe131285054aa07c452d42f46b0
+    m_Address: Assets/Sprites/Icons/Rank/rank-00-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ebb2ac4ee9d82f1469eb38dba6b2fb51
+    m_Address: Assets/Sprites/Icons/Rank/rank-01-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9ad74bbcafdf8ea45a70f8a787351af7
+    m_Address: Assets/Sprites/Icons/Rank/rank-02-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0949698dc5b04d84d8bca29ef1990b80
+    m_Address: Assets/Sprites/Icons/Rank/rank-03-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c34d2c9273fe3204d898909990fcf4bd
+    m_Address: Assets/Sprites/Icons/Rank/rank-04-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8f5311e360b9aaf40a1f5fd1455247ac
+    m_Address: Assets/Sprites/Icons/Rank/rank-05-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 381ccbbeb35e3e34f93af76cf655d955
+    m_Address: Assets/Sprites/Icons/Rank/rank-06-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 340047f9a78582f48b5c7bf13168a46c
+    m_Address: Assets/Sprites/Icons/Rank/rank-07-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 38f16a4cc3366ad4aa055e19f87a5d39
+    m_Address: Assets/Sprites/Icons/Rank/rank-08-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ee998591a01235a4e90fec697a12b46b
+    m_Address: Assets/Sprites/Icons/Rank/rank-09-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2a4922d5a263b7e489b9ef5fce1e9212
+    m_Address: Assets/Sprites/Icons/Rank/rank-10-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 880d51c5521e30d4fb44d57555ce7b1e
+    m_Address: Assets/Sprites/Icons/Rank/rank-11-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c6b795119ed84fb4cbea2ce6b7e11229
+    m_Address: Assets/Sprites/Icons/Rank/rank-12-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 08a3af75d3324a9479861a1e36668f7a
+    m_Address: Assets/Sprites/Icons/Rank/rank-13-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b96604da95edfb243af8417d90ffe5e3
+    m_Address: Assets/Sprites/Icons/Rank/rank-14-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5bc6b3cd089489640bb85a5b71fe380f
+    m_Address: Assets/Sprites/Icons/Rank/rank-15-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 89379141eb783b647aabf7a9dae25d8e
+    m_Address: Assets/Sprites/Icons/Rank/rank-16-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b1e0c573c0260fd4981b89c6cd5061fd
+    m_Address: Assets/Sprites/Icons/Rank/rank-17-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cec5725d05336bb48b85cd171bc9899d
+    m_Address: Assets/Sprites/Icons/Rank/rank-18-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a9d1b556c3a2d51478eb25ad13d18c3f
+    m_Address: Assets/Sprites/Icons/Rank/rank-19-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f87368e0cd9a44040bfabbad51456cad
+    m_Address: Assets/Sprites/Icons/Rank/rank-20-icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 76746eb55ddbd544c89bef47883242cf, type: 2}
   m_SchemaSet:

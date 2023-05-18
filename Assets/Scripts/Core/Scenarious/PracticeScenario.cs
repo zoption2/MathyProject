@@ -55,22 +55,24 @@ namespace Mathy.Core.Tasks
 
         protected override void ClickOnExitFromGameplay()
         {
-            resultScreen.CreatePopup(() =>
-            {
-                ClearTasks();
-                GameManager.Instance.ChangeState(GameState.MainMenu);
-            });
+            base.ClickOnExitFromGameplay();
+            EndGameplay();
+            //resultScreen.CreatePopup(() =>
+            //{
+            //    ClearTasks();
+            //    GameManager.Instance.ChangeState(GameState.MainMenu);
+            //});
         }
 
         protected override void EndGameplay()
         {
             base.EndGameplay();
-
+            TryShowASD();
             resultScreen.CreatePopup(() =>
             {
                 GameManager.Instance.ChangeState(GameState.MainMenu);
             });
-            resultScreen.ON_CLOSE_CLICK += TryShowASD;
+            //resultScreen.ON_CLOSE_CLICK += TryShowASD;
         }
 
         private void TryShowASD()
