@@ -21,8 +21,9 @@ public class PairsNumbersOLD : ChallengeOLD
     #endregion
     [Inject] private IDataService dataService;
 
-    public override void RunTask()
+    public override void RunTask(bool isPractice)
     {
+        _isPractice = isPractice;
         Initialization();
         UpdateDisplayStyle();
         GenerateElements();
@@ -102,7 +103,7 @@ public class PairsNumbersOLD : ChallengeOLD
         if (variants.Count == 0)
         {
             ChallengeData data = new ChallengeData();
-            data.Mode = TaskMode.Challenge;
+            data.Mode = _isPractice ? TaskMode.Practic : TaskMode.Challenge;
             data.Seed = 0;
             data.TaskType = TaskType.PairsNumbers;
             data.Duration = TimeSpan.FromSeconds(StopTimer(true));
@@ -111,7 +112,7 @@ public class PairsNumbersOLD : ChallengeOLD
             data.CorrectRate = this.GetCorrectRate();
 
             var modeData = new DailyModeData();
-            modeData.Mode = TaskMode.Challenge;
+            modeData.Mode = _isPractice ? TaskMode.Practic : TaskMode.Challenge;
             modeData.Date = DateTime.UtcNow;
             modeData.IsComplete = true;
             modeData.PlayedCount = 1;

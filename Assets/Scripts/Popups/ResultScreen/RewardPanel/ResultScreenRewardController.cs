@@ -29,7 +29,7 @@ namespace Mathy.UI
             _view.SetTitle(_model.LocalizedTitle);
             _view.SetExperience(_model.RewardValue, _model.PreviousValue, _model.NeedAnimation);
             var lastExpKey = string.Format(kLastShowedExpFormat, KeyValueIntegerKeys.Experience);
-            await _dataService.KeyValueStorage.SaveIntValue(lastExpKey, _model.RewardValue);
+            await _dataService.KeyValueStorage.SaveIntValueAsync(lastExpKey, _model.RewardValue);
             _view.Show(null);
         }
 
@@ -40,7 +40,7 @@ namespace Mathy.UI
             var expValue = await _dataService.PlayerData.Progress.GetPlayerExperienceAsync();
             model.RewardValue = expValue;
             var lastExpKey = string.Format(kLastShowedExpFormat, KeyValueIntegerKeys.Experience);
-            var previousExp = await _dataService.KeyValueStorage.GetIntValue(lastExpKey);
+            var previousExp = await _dataService.KeyValueStorage.GetIntValueAsync(lastExpKey);
             model.PreviousValue = previousExp;
             bool needAnimation = expValue > previousExp;
             model.NeedAnimation = needAnimation;

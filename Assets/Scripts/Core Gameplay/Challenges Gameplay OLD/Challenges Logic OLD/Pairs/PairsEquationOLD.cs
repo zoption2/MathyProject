@@ -15,8 +15,9 @@ public class PairsEquationOLD : ChallengeOLD
 
     #endregion
 
-    public override void RunTask()
+    public override void RunTask(bool isPractice)
     {
+        _isPractice = isPractice;
         Initialization();
         UpdateDisplayStyle();
         ClearPanels();

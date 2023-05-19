@@ -18,8 +18,9 @@ public class ImageOpeningOLD : ChallengeOLD
     #endregion
     [Inject] private IDataService dataService;
 
-    public override void RunTask()
+    public override void RunTask(bool isPractice)
     {
+        _isPractice = isPractice;
         Initialization();
         UpdateDisplayStyle();
         CheckDifficultyMode();
@@ -92,7 +93,7 @@ public class ImageOpeningOLD : ChallengeOLD
     private void ResultCheck()
     {
         ChallengeData data = new ChallengeData();
-        data.Mode = TaskMode.Challenge;
+        data.Mode = _isPractice? TaskMode.Practic : TaskMode.Challenge;
         data.Seed = 0;
         data.TaskType = TaskType.ImageOpening;
         data.IsDone = true;
@@ -100,7 +101,7 @@ public class ImageOpeningOLD : ChallengeOLD
         data.CorrectRate = this.GetCorrectRate();
 
         var modeData = new DailyModeData();
-        modeData.Mode = TaskMode.Challenge;
+        modeData.Mode = _isPractice ? TaskMode.Practic : TaskMode.Challenge;
         modeData.Date = DateTime.UtcNow;
         modeData.IsComplete = true;
         modeData.PlayedCount = 1;

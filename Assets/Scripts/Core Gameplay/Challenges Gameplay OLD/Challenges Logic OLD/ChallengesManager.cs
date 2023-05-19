@@ -19,6 +19,7 @@ public class ChallengesManager : StaticInstance<ChallengesManager>//, ISaveable
     #region Fields
     [Inject] private IResultScreenMediator _resultScreen;
     [Inject] private IDataService _dataService;
+    [Inject] private IAdsService _adsService;
 
     [Header("Task config:")]
     [SerializeField] private List<ScriptableTask> taskList;
@@ -149,7 +150,7 @@ public class ChallengesManager : StaticInstance<ChallengesManager>//, ISaveable
         taskLogic.VariantsAmount = task.VariantsAmount;
         taskLogic.MaxNumber = task.MaxNumber;
 
-        taskLogic.RunTask();
+        taskLogic.RunTask(isPractice);
     }
 
     private void UpdateSceneVisual()
@@ -161,24 +162,28 @@ public class ChallengesManager : StaticInstance<ChallengesManager>//, ISaveable
 
     public async void ShowResult(bool isActive)
     {
-        await _dataService.PlayerData.Progress.AddExperienceAsync(200);
+        if(!isPractice)
+        {
+            await _dataService.PlayerData.Progress.AddExperienceAsync(200);
+            var totalExp = await _dataService.PlayerData.Progress.GetPlayerExperienceAsync();
+            var rank = PointsHelper.GetRankByExperience(totalExp);
+            await _dataService.PlayerData.Progress.SaveRankAsynk(rank);
+            await _dataService.PlayerData.Achievements.IncrementAchievementValue(Achievements.ChallengeCup);
+        }
 
-        var totalExp = await _dataService.PlayerData.Progress.GetPlayerExperienceAsync();
-        var rank = PointsHelper.GetRankByExperience(totalExp);
-        await _dataService.PlayerData.Progress.SaveRankAsynk(rank);
-        await _dataService.PlayerData.Achievements.IncrementAchievementValue(Achievements.ChallengeCup);
-
+        TryShowASD();
         _resultScreen.CreatePopup(() =>
         {
             GameManager.Instance.ChangeState(GameState.MainMenu);
         });
-        _resultScreen.ON_CLOSE_CLICK += TryShowASD;
+        //_resultScreen.ON_CLOSE_CLICK += TryShowASD;
     }
 
     private void TryShowASD()
     {
-        _resultScreen.ON_CLOSE_CLICK -= TryShowASD;
-        AdManager.Instance.ShowAdWithProbability(AdManager.Instance.ShowInterstitialAd, 30);
+        //_resultScreen.ON_CLOSE_CLICK -= TryShowASD;
+        _adsService.TryShowInterstitialAds(30);
+        //AdManager.Instance.ShowAdWithProbability(AdManager.Instance.ShowInterstitialAd, 30);
     }
 
     public void ResetToDefault()

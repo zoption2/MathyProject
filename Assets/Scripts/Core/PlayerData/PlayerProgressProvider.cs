@@ -23,29 +23,29 @@ namespace Mathy.Services.Data
 
         public async UniTask<int> GetPlayerExperienceAsync()
         {
-            return await _dataService.KeyValueStorage.GetIntValue(KeyValueIntegerKeys.Experience);
+            return await _dataService.KeyValueStorage.GetIntValueAsync(KeyValueIntegerKeys.Experience);
         }
 
         public async UniTask AddExperienceAsync(int addedValue)
         {
-            var current = await _dataService.KeyValueStorage.GetIntValue(KeyValueIntegerKeys.Experience);
+            var current = await _dataService.KeyValueStorage.GetIntValueAsync(KeyValueIntegerKeys.Experience);
             current += addedValue;
-            await _dataService.KeyValueStorage.SaveIntValue(KeyValueIntegerKeys.Experience, current);
+            await _dataService.KeyValueStorage.SaveIntValueAsync(KeyValueIntegerKeys.Experience, current);
         }
 
         public async UniTask SetExpirienceAsync(int totalValue)
         {
-            await _dataService.KeyValueStorage.SaveIntValue(KeyValueIntegerKeys.Experience, totalValue);
+            await _dataService.KeyValueStorage.SaveIntValueAsync(KeyValueIntegerKeys.Experience, totalValue);
         }
 
         public async UniTask<int> GetRankAsynk()
         {
-            return await _dataService.KeyValueStorage.GetIntValue(KeyValueIntegerKeys.PlayerRank);
+            return await _dataService.KeyValueStorage.GetIntValueAsync(KeyValueIntegerKeys.PlayerRank);
         }
 
         public async UniTask SaveRankAsynk(int rank)
         {
-            await _dataService.KeyValueStorage.SaveIntValue(KeyValueIntegerKeys.PlayerRank, rank);
+            await _dataService.KeyValueStorage.SaveIntValueAsync(KeyValueIntegerKeys.PlayerRank, rank);
         }
     }
 

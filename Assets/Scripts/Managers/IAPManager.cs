@@ -410,6 +410,14 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
 
     public bool IsAdsRemoved()
     {
+#if UNITY_ANDROID
+        Product product = storeController.products.WithID(googleFullVersionProductId);
+        if (product != null && product.hasReceipt)
+        {
+            return true;
+        }
+#endif
+
         bool isAdsRemoved = PlayerPrefs.GetInt(adsRemovedKey, 0).ToBool();
         return isAdsRemoved;
     }

@@ -47,12 +47,12 @@ public class ExperiencePanel : HeaderBar
     private async void AnimateProgressBar(int currentExp, int rank)
     {
         var lastShowedExpKey = string.Format(kLastShowedKeyFormat, KeyValueIntegerKeys.Experience);
-        int prevLevelExp = await _dataService.KeyValueStorage.GetIntValue(lastShowedExpKey);
-        await _dataService.KeyValueStorage.SaveIntValue(lastShowedExpKey, currentExp);
+        int prevLevelExp = await _dataService.KeyValueStorage.GetIntValueAsync(lastShowedExpKey);
+        await _dataService.KeyValueStorage.SaveIntValueAsync(lastShowedExpKey, currentExp);
 
         var lastShowedRankKey = string.Format(kLastShowedKeyFormat, KeyValueIntegerKeys.PlayerRank);
-        var lastShowedRank = await _dataService.KeyValueStorage.GetIntValue(lastShowedRankKey);
-        await _dataService.KeyValueStorage.SaveIntValue(lastShowedRankKey, rank);
+        var lastShowedRank = await _dataService.KeyValueStorage.GetIntValueAsync(lastShowedRankKey);
+        await _dataService.KeyValueStorage.SaveIntValueAsync(lastShowedRankKey, rank);
 
         List<int> ranksToProcess = new List<int>();
         for (int i = lastShowedRank; i < rank; i++)

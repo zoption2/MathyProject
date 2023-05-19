@@ -31,10 +31,10 @@ namespace Mathy
         [ContextMenu("ResetParentGate")]
         private async void ResetParentGate()
         {
-            var value = await _dataService.KeyValueStorage.GetIntValue(KeyValueIntegerKeys.ParentGate);
+            var value = await _dataService.KeyValueStorage.GetIntValueAsync(KeyValueIntegerKeys.ParentGate);
             if (value == 1)
             {
-                await _dataService.KeyValueStorage.SaveIntValue(KeyValueIntegerKeys.ParentGate, 0);
+                await _dataService.KeyValueStorage.SaveIntValueAsync(KeyValueIntegerKeys.ParentGate, 0);
             }
         }
     }

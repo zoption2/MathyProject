@@ -67,7 +67,7 @@ namespace Mathy.Services
         {
             UnityEngine.Debug.Log("Entered to " + nameof(CheckPlayerNameAsync));
             var tcs = new UniTaskCompletionSource();
-            var isNameChecked = await _dataService.KeyValueStorage.GetIntValue(kCheckNameKey);
+            var isNameChecked = await _dataService.KeyValueStorage.GetIntValueAsync(kCheckNameKey);
             if (isNameChecked == 0)
             {
                 _enterNamePopup.CreatePopup();
@@ -82,7 +82,7 @@ namespace Mathy.Services
             {
                 _enterNamePopup.ON_COMPLETE -= OnNameChoosed;
                 await _dataService.PlayerData.Account.SetPlayerName(name);
-                await _dataService.KeyValueStorage.SaveIntValue(kCheckNameKey, 1);
+                await _dataService.KeyValueStorage.SaveIntValueAsync(kCheckNameKey, 1);
                 _enterNamePopup.ClosePopup();
                 tcs.TrySetResult();
             }
@@ -94,11 +94,11 @@ namespace Mathy.Services
         public async UniTask CheckSkillPanelAsync()
         {
             UnityEngine.Debug.Log("Entered to " + nameof(CheckSkillPanelAsync));
-            var isChecked = await _dataService.KeyValueStorage.GetIntValue(kCheckSkillPlan);
+            var isChecked = await _dataService.KeyValueStorage.GetIntValueAsync(kCheckSkillPlan);
             if (isChecked == 0)
             {
                 await _skillPanel.DoSkillPlanUIWorkStub();
-                await _dataService.KeyValueStorage.SaveIntValue(kCheckSkillPlan, 1);
+                await _dataService.KeyValueStorage.SaveIntValueAsync(kCheckSkillPlan, 1);
             }
             UnityEngine.Debug.Log("Exit from " + nameof(CheckSkillPanelAsync));
         }

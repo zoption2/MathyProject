@@ -33,54 +33,54 @@ namespace Mathy.Services.Data
         public async UniTask<int> GetAchievementValue(Achievements achievement)
         {
             var key = achievement.ToString();
-            return await _dataService.KeyValueStorage.GetIntValue(key);
+            return await _dataService.KeyValueStorage.GetIntValueAsync(key);
         }
 
 
         public async UniTask IncrementAchievementValue(Achievements achievement)
         {
             var key = achievement.ToString();
-            await _dataService.KeyValueStorage.IncrementIntValue(key);
+            await _dataService.KeyValueStorage.IncrementIntValueAsync(key);
         }
 
         public async UniTask<int> GetBronzeMedals()
         {
-            return await _dataService.KeyValueStorage.GetIntValue(_bronzeKey);
+            return await _dataService.KeyValueStorage.GetIntValueAsync(_bronzeKey);
         }
 
         public async UniTask<int> GetChallengeCups()
         {
-            return await _dataService.KeyValueStorage.GetIntValue(_cupKey);
+            return await _dataService.KeyValueStorage.GetIntValueAsync(_cupKey);
         }
 
         public async UniTask<int> GetGoldMedals()
         {
-            return await _dataService.KeyValueStorage.GetIntValue(_goldKey);
+            return await _dataService.KeyValueStorage.GetIntValueAsync(_goldKey);
         }
 
         public async UniTask<int> GetSilverMedals()
         {
-            return await _dataService.KeyValueStorage.GetIntValue(_silverKey);
+            return await _dataService.KeyValueStorage.GetIntValueAsync(_silverKey);
         }
 
         public async UniTask IncrementBronzeMedals()
         {
-            await _dataService.KeyValueStorage.IncrementIntValue(_bronzeKey);
+            await _dataService.KeyValueStorage.IncrementIntValueAsync(_bronzeKey);
         }
 
         public async UniTask IncrementCupsMedals()
         {
-            await _dataService.KeyValueStorage.IncrementIntValue(_cupKey);
+            await _dataService.KeyValueStorage.IncrementIntValueAsync(_cupKey);
         }
 
         public async UniTask IncrementGoldMedals()
         {
-            await _dataService.KeyValueStorage.IncrementIntValue(_goldKey);
+            await _dataService.KeyValueStorage.IncrementIntValueAsync(_goldKey);
         }
 
         public async UniTask IncrementSilverMedals()
         {
-            await _dataService.KeyValueStorage.IncrementIntValue(_silverKey);
+            await _dataService.KeyValueStorage.IncrementIntValueAsync(_silverKey);
         }
     }
 }

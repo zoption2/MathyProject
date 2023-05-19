@@ -6,17 +6,19 @@ namespace Mathy.Services.Data
 {
     public interface IKeyValuePairDataHandler
     {
-        UniTask<KeyValueIntegerData> GetIntegerDataByKey(string key, int defaultValue = 0);
-        UniTask<int> GetIntValue(string key, int defaultValue = 0);
-        UniTask<int> GetIntValue(KeyValueIntegerKeys keyType, int defaultValue = 0);
-        UniTask SaveIntValue(string key, int value);
-        UniTask SaveIntValue(KeyValueIntegerKeys keyType, int value);
-        UniTask IncrementIntValue(string key);
-        UniTask IncrementIntValue(KeyValueIntegerKeys keyType);
+        UniTask<KeyValueIntegerData> GetIntegerDataByKeyAsync(string key, int defaultValue = 0);
+        UniTask<int> GetIntValueAsync(string key, int defaultValue = 0);
+        UniTask<int> GetIntValueAsync(KeyValueIntegerKeys keyType, int defaultValue = 0);
+        UniTask SaveIntValueAsync(string key, int value);
+        UniTask SaveIntValueAsync(KeyValueIntegerKeys keyType, int value);
+        UniTask IncrementIntValueAsync(string key);
+        UniTask IncrementIntValueAsync(KeyValueIntegerKeys keyType);
+        void SaveIntValue(string key, int value);
+        int GetIntValue(string key, int defaultValue = 0);
 
-        UniTask<KeyValueStringData> GetStringDataByKey(string key, string defaultValue = "");
-        UniTask<string> GetStringOrDefaultByKey(string key, string defaultValue = "");
-        UniTask SetStringValue(string key, string value);
+        UniTask<KeyValueStringData> GetStringDataByKeyAsync(string key, string defaultValue = "");
+        UniTask<string> GetStringOrDefaultAsync(string key, string defaultValue = "");
+        UniTask SaveStringValueAsync(string key, string value);
     }
 
 
@@ -35,61 +37,72 @@ namespace Mathy.Services.Data
             _stringProvider = new KeyValuePairStringProvider(filePath);
         }
 
-        public async UniTask<KeyValueIntegerData> GetIntegerDataByKey(string key, int defaultValue = 0)
+        public async UniTask<KeyValueIntegerData> GetIntegerDataByKeyAsync(string key, int defaultValue = 0)
         {
             return await _intProvider.GetDataByKey(key, defaultValue);
         }
 
-        public async UniTask<int> GetIntValue(string key, int defaultValue = 0)
+        public async UniTask<int> GetIntValueAsync(string key, int defaultValue = 0)
         {
             return await _intProvider.GetIntOrDefaultByKey(key, defaultValue);
         }
 
-        public async UniTask<int> GetIntValue(KeyValueIntegerKeys keyType, int defaultValue = 0)
+        public async UniTask<int> GetIntValueAsync(KeyValueIntegerKeys keyType, int defaultValue = 0)
         {
             var key = keyType.ToString();
             return await _intProvider.GetIntOrDefaultByKey(key, defaultValue);
         }
 
-        public async UniTask SaveIntValue(string key, int value)
+        public async UniTask SaveIntValueAsync(string key, int value)
         {
             var currentDateTime = DateTime.UtcNow;
             await _intProvider.SetValue(key, value, currentDateTime);
         }
 
-        public async UniTask SaveIntValue(KeyValueIntegerKeys keyType, int value)
+        public async UniTask SaveIntValueAsync(KeyValueIntegerKeys keyType, int value)
         {
             var key = keyType.ToString();
             var currentDateTime = DateTime.UtcNow;
             await _intProvider.SetValue(key, value, currentDateTime);
         }
 
-        public async UniTask IncrementIntValue(string key)
+        public async UniTask IncrementIntValueAsync(string key)
         {
             var currentDateTime = DateTime.UtcNow;
             await _intProvider.IncrementValue(key, currentDateTime);
         }
 
-        public async UniTask IncrementIntValue(KeyValueIntegerKeys keyType)
+        public async UniTask IncrementIntValueAsync(KeyValueIntegerKeys keyType)
         {
             var key = keyType.ToString();
-            await IncrementIntValue(key);
+            await IncrementIntValueAsync(key);
         }
 
-        public async UniTask<KeyValueStringData> GetStringDataByKey(string key, string defaultValue = "")
+        public async UniTask<KeyValueStringData> GetStringDataByKeyAsync(string key, string defaultValue = "")
         {
             return await _stringProvider.GetDataByKey(key, defaultValue);
         }
 
-        public async UniTask<string> GetStringOrDefaultByKey(string key, string defaultValue = "")
+        public async UniTask<string> GetStringOrDefaultAsync(string key, string defaultValue = "")
         {
             return await _stringProvider.GetStringOrDefaultByKey(key, defaultValue);
         }
 
-        public async UniTask SetStringValue(string key, string value)
+        public async UniTask SaveStringValueAsync(string key, string value)
         {
             var date = DateTime.UtcNow;
             await _stringProvider.SetValue(key, value, date);
+        }
+
+        public void SaveIntValue(string key, int value)
+        {
+            var date = DateTime.UtcNow;
+            _intProvider.SaveIntValue(key, value, date);
+        }
+
+        public int GetIntValue(string key, int defaultValue = 0)
+        {
+             return _intProvider.GetIntValue(key, defaultValue);
         }
 
         public async UniTask Init()

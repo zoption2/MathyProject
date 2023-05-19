@@ -25,6 +25,7 @@ namespace Mathy.Core.Tasks
         protected ITaskBackgroundSevice backgroundService;
         protected IAddressableRefsHolder addressableRefs;
         protected IDataService dataService;
+        protected IAdsService adsService;
         protected IResultScreenMediator resultScreen;
         protected TaskManager taskManager;
         protected GameplayScenePointer scenePointer;
@@ -41,13 +42,15 @@ namespace Mathy.Core.Tasks
             , ITaskBackgroundSevice backgroundHandler
             , IAddressableRefsHolder addressableRefs
             , IDataService dataService
-            , IResultScreenMediator resultScreen)
+            , IResultScreenMediator resultScreen
+            , IAdsService adsService)
         {
             this.taskFactory = taskFactory;
             this.backgroundService = backgroundHandler;
             this.addressableRefs = addressableRefs;
             this.dataService = dataService;
             this.resultScreen = resultScreen;
+            this.adsService = adsService;
         }
 
         protected abstract UniTask DoOnStart();
@@ -164,6 +167,14 @@ namespace Mathy.Core.Tasks
             //GameManager.Instance.ChangeState(GameState.MainMenu);
             //AdManager.Instance.ShowAdWithProbability(AdManager.Instance.ShowInterstitialAd, 10);
             Debug.Log("Request to TaskService to Exit from gameplay");
+        }
+
+        protected virtual void TryShowInterstitialAds(int probability)
+        {
+            if (!IAPManager.Instance.IsAdsRemoved())
+            {
+                adsService.TryShowInterstitialAds(probability);
+            }
         }
 
         protected virtual void EndGameplay()

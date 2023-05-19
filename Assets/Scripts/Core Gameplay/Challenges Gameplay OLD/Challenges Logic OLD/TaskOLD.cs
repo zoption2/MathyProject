@@ -33,6 +33,7 @@ public abstract class TaskOLD : MonoBehaviour
     protected List<TaskElementOLD> elements;
     protected List<MathOperatorOLD> operators;
     protected AnswerVariantOLD correctVariant;
+    protected bool _isPractice;
 
     [Header("PARAMETERS:")]
     public int ElementsAmount;
@@ -49,8 +50,9 @@ public abstract class TaskOLD : MonoBehaviour
 
     #endregion
 
-    public virtual void RunTask()
+    public virtual void RunTask(bool isPractice)
     {
+        _isPractice = isPractice;
         GenerateElements();
         GenerateVariants();
     }

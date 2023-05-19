@@ -8,7 +8,6 @@ namespace Mathy.Core.Tasks
 {
     public class PracticeScenario : BaseScenario
     {
-        private bool isFailed;
         public override TaskMode TaskMode => TaskMode.Practic;
 
         protected PracticeScenario(ITaskFactory taskFactory
@@ -16,15 +15,14 @@ namespace Mathy.Core.Tasks
             , IAddressableRefsHolder addressableRefs
             , IDataService dataService
             , IResultScreenMediator resultScreen
+            , IAdsService adsService
             )
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen, adsService)
         {
         }
 
         protected override UniTask DoOnStart()
         {
-            //isFailed = false;
-            //return UniTask.FromResult(isFailed);
             return UniTask.CompletedTask;
         }
 
@@ -32,10 +30,6 @@ namespace Mathy.Core.Tasks
         {
             for (int i = 0; i < kMaxTasksLoadedAtOnce; i++)
             {
-                //if (isFailed)
-                //{
-                //    return;
-                //}
                 if (TasksInQueue < 2)
                 {
                     await EnqueueNewTask();
@@ -43,42 +37,20 @@ namespace Mathy.Core.Tasks
             }
         }
 
-        //protected override void OnTaskComplete(ITaskController controller)
-        //{
-        //    if (!controller.GetResults().IsAnswerCorrect)
-        //    {
-        //        isFailed = true;
-        //        ClearQueue();
-        //    }
-        //    base.OnTaskComplete(controller);
-        //}
-
         protected override void ClickOnExitFromGameplay()
         {
             base.ClickOnExitFromGameplay();
             EndGameplay();
-            //resultScreen.CreatePopup(() =>
-            //{
-            //    ClearTasks();
-            //    GameManager.Instance.ChangeState(GameState.MainMenu);
-            //});
         }
 
         protected override void EndGameplay()
         {
             base.EndGameplay();
-            TryShowASD();
+            TryShowInterstitialAds(35);
             resultScreen.CreatePopup(() =>
             {
                 GameManager.Instance.ChangeState(GameState.MainMenu);
             });
-            //resultScreen.ON_CLOSE_CLICK += TryShowASD;
-        }
-
-        private void TryShowASD()
-        {
-            resultScreen.ON_CLOSE_CLICK -= TryShowASD;
-            AdManager.Instance.ShowAdWithProbability(AdManager.Instance.ShowInterstitial, 35);
         }
 
         private void ClearQueue()

@@ -58,22 +58,22 @@ namespace Mathy.UI
                     , skillModel.TotalPlayed);
                 skillView.SetResults(skillResult);
                 var lastShowedKey = string.Format(kLastShowedSkillsFormat, skillView.Skill);
-                var lastShowedTotalCorrect = await _dataService.KeyValueStorage.GetIntValue(lastShowedKey);
+                var lastShowedTotalCorrect = await _dataService.KeyValueStorage.GetIntValueAsync(lastShowedKey);
                 if (lastShowedTotalCorrect < skillModel.TotalCorrect)
                 {
                     var value = skillModel.TotalCorrect - lastShowedTotalCorrect;
                     var formatedValue = string.Format(kUpdateFormat, value);
                     skillView.ShowChangedValue(formatedValue);
-                    await _dataService.KeyValueStorage.SaveIntValue(lastShowedKey, skillModel.TotalCorrect);
+                    await _dataService.KeyValueStorage.SaveIntValueAsync(lastShowedKey, skillModel.TotalCorrect);
                 }
 
                 var lastRateKey = string.Format(kLastShowedRateFormat, skillView.Skill);
-                var lastRateValue = await _dataService.KeyValueStorage.GetIntValue(lastRateKey);
+                var lastRateValue = await _dataService.KeyValueStorage.GetIntValueAsync(lastRateKey);
 
                 var needAnimate = false;
                 if (skillModel.CorrectRate != lastRateValue)
                 {
-                    await _dataService.KeyValueStorage.SaveIntValue(lastRateKey, skillModel.CorrectRate);
+                    await _dataService.KeyValueStorage.SaveIntValueAsync(lastRateKey, skillModel.CorrectRate);
                     needAnimate = true;
                 }
                 skillView.SetProgressBar(skillModel.CorrectRate, lastRateValue, needAnimate);

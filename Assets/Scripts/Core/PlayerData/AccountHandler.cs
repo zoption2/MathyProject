@@ -22,12 +22,12 @@ namespace Mathy.Services.Data
 
         public async UniTask<string> GetPlayerName()
         {
-            return await _dataService.KeyValueStorage.GetStringOrDefaultByKey(kPlayerNameKey);
+            return await _dataService.KeyValueStorage.GetStringOrDefaultAsync(kPlayerNameKey);
         }
 
         public async UniTask SetPlayerName(string name)
         {
-            await _dataService.KeyValueStorage.SetStringValue(kPlayerNameKey, name);
+            await _dataService.KeyValueStorage.SaveStringValueAsync(kPlayerNameKey, name);
         }
     }
 }

@@ -31,8 +31,8 @@ namespace Mathy.Services.Data
         public async UniTask<GeneralTasksViewData> GetGeneralTasksDataAsync()
         {
             var data = new GeneralTasksViewData();
-            var totalTasks = await _dataService.KeyValueStorage.GetIntValue(KeyValueIntegerKeys.TotalTasksIndexer);
-            var totalCorrect = await _dataService.KeyValueStorage.GetIntValue(KeyValueIntegerKeys.TotalCorrectAnswers);
+            var totalTasks = await _dataService.KeyValueStorage.GetIntValueAsync(KeyValueIntegerKeys.TotalTasksIndexer);
+            var totalCorrect = await _dataService.KeyValueStorage.GetIntValueAsync(KeyValueIntegerKeys.TotalCorrectAnswers);
             data.TotalTasksPlayed = totalTasks;
             data.TotalCorrectAnswers = totalCorrect;
             data.MiddleRate = (int)((totalCorrect * 100) / totalTasks);

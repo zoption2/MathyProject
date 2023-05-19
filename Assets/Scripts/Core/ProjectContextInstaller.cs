@@ -28,6 +28,7 @@ public class ProjectContextInstaller : MonoInstaller
         Container.Bind<ISkillPlanService>().To<SkillPlanService>().AsSingle();
         Container.Bind<IUIManager>().To<UIManager>().AsSingle();
         Container.Bind<IAccountService>().To<AccountService>().AsSingle();
+        Container.Bind<IAdsService>().To<AdsService>().AsSingle().NonLazy();
 
         Container.Bind<List<GradeSettings>>().FromInstance(gradeSettingsHolder.GradeSettings).AsSingle();
 

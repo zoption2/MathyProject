@@ -50,7 +50,7 @@ public class RankPanel : MonoBehaviour
     {
         int experience = await _dataService.PlayerData.Progress.GetPlayerExperienceAsync();
         var lastShowedExpKey = string.Format(kLastShowedKeyFormat, KeyValueIntegerKeys.Experience);
-        int lastShowedExp = await _dataService.KeyValueStorage.GetIntValue(lastShowedExpKey);
+        int lastShowedExp = await _dataService.KeyValueStorage.GetIntValueAsync(lastShowedExpKey);
 
         int rank = await _dataService.PlayerData.Progress.GetRankAsynk();
 
@@ -70,11 +70,11 @@ public class RankPanel : MonoBehaviour
             return;
         }
 
-        await _dataService.KeyValueStorage.SaveIntValue(lastShowedExpKey, experience);
+        await _dataService.KeyValueStorage.SaveIntValueAsync(lastShowedExpKey, experience);
 
         var lastShowedRankKey = string.Format(kLastShowedKeyFormat, KeyValueIntegerKeys.PlayerRank);
-        var lastShowedRank = await _dataService.KeyValueStorage.GetIntValue(lastShowedRankKey);
-        await _dataService.KeyValueStorage.SaveIntValue(lastShowedRankKey, rank);
+        var lastShowedRank = await _dataService.KeyValueStorage.GetIntValueAsync(lastShowedRankKey);
+        await _dataService.KeyValueStorage.SaveIntValueAsync(lastShowedRankKey, rank);
 
         AnimateProgressBar(experience, lastShowedExp, rank, lastShowedRank);
     }

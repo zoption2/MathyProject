@@ -20,8 +20,9 @@ namespace Mathy.Core.Tasks
             , IAddressableRefsHolder addressableRefs
             , IDataService dataService
             , IResultScreenMediator resultScreen
+            , IAdsService adsService
             ) 
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen, adsService)
         {
         }
 
@@ -89,7 +90,7 @@ namespace Mathy.Core.Tasks
         protected async override void EndGameplay()
         {
             base.EndGameplay();
-            TryShowASD();
+            TryShowInterstitialAds(30);
             var gainedExperience = PointsHelper.GetExperiencePointsByRate(dailyModeData.CorrectRate);
             await dataService.PlayerData.Progress.AddExperienceAsync(gainedExperience);
 
@@ -103,7 +104,6 @@ namespace Mathy.Core.Tasks
                 ScenesManager.Instance.DisableTaskScene();
             });
             resultScreen.ON_CLOSE_CLICK += ChangeScene;
-           // resultScreen.ON_CLOSE_CLICK += TryShowASD;
         }
 
         private void ChangeScene()
@@ -112,16 +112,10 @@ namespace Mathy.Core.Tasks
             GameManager.Instance.ChangeState(GameState.MainMenu);
         }
 
-        private void TryShowASD()
-        {
-            resultScreen.ON_CLOSE_CLICK -= TryShowASD;
-            AdManager.Instance.ShowAdWithProbability(AdManager.Instance.ShowInterstitialAd, 30);
-        }
-
         protected override void ClickOnExitFromGameplay()
         {
             base.ClickOnExitFromGameplay();
-            TryShowASD();
+            TryShowInterstitialAds(30);
             resultScreen.CreatePopup(() =>
             {
                 GameManager.Instance.ChangeState(GameState.MainMenu);
@@ -134,15 +128,6 @@ namespace Mathy.Core.Tasks
             var tasks = await dataService.TaskData.GetResultsByModeAndDate(TaskMode, DateTime.UtcNow);
             var userAnswers = tasks.Select(x => x.IsAnswerCorrect).ToList();
             counterView.Init(TotalTasks, userAnswers);
-
-            //for (int i = 0, j = userAnswers.Count; i < j; i++)
-            //{
-            //    var isCorrect = userAnswers[i];
-            //    if (isCorrect)
-            //    {
-            //        correctAnswers++;
-            //    }
-            //}
         }
     }
 
@@ -158,8 +143,9 @@ namespace Mathy.Core.Tasks
             , IAddressableRefsHolder addressableRefs
             , IDataService dataService
             , IResultScreenMediator resultScreen
+            , IAdsService adsService
             )
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen, adsService)
         {
         }
     }
@@ -176,8 +162,9 @@ namespace Mathy.Core.Tasks
             , IAddressableRefsHolder addressableRefs
             , IDataService dataService
             , IResultScreenMediator resultScreen
+            , IAdsService adsService
             )
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen, adsService)
         {
         }
     }
@@ -194,8 +181,9 @@ namespace Mathy.Core.Tasks
             , IAddressableRefsHolder addressableRefs
             , IDataService dataService
             , IResultScreenMediator resultScreen
+            , IAdsService adsService
             )
-            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen)
+            : base(taskFactory, backgroundHandler, addressableRefs, dataService, resultScreen, adsService)
         {
         }
     }
