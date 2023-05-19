@@ -23,6 +23,8 @@ namespace Mathy.Core.Tasks.DailyTasks
         private int index;
         private string value;
 
+        public TaskElementState State => state;
+
         public int Index => index;
         private Transform tweenID => transform;
         public string Value => value;
@@ -46,7 +48,11 @@ namespace Mathy.Core.Tasks.DailyTasks
         {
             if (this.state != state)
             {
+                this.state = state;
                 stateImage.color = stateColors[(int)state];
+                var color = stateImage.color;
+                color.a = 0.8f;
+                stateImage.color = color;
                 AnimatePress();
                 DoOnStateChange(state);
             }

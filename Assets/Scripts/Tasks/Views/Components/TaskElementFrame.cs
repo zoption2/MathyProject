@@ -40,6 +40,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         private Transform tweenID => transform;
         public int Index => index;
         public string Value => Value;
+        public TaskElementState State => state;
 
         public void Init(int index, string value, Sprite image, TaskElementState initedState = TaskElementState.Default)
         {
@@ -61,6 +62,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         {
             if (this.state != state)
             {
+                this.state = state;
                 stateImage.color = stateColors[(int)state];
                 DoOnStateChanged(state);
                 AnimateObjectHolder();

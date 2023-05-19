@@ -23,6 +23,7 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         public int Index => index;
         public string Value => value;
+        public TaskElementState State => state;
 
 
         public void Init(int index, string value, Sprite image, TaskElementState initedState = TaskElementState.Default)
@@ -40,6 +41,7 @@ namespace Mathy.Core.Tasks.DailyTasks
 
         public void ChangeState(TaskElementState state)
         {
+            this.state = state;
             ON_STATE_CHANGE?.Invoke(state);
         }
 

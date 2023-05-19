@@ -114,7 +114,7 @@ public class PairsNumbersOLD : ChallengeOLD
             var modeData = new DailyModeData();
             modeData.Mode = _isPractice ? TaskMode.Practic : TaskMode.Challenge;
             modeData.Date = DateTime.UtcNow;
-            modeData.IsComplete = true;
+            modeData.IsComplete = _isPractice ? false : true;
             modeData.PlayedCount = 1;
             modeData.CorrectAnswers = 1;
             modeData.CorrectRate = 100;

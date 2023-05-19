@@ -22,6 +22,8 @@ namespace Mathy.Core.Tasks.DailyTasks
                 if (TryGetComponent<ITaskViewComponent>(out _mainComponent))
                 {
                     _inited = true;
+                    var state = _mainComponent.State;
+                    DoWork(state);
                     _mainComponent.ON_STATE_CHANGE += DoWork;
                 }
             }

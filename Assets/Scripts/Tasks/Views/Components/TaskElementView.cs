@@ -10,6 +10,7 @@ namespace Mathy.Core.Tasks.DailyTasks
     public interface ITaskViewComponent
     {
         event Action<TaskElementState> ON_STATE_CHANGE;
+        public TaskElementState State { get; }
         public int Index { get; }
         public string Value { get; }
         void Init(int index, string value, TaskElementState initedState = TaskElementState.Default);
@@ -36,6 +37,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         public int Index => index;
         private Transform tweenID => transform;
         public string Value => valueText.text;
+        public TaskElementState State => state;
 
         public virtual void Init(int index, string value, TaskElementState initedState = TaskElementState.Default)
         {
@@ -57,6 +59,7 @@ namespace Mathy.Core.Tasks.DailyTasks
         {
             if (this.state != state)
             {
+                this.state = state;
                 stateImage.sprite = stateSprites[(int)state];
                 AnimatePress();
                 DoOnStateChanged(state);
