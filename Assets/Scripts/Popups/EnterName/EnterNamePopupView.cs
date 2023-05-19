@@ -53,6 +53,7 @@ namespace Mathy.UI
                 _closeButton.onClick.AddListener(DoOnCloseButtonClick);
                 _saveButton.onClick.AddListener(DoOnSaveButtonClick);
                 _inputField.onValueChanged.AddListener(DoOnNameChanged);
+                _inputField.Select();
                 onShow?.Invoke();
             });
         }
@@ -135,6 +136,15 @@ namespace Mathy.UI
             }
 
             return true;
+        }
+
+        private string ProcessName(string name)
+        {
+            if (name.Contains('?'))
+            {
+                name.Remove(name.Length - 1);
+            }
+            return name;
         }
     }
 }

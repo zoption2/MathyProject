@@ -22,15 +22,23 @@ namespace Mathy.Core.Tasks.DailyTasks
                 if (TryGetComponent<ITaskViewComponent>(out _mainComponent))
                 {
                     _inited = true;
-                    var state = _mainComponent.State;
-                    DoWork(state);
-                    _mainComponent.ON_STATE_CHANGE += DoWork;
+
                 }
             }
             _originColor = _image.color;
         }
 
-        private void OnDestroy()
+        private void OnEnable()
+        {
+            if (_inited)
+            {
+                var state = _mainComponent.State;
+                DoWork(state);
+                _mainComponent.ON_STATE_CHANGE += DoWork;
+            }
+        }
+
+        private void OnDisable()
         {
             if (_inited)
             {
