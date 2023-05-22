@@ -108,20 +108,48 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
 
     #region MONO AND INITIALIZATION
 
-    private void Start()
+    protected override void Awake()
+    {
+        base.Awake();
+        if (storeController == null)
+        {
+            // Begin to configure our connection to Purchasing, can use button click instead
+            TryInitializeStoreManager();
+        }
+    }
+
+    private async void Start()
     {
         DebugText = LoadingManager.Instance.DebugInApp;
 
         // If we haven't set up the Unity Purchasing reference
-        if (storeController == null)
-        {
-            // Begin to configure our connection to Purchasing, can use button click instead
-            InitializePurchasing();
-        }
+        //if (storeController == null)
+        //{
+        //    // Begin to configure our connection to Purchasing, can use button click instead
+        //    InitializePurchasing();
+        //}
+        await TryInitializeStoreManager();
 
         // Display GUI Elements depending on the platform
         UpdateGUIOnPlatform();
         SetButtonEvents();
+    }
+
+    private async UniTask TryInitializeStoreManager()
+    {
+        int attempts = 1;
+        for (int i = 0; i < 6; i++)
+        {
+            InitializePurchasing();
+            await UniTask.Delay(1000);
+            if (IsPurchasingInitialized())
+            {
+                Debug.LogFormat("Store Controller initialized with {0} attempt!", attempts);
+                return;
+            }
+            attempts++;
+        }
+        Debug.LogFormat("Store Controller was not initialized with 5 attempts!");
     }
 
     private void InitializePurchasing()
@@ -195,7 +223,7 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
 
     private void UpdateGUIOnPlatform()
     {
-#if UNITY_ANDROID
+#if UNITY_ANDROID || UNITY_EDITOR
         UpdateRemoveAdsButton();
 #endif
 #if UNITY_IOS
@@ -411,13 +439,23 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
     public bool IsAdsRemoved()
     {
 #if UNITY_ANDROID
-        Product product = storeController.products.WithID(googleFullVersionProductId);
-        if (product != null && product.hasReceipt)
+        try
         {
-            return true;
+            if (IsPurchasingInitialized())
+            {
+                Product product = storeController.products.WithID(googleFullVersionProductId);
+                if (product != null && product.hasReceipt)
+                {
+                    return true;
+                }
+                else return false;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
         }
 #endif
-
         bool isAdsRemoved = PlayerPrefs.GetInt(adsRemovedKey, 0).ToBool();
         return isAdsRemoved;
     }

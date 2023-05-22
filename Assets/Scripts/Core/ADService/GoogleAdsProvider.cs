@@ -159,7 +159,7 @@ namespace Mathy.Services
 
         private string GetInterstitialKey()
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
             return kTestInterstitialId;
 #else
             return kInterstitialId;
@@ -168,7 +168,7 @@ namespace Mathy.Services
 
         private string GetRewardedKey()
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
             return kTestRewardedId;
 #else
             return kRewardedId;
