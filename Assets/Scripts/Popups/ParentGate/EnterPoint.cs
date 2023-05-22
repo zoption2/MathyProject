@@ -14,11 +14,14 @@ namespace Mathy
         [Inject] private DiContainer _container;
         private IAccountService _accountService;
         private IDataService _dataService;
+        private IAdsService _adsService;
 
         private async void Start ()
         {
             _accountService = _container.Resolve<IAccountService>();
             _dataService = _container.Resolve<IDataService>();
+            _adsService = _container.Resolve<IAdsService>();
+            _adsService.Init();
 
             _accountService.SetSkillPlanStub(_skillPanel);
             _accountService.SetSubscriptionScreenStub(_subscriptionScreen);

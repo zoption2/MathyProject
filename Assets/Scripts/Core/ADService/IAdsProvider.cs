@@ -2,6 +2,7 @@
 {
     public interface IAdsProvider
     {
+        bool IsProviderInited { get; }
         bool IsInterstitialLoaded { get; }
         bool IsRewardedLoaded { get; }
         void Init();

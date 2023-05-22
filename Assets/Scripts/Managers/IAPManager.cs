@@ -108,15 +108,15 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
 
     #region MONO AND INITIALIZATION
 
-    protected override void Awake()
-    {
-        base.Awake();
-        if (storeController == null)
-        {
-            // Begin to configure our connection to Purchasing, can use button click instead
-            TryInitializeStoreManager();
-        }
-    }
+    //protected override void Awake()
+    //{
+    //    base.Awake();
+    //    if (storeController == null)
+    //    {
+    //        // Begin to configure our connection to Purchasing, can use button click instead
+    //        TryInitializeStoreManager();
+    //    }
+    //}
 
     private async void Start()
     {
@@ -129,6 +129,7 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
         //    InitializePurchasing();
         //}
         await TryInitializeStoreManager();
+        CheckForFullVersion();
 
         // Display GUI Elements depending on the platform
         UpdateGUIOnPlatform();
@@ -234,8 +235,6 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
 
     public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
     {
-        Log("[In-App Purchase Manager] >>>>>> OnInitialized: SUCCESSFUL");
-
         storeController = controller;
         storeExtensionProvider = extensions;
         appleExtensions = extensions.GetExtension<IAppleExtensions>();
@@ -262,6 +261,8 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
                 }
             }
         }
+
+        Log("[In-App Purchase Manager] >>>>>> OnInitialized: SUCCESSFUL");
     }
 
     public void OnInitializeFailed(InitializationFailureReason error, string message)
@@ -438,6 +439,13 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
 
     public bool IsAdsRemoved()
     {
+        bool isAdsRemoved = PlayerPrefs.GetInt(adsRemovedKey, 0).ToBool();
+        Debug.LogFormat("Check #2 : IS ADS SHOULD BE SHOWING? - >>{0}<<", !isAdsRemoved);
+        return isAdsRemoved;
+    }
+
+    private void CheckForFullVersion()
+    {
 #if UNITY_ANDROID
         try
         {
@@ -446,9 +454,14 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
                 Product product = storeController.products.WithID(googleFullVersionProductId);
                 if (product != null && product.hasReceipt)
                 {
-                    return true;
+                    PlayerPrefs.SetInt(adsRemovedKey, 1);
+                    Debug.LogFormat("Check #1 : FULL ACCESS HAS BEEN BOUGHT! ADS WILL NOT BE SHOWING");
                 }
-                else return false;
+                else
+                {
+                    PlayerPrefs.SetInt(adsRemovedKey, 0);
+                    Debug.LogFormat("Check #1 : FULL ACCESS HAS NOT BEEN BOUGHT! ADS WILL BE SHOWING");
+                }
             }
         }
         catch (Exception e)
@@ -456,13 +469,11 @@ public class IAPManager : StaticInstance<IAPManager>, IStoreListener
             Debug.LogError(e);
         }
 #endif
-        bool isAdsRemoved = PlayerPrefs.GetInt(adsRemovedKey, 0).ToBool();
-        return isAdsRemoved;
     }
 
-#endregion
+    #endregion
 
-#region SUBSCRIPTION
+    #region SUBSCRIPTION
 
     public void BuySubscription()
     {

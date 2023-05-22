@@ -9,5 +9,10 @@
         public double Duration { get; set; }
         public int Grade { get; set; }
     }
+
+    public class GradeStatisticData
+    {
+
+    }
 }
 

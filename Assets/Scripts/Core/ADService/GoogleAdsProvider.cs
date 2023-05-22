@@ -34,15 +34,19 @@ namespace Mathy.Services
         private InterstitialAd interstitial;
         private RewardedAd rewarded;
 
+        public bool IsProviderInited { get; private set; }
         public bool IsInterstitialLoaded => interstitial != null && interstitial.IsLoaded();
         public bool IsRewardedLoaded => rewarded != null && rewarded.IsLoaded();
 
 
         public void Init()
         {
+            Debug.LogFormat("INIT GOOGLE ADS CALL!");
             MobileAds.Initialize(initStatus =>
             {
+                IsProviderInited = true;
                 LoadGoogleInterstitialAds();
+                Debug.LogFormat("GOOGLE ADS INITED!");
             });
         }
 
@@ -73,6 +77,7 @@ namespace Mathy.Services
                 interstitial.OnAdClosed -= Interstitial_OnAdClosed;
                 interstitial.OnAdFailedToLoad -= Interstitial_OnAdFailedToLoad;
                 interstitial.OnAdFailedToShow -= Interstitial_OnAdFailedToShow;
+                interstitial.OnAdLoaded -= Interstitial_OnAdLoaded;
                 interstitial.Destroy();
             }
 
@@ -84,6 +89,7 @@ namespace Mathy.Services
             interstitial.OnAdClosed += Interstitial_OnAdClosed;
             interstitial.OnAdFailedToLoad += Interstitial_OnAdFailedToLoad;
             interstitial.OnAdFailedToShow += Interstitial_OnAdFailedToShow;
+            interstitial.OnAdLoaded += Interstitial_OnAdLoaded;
         }
 
         private void LoadGoogleRewardedAds()
@@ -108,20 +114,28 @@ namespace Mathy.Services
             rewarded.OnUserEarnedReward += Rewarded_OnUserEarnedReward;
         }
 
+        private void Interstitial_OnAdLoaded(object sender, EventArgs args)
+        {
+            Debug.LogFormat("Interstitial is loaded from external service!");
+        }
+
         private void Interstitial_OnAdFailedToLoad(object sender, AdFailedToLoadEventArgs args)
         {
             Debug.LogWarningFormat("Interstitial is failed to load!");
+            ON_INTERSTITIAL_FAILED?.Invoke();
         }
 
         private void Interstitial_OnAdFailedToShow(object sender, AdErrorEventArgs args)
         {
             Debug.LogWarningFormat("Interstitial is failed to show!");
+            ON_INTERSTITIAL_FAILED?.Invoke();
         }
 
         private void Interstitial_OnAdClosed(object sender, EventArgs e)
         {
             interstitial?.Destroy();
             LoadInterstetialWithDelay(2);
+            ON_INTERSTITIAL_CLOSED?.Invoke();
         }
 
         private void Rewarded_OnAdFailedToLoad(object sender, AdFailedToLoadEventArgs args)
@@ -159,7 +173,7 @@ namespace Mathy.Services
 
         private string GetInterstitialKey()
         {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+#if UNITY_EDITOR
             return kTestInterstitialId;
 #else
             return kInterstitialId;
@@ -168,7 +182,7 @@ namespace Mathy.Services
 
         private string GetRewardedKey()
         {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+#if UNITY_EDITOR
             return kTestRewardedId;
 #else
             return kRewardedId;
