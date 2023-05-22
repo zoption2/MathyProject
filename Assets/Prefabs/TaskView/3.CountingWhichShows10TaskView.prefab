@@ -77,8 +77,8 @@ MonoBehaviour:
   headerImage: {fileID: 3638450490809703470}
   groupParents:
   - {fileID: 3448907621034840663}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 7902451786806390484}
+  - {fileID: 7654857855297023675}
   animator: {fileID: 2225648532016755862}
   inputs:
   - {fileID: 1952878595013882697}
