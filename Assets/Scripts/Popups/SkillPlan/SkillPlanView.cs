@@ -1,5 +1,6 @@
 ﻿using Mathy.Data;
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,66 +12,78 @@ namespace Mathy.UI
         public event Action ON_CLOSE_CLICK;
         public event Action<int> ON_GRADE_TAB_SWITCHED;
         public event Action<int> ON_GRADE_CHANGED;
+        public ISkillPlanTabView[] GradeTabs { get; }
     }
 
-    public class SkillPlanView : MonoBehaviour
+    public class SkillPlanView : MonoBehaviour, ISkillPlanView
     {
         public event Action ON_CLOSE_CLICK;
         public event Action<int> ON_SWITCH_TAB_CLICK;
+        public event Action<int> ON_GRADE_TAB_SWITCHED;
+        public event Action<int> ON_GRADE_CHANGED;
 
         [SerializeField] private TMP_Text _title;
         [SerializeField] private TMP_Text _description;
         [SerializeField] private TMP_Text _selectAllText;
         [SerializeField] private SkillPlanTabView[] _tabs;
-        [SerializeField] private Toggle[] _toggles;
-        [SerializeField] private Button[] _gradeTabButtons;
+        [SerializeField] private SwitchGradeGroup[] _gradeSwitchers;
         [SerializeField] private Button _selectAllButton;
         [SerializeField] private Button _infoButton;
 
+        [SerializeField] private VerticalLayoutGroup _gradeButtonsLayout;
+        [SerializeField] private BaseViewAnimator _animator;
 
-    }
-
-
-    public interface ISkillPlanTabView : IView
-    {
-        public int Grade { get; }
-        public ISkillPlanSettingAdapter[] SkillSettings { get; }
-    }
-
-    public class SkillPlanTabView : MonoBehaviour, ISkillPlanTabView
-    {
-        [field: SerializeField] public int Grade { get; private set; }
-        [SerializeField] private Transform _skillsHolder;
-        [SerializeField] private VerticalLayoutGroup _layoutGroup;
-
-        public ISkillPlanSettingAdapter[] SkillSettings => throw new NotImplementedException();
+        public ISkillPlanTabView[] GradeTabs => _tabs;
 
         public void Show(Action onShow)
         {
-            gameObject.SetActive(true);
-            onShow?.Invoke();
+            _animator.AnimateShowing(() =>
+            {
+                SubscribeTabsButtons();
+                onShow?.Invoke();
+            });
         }
 
         public void Hide(Action onHide)
         {
-            gameObject.SetActive(false);
-            onHide?.Invoke();
+            _animator.AnimateHiding(() =>
+            {
+                onHide?.Invoke();
+            });
         }
 
         public void Release()
         {
-            
+            Destroy(gameObject);
+        }
+
+        private void SubscribeTabsButtons()
+        {
+            for (int i = 0, j = _gradeSwitchers.Length; i < j; i++)
+            {
+                _gradeSwitchers[i].ON_GRADE_TAB_SWITCH += DoOnSwitchTabClick;
+                _gradeSwitchers[i].ON_GRADE_TOGGLE_SWITCH += DoOnToggleSwitch;
+            }
+        }
+
+        private void UnsubscribeTabsButtons()
+        {
+            for (int i = 0, j = _gradeSwitchers.Length; i < j; i++)
+            {
+                _gradeSwitchers[i].ON_GRADE_TAB_SWITCH -= DoOnSwitchTabClick;
+                _gradeSwitchers[i].ON_GRADE_TOGGLE_SWITCH -= DoOnToggleSwitch;
+            }
+        }
+
+        private void DoOnSwitchTabClick(int index)
+        {
+
+        }
+
+        private void DoOnToggleSwitch(int index, bool isActive)
+        {
+
         }
     }
 
-    public interface ISkillPlanSettingAdapter
-    {
-        event Action<bool, int> ON_ACTIVATE;
-        void Init(bool isActive, int value);
-        int Value { get; }
-        bool IsEnable { get; }
-        SkillType SkillType { get; }
-    }
 }
-
-

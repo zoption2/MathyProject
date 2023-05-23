@@ -160,9 +160,9 @@ public class ChallengesManager : StaticInstance<ChallengesManager>//, ISaveable
         bgImage.sprite = bgImages[index];
     }
 
-    public async void ShowResult(bool isActive)
+    public async void ShowResult(bool isComplete)
     {
-        if(!isPractice)
+        if(!isPractice && isComplete)
         {
             await _dataService.PlayerData.Progress.AddExperienceAsync(200);
             var totalExp = await _dataService.PlayerData.Progress.GetPlayerExperienceAsync();

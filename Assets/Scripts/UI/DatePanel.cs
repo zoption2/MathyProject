@@ -116,7 +116,11 @@ public class DatePanel : ButtonFX
         smallIcon.SetActive(completedModes.Contains(TaskMode.Small));
         mediumIcon.SetActive(completedModes.Contains(TaskMode.Medium));
         largeIcon.SetActive(completedModes.Contains(TaskMode.Large));
-        challengeIcon.SetActive(completedModes.Contains(TaskMode.Challenge));
+
+        var challengeResult = await dataService.TaskData.GetDailyModeData(today, TaskMode.Challenge);
+        bool showCup = completedModes.Contains(TaskMode.Challenge) && challengeResult.CorrectRate == 100;
+        challengeIcon.SetActive(showCup);
+
         var rewardIndex = GetAwardIndex(dayResult.Reward);
         rewardIcon.gameObject.SetActive(rewardIndex != -1);
         if (dayResult.IsCompleted && rewardIndex != -1)

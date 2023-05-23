@@ -17,6 +17,7 @@ public class ImageOpeningOLD : ChallengeOLD
 
     #endregion
     [Inject] private IDataService dataService;
+    private bool _isFailed;
 
     public override void RunTask(bool isPractice)
     {
@@ -76,8 +77,10 @@ public class ImageOpeningOLD : ChallengeOLD
         LivesPanel.SetDamage(1);
         if (LivesPanel.Lives <= 0)
         {
+            _isFailed = true;
+            SaveData();
             StopTimer(false);
-            ChallengesManager.Instance.ShowResult(true);
+            ChallengesManager.Instance.ShowResult(false);
         }
         AudioManager.Instance.WrongVariantSound();
         VibrationManager.Instance.TapNopeVibrate();
@@ -92,27 +95,13 @@ public class ImageOpeningOLD : ChallengeOLD
 
     private void ResultCheck()
     {
-        ChallengeData data = new ChallengeData();
-        data.Mode = _isPractice? TaskMode.Practic : TaskMode.Challenge;
-        data.Seed = 0;
-        data.TaskType = TaskType.ImageOpening;
-        data.IsDone = true;
-        data.MaxNumber = 20;
-        data.CorrectRate = this.GetCorrectRate();
-
-        var modeData = new DailyModeData();
-        modeData.Mode = _isPractice ? TaskMode.Practic : TaskMode.Challenge;
-        modeData.Date = DateTime.UtcNow;
-        modeData.IsComplete = _isPractice ? false : true;
-        modeData.PlayedCount = 1;
-        modeData.CorrectAnswers = 1;
-        modeData.CorrectRate = 100;
-        var duration = TimeSpan.FromSeconds(StopTimer(true));
-        modeData.Duration = duration.TotalMilliseconds;
-        modeData.TotalTasks = 1;
-        modeData.TasksIds.Add(0);
-
-        dataService.TaskData.UpdateDailyMode(modeData);
+        //ChallengeData data = new ChallengeData();
+        //data.Mode = _isPractice? TaskMode.Practic : TaskMode.Challenge;
+        //data.Seed = 0;
+        //data.TaskType = TaskType.ImageOpening;
+        //data.IsDone = true;
+        //data.MaxNumber = 20;
+        //data.CorrectRate = this.GetCorrectRate();
 
         if (variants.Count > 0)
         {
@@ -120,11 +109,28 @@ public class ImageOpeningOLD : ChallengeOLD
         }
         else
         {
-            data.Duration = TimeSpan.FromSeconds(StopTimer(true));
+            SaveData();
+            //data.Duration = TimeSpan.FromSeconds(StopTimer(true));
             //ChallengesManager.Instance.SaveTaskData(data);
             ChallengesManager.Instance.ShowResult(true);
             //Debug.LogError("SAVE HERE!!");
         }
+    }
+
+    private void SaveData()
+    {
+        var modeData = new DailyModeData();
+        modeData.Mode = _isPractice ? TaskMode.Practic : TaskMode.Challenge;
+        modeData.Date = DateTime.UtcNow;
+        modeData.IsComplete = _isPractice ? false : true;
+        modeData.PlayedCount = 1;
+        modeData.CorrectAnswers = _isFailed ? 0 : 1;
+        modeData.CorrectRate = _isFailed ? 0 : 100;
+        var duration = TimeSpan.FromSeconds(StopTimer(true));
+        modeData.Duration = duration.TotalMilliseconds;
+        modeData.TotalTasks = 1;
+        modeData.TasksIds.Add(0);
+        dataService.TaskData.UpdateDailyMode(modeData);
     }
 
     private void GenerateChalengeElements()
