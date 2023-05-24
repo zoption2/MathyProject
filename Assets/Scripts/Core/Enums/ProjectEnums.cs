@@ -20,13 +20,6 @@
         CounterVariantOne,
     }
 
-    public enum Popups
-    {
-        ParentGate = 1,
-        ResultScreen = 2,
-        EnterName = 3,
-    }
-
     public enum TaskElementType
     {
         Value,
@@ -218,6 +211,7 @@
         Experience = 5,
         PlayerRank = 6,
         ParentGate = 7,
+        SelectedGrade = 8,
 
         DatabaseControl = 100,
     }

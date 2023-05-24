@@ -16,6 +16,7 @@ public interface IPopupView : IView
 
 public interface IPopupMediator
 {
+    public event Action ON_CLOSE_CLICK;
     void CreatePopup(Action onComplete = null);
     void ClosePopup(Action onComplete = null);
 }

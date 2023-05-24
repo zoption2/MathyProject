@@ -780,6 +780,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _experience: 0
+  _achievement: 0
 --- !u!4 &879970346
 Transform:
   m_ObjectHideFlags: 0

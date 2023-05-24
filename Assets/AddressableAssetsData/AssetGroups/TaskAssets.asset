@@ -401,6 +401,14 @@ MonoBehaviour:
     m_Address: Assets/Sprites/Icons/Rank/rank-20-icon.png
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 984365f2390a6cf429ea94328f700bb2
+    m_Address: Assets/Prefabs/Popups/SkillPlanPopup/SkillPlanPopup.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e9bd28d2c5ab98344a2e7d0df9fc123b
+    m_Address: Assets/Prefabs/Popups/SkillPlanPopup/Components/SkillSettingUpTo100.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 76746eb55ddbd544c89bef47883242cf, type: 2}
   m_SchemaSet:

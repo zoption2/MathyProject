@@ -8,7 +8,7 @@ namespace Mathy.UI
 {
     public interface IResultScreenMediator : IPopupMediator
     {
-        public event Action ON_CLOSE_CLICK;
+
     }
 
 
@@ -48,7 +48,7 @@ namespace Mathy.UI
 
         public async UniTask InitPopup(Camera camera, Transform parent, int priority = 0)
         {
-            _generalView = await _refsHolder.PopupsProvider.InstantiateFromReference<IResultScreenView>(Popups.ResultScreen, parent);
+            _generalView = await _refsHolder.Popups.Main.InstantiateFromReference<IResultScreenView>(Popups.ResultScreen, parent);
             _generalView.ON_CLOSE_CLICK += DoOnCloseClick;
             _generalView.Init(camera, priority);
             InitSkillController();
@@ -65,7 +65,6 @@ namespace Mathy.UI
         public void ClosePopup(Action onComplete = null)
         {
             _uiManager.CloseView(this, onComplete);
-            onComplete?.Invoke();
         }
 
         private void InitSkillController()

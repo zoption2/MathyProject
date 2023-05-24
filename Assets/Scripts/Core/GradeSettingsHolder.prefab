@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <GradeSettings>k__BackingField:
   - {fileID: 11400000, guid: f6d062884c30a1b46a5616a901f0ee53, type: 2}
+  - {fileID: 11400000, guid: e7555a6b20c43fd42b03f80f0d120fe4, type: 2}

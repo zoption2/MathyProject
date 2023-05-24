@@ -16,6 +16,7 @@ namespace Mathy.UI
     {
         private const int kPopupPriority = 100;
 
+        public event Action ON_CLOSE_CLICK;
         public event Action ON_CANCEL;
         public event Action ON_COMPLETE;
 
@@ -55,7 +56,7 @@ namespace Mathy.UI
         public async UniTask InitPopup(Camera camera, Transform parent, int orderLayer = 0)
         {
             var model = new ParentGatePopupModel();
-            var view = await _refsHolder.PopupsProvider.InstantiateFromReference<IParentGatePopupView>(Popups.ParentGate, parent);
+            var view = await _refsHolder.Popups.Main.InstantiateFromReference<IParentGatePopupView>(Popups.ParentGate, parent);
             view.Init(camera, orderLayer);
             _controller.ON_CLOSE_CLICK += DoOnClose;
             _controller.ON_COMPLETE += DoOnComplete;

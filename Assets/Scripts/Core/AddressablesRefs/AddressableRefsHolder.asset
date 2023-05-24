@@ -794,4 +794,5 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-  _imagesProvider: {fileID: 11400000, guid: 57c3822f908b6e14d93f5a7cc00ea13a, type: 2}
+  _imagesHolder: {fileID: 11400000, guid: 57c3822f908b6e14d93f5a7cc00ea13a, type: 2}
+  _popupsHolder: {fileID: 11400000, guid: 1ef90dfb14371bf43816892f523d18db, type: 2}

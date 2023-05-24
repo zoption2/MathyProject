@@ -14,6 +14,7 @@ namespace Mathy
     public interface IAddressableRefsHolder
     {
         IImagesAddressableRefsHolder Images { get; }
+        IPopupAddressableRefsHolder Popups { get; }
         TaskViewAddressableRef TaskViewProvider { get;}
         UIComponentAddressableRef UIComponentProvider { get; }
         BackgroundAddressableRef BackgroundProvider { get; }
@@ -39,12 +40,20 @@ namespace Mathy
         // --------
 
         //correct behaviour
-        [SerializeField] private ImagesAddressableRefsHolder _imagesProvider;
+        [SerializeField] private ImagesAddressableRefsHolder _imagesHolder;
+        [SerializeField] private PopupAddressableRefsHolder _popupsHolder;
 
-        public IImagesAddressableRefsHolder Images => _imagesProvider;
+        public IImagesAddressableRefsHolder Images => _imagesHolder;
+        public IPopupAddressableRefsHolder Popups => _popupsHolder;
     }
 
-    public abstract class AddressableRefsProvider<TType, TRef> where TType : Enum where TRef : AssetReference
+    public interface IAddressableRefsProvider
+    {
+        void ClearCache();
+    }
+
+
+    public abstract class AddressableRefsProvider<TType, TRef> : IAddressableRefsProvider where TType : Enum where TRef : AssetReference
     {
         [SerializeField] protected RefPair[] references;
         protected DiContainer container;
@@ -190,12 +199,6 @@ namespace Mathy
     [Serializable]
     public class TaskFeaturesAddressableRef : AddressableRefsProvider<TaskFeatures, AssetReferenceGameObject>
     {
-
-    }
-
-    [Serializable]
-    public class PopupsAddressableRef : AddressableRefsProvider<Popups, AssetReferenceGameObject>
-    { 
 
     }
 

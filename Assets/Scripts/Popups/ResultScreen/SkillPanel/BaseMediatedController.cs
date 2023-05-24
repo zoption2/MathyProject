@@ -13,12 +13,17 @@ namespace Mathy.UI
     {
         protected TView _view;
         protected TModel _model;
+        protected bool _isInited;
 
         public async void Init(IView view)
         {
-            _view = (TView)view;
-            _model = await BuildModel();
-            DoOnInit(_view);
+            if (!_isInited)
+            {
+                _view = (TView)view;
+                _model = await BuildModel();
+                DoOnInit(_view);
+                _isInited = true;
+            }
         }
 
         protected abstract void DoOnInit(TView view);

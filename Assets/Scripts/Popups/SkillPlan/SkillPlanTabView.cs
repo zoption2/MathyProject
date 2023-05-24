@@ -10,11 +10,10 @@ namespace Mathy.UI
         public ISkillPlanSettingAdapter[] SkillSettings { get; }
     }
 
-
     public class SkillPlanTabView : MonoBehaviour, ISkillPlanTabView
     {
         [field: SerializeField] public int Grade { get; private set; }
-        [SerializeField] private BaseSkillSetting[] _skillsSettings;
+        [SerializeField] private BaseSkillSettingView[] _skillsSettings;
         [SerializeField] private VerticalLayoutGroup _layoutGroup;
 
         public ISkillPlanSettingAdapter[] SkillSettings => _skillsSettings;

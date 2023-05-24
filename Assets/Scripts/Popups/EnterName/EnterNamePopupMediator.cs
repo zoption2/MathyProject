@@ -7,12 +7,13 @@ namespace Mathy.UI
 {
     public interface IEnterNamePopupMediator : IPopupMediator
     {
-        event Action<string> ON_COMPLETE;
+        public event Action<string> ON_COMPLETE;
     }
 
 
     public class EnterNamePopupMediator : IEnterNamePopupMediator, IPopupView
     {
+        public event Action ON_CLOSE_CLICK;
         public event Action<string> ON_COMPLETE;
 
         private readonly IAddressableRefsHolder _refsHolder;
@@ -45,7 +46,7 @@ namespace Mathy.UI
 
         public async UniTask InitPopup(Camera camera, Transform parent, int orderLayer = 0)
         {
-            var view = await _refsHolder.PopupsProvider.InstantiateFromReference<IEnterNamePopupView>(Popups.EnterName, parent);
+            var view = await _refsHolder.Popups.Main.InstantiateFromReference<IEnterNamePopupView>(Popups.EnterName, parent);
             view.Init(camera, orderLayer);
             _controller.Init(view);
             _controller.ON_NAME_CHANGED += DoOnNameChanged;

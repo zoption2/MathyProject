@@ -38,6 +38,7 @@ public class ProjectContextInstaller : MonoInstaller
         BindResultScreen();
         BindParentGateScreen();
         BindEnterNamePopup();
+        BindSkillPlanPopup();
     }
 
     private void BindTaskControllers()
@@ -89,6 +90,13 @@ public class ProjectContextInstaller : MonoInstaller
     {
         Container.Bind<IEnterNamePopupMediator>().To<EnterNamePopupMediator>().AsTransient();
         Container.Bind<IEnterNamePopupController>().To<EnterNamePopupController>().AsTransient();
+    }
+
+    private void BindSkillPlanPopup()
+    {
+        Container.Bind<ISkillPlanPopupMediator>().To<SkillPlanPopupMediator>().AsTransient();
+        Container.Bind<ISkillPlanFirstGradeController>().To<SkillPlanFirstGradeController>().AsTransient();
+        Container.Bind<ISkillPlanSecondGradeController>().To<SkillPlanSecondGradeController>().AsTransient();
     }
 }
 

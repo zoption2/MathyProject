@@ -1,10 +1,9 @@
 using Cysharp.Threading.Tasks;
 using Mathy.Data;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
 using System;
+using Mathy.UI;
 
 namespace Mathy.Services
 {
@@ -13,8 +12,11 @@ namespace Mathy.Services
         event Action ON_SKILL_PLAN_UPDATED;
         bool IsAnySkillActivated { get; }
         public int SelectedGrade { get; set; }
+        UniTask<int> GetCurrentGrade();
+        UniTask SetCurrentGrade(int grade);
         List<ScriptableTask> GetAvailableTaskSettings();
         List<SkillData> GetSelectedGradeSkillDatas();
+        List<SkillData> GetGradeSkillsData(int grade);
         UniTask SaveGradeState(int grade, bool isEnable);
         UniTask<bool> IsGradeEnable(int grade, bool defaultState = true);
         UniTask SaveSkillPlan(SkillSettingsData[] settings);
@@ -48,7 +50,10 @@ namespace Mathy.Services
             }
         }
 
-        public SkillPlanService(IDataService dataService, List<GradeSettings> gradeSettings)
+        private readonly string _currentGradeKey = KeyValueIntegerKeys.SelectedGrade.ToString();
+
+        public SkillPlanService(IDataService dataService
+            , List<GradeSettings> gradeSettings)
         {
             _dataService = dataService;
             _gradeSettings = gradeSettings;
@@ -62,6 +67,16 @@ namespace Mathy.Services
             _dataService.ON_RESET += DoOnDataReset;
         }
 
+        public async UniTask<int> GetCurrentGrade()
+        {
+            return await _dataService.KeyValueStorage.GetIntValueAsync(_currentGradeKey, 1);
+        }
+
+        public async UniTask SetCurrentGrade(int grade)
+        {
+            await _dataService.KeyValueStorage.SaveIntValueAsync(_currentGradeKey, grade);
+            _gradeDatas.ForEach(g => g.IsActive = g.GradeIndex == grade);
+        }
 
         public async UniTask<bool> IsGradeEnable(int grade, bool defaultState = true)
         {
@@ -91,6 +106,15 @@ namespace Mathy.Services
         {
             var result = _gradeDatas
                 .Where(x => x.GradeIndex == SelectedGrade)
+                .SelectMany(g => g.SkillDatas)
+                .ToList();
+            return result;
+        }
+
+        public List<SkillData> GetGradeSkillsData(int grade)
+        {
+            var result = _gradeDatas
+                .Where(x => x.GradeIndex == grade)
                 .SelectMany(g => g.SkillDatas)
                 .ToList();
             return result;
@@ -161,13 +185,14 @@ namespace Mathy.Services
 
         private List<GradeData> LoadSkillPlan(List<GradeSettings> settings)
         {
+            int currentGrade = _dataService.KeyValueStorage.GetIntValue(_currentGradeKey, 1);
             List<GradeData> result = new();
             foreach (var gradeSetting in settings)
             {
                 var gradeData = new GradeData();
                 int gradeIndex = settings.IndexOf(gradeSetting) + 1;
                 gradeData.GradeIndex = gradeIndex;
-                gradeData.IsActive = true;
+                gradeData.IsActive = gradeIndex == currentGrade;
                 gradeData.SkillDatas = new List<SkillData>();
                 var skillSettingsList = gradeSetting.SkillSettings;
                 for (int i = 0, j = skillSettingsList.Count; i < j; i++)
@@ -189,6 +214,38 @@ namespace Mathy.Services
 
             return result;
         }
+
+        //reserv copy
+//        private List<GradeData> LoadSkillPlan(List<GradeSettings> settings)
+//        {
+//            List<GradeData> result = new();
+//            foreach (var gradeSetting in settings)
+//            {
+//                var gradeData = new GradeData();
+//                int gradeIndex = settings.IndexOf(gradeSetting) + 1;
+//                gradeData.GradeIndex = gradeIndex;
+//                gradeData.IsActive = true;
+//                gradeData.SkillDatas = new List<SkillData>();
+//                var skillSettingsList = gradeSetting.SkillSettings;
+//                for (int i = 0, j = skillSettingsList.Count; i < j; i++)
+//                {
+//                    SkillData skillData = new SkillData();
+//                    SkillSettingsData skillSettings = _dataService.SkillPlan.GetSkillSettings(gradeIndex, skillSettingsList[i].SkillType);
+//                    skillData.Settings = skillSettings;
+//                    var tasks = skillSettingsList[i].TaskSettings;
+//                    tasks.ForEach(x =>
+//                    {
+//                        x.MaxNumber = skillSettings.Value;
+//                    })
+//;
+//                    skillData.Tasks = tasks;
+//                    gradeData.SkillDatas.Add(skillData);
+//                }
+//                result.Add(gradeData);
+//            }
+
+//            return result;
+//        }
 
         private void DoOnDataReset()
         {
