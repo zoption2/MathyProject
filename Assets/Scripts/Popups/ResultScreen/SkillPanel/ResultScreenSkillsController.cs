@@ -36,7 +36,7 @@ namespace Mathy.UI
             _dataService = dataService;
         }
 
-        protected async override void DoOnInit(IResultScreenSkillsPanelView view)
+        protected override async UniTask DoOnInit(IResultScreenSkillsPanelView view)
         {
             _view.SetTitle(_model.LocalizedTitle);
             _view.SetTotalLocalized(_model.TotalLocalized);

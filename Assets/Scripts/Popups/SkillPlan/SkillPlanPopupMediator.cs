@@ -112,18 +112,18 @@ namespace Mathy.UI
             });
         }
 
-        private void SelectGrade(int grade)
+        private async void SelectGrade(int grade)
         {
-            InitControllerOnSelect(grade);
+            await InitControllerOnSelect(grade);
             _generalView.HandleGradeButtons(grade);
             _currentController.Show(null);
         }
 
-        private void InitControllerOnSelect(int grade)
+        private async UniTask InitControllerOnSelect(int grade)
         {
             int index = grade - 1;
             var controller = _controllers[index];
-            controller.Init(_generalView);
+            await controller.Init(_generalView);
             _currentController = controller;
         }
 
@@ -161,21 +161,6 @@ namespace Mathy.UI
                 _currentGrade = grade;
                 TryHideCurrentController();
                 SelectGrade(grade);
-            }
-        }
-
-        private void ShowGradeTab(int grade)
-        {
-            for (int i = 0, j = _controllers.Count; i < j; i++)
-            {
-                if (_controllers[i].Grade.Equals(grade))
-                {
-                    _controllers[i].Show(null);
-                }
-                else
-                {
-                    _controllers[i].Hide(null);
-                }
             }
         }
     }

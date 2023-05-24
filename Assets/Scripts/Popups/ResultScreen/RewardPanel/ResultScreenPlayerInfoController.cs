@@ -41,10 +41,11 @@ namespace Mathy.UI
             return model;
         }
 
-        protected override void DoOnInit(IResultScreenPlayerInfoView view)
+        protected override async UniTask DoOnInit(IResultScreenPlayerInfoView view)
         {
             view.SetName(_model.PlayerName);
             view.SetIcon(_model.PlayerIcon);
+            await UniTask.CompletedTask;
         }
     }
 }

@@ -24,13 +24,14 @@ namespace Mathy.UI
             _dataService = dataService;
         }
 
-        protected async override void DoOnInit(IResultScreenRewardView view)
+        protected async override UniTask DoOnInit(IResultScreenRewardView view)
         {
             _view.SetTitle(_model.LocalizedTitle);
             _view.SetExperience(_model.RewardValue, _model.PreviousValue, _model.NeedAnimation);
             var lastExpKey = string.Format(kLastShowedExpFormat, KeyValueIntegerKeys.Experience);
             await _dataService.KeyValueStorage.SaveIntValueAsync(lastExpKey, _model.RewardValue);
             _view.Show(null);
+            await UniTask.CompletedTask;
         }
 
         protected override async UniTask<ResultScreenRewardModel> BuildModel()

@@ -102,7 +102,7 @@ namespace Mathy.UI
             return await UniTask.FromResult(model);
         }
 
-        protected override async void DoOnInit(ISkillPlanPopupView view)
+        protected override async UniTask DoOnInit(ISkillPlanPopupView view)
         {
             for (int i = 0, j = _model.SkillsSettings.Count; i < j; i++)
             {

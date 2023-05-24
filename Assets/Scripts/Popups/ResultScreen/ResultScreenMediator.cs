@@ -67,28 +67,28 @@ namespace Mathy.UI
             _uiManager.CloseView(this, onComplete);
         }
 
-        private void InitSkillController()
+        private async void InitSkillController()
         {
             IResultScreenSkillsPanelView view = _generalView.SkillView;
-            _skillController.Init(view);
+            await _skillController.Init(view);
         }
 
-        private void InitAchievementController()
+        private async void InitAchievementController()
         {
             IResultScreenAchievementsView view = _generalView.AchievementView;
-            _achievementController.Init(view);
+            await _achievementController.Init(view);
         }
 
-        private void InitRewardController()
+        private async void InitRewardController()
         {
             IResultScreenRewardView view = _generalView.RewardView;
-            _rewardController.Init(view);
+            await _rewardController.Init(view);
         }
 
-        private void InitPlayerInfoController()
+        private async void InitPlayerInfoController()
         {
             IResultScreenPlayerInfoView view = _generalView.PlayerInfoView;
-            _playerInfoController.Init(view);
+            await _playerInfoController.Init(view);
         }
 
         public void Hide(Action onHide)

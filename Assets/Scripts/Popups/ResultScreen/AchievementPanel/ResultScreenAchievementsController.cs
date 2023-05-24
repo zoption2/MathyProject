@@ -25,7 +25,7 @@ namespace Mathy.UI
             _dataService = dataService;
         }
 
-        protected override void DoOnInit(IResultScreenAchievementsView view)
+        protected override async UniTask DoOnInit(IResultScreenAchievementsView view)
         {
             _view.SetTitle(_model.LocalizedTitle);
             var achievements = _view.AchievementViews;
@@ -37,6 +37,7 @@ namespace Mathy.UI
                 achievementView.SetValue(textValue);
             }
             _view.Show(null);
+            await UniTask.CompletedTask;
         }
 
         protected async override UniTask<ResultScreenAchievementsModel> BuildModel()

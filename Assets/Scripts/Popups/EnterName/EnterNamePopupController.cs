@@ -50,7 +50,7 @@ namespace Mathy.UI
             return UniTask.FromResult(_model);
         }
 
-        protected override void DoOnInit(IEnterNamePopupView view)
+        protected override async UniTask DoOnInit(IEnterNamePopupView view)
         {
             _view.SetTitle(_model.LocalizedTitle);
             _view.SetEnterNameText(_model.LocalizedEnterNameText);
@@ -59,6 +59,7 @@ namespace Mathy.UI
 
             _view.ON_CLOSE_CLICK += DoOnCloseClick;
             _view.ON_SAVE_CLICK += DoOnSaveClick;
+            await UniTask.CompletedTask;
         }
 
         private void DoOnSaveClick(string name)

@@ -5,7 +5,7 @@ namespace Mathy.UI
 {
     public interface IBaseMediatedController
     {
-        void Init(IView view);
+        UniTask Init(IView view);
     }
 
 
@@ -15,18 +15,18 @@ namespace Mathy.UI
         protected TModel _model;
         protected bool _isInited;
 
-        public async void Init(IView view)
+        public async UniTask Init(IView view)
         {
             if (!_isInited)
             {
                 _view = (TView)view;
                 _model = await BuildModel();
-                DoOnInit(_view);
+                await DoOnInit(_view);
                 _isInited = true;
             }
         }
 
-        protected abstract void DoOnInit(TView view);
+        protected abstract UniTask DoOnInit(TView view);
         protected abstract UniTask<TModel> BuildModel();
     }
 }

@@ -48,7 +48,7 @@ namespace Mathy.UI
         {
             var view = await _refsHolder.Popups.Main.InstantiateFromReference<IEnterNamePopupView>(Popups.EnterName, parent);
             view.Init(camera, orderLayer);
-            _controller.Init(view);
+            await _controller.Init(view);
             _controller.ON_NAME_CHANGED += DoOnNameChanged;
         }
 
