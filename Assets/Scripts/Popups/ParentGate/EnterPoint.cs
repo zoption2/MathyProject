@@ -8,7 +8,6 @@ namespace Mathy
 {
     public class EnterPoint : MonoBehaviour
     {
-        [SerializeField] private SkillsPanel _skillPanel;
         [SerializeField] private SubscriptionScreen _subscriptionScreen;
 
         [Inject] private DiContainer _container;
@@ -23,7 +22,6 @@ namespace Mathy
             _adsService = _container.Resolve<IAdsService>();
             _adsService.Init();
 
-            _accountService.SetSkillPlanStub(_skillPanel);
             _accountService.SetSubscriptionScreenStub(_subscriptionScreen);
 
             await UniTask.Delay(500);

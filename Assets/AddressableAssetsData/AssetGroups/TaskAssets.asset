@@ -409,6 +409,10 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/Popups/SkillPlanPopup/Components/SkillSettingUpTo100.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 9bc96635c295273488ed39d043f93c5a
+    m_Address: Assets/Prefabs/Popups/SkillPlanPopup/Components/SkillSettingUpTo1000.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 76746eb55ddbd544c89bef47883242cf, type: 2}
   m_SchemaSet:

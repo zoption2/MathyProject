@@ -122,7 +122,6 @@ namespace Mathy.Services
 
         public async UniTask SaveSkillSettings(SkillSettingsData settings)
         {
-            settings.Grade = SelectedGrade;
             await _dataService.SkillPlan.SaveSkillSettings(settings);
 
             _gradeDatas.Where(x => x.GradeIndex == settings.Grade)

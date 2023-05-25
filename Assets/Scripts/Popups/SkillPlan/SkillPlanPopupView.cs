@@ -1,6 +1,4 @@
-﻿using Mathy.Data;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -16,8 +14,7 @@ namespace Mathy.UI
     public class SkillPlanPopupView : MonoBehaviour, ISkillPlanPopupView
     {
         public event Action ON_CLOSE_CLICK;
-        public event Action<int> ON_GRADE_TAB_SWITCHED;
-        public event Action<int, bool> ON_GRADE_TOGGLE_CHANGED;
+        public event Action<bool> ON_SELECT_ALL_CLICK;
 
         [SerializeField] private Canvas _canvas;
         [SerializeField] private TMP_Text _title;
@@ -44,16 +41,16 @@ namespace Mathy.UI
         {
             _animator.AnimateShowing(() =>
             {
-                SubscribeTabsButtons();
                 _closeButton.onClick.AddListener(OnCloseClick);
+                _selectAllToggle.onValueChanged.AddListener(OnSelectAllClick);
                 onShow?.Invoke();
             });
         }
 
         public void Hide(Action onHide)
         {
-            UnsubscribeTabsButtons();
             _closeButton.onClick.RemoveListener(OnCloseClick);
+            _selectAllToggle.onValueChanged.RemoveListener(OnSelectAllClick);
             _animator.AnimateHiding(() =>
             {
                 onHide?.Invoke();
@@ -84,11 +81,8 @@ namespace Mathy.UI
                 var previousGroup = _activeGradeGroup;
                 previousGroup.gameObject.SetActive(false);
                 previousGroup.transform.SetParent(_inactiveTabsHolder);
-                var index = previousGroup.Grade - 1;
-                previousGroup.transform.SetSiblingIndex(index);
                 previousGroup.SetActive(false);
                 previousGroup.gameObject.SetActive(true);
-                return;
             }
 
             _activeGradeGroup = selected;
@@ -98,33 +92,19 @@ namespace Mathy.UI
             selected.gameObject.SetActive(true);
         }
 
-        private void SubscribeTabsButtons()
+        public void SetSelectAllText(string text)
         {
-            for (int i = 0, j = _gradeSwitchers.Length; i < j; i++)
-            {
-                var switcher = _gradeSwitchers[i];
-                switcher.ON_GRADE_TAB_SWITCH += DoOnSwitchTabClick;
-                switcher.ON_GRADE_TOGGLE_SWITCH += DoOnToggleSwitch;
-            }
+            _selectAllText.text = text;
         }
 
-        private void UnsubscribeTabsButtons()
+        public void SetSelectAllToggle(bool isOn)
         {
-            for (int i = 0, j = _gradeSwitchers.Length; i < j; i++)
-            {
-                _gradeSwitchers[i].ON_GRADE_TAB_SWITCH -= DoOnSwitchTabClick;
-                _gradeSwitchers[i].ON_GRADE_TOGGLE_SWITCH -= DoOnToggleSwitch;
-            }
+            _selectAllToggle.isOn = isOn;
         }
 
-        private void DoOnSwitchTabClick(int index)
+        private void OnSelectAllClick(bool isOn)
         {
-            ON_GRADE_TAB_SWITCHED?.Invoke(index);
-        }
-
-        private void DoOnToggleSwitch(int index, bool isActive)
-        {
-            ON_GRADE_TOGGLE_CHANGED?.Invoke(index, isActive);
+            ON_SELECT_ALL_CLICK?.Invoke(isOn);
         }
 
         private void OnCloseClick()

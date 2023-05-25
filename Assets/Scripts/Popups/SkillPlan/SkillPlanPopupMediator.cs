@@ -19,15 +19,16 @@ namespace Mathy.UI
 
         private const string kLocalizeTable = "Grades and Skills";
         private const string kGradeNameFormat = "Skills_Panel_Grade{0}";
+        private const string kSelectAllKey = "Skills Panel Select All";
+        private const string kDeselectAllKey = "Skills Panel Deselect All";
 
         private readonly IAddressableRefsHolder _refsHolder;
         private readonly IUIManager _uiManager;
-        private readonly ISkillPlanFirstGradeController _firstGradeController;
-        private readonly ISkillPlanSecondGradeController _secondGradeController;
         private readonly ISkillPlanService _skillPlanService;
 
         private SkillPlanPopupView _generalView;
-        private List<ISkillPlanGradeController> _controllers;
+        private SwitchGradeGroupView[] _switchers;
+        private Dictionary<int, ISkillPlanGradeController> _controllers;
         private ISkillPlanGradeController _currentController;
         private int _currentGrade;
 
@@ -35,14 +36,10 @@ namespace Mathy.UI
 
         public SkillPlanPopupMediator(IAddressableRefsHolder refsHolder
             , IUIManager uIManager
-            , ISkillPlanFirstGradeController firstGradeController
-            , ISkillPlanSecondGradeController secondGradeController
             , ISkillPlanService skillPlanService)
         {
             _refsHolder = refsHolder;
             _uiManager = uIManager;
-            _firstGradeController = firstGradeController;
-            _secondGradeController = secondGradeController;
             _skillPlanService = skillPlanService;
         }
 
@@ -63,22 +60,22 @@ namespace Mathy.UI
             _generalView.Init(camera, orderLayer);
             _currentGrade = await _skillPlanService.GetCurrentGrade();
 
-            _controllers = new List<ISkillPlanGradeController>()
-            {
-                _firstGradeController,
-                _secondGradeController
-            };
+            _currentController = null;
+            _controllers = new Dictionary<int, ISkillPlanGradeController>();
 
-            var switchers = _generalView.GradeSwitchers;
-            for (int i = 0, j = switchers.Length; i < j; i++)
+            _switchers = _generalView.GradeSwitchers;
+            for (int i = 0, j = _switchers.Length; i < j; i++)
             {
-                var switcher = switchers[i];
+                var switcher = _switchers[i];
                 var grade = switcher.Grade;
                 var key = string.Format(kGradeNameFormat, grade);
                 var localizedName = LocalizationManager.GetLocalizedString(kLocalizeTable, key);
                 var isSelected = grade == _currentGrade;
                 switcher.Init(localizedName, isSelected);
                 switcher.Enable();
+
+                switcher.ON_GRADE_TAB_SWITCH += DoOnGradeTabChange;
+                switcher.ON_GRADE_TOGGLE_SWITCH += DoOnGradeToggleSwitched;
             }
         }
 
@@ -88,28 +85,37 @@ namespace Mathy.UI
             SelectGrade(_currentGrade);
             _generalView.Show(()=>
             {
-                _generalView.ON_GRADE_TAB_SWITCHED += DoOnGradeTabChange;
-                _generalView.ON_GRADE_TOGGLE_CHANGED += DoOnGradeToggleSwitched;
                 _generalView.ON_CLOSE_CLICK += DoOnCloseClick;
+                _generalView.ON_SELECT_ALL_CLICK += DoOnSelectAllClick;
                 onShow?.Invoke();
             });
         }
 
         public void Hide(Action onHide)
         {
-            _generalView.ON_GRADE_TAB_SWITCHED -= DoOnGradeTabChange;
-            _generalView.ON_GRADE_TOGGLE_CHANGED -= DoOnGradeToggleSwitched;
             _generalView.ON_CLOSE_CLICK -= DoOnCloseClick;
+            _generalView.ON_SELECT_ALL_CLICK -= DoOnSelectAllClick;
             _generalView.Hide(onHide);
         }
 
         public void Release()
         {
-            _generalView.Hide(() =>
+            foreach (var controller in _controllers.Values)
             {
-                _firstGradeController.Release();
-                _generalView.Release();
-            });
+                controller.Release();
+            }
+
+            for (int i = 0, j = _switchers.Length; i < j; i++)
+            {
+                var switcher = _switchers[i];
+                switcher.ON_GRADE_TAB_SWITCH -= DoOnGradeTabChange;
+                switcher.ON_GRADE_TOGGLE_SWITCH -= DoOnGradeToggleSwitched;
+                switcher.Disable();
+            }
+            _controllers = null;
+            _switchers = null;
+            _currentController = null;
+            _generalView.Release();
         }
 
         private async void SelectGrade(int grade)
@@ -121,10 +127,17 @@ namespace Mathy.UI
 
         private async UniTask InitControllerOnSelect(int grade)
         {
-            int index = grade - 1;
-            var controller = _controllers[index];
-            await controller.Init(_generalView);
-            _currentController = controller;
+            if (!_controllers.ContainsKey(grade))
+            {
+                var controller = GetControllerByGrade(grade);
+                _controllers.Add(grade, controller);
+                await controller.Init(_generalView);
+            }
+
+            _currentController = _controllers[grade];
+            bool isAnySkillEnable = _currentController.IsAnySkillEnabled();
+            LocalizeSelectAllText(isAnySkillEnable);
+            _generalView.SetSelectAllToggle(isAnySkillEnable);
         }
 
         private void TryHideCurrentController()
@@ -141,6 +154,19 @@ namespace Mathy.UI
             _generalView.ON_CLOSE_CLICK -= DoOnCloseClick;
             await _skillPlanService.SetCurrentGrade(_currentGrade);
             ClosePopup();
+        }
+
+        private void DoOnSelectAllClick(bool isOn)
+        {
+            LocalizeSelectAllText(isOn);
+            _currentController.SetAllSkillsActive(isOn);
+        }
+
+        private void LocalizeSelectAllText(bool isOn)
+        {
+            var key = isOn ? kDeselectAllKey : kSelectAllKey;
+            var localizedText = LocalizationManager.GetLocalizedString(kLocalizeTable, key);
+            _generalView.SetSelectAllText(localizedText);
         }
 
         private void DoOnGradeTabChange(int grade)
@@ -162,6 +188,25 @@ namespace Mathy.UI
                 TryHideCurrentController();
                 SelectGrade(grade);
             }
+        }
+
+        private ISkillPlanGradeController GetControllerByGrade(int grade)
+        {
+            ISkillPlanGradeController controller = null;
+            switch (grade)
+            {
+                case 1:
+                    controller = new SkillPlanFirstGradeController(_skillPlanService, _refsHolder);
+                    break;
+
+                case 2:
+                    controller = new SkillPlanSecondGradeController(_skillPlanService, _refsHolder);
+                    break;
+
+                default:
+                    break;
+            }
+            return controller;
         }
     }
 }

@@ -11,7 +11,6 @@ namespace Mathy.Services
         UniTask CheckSkillPanelAsync();
         UniTask CheckSubscriptionAsync();
 
-        void SetSkillPlanStub(ISkillPlanPopupStub panel);
         void SetSubscriptionScreenStub(ISubscriptionPopupStub panel);
     }
 
@@ -22,23 +21,20 @@ namespace Mathy.Services
 
         private readonly IDataService _dataService;
         private readonly IEnterNamePopupMediator _enterNamePopup;
+        private readonly ISkillPlanPopupMediator _skillPlanMediator;
         private readonly IParentGateService _parentGateService;
 
-        private ISkillPlanPopupStub _skillPanel;
         private ISubscriptionPopupStub _subscriptionPopup;
 
         public AccountService(IDataService dataService
             , IEnterNamePopupMediator enterNamePopup
+            , ISkillPlanPopupMediator skillPlanPopup
             , IParentGateService parentGateService)
         {
             _dataService = dataService;
             _enterNamePopup = enterNamePopup;
+            _skillPlanMediator = skillPlanPopup;
             _parentGateService = parentGateService;
-        }
-
-        public void SetSkillPlanStub(ISkillPlanPopupStub panel)
-        {
-            _skillPanel = panel;
         }
 
         public void SetSubscriptionScreenStub(ISubscriptionPopupStub panel)
@@ -94,12 +90,26 @@ namespace Mathy.Services
         public async UniTask CheckSkillPanelAsync()
         {
             UnityEngine.Debug.Log("Entered to " + nameof(CheckSkillPanelAsync));
+            var tcs = new UniTaskCompletionSource();
             var isChecked = await _dataService.KeyValueStorage.GetIntValueAsync(kCheckSkillPlan);
             if (isChecked == 0)
             {
-                await _skillPanel.DoSkillPlanUIWorkStub();
-                await _dataService.KeyValueStorage.SaveIntValueAsync(kCheckSkillPlan, 1);
+                _skillPlanMediator.CreatePopup();
+                _skillPlanMediator.ON_CLOSE_CLICK += OnClose;
             }
+            else
+            {
+                tcs.TrySetResult();
+            }
+
+            async void OnClose()
+            {
+                _skillPlanMediator.ON_CLOSE_CLICK -= OnClose;
+                await _dataService.KeyValueStorage.SaveIntValueAsync(kCheckSkillPlan, 1);
+                tcs.TrySetResult();
+            }
+
+            await tcs.Task;
             UnityEngine.Debug.Log("Exit from " + nameof(CheckSkillPanelAsync));
         }
 

@@ -13,6 +13,7 @@ namespace Mathy.UI
         event Action<SkillType, int> ON_VALUE_CHANGE;
         event Action ON_INFO_CLICK;
         void Init(SkillType skillType, bool isActive, int value);
+        void Enable(bool isEnabled);
         void SetTitle(string title);
         int GetMinValue();
         int GetMaxValue();
@@ -53,6 +54,7 @@ namespace Mathy.UI
             _previousIsActive = isActive;
             _previousValue = value;
 
+            DoOnToggleChanged(isActive);
             DoOnInit();
         }
 
@@ -77,6 +79,11 @@ namespace Mathy.UI
 
             transform.localScale = Vector3.zero;
             onHide?.Invoke();
+        }
+
+        public void Enable(bool isEnabled)
+        {
+            _isActiveToggle.isOn = isEnabled;
         }
 
         public void SetTitle(string title)
@@ -114,7 +121,7 @@ namespace Mathy.UI
 
         private void SetValue(float value)
         {
-            var integerValue = Convert.ToInt32(value) * kValueMultiplier;
+            var integerValue = Convert.ToInt32(value);
             if (_previousValue != integerValue)
             {
                 _previousValue = integerValue;

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Mathy.UI
 {
-    public class SkillSettingUpTo100 : BaseSkillSettingView
+    public class DefaulSkilltSettingBar : BaseSkillSettingView
     {
         private const int kActiveImageIndex = 0;
         private const int kInactiveImageIndex = 1;

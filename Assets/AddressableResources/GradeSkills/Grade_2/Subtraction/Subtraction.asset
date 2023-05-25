@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb5c23fd834c21743bf7677711b06d5e, type: 3}
-  m_Name: CountTo10Frames
+  m_Name: Subtraction
   m_EditorClassIdentifier: 
-  ElementsAmount: 10
-  VariantsAmount: 10
+  ElementsAmount: 2
+  VariantsAmount: 4
   MinNumber: 0
-  MaxNumber: 20
-  MinLimit: 0
-  MaxLimit: 100
-  Title: CountTo10FramesTitle
-  Description: Description of the task should be here
-  TaskType: 24
-  SkillType: 0
+  MaxNumber: 300
+  MinLimit: 100
+  MaxLimit: 1000
+  Title: Subtraction
+  Description: Task description here
+  TaskType: 21
+  SkillType: 2
   Grade: 2

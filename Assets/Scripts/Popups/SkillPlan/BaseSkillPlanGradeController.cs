@@ -10,6 +10,8 @@ namespace Mathy.UI
     public interface ISkillPlanGradeController : IBaseMediatedController, IView
     {
         int Grade { get; }
+        bool IsAnySkillEnabled();
+        void SetAllSkillsActive(bool isActive);
     }
 
     public abstract class BaseSkillPlanGradeController :
@@ -28,8 +30,22 @@ namespace Mathy.UI
         private Dictionary<SkillType, SkillSettingsData> _skillSettingsDatas;
 
         public abstract int Grade { get; }
-
+        protected abstract int _minValue { get; }
+        protected abstract int _maxValue { get; }
+        protected abstract int _valueMultiplier { get; }
         protected abstract SkillPlanPopupComponents SettingsComponent { get; }
+
+        public bool IsAnySkillEnabled()
+        {
+            foreach (var setting in _skillSettingsDatas.Values)
+            {
+                if (setting.IsEnabled)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
 
         public BaseSkillPlanGradeController(ISkillPlanService skillPlanService
@@ -44,39 +60,40 @@ namespace Mathy.UI
 
         public async void Show(Action onShow)
         {
-            if(_isInited)
+            foreach (var settingsView in _skillSettings.Values)
             {
-                foreach (var settingsView in _skillSettings.Values)
-                {
-                    settingsView.Show(null);
-                    await UniTask.Delay(kSettingsAppearDelay);
-                    settingsView.ON_TOGGLE_CLICK += UpdateSkillActivityInternal;
-                    settingsView.ON_VALUE_CHANGE += UpdateSkillValueInternal;
-                }
+                settingsView.Show(null);
+                await UniTask.Delay(kSettingsAppearDelay);
+                settingsView.ON_TOGGLE_CLICK += UpdateSkillActivityInternal;
+                settingsView.ON_VALUE_CHANGE += UpdateSkillValueInternal;
             }
+            
             onShow?.Invoke();
         }
 
         public void Hide(Action onHide)
         {
-            if (_isInited)
+            foreach (var settingsView in _skillSettings.Values)
             {
-                foreach (var settingsView in _skillSettings.Values)
-                {
-                    settingsView.ON_TOGGLE_CLICK -= UpdateSkillActivityInternal;
-                    settingsView.ON_VALUE_CHANGE -= UpdateSkillValueInternal;
-                    settingsView.Hide(null);
-                }
+                settingsView.ON_TOGGLE_CLICK -= UpdateSkillActivityInternal;
+                settingsView.ON_VALUE_CHANGE -= UpdateSkillValueInternal;
+                settingsView.Hide(null);
             }
+            
             onHide?.Invoke();
+        }
+
+        public void SetAllSkillsActive(bool isSelect)
+        {
+            foreach (var settingsView in _skillSettings.Values)
+            {
+                settingsView.Enable(isSelect);
+            }
         }
 
         public void Release()
         {
-            if (_isInited)
-            {
-                SaveSkillsSettings();
-            }
+            SaveSkillsSettings();
         }
 
         protected async override UniTask<SkillPlanTabModel> BuildModel()
@@ -117,8 +134,19 @@ namespace Mathy.UI
 
                 var adapter = _skillSettings[skillType];
                 adapter.SetTitle(settingsModel.LocalizedTitle);
-                adapter.Init(skillType, settingsModel.IsEnable, settingsModel.Value);
+                var adaptedValue = AdaptValueFromModelToView(settingsModel.Value);
+                adapter.Init(skillType, settingsModel.IsEnable, adaptedValue);
             }
+        }
+
+        private int AdaptValueFromModelToView(int modelValue)
+        {
+            return modelValue / _valueMultiplier;
+        }
+
+        private int AdaptValueFromViewToModel(int viewValue)
+        {
+            return viewValue * _valueMultiplier;
         }
 
         private void FillDictionaryWithSkills(List<SkillData> storedData)
@@ -126,7 +154,12 @@ namespace Mathy.UI
             _skillSettingsDatas.Clear();
             foreach (var skill in storedData)
             {
-                _skillSettingsDatas.Add(skill.Settings.Skill, skill.Settings);
+                var settings = skill.Settings;
+                settings.MinValue = _minValue;
+                settings.MaxValue = _maxValue;
+                var value = settings.Value;
+                settings.Value = value < _minValue ? _minValue : value;
+                _skillSettingsDatas.Add(settings.Skill, settings);
             }
         }
 
@@ -142,7 +175,8 @@ namespace Mathy.UI
         {
             if (_skillSettingsDatas.ContainsKey(skillType))
             {
-                _skillSettingsDatas[skillType].Value = value;
+                var adaptedValue = AdaptValueFromViewToModel(value);
+                _skillSettingsDatas[skillType].Value = adaptedValue;
             }
         }
 
