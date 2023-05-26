@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Mathy.UI;
-using System.Diagnostics;
+
 
 namespace Mathy.Services
 {
@@ -68,10 +68,11 @@ namespace Mathy.Services
             {
                 _enterNamePopup.CreatePopup();
                 _enterNamePopup.ON_COMPLETE += OnNameChoosed;
+                await tcs.Task;
             }
             else
             {
-                tcs.TrySetResult();
+                await UniTask.CompletedTask;
             }
 
             async void OnNameChoosed(string name)
@@ -83,7 +84,7 @@ namespace Mathy.Services
                 tcs.TrySetResult();
             }
 
-            await tcs.Task;
+
             UnityEngine.Debug.Log("Exit from " + nameof(CheckPlayerNameAsync));
         }
 
@@ -96,10 +97,11 @@ namespace Mathy.Services
             {
                 _skillPlanMediator.CreatePopup();
                 _skillPlanMediator.ON_CLOSE_CLICK += OnClose;
+                await tcs.Task;
             }
             else
             {
-                tcs.TrySetResult();
+                await UniTask.CompletedTask;
             }
 
             async void OnClose()
@@ -109,7 +111,7 @@ namespace Mathy.Services
                 tcs.TrySetResult();
             }
 
-            await tcs.Task;
+
             UnityEngine.Debug.Log("Exit from " + nameof(CheckSkillPanelAsync));
         }
 

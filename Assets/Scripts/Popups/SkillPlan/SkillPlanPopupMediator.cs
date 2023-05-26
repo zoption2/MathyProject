@@ -72,11 +72,8 @@ namespace Mathy.UI
                 var localizedName = LocalizationManager.GetLocalizedString(kLocalizeTable, key);
                 var isSelected = grade == _currentGrade;
                 switcher.Init(localizedName, isSelected);
-                switcher.Enable();
-
-                switcher.ON_GRADE_TAB_SWITCH += DoOnGradeTabChange;
-                switcher.ON_GRADE_TOGGLE_SWITCH += DoOnGradeToggleSwitched;
             }
+            SubscribeSwitchers();
         }
 
         public void Show(Action onShow)
@@ -105,13 +102,7 @@ namespace Mathy.UI
                 controller.Release();
             }
 
-            for (int i = 0, j = _switchers.Length; i < j; i++)
-            {
-                var switcher = _switchers[i];
-                switcher.ON_GRADE_TAB_SWITCH -= DoOnGradeTabChange;
-                switcher.ON_GRADE_TOGGLE_SWITCH -= DoOnGradeToggleSwitched;
-                switcher.Disable();
-            }
+            UnsubscribeSwitchers();
             _controllers = null;
             _switchers = null;
             _currentController = null;
@@ -120,9 +111,13 @@ namespace Mathy.UI
 
         private async void SelectGrade(int grade)
         {
+            UnsubscribeSwitchers();
             await InitControllerOnSelect(grade);
             _generalView.HandleGradeButtons(grade);
-            _currentController.Show(null);
+            _currentController.Show(()=>
+            {
+                SubscribeSwitchers();
+            });
         }
 
         private async UniTask InitControllerOnSelect(int grade)
@@ -154,6 +149,7 @@ namespace Mathy.UI
             _generalView.ON_CLOSE_CLICK -= DoOnCloseClick;
             await _skillPlanService.SetCurrentGrade(_currentGrade);
             ClosePopup();
+            ON_CLOSE_CLICK?.Invoke();
         }
 
         private void DoOnSelectAllClick(bool isOn)
@@ -207,6 +203,28 @@ namespace Mathy.UI
                     break;
             }
             return controller;
+        }
+
+        private void SubscribeSwitchers()
+        {
+            for (int i = 0, j = _switchers.Length; i < j; i++)
+            {
+                var switcher = _switchers[i];
+                switcher.ON_GRADE_TAB_SWITCH += DoOnGradeTabChange;
+                switcher.ON_GRADE_TOGGLE_SWITCH += DoOnGradeToggleSwitched;
+                switcher.Enable();
+            }
+        }
+
+        private void UnsubscribeSwitchers()
+        {
+            for (int i = 0, j = _switchers.Length; i < j; i++)
+            {
+                var switcher = _switchers[i];
+                switcher.ON_GRADE_TAB_SWITCH -= DoOnGradeTabChange;
+                switcher.ON_GRADE_TOGGLE_SWITCH -= DoOnGradeToggleSwitched;
+                switcher.Disable();
+            }
         }
     }
 }

@@ -16,79 +16,79 @@ MonoBehaviour:
     references:
     - <Type>k__BackingField: 0
       <Reference>k__BackingField:
-        m_AssetGUID: ce245589fefd3594f981cd9289075e8d
+        m_AssetGUID: 478da491fe59d7341a65bc9986291495
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     - <Type>k__BackingField: 21
       <Reference>k__BackingField:
-        m_AssetGUID: ce245589fefd3594f981cd9289075e8d
+        m_AssetGUID: 478da491fe59d7341a65bc9986291495
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     - <Type>k__BackingField: 6
       <Reference>k__BackingField:
-        m_AssetGUID: ce245589fefd3594f981cd9289075e8d
+        m_AssetGUID: 478da491fe59d7341a65bc9986291495
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     - <Type>k__BackingField: 1
       <Reference>k__BackingField:
-        m_AssetGUID: ce245589fefd3594f981cd9289075e8d
+        m_AssetGUID: 478da491fe59d7341a65bc9986291495
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     - <Type>k__BackingField: 19
       <Reference>k__BackingField:
-        m_AssetGUID: ce245589fefd3594f981cd9289075e8d
+        m_AssetGUID: 478da491fe59d7341a65bc9986291495
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     - <Type>k__BackingField: 22
       <Reference>k__BackingField:
-        m_AssetGUID: 6b3cc2c3ce225d94d8173a5ae4236104
+        m_AssetGUID: 478da491fe59d7341a65bc9986291495
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     - <Type>k__BackingField: 12
       <Reference>k__BackingField:
-        m_AssetGUID: ce245589fefd3594f981cd9289075e8d
+        m_AssetGUID: 478da491fe59d7341a65bc9986291495
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     - <Type>k__BackingField: 15
       <Reference>k__BackingField:
-        m_AssetGUID: ce245589fefd3594f981cd9289075e8d
+        m_AssetGUID: 478da491fe59d7341a65bc9986291495
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     - <Type>k__BackingField: 16
       <Reference>k__BackingField:
-        m_AssetGUID: ce245589fefd3594f981cd9289075e8d
+        m_AssetGUID: 478da491fe59d7341a65bc9986291495
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     - <Type>k__BackingField: 17
       <Reference>k__BackingField:
-        m_AssetGUID: ce245589fefd3594f981cd9289075e8d
+        m_AssetGUID: 478da491fe59d7341a65bc9986291495
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     - <Type>k__BackingField: 14
       <Reference>k__BackingField:
-        m_AssetGUID: ce245589fefd3594f981cd9289075e8d
+        m_AssetGUID: 478da491fe59d7341a65bc9986291495
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     - <Type>k__BackingField: 20
       <Reference>k__BackingField:
-        m_AssetGUID: ce245589fefd3594f981cd9289075e8d
+        m_AssetGUID: 478da491fe59d7341a65bc9986291495
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     - <Type>k__BackingField: 18
       <Reference>k__BackingField:
-        m_AssetGUID: ce245589fefd3594f981cd9289075e8d
+        m_AssetGUID: 478da491fe59d7341a65bc9986291495
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
@@ -132,13 +132,13 @@ MonoBehaviour:
         m_EditorAssetChanged: 0
     - <Type>k__BackingField: 10
       <Reference>k__BackingField:
-        m_AssetGUID: 32b5d2d904b3ba94882cf852142d143c
+        m_AssetGUID: 0563d0dcd73710142a8392f8c9a2bd60
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     - <Type>k__BackingField: 20
       <Reference>k__BackingField:
-        m_AssetGUID: 1502e28232f537641b7851db30af6b61
+        m_AssetGUID: 0823eee871a16114a8e7681e067729d0
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
@@ -773,26 +773,6 @@ MonoBehaviour:
         m_SubObjectName: Blue block
         m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-        m_EditorAssetChanged: 0
-  <PopupsProvider>k__BackingField:
-    references:
-    - <Type>k__BackingField: 1
-      <Reference>k__BackingField:
-        m_AssetGUID: 5f1867ed3a70ad246b4b0672d3ab6bb8
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_EditorAssetChanged: 0
-    - <Type>k__BackingField: 2
-      <Reference>k__BackingField:
-        m_AssetGUID: e5c39cfced02a4a4c8c2dcf2cd46173f
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_EditorAssetChanged: 0
-    - <Type>k__BackingField: 3
-      <Reference>k__BackingField:
-        m_AssetGUID: d961358e6170e1549a2f46cd397c396e
-        m_SubObjectName: 
-        m_SubObjectType: 
         m_EditorAssetChanged: 0
   _imagesHolder: {fileID: 11400000, guid: 57c3822f908b6e14d93f5a7cc00ea13a, type: 2}
   _popupsHolder: {fileID: 11400000, guid: 1ef90dfb14371bf43816892f523d18db, type: 2}

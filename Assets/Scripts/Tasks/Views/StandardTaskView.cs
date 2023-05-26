@@ -13,81 +13,31 @@ namespace Mathy.Core.Tasks.DailyTasks
     {
         public Transform ElementsParent { get; }
         public Transform VariantsParent {get; }
-        public void SetHeaderColor(Color color);
+        void SetHeaderImage(Sprite sprite);
+        void SetInputsHolderImage(Sprite sprite);
     }
 
-    public class StandardTaskView: MonoBehaviour, IStandardTaskView
+    public class StandardTaskView: BaseTaskView, IStandardTaskView
     {
-        public event Action ON_EXIT_CLICK;
-        public event Action ON_HELP_CLICK;
-
-        [SerializeField] private Image backgroundImage;
         [SerializeField] private Image headerImage;
-        [SerializeField] private TMP_Text titleText;
-        [SerializeField] private Button exitButton;
-        [SerializeField] private TaskViewComponentsProvider componentsFactory;
+        [SerializeField] private Image inputsHolderImage;
 
         [SerializeField] private Transform elementsPanel;
         [SerializeField] private Transform variantsPanel;
-        [SerializeField] private GameObject progressParPanel;
-        [SerializeField] private ProgressBar progressBar;
-        [SerializeField] private StandardTaskViewAnimator animator;
-
-        private List<ITaskViewComponent> components;
 
         public Transform ElementsParent => elementsPanel;
         public Transform VariantsParent => variantsPanel;
 
-        public void SetTitle(string title)
+
+        public void SetHeaderImage(Sprite sprite)
         {
-            titleText.text = title;
+            headerImage.sprite = sprite;
         }
 
-        public void SetDescription(string description)
+        public void SetInputsHolderImage(Sprite sprite)
         {
-            //not implemented
+            inputsHolderImage.sprite = sprite;
         }
-
-        public void Show(Action onShow)
-        {
-            gameObject.SetActive(true);
-            exitButton.onClick.AddListener(DoOnExitButtonClick);
-            onShow?.Invoke();
-        }
-
-        public void Hide(Action onHide)
-        {
-            exitButton.onClick.RemoveListener(DoOnExitButtonClick);
-            animator.AnimateHiding(() =>
-            {
-                gameObject.SetActive(false);
-                onHide?.Invoke();
-            });
-        }
-
-        public void SetHeaderColor(Color color)
-        {
-            headerImage.color = color;
-        }
-
-        public void SetBackground(Sprite image)
-        {
-            backgroundImage.sprite = image;
-        }
-
-        public void Release()
-        {
-            Destroy(gameObject);
-        }
-
-        private void DoOnExitButtonClick()
-        {
-            VibrationManager.Instance.TapVibrateCustom();
-            AudioManager.Instance.ButtonClickSound();
-            ON_EXIT_CLICK?.Invoke();
-        }
-
-
     }
 
 }

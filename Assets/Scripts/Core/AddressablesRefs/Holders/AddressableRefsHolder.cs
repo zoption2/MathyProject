@@ -19,7 +19,6 @@ namespace Mathy
         UIComponentAddressableRef UIComponentProvider { get; }
         BackgroundAddressableRef BackgroundProvider { get; }
         TaskFeaturesAddressableRef GameplayScenePopupsProvider { get; }
-        PopupsAddressableRef PopupsProvider { get; }
         TaskCountedImageAdressableRef TaskCountedImageProvider { get; }
         TaskCountedBlocksImageAdressableRef TaskCountedBlocksImageProvider { get; }
     }
@@ -36,7 +35,6 @@ namespace Mathy
         [field: SerializeField] public BackgroundAddressableRef BackgroundProvider { get; private set; }
         [field: SerializeField] public TaskCountedImageAdressableRef TaskCountedImageProvider { get; private set; }
         [field: SerializeField] public TaskCountedBlocksImageAdressableRef TaskCountedBlocksImageProvider { get; private set; }
-        [field: SerializeField] public PopupsAddressableRef PopupsProvider { get; private set; }
         // --------
 
         //correct behaviour

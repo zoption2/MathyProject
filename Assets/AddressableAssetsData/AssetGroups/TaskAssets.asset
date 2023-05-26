@@ -413,6 +413,18 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/Popups/SkillPlanPopup/Components/SkillSettingUpTo1000.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 478da491fe59d7341a65bc9986291495
+    m_Address: Assets/Prefabs/TaskView/8.DefaultTaskView_version2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0563d0dcd73710142a8392f8c9a2bd60
+    m_Address: Assets/Prefabs/TaskView/TaskElements/NewVariants/ButtonWithTextVariantView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0823eee871a16114a8e7681e067729d0
+    m_Address: Assets/Prefabs/TaskView/TaskElements/NewOperators/TaskOperatorElementVariant_2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 76746eb55ddbd544c89bef47883242cf, type: 2}
   m_SchemaSet:
